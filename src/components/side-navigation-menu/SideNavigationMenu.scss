@@ -1,0 +1,140 @@
+@import "../../dx-styles.scss";
+@import "../../themes/generated/variables.additional.scss";
+
+.side-navigation-menu {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  height: 100%;
+  width: 250px !important;
+  background-color: $base-accent;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+  .menu-container {
+    min-height: 100%;
+    display: flex;
+    flex: 1;
+
+    .dx-treeview {
+      // ## Long text positioning
+      white-space: nowrap;
+      // ##
+      // added
+      margin-top: 1rem !important;
+      // ## Icon width customization
+      .dx-treeview-item {
+        padding-left: 0;
+        padding-right: 0;
+        color: white;
+        transition: 0.3 ease-in;
+
+        .dx-icon {
+          width: $side-panel-min-width !important;
+          margin: 0 !important;
+          color: white;
+        }
+      }
+      // ##
+      
+      // ## Arrow customization
+      .dx-treeview-node {
+        padding: 0 0 !important;
+      }
+
+      .dx-treeview-toggle-item-visibility {
+        right: 10px;
+        left: auto;
+        color: #f5f5f5;
+      }
+
+      .dx-rtl .dx-treeview-toggle-item-visibility {
+        left: 10px;
+        right: auto;
+      }
+      // ##
+
+      // ## Item levels customization
+      .dx-treeview-node {
+        &[aria-level='1'] {
+          // border-bottom: 1px solid $base-border-color;
+          //added
+          margin-bottom: 16px;
+          font-family: Poppins;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500; 
+          line-height: normal;
+          text-transform: capitalize;
+        }
+        &[aria-level='2'] .dx-item{
+          // background-color: red;
+          // border: 1px solid;
+          font-size: 12px;
+          margin-top: 4px;
+
+        }
+        &[aria-level='2'] .dx-treeview-item-content {
+          font-weight: normal;
+          font-size: 13px;
+          padding: 8px 24px;
+          max-width: 190px;
+          margin-left: 30px;
+          color: white;
+          .dx-icon{
+            width: 30px !important;
+          }
+        }
+      }
+      // ##
+    }
+
+    // ## Selected & Focuced items customization
+    .dx-treeview {
+      .dx-treeview-node-container {
+        .dx-state-selected{
+          .dx-treeview-item{
+            .dx-treeview-item-content{
+              padding: 8px 0;
+              
+            }
+          }
+        }
+        .dx-treeview-node {
+          &.dx-state-selected:not(.dx-state-focused)> .dx-treeview-item {
+            background: transparent;
+          }
+
+          &.dx-state-selected > .dx-treeview-item * {
+            // color: $base-accent;
+            background-color: white !important;
+            //  color: #4371B7;
+              color: #161616;
+              border-radius: 8px;
+          }
+
+          &:not(.dx-state-focused)>.dx-treeview-item.dx-state-hover {
+            
+          }
+          
+        }
+      }
+    }
+
+    .dx-theme-generic .dx-treeview {
+      .dx-treeview-node-container .dx-treeview-node.dx-state-selected.dx-state-focused > .dx-treeview-item * {
+        // color: inherit;
+        color: #ffffff
+      }
+    }
+    // ##
+  }
+}
+.dx-treeview-item.dx-treeview-item.dx-state-hover{
+  background: none !important;
+  color: white !important;
+}
+
+.dx-drawer-overlap.pre-init-blink-fix {
+  @import "../../utils/patches.scss";
+  @include menu-pre-init-patch;
+}
