@@ -56,6 +56,8 @@ export default function SideNavigationMenu(props) {
     if (currentPath !== undefined) {
       treeView.selectItem(currentPath);
       treeView.expandItem(currentPath);
+      // console.log(treeView.getNodes());
+      // console.log(treeView.getSelectedNodes());
     }
 
     if (compactMode) {
