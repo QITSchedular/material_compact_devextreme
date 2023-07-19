@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from "devextreme-react/button";
 import "./headerContent.scss";
 import ItemMasterForm from "../../components/masters/item-master";
+import { AppContext } from "../../contexts/dataContext";
 const HeaderContent = () => {
+  const { isPopupVisible, openPopup, closePopUp } = useContext(AppContext);
   const [showItemMasterBox, setShowItemMasterBox] = useState(false);
   const showItemMasterPopup = () => {
     setShowItemMasterBox(true);
+    openPopup();
   };
   return (
     <>

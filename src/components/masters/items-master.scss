@@ -22,21 +22,29 @@
     padding-left: 5px;
     padding-right: 5px;
 }
-.bottom-button-section{
-    display: flex;
-    justify-content: flex-end;
-}
-.popup-btn-save{
-    .dx-button-content{
-        background-color: #4371B7;
-        padding-left: 30px;
-        padding-right: 30px;
-    }
-    span{
-        color: #fff;
-    }
-}
+// .bottom-button-section{
+//     display: flex;
+//     justify-content: flex-end;
+// }
+// .popup-btn-save{
+//     .dx-button-content{
+//         background-color: #4371B7;
+        
+//     }
+//     span{
+//         color: #fff;
+//     }
+// }
 
+// popheader
+.popup-header{
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: baseline !important;
+    .dx-button-has-icon .dx-icon{
+        font-size: 24px !important;
+    }
+}
 
 // tabbed items component styles;
 .dx-item-content.dx-multiview-item-content{
@@ -47,8 +55,9 @@
 .addimg-wrapper{
     display: flex;
     justify-content: center;
+    max-height: 250px;
     img{
-        object-fit: cover;
+        object-fit: contain;
         cursor: pointer;
     }
 }
@@ -67,4 +76,54 @@
 
 .dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-texteditor-empty.dx-widget.dx-texteditor-with-floating-label.dx-validator.dx-visibility-change-handler.dx-state-focused{
     box-shadow: none !important;
+}
+
+.dx-toast-wrapper{
+    background: transparent !important;
+    .dx-toast-success{
+        background-color: #FFFFFF !important;
+        border: 1px solid #1A5D1A;
+        border-radius: 8px !important;
+        min-height: 250px;
+        font-size: 20px;
+        justify-content: center;
+        .dx-toast-message{
+            padding: 15px 10px;
+            border-radius: 8px !important;
+            background: #1A5D1A;
+            border: 1px solid #1A5D1A;
+            color: #fff;
+        }
+    }
+    .dx-toast-error{
+        background-color: #FFFFFF !important;
+        border: 1px solid #F31559;
+        border-radius: 8px !important;
+        min-height: 250px;
+        font-size: 20px;
+        justify-content: center;
+        .dx-toast-message{
+            padding: 15px 10px;
+            border-radius: 8px !important;
+            background: #F31559;
+            border: 1px solid #F31559;
+            color: #fff;
+        }
+    }
+}
+
+
+// submit buttons::after
+.submit-section{
+    margin-top: 10px;
+    .dx-form-group-content{
+        display: flex !important;
+        justify-content: flex-end;
+        gap: 2px;
+        .save-button {
+            .dx-button-text{
+                    color: #efefef;
+            }
+        }
+    }
 }

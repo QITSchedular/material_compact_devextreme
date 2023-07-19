@@ -7,6 +7,7 @@ export const navigation = [
   {
     text: "Examples",
     icon: "folder",
+    isExpanded: false,
     items: [
       {
         text: "Profile",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "devextreme/data/odata/store";
 import DataGrid, {
   Column,
@@ -9,6 +9,9 @@ import DataGrid, {
   SearchPanel,
   Export,
   Selection,
+  Scrolling,
+  Toolbar,
+  Item,
 } from "devextreme-react/data-grid";
 import HeaderContent from "./headerContent";
 // import "../../assets/css/dx.light.css";
@@ -17,17 +20,38 @@ import { Workbook } from "exceljs";
 import { saveAs } from "file-saver";
 import { exportDataGrid } from "devextreme/excel_exporter";
 import { getAllItems } from "../../utils/items-master-data";
+import { AppContext } from "../../contexts/dataContext";
+import { Button } from "devextreme-react";
 
+const allowedPageSizes = [10, 20, 30];
 export default function Task() {
   const [itemsData, setItemsData] = useState();
+  const {
+    isPopupVisible,
+    isItemAdded,
+    openPopup,
+    closePopup,
+    newItemIsAdded,
+    revertIsItemAdded,
+  } = useContext(AppContext);
 
   useEffect(() => {
     const getData = async () => {
-      // const allItemsData = await getAllItems();
-      setItemsData(await getAllItems());
+      const allItemsData = await getAllItems();
+      setItemsData(allItemsData);
     };
     getData();
   }, []);
+  useEffect(() => {
+    const setDataAgain = async () => {
+      if (isItemAdded) {
+        const allItemsData = await getAllItems();
+        setItemsData(allItemsData);
+        revertIsItemAdded();
+      }
+    };
+    setDataAgain();
+  }, [isItemAdded]);
 
   return (
     <React.Fragment>
@@ -41,16 +65,29 @@ export default function Task() {
         <div className="content-blocks">
           <HeaderContent />
         </div>
+        {/* <div
+          id="exportContainer"
+          style={{ marginTop: "5px", marginBottom: "5px" }}
+        >
+          <Button text="Refresh" icon="refresh" />
+        </div> */}
         <DataGrid
           dataSource={itemsData}
+          keyExpr={"itemCode"}
           showBorders={true}
           focusedRowEnabled={true}
           defaultFocusedRowIndex={0}
           columnAutoWidth={true}
           columnHidingEnabled={true}
         >
+          <Scrolling columnRenderingMode="virtual" />
           <Paging defaultPageSize={10} />
-          <Pager showPageSizeSelector={true} showInfo={true} />
+          <Pager
+            showPageSizeSelector={true}
+            showInfo={true}
+            showNavigationButtons={true}
+            allowedPageSizes={allowedPageSizes}
+          />
           <SearchPanel visible={true} stylingMode={"outlined"} width={150} />
           <Selection mode="multiple" />
           {/* <FilterRow visible={true} /> */}
@@ -93,52 +130,9 @@ export default function Task() {
             caption={"Is Active"}
             hidingPriority={7}
           />
-          {/* <Column
-            dataField={"Task_Due_Date"}
-            caption={"Due Date"}
-            dataType={"date"}
-            hidingPriority={4}
-          /> */}
-          {/* <Column
-            dataField={"Task_Priority"}
-            caption={"Priority"}
-            name={"Priority"}
-            hidingPriority={1}
-          /> */}
-          {/* <Column
-            dataField={"Task_Completion"}
-            caption={"Completion"}
-            hidingPriority={0}
-          /> */}
           <Export enabled={true} allowExportSelectedData={true} />
         </DataGrid>
       </div>
     </React.Fragment>
   );
 }
-
-const dataSource = {
-  store: {
-    type: "odata",
-    key: "Task_ID",
-    url: "https://js.devexpress.com/Demos/DevAV/odata/Tasks",
-  },
-  expand: "ResponsibleEmployee",
-  select: [
-    "Task_ID",
-    "Task_Subject",
-    "Task_Start_Date",
-    "Task_Due_Date",
-    "Task_Status",
-    "Task_Priority",
-    "Task_Completion",
-    "ResponsibleEmployee/Employee_Full_Name",
-  ],
-};
-
-const priorities = [
-  { name: "High", value: 4 },
-  { name: "Urgent", value: 3 },
-  { name: "Normal", value: 2 },
-  { name: "Low", value: 1 },
-];

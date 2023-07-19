@@ -1,4 +1,5 @@
 import {
+  Button,
   Form,
   LoadPanel,
   Popup,
@@ -6,7 +7,7 @@ import {
   SelectBox,
 } from "devextreme-react";
 import { ButtonItem, GroupItem, Item, SimpleItem } from "devextreme-react/form";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./items-master.scss";
 import TabbedItemComponent from "./tabbed-item-component";
 import {
@@ -17,11 +18,22 @@ import {
   getUom,
 } from "../../utils/items-master-data";
 import ArrayStore from "devextreme/data/array_store";
-
+import { AppContext } from "../../contexts/dataContext";
+import NotificationToast from "../notification/notification";
+import Notify from "devextreme/ui/notify";
+import {
+  SuccessToast,
+  showToastNotifications,
+} from "../../utils/showToastsNotifications";
+import { RequiredRule } from "devextreme-react/data-grid";
 const ItemMasterForm = () => {
+  const { isPopupVisible, isItemAdded, openPopup, closePopup, newItemIsAdded } =
+    useContext(AppContext);
   const [popupVisible, setPopupVisible] = useState(true);
   const [itemsGrpData, setItemsgrpData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationData, setNotificationData] = useState({});
   const sampleUoMData = [
     { id: 1, name: 5 },
     { id: 2, name: 4 },
@@ -37,6 +49,8 @@ const ItemMasterForm = () => {
   const [itemsGroupEditorOptions, setItemsGroupEditorOptions] = useState("");
   const [qrManagedByOptions, setQrManagedByOptions] = useState("");
   const [itemsSubGroupOptions, setItemsSubGroupOptions] = useState("");
+  const [toastIsVisible, setToastIsVisible] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [uomOptions, setUomOptions] = useState({
     dataSource: sampleUoMData,
     stylingMode: ["outlined"],
@@ -53,8 +67,7 @@ const ItemMasterForm = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   //form Validation Rules
-  const validationRules = {
-    itemName: [{ type: "required", message: "Item Name is required." }],
+  let validationRules = {
     itemCode: [{ type: "required", message: "Item Code is required." }],
     uom: [{ type: "required", message: "Uom is required." }],
   };
@@ -67,7 +80,10 @@ const ItemMasterForm = () => {
   };
   const cancelButtonOptions = {
     text: "cancel",
-    useSubmitBehavior: true,
+    useSubmitBehavior: false,
+    onClick: async () => {
+      await handleClosePopUp();
+    },
   };
 
   const dropdownOptions = {
@@ -76,13 +92,28 @@ const ItemMasterForm = () => {
   };
   const textEditorOptions = {
     stylingMode: ["outlined"],
+    cssClass: "myEditor",
+  };
+  const onHandEditorOptions = {
+    stylingMode: ["outlined"],
+    disabled: true,
+    value: 10,
   };
 
   // pop visibility handler
   const handleShowPopup = () => {
     setPopupVisible(true);
   };
-
+  const handleClosePopUp = async () => {
+    const form = formRef.current.instance;
+    // form.resetValidationStatus();
+    form.resetValues();
+    return await closePopup();
+  };
+  // const handleCloseButton = async () => {
+  //   const form = formRef.current.instance;
+  //   return await closePopup();
+  // };
   const hideInfo = () => {
     setPopupVisible(false);
   };
@@ -100,6 +131,7 @@ const ItemMasterForm = () => {
 
   //api call for pop fill data
   useEffect(() => {
+    openPopup();
     getItemGroup();
     getItemSubGroup();
     getQrManagedBy();
@@ -117,6 +149,7 @@ const ItemMasterForm = () => {
         displayExpr: "itmsGrpNam",
         valueExpr: "itmsGrpCod",
       });
+      //itesm managed by and qr managed by will be same api bases
       await setQrManagedByOptions({
         dataSource: getQrManagedByData,
         stylingMode: ["outlined"],
@@ -144,7 +177,12 @@ const ItemMasterForm = () => {
 
   // handle Form data
   const formRef = useRef(null);
-  const handleSubmit = (e) => {
+  const clearFormData = () => {
+    const form = formRef.current.instance;
+    // form.resetValidationStatus();
+    form.resetValues();
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = formRef.current.instance;
     const formData = form.option("formData");
@@ -158,46 +196,33 @@ const ItemMasterForm = () => {
       isActive: "Y",
       atcEntry: 0,
     };
+    try {
+      const response = await addNewItem(transformedData);
 
-    const response = addNewItem(transformedData);
-    // Access the form values using the e.component option and log them
-    // console.log(e.target.value);
+      if (response.statusCode === "200") {
+        newItemIsAdded();
+      }
+
+      await showToastNotifications(response);
+      setIsSubmitted(true);
+      form.resetValues();
+      setIsSubmitted(false);
+    } catch (error) {
+      await form.resetValues();
+      console.log(error);
+    }
   };
-  // const getItemGroupCode = (itemGroup) => {
-  //   const data = itemsGroupEditorOptions.dataSource;
-  //   //console.log(data);
-  //   const foundItemGroup = data.find((item) => item.itmsGrpNam === itemGroup);
-  //   if (foundItemGroup) {
-  //     return foundItemGroup.itmsGrpCod;
-  //   } else {
-  //     // Handle case when item group is not found
-  //     return null;
-  //   }
-  // };
-  // const getUomCode = (uom) => {
-  //   const data = uomOptions.dataSource;
-  //   // console.log(data);
-  //   const foundItemUom = data.find((uomItem) => uomItem.uomCode === uom);
-  //   if (foundItemUom) {
-  //     return foundItemUom.uomEntry;
-  //   } else {
-  //     // Handle case when item group is not found
-  //     return null;
-  //   }
-  // };
   return (
     <>
       <Popup
         maxWidth={850}
         height={500}
-        visible={popupVisible}
+        visible={isPopupVisible}
         onHiding={hideInfo}
         dragEnabled={false}
         hideOnOutsideClick={false}
         showCloseButton={true}
         shading={true}
-        // showTitle={true}
-        // title="Items Master"
         container=".dx-viewport"
         className="item-master-popup-container"
       >
@@ -210,7 +235,11 @@ const ItemMasterForm = () => {
                 "dx-card content-block responsive-paddings pop-content-container"
               }
             >
-              <h4>Add New Item</h4>
+              <div className="popup-header">
+                <h4>Add New Item</h4>
+                <Button icon="close" onClick={handleClosePopUp} />
+              </div>
+
               <form onSubmit={handleSubmit} id="popupform">
                 <Form
                   ref={formRef}
@@ -223,13 +252,15 @@ const ItemMasterForm = () => {
                     <Item
                       dataField="Item Name"
                       editorOptions={textEditorOptions}
-                      validationRules={validationRules.itemName}
-                    />
+                    >
+                      <RequiredRule message="Item Name is required" />
+                    </Item>
                     <Item
                       dataField="Item Code"
                       editorOptions={textEditorOptions}
-                      validationRules={validationRules.itemCode}
-                    />
+                    >
+                      <RequiredRule message="Item Code is required" />
+                    </Item>
                   </GroupItem>
                   <Item
                     itemType="group"
@@ -251,12 +282,13 @@ const ItemMasterForm = () => {
                       dataField="UOM"
                       editorType="dxSelectBox"
                       editorOptions={uomOptions}
-                      validationRules={validationRules.uom}
-                    />
+                    >
+                      <RequiredRule message="Uom is required" />
+                    </Item>
                     <Item
                       dataField="Item Managed By"
                       editorType="dxSelectBox"
-                      editorOptions={itemsManagedByOptions}
+                      editorOptions={qrManagedByOptions}
                     />
                     <Item
                       dataField="Qr Managed By"
@@ -265,7 +297,7 @@ const ItemMasterForm = () => {
                     />
                     <SimpleItem
                       dataField="On Hand"
-                      editorOptions={textEditorOptions}
+                      editorOptions={onHandEditorOptions}
                     />
                   </Item>
                   <GroupItem cssClass={"tabbed-items-group"}>
@@ -273,10 +305,10 @@ const ItemMasterForm = () => {
                     <TabbedItemComponent />
                   </GroupItem>
 
-                  <Item
+                  {/* <Item
                     itemType="group"
                     colCount={2}
-                    colSpan={2}
+                    colSpan={1}
                     cssClass={"bottom-button-section"}
                   >
                     <ButtonItem
@@ -289,7 +321,22 @@ const ItemMasterForm = () => {
                       buttonOptions={saveButtonOptions}
                       cssClass={"popup-btn-save"}
                     />
-                  </Item>
+                  </Item> */}
+                  <GroupItem cssClass={"submit-section"}>
+                    <Button
+                      text="Cancel"
+                      icon="close"
+                      onClick={handleClosePopUp}
+                      className="cancel-button"
+                    />
+                    <Button
+                      type="default"
+                      text="Save"
+                      icon="save"
+                      useSubmitBehavior={true}
+                      className="save-button"
+                    />
+                  </GroupItem>
                 </Form>
               </form>
             </div>
