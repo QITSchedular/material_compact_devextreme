@@ -14206,7 +14206,7 @@
 .dx-treeview-item {
   display: block;
   cursor: pointer;
-  padding: 10px 8px;
+  padding: 5px 8px;
   min-height: 36px;
   line-height: 16px;
 }

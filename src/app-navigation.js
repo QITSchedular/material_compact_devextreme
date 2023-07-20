@@ -4,22 +4,22 @@ export const navigation = [
     path: "/home",
     icon: "home",
   },
-  {
-    text: "Examples",
-    icon: "folder",
-    items: [
-      {
-        text: "Profile",
-        path: "/profile",
-        icon: "user",
-      },
-      {
-        text: "Tasks",
-        path: "/tasks",
-        icon: "datafield",
-      },
-    ],
-  },
+  // {
+  //   text: "Examples",
+  //   icon: "folder",
+  //   items: [
+  //     {
+  //       text: "Profile",
+  //       path: "/profile",
+  //       icon: "user",
+  //     },
+  //     {
+  //       text: "Tasks",
+  //       path: "/tasks",
+  //       icon: "datafield",
+  //     },
+  //   ],
+  // },
   {
     text: "Masters List",
     icon: "key",
@@ -85,5 +85,15 @@ export const navigation = [
         icon: "user",
       },
     ],
+  },
+  {
+    text: "Purchases",
+    path: "/purchases",
+    icon: "fa-solid fa-cart-plus",
+  },
+  {
+    text: "Sales",
+    path: "/sales",
+    icon: "fa-solid fa-bag-shopping",
   },
 ];
