@@ -16,10 +16,10 @@ export default function Content() {
         {/* <Route path="/addsubgroup" element={<Add />} /> */}
       </Routes>
       <Footer>
-        Copyright © 2011-{new Date().getFullYear()} {appInfo.title} Inc.
-        <br />
+        Copyright © {new Date().getFullYear()}-2024 Quantum It Solution
+        {/* <br />
         All trademarks or registered trademarks are property of their respective
-        owners.
+        owners. */}
       </Footer>
     </SideNavBarLayout>
   );

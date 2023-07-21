@@ -78,7 +78,7 @@ export default function ItemsMaster() {
             showNavigationButtons={true}
             allowedPageSizes={allowedPageSizes}
           />
-          <SearchPanel visible={true} stylingMode={"outlined"} width={150} />
+          <SearchPanel visible={true} stylingMode={"outlined"} width={190} />
           <Selection mode="multiple" />
 
           <Column dataField={"itemCode"} width={90} hidingPriority={2} />

@@ -4,15 +4,12 @@ import {
   ItemsMasterPage,
   ItemsGroupMasterPage,
   AddItemsGroupMasterPage,
+  GateInPage,
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 // import ItemGroupMaster from "./pages/masters/item-group-master/items-group-master";
 
 const routes = [
-  // {
-  //   path: "/tasks",
-  //   element: TasksPage,
-  // },
   {
     path: "/profile",
     element: ProfilePage,
@@ -32,6 +29,11 @@ const routes = [
   {
     path: "/masters/additemsgroup",
     element: AddItemsGroupMasterPage,
+  },
+  //purchases
+  {
+    path: "/purchases/gatein",
+    element: GateInPage,
   },
 ];
 

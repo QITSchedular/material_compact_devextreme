@@ -88,8 +88,14 @@ export const navigation = [
   },
   {
     text: "Purchases",
-    path: "/purchases",
     icon: "fa-solid fa-cart-plus",
+    items: [
+      {
+        text: "Gate In",
+        path: "/purchases/gatein",
+        icon: "fa-solid fa-backward",
+      },
+    ],
   },
   {
     text: "Sales",

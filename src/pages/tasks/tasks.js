@@ -130,6 +130,7 @@ export default function Task() {
             caption={"Is Active"}
             hidingPriority={7}
           />
+
           <Export enabled={true} allowExportSelectedData={true} />
         </DataGrid>
       </div>
