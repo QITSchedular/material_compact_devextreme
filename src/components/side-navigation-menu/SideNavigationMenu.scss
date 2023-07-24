@@ -58,7 +58,7 @@
         &[aria-level='1'] {
           // border-bottom: 1px solid $base-border-color;
           //added
-          margin-bottom: 16px;
+          // margin-bottom: 4px;
           font-family: Poppins;
           font-size: 14px;
           font-style: normal;
@@ -70,13 +70,13 @@
           // background-color: red;
           // border: 1px solid;
           font-size: 12px;
-          margin-top: 4px;
+          // margin-top: 4px;
 
         }
         &[aria-level='2'] .dx-treeview-item-content {
           font-weight: normal;
           font-size: 13px;
-          padding: 8px 24px;
+          padding: 4px 24px;
           max-width: 190px;
           margin-left: 30px;
           color: white;
@@ -94,7 +94,8 @@
         .dx-state-selected{
           .dx-treeview-item{
             .dx-treeview-item-content{
-              padding: 8px 0;
+              padding-top: 8px;
+              padding-bottom: 8px;
               
             }
           }
@@ -102,10 +103,12 @@
         .dx-treeview-node {
           &.dx-state-selected:not(.dx-state-focused)> .dx-treeview-item {
             background: transparent;
+            
           }
 
           &.dx-state-selected > .dx-treeview-item * {
             // color: $base-accent;
+            transition: all 0.3s ease-in-out;
             background-color: white !important;
             //  color: #4371B7;
               color: #161616;

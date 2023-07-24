@@ -1,30 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
-import "devextreme/data/odata/store";
-import DataGrid, {
+import { DataGrid } from "devextreme-react";
+import {
   Column,
+  Export,
   Pager,
   Paging,
-  FilterRow,
-  Lookup,
-  SearchPanel,
-  Export,
-  Selection,
   Scrolling,
-  Toolbar,
-  Item,
+  SearchPanel,
+  Selection,
 } from "devextreme-react/data-grid";
+import React, { useContext, useEffect, useState } from "react";
+import { AppContext } from "../../../contexts/dataContext";
+import { getAllItems } from "../../../utils/items-master-data";
 import HeaderContent from "./headerContent";
-// import "../../assets/css/dx.light.css";
-import "./tasks.scss";
-import { Workbook } from "exceljs";
-import { saveAs } from "file-saver";
-import { exportDataGrid } from "devextreme/excel_exporter";
-import { getAllItems } from "../../utils/items-master-data";
-import { AppContext } from "../../contexts/dataContext";
-import { Button } from "devextreme-react";
+import "./items-master.scss";
 
 const allowedPageSizes = [10, 20, 30];
-export default function Task() {
+export default function ItemsMaster() {
   const [itemsData, setItemsData] = useState();
   const {
     isPopupVisible,
@@ -56,7 +47,7 @@ export default function Task() {
   return (
     <React.Fragment>
       <div
-        className="content-block dx-card responsive-paddings"
+        className="content-block dx-card responsive-paddings items-master-content-wrapper"
         style={{
           marginTop: "40px",
           marginBottom: "40px",
@@ -79,6 +70,7 @@ export default function Task() {
           defaultFocusedRowIndex={0}
           columnAutoWidth={true}
           columnHidingEnabled={true}
+          className="items-master-datagrid"
         >
           <Scrolling columnRenderingMode="virtual" />
           <Paging defaultPageSize={10} />
@@ -88,9 +80,8 @@ export default function Task() {
             showNavigationButtons={true}
             allowedPageSizes={allowedPageSizes}
           />
-          <SearchPanel visible={true} stylingMode={"outlined"} width={150} />
+          <SearchPanel visible={true} width={190} className={"search-panel"} />
           <Selection mode="multiple" />
-          {/* <FilterRow visible={true} /> */}
 
           <Column dataField={"itemCode"} width={90} hidingPriority={2} />
           <Column
@@ -130,7 +121,6 @@ export default function Task() {
             caption={"Is Active"}
             hidingPriority={7}
           />
-
           <Export enabled={true} allowExportSelectedData={true} />
         </DataGrid>
       </div>
