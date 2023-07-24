@@ -20279,6 +20279,8 @@
 }
 .dx-datagrid-search-panel {
   margin: 0 0 0 15px;
+  /* border-radius: 8px;
+  background: transparent; */
 }
 .dx-gridbase-container > .dx-datagrid-rowsview {
   -webkit-box-flex: 1;

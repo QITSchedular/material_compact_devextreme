@@ -49,4 +49,49 @@ export const getPurchaseOrder = async (poNumber, selectedSeries) => {
   }
 };
 
+export const gateInAndUpdatePo = async (itemCode, receivedQty) => {
+  //http://192.168.1.102:{{PORT}}/api/PurchaseOrders/GetPO
+  console.log("itemCode: " + itemCode, "recQty: " + receivedQty);
+  // alert(recQty);
+  const requestBody = {
+    objType: "22",
+    branchID: 1,
+    docEntry: 2683,
+    lineNum: 600069,
+    itemCode: itemCode,
+    recQty: `${receivedQty}`,
+  };
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/PurchaseOrders/GateINPO`,
+      requestBody
+    );
+    // handle the error here
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    // Handle any errors that occurred during the A.seriesData
+    console.error("Error:", error.response.data);
+  }
+};
 // handling the async validation for the recieved quantity
+
+export const callUpdatePoApi = async (updatedItemsList) => {
+  // console.log(updatedItemsList);
+  let length = updatedItemsList.length;
+  for (let i = 0; i < length; i++) {
+    const response = await gateInAndUpdatePo(
+      updatedItemsList[i].key,
+      updatedItemsList[i].recQty
+    );
+    console.log(response);
+  }
+  // call the above api one by one now
+  // const loopCALL = updatedItemsList.map(async (element) => {
+  //   // console.log(element)
+  //   const response = await gateInAndUpdatePo(element.key, element.recQty);
+  //   console.log(response);
+  // });
+  // await gateInAndUpdatePo("P052", "1");
+};

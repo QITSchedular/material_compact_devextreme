@@ -8,6 +8,7 @@
     .title-section{
 
     }
+    
     .actions-section{
         display: flex !important;
         justify-content: baseline;
@@ -18,6 +19,11 @@
                 .dx-button{
                     height: 31px;
                     margin-right: 15px;
+                }
+                .period-indicator,.series-indicator{
+                    span{
+                        width: 90.554px !important;
+                    }
                 }
                 
         }
@@ -45,5 +51,10 @@
     span{
         color: #fff;
         padding: 20px 10px 20px 10px;
+    }
+}
+.dx-overlay-wrapper.dx-popup-wrapper.dx-dropdowneditor-overlay.dx-dropdownbutton-popup-wrapper{
+    .dx-overlay-content.dx-popup-normal.dx-resizable{
+        background: linear-gradient(to right, #fff 16px, #FFF 16px);
     }
 }

@@ -16,6 +16,7 @@ import {
   getPeriodIndicator,
   getPurchaseOrder,
   getSeriesPo,
+  callUpdatePoApi,
 } from "../../../utils/gate-in-purchase";
 import notify from "devextreme/ui/notify";
 
@@ -37,12 +38,14 @@ const GateInComponent = () => {
   const [seriesList, setSeriesList] = useState([]);
   const [poNumber, setPoNumber] = useState("");
   const [poData, setPoData] = useState(null);
+  const [objType, setobjType] = useState(null);
+  const [docEntry, setDocEntry] = useState(null);
   const [selectedValue, setSelectedValue] = useState({
     periodIsSelected: false,
     seriesIsSelected: false,
     poIsEntered: false,
   });
-
+  const [updatedItems, setUpdatedItems] = useState([]);
   const handleSearchPurchasedOrder = async () => {
     const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
     // if (!periodIsSelected || seriesIsSelected || poIsEntered) {
@@ -92,17 +95,25 @@ const GateInComponent = () => {
     });
   };
 
-  const handleGateIn = (e) => {
-    e.preventDefault();
+  const handleGateIn = async () => {
+    const callLoop = callUpdatePoApi(updatedItems);
   };
+
   const handleGridSaving = useCallback((e) => {
     console.log(e.changes[0]);
+    const newData = {
+      key: e.changes[0].key,
+      recQty: e.changes[0].data.recQty,
+    };
+
+    setUpdatedItems((prevData) => [...prevData, newData]);
   });
 
   //fetch the searches data
   useEffect(() => {
     const getSeriesData = async () => {
       const data = await getPeriodIndicator();
+      // console.log(data);
       await setPeriodIndicators(data);
     };
     getSeriesData();
@@ -127,6 +138,7 @@ const GateInComponent = () => {
             displayExpr={"indicator"}
             items={periodIndicators}
             onItemClick={periodItemsClick}
+            className="period-indicator"
           />
           <DropDownButton
             text={selectedSeries ? selectedSeries.seriesName : "Select Series"}
@@ -135,6 +147,7 @@ const GateInComponent = () => {
             keyExpr={"series"}
             displayExpr={"seriesName"}
             onItemClick={handleSeriesSelectionClick}
+            className="series-indicator"
           />
         </div>
         <div className="search-section">

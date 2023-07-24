@@ -13,4 +13,6 @@
   .custom-form .dx-texteditor-outlined .dx-texteditor-label-floating {
     border-radius: 10px; /* Adjust the border-radius value as needed */
   }
-  
+  .dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget.dx-texteditor-masked{
+    border-radius: 8px !important;
+  }

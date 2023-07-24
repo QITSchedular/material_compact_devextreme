@@ -12,6 +12,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../../contexts/dataContext";
 import { getAllItems } from "../../../utils/items-master-data";
 import HeaderContent from "./headerContent";
+import "./items-master.scss";
 
 const allowedPageSizes = [10, 20, 30];
 export default function ItemsMaster() {
@@ -46,7 +47,7 @@ export default function ItemsMaster() {
   return (
     <React.Fragment>
       <div
-        className="content-block dx-card responsive-paddings"
+        className="content-block dx-card responsive-paddings items-master-content-wrapper"
         style={{
           marginTop: "40px",
           marginBottom: "40px",
@@ -69,6 +70,7 @@ export default function ItemsMaster() {
           defaultFocusedRowIndex={0}
           columnAutoWidth={true}
           columnHidingEnabled={true}
+          className="items-master-datagrid"
         >
           <Scrolling columnRenderingMode="virtual" />
           <Paging defaultPageSize={10} />
@@ -78,7 +80,7 @@ export default function ItemsMaster() {
             showNavigationButtons={true}
             allowedPageSizes={allowedPageSizes}
           />
-          <SearchPanel visible={true} stylingMode={"outlined"} width={190} />
+          <SearchPanel visible={true} width={190} className={"search-panel"} />
           <Selection mode="multiple" />
 
           <Column dataField={"itemCode"} width={90} hidingPriority={2} />
