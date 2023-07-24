@@ -1,20 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import MastersHeaderContent from "../../../components/masters-header-content/MastersHeaderContent";
-import { useNavigate } from "react-router-dom";
-import { useNavigation } from "../../../contexts/navigation";
+import PopupForm from "../../../components/popup-form/PopupForm";
+import { AppContext } from "../../../contexts/dataContext";
 
 export default function ItemGroupMaster() {
-  const {
-    navigationData: { currentPath },
-  } = useNavigation();
+  const [showItemGroupMasterBox, setShowItemGroupMasterBox] = useState(false);
+  const { openCommonPopup, closeCommonPopup } = useContext(AppContext);
 
-  const navigate = useNavigate();
-  const handleAddClick = () => {
-    return navigate("/masters/additemsgroup");
+  const showItemGroupMaster = () => {
+    setShowItemGroupMasterBox(true);
+    openCommonPopup();
   };
-  useEffect(() => {
-    console.log(currentPath);
-  }, [currentPath]);
+  const dataArray = [
+    { feildType: "dxTextBox", label: 'Item Group Name', isValidate: true },
+    { feildType: "dxSelectBox", label: 'QR Managed By', isValidate: false },
+    { feildType: "dxCheckBox", label: 'Locked', isValidate: false },
+  ];
   return (
     <React.Fragment>
       <div className="content-block dx-card responsive-paddings">
@@ -22,10 +23,15 @@ export default function ItemGroupMaster() {
           <MastersHeaderContent
             title={"Items Group Master"}
             subtitle={"You are viewing the total number of item groups"}
-            handleAddClick={handleAddClick}
+            handleAddClick={showItemGroupMaster}
           />
         </div>
       </div>
+      {showItemGroupMasterBox && <PopupForm
+        title={"Item Group Master"}
+        field={dataArray}
+      />
+      }
     </React.Fragment>
   );
 }

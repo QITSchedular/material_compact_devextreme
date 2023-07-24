@@ -30,6 +30,10 @@ const routes = [
     path: "/masters/additemsgroup",
     element: AddItemsGroupMasterPage,
   },
+  {
+    path: "/masters/itemsgroupmaster",
+    element: ItemsGroupMasterPage,
+  },
   //purchases
   {
     path: "/purchases/gatein",

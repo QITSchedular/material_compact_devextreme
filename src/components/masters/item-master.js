@@ -106,7 +106,6 @@ const ItemMasterForm = () => {
   };
   const handleClosePopUp = async () => {
     const form = formRef.current.instance;
-    // form.resetValidationStatus();
     form.resetValues();
     return await closePopup();
   };
