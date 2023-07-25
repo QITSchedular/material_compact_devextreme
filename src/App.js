@@ -12,7 +12,8 @@ import { useScreenSizeClass } from "./utils/media-query";
 import Content from "./Content";
 import UnauthenticatedContent from "./UnauthenticatedContent";
 import { AppContextProvider } from "./contexts/dataContext";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const { user, loading } = useAuth();
 
@@ -32,6 +33,7 @@ export default function Root() {
 
   return (
     <Router>
+      <ToastContainer />
       <AuthProvider>
         <NavigationProvider>
           <AppContextProvider>

@@ -1,6 +1,8 @@
 // https://localhost:8084/api/Commons/Period Indicator
 import axios from "axios";
 import { API_URL } from "./items-master-data";
+import notify from "devextreme/ui/notify";
+import { toast as RToast } from "react-toastify";
 
 export const getPeriodIndicator = async () => {
   try {
@@ -14,20 +16,39 @@ export const getPeriodIndicator = async () => {
   }
 };
 export const getSeriesPo = async (series, branchid) => {
+  const errors = {
+    hasError: false,
+    errorText: "Something went wrong",
+  };
   // http://192.168.1.102:{{PORT}}/api/Commons/Series?Indicator=FY2223&ObjType=22&BranchID=1
   try {
     const response = await axios.get(
       `${API_URL}/Commons/Series?Indicator=${series}&ObjType=22&BranchID=${branchid}`
     );
     const data = response.data;
-
-    return data;
+    // console.log("This is from gerSeriesPo api", data);
+    if (data) {
+      return data;
+    } else {
+      return errors;
+    }
   } catch (error) {
-    return error;
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
   }
 };
 
 export const getPurchaseOrder = async (poNumber, selectedSeries) => {
+  const errors = {
+    hasError: false,
+    errorText: "Something went wrong",
+  };
+
   const requestBody = {
     docNum: poNumber,
     series: selectedSeries,
@@ -42,16 +63,28 @@ export const getPurchaseOrder = async (poNumber, selectedSeries) => {
     );
     // handle the error here
     // console.log(response.data);
-    return response.data;
+    const data = response.data;
+    if (data) {
+      return data;
+    } else {
+      return errors;
+    }
   } catch (error) {
     // Handle any errors that occurred during the A.seriesData
-    console.error("Error:", error.response.data);
+    // console.error("Error:", error.response.data);
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
   }
 };
 
 export const gateInAndUpdatePo = async (itemCode, receivedQty) => {
   //http://192.168.1.102:{{PORT}}/api/PurchaseOrders/GetPO
-  console.log("itemCode: " + itemCode, "recQty: " + receivedQty);
+  // console.log("itemCode: " + itemCode, "recQty: " + receivedQty);
   // alert(recQty);
   const requestBody = {
     objType: "22",
@@ -95,3 +128,5 @@ export const callUpdatePoApi = async (updatedItemsList) => {
   // });
   // await gateInAndUpdatePo("P052", "1");
 };
+
+// PrintQrMainComp

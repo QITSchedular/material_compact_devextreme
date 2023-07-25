@@ -3,6 +3,7 @@ import React, { createContext, useReducer } from "react";
 const initialState = {
   isPopupVisible: false,
   isItemAdded: false,
+  isQrPopupVisible: false,
   // Add more state properties as needed
 };
 
@@ -16,6 +17,10 @@ const reducer = (state, action) => {
       return { ...state, isItemAdded: true };
     case "REVERT_ITEM_ADDED":
       return { ...state, isItemAdded: false };
+    case "OPEN_QR_POPUP":
+      return { ...state, isQrPopupVisible: true };
+    case "CLOSE_QR_POPUP":
+      return { ...state, isQrPopupVisible: false };
     // Add more cases for other actions as needed
     default:
       return state;
@@ -40,6 +45,12 @@ const AppContextProvider = ({ children }) => {
   const revertIsItemAdded = () => {
     dispatch({ type: "REVERT_ITEM_ADDED" });
   };
+  const openQrPopUp = () => {
+    dispatch({ type: "OPEN_QR_POPUP" });
+  };
+  const closeQrPopUp = () => {
+    dispatch({ type: "CLOSE_QR_POPUP" });
+  };
 
   // Add more functions to update the state as needed
 
@@ -52,6 +63,8 @@ const AppContextProvider = ({ children }) => {
         closePopup,
         newItemIsAdded,
         revertIsItemAdded,
+        openQrPopUp,
+        closeQrPopUp,
         // Add more state properties and functions as needed
       }}
     >

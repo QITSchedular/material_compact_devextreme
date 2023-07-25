@@ -3,7 +3,7 @@ import { AppContext } from "../contexts/dataContext";
 import { useContext, useState } from "react";
 import { Toast, Position } from "devextreme-react/toast";
 
-export const showToastNotifications = async (data) => {
+export const showToastNotifications = async (data, position, direction) => {
   const { hasError, statusCode, statusMsg } = data;
   if (hasError === false) {
     // await renderSuccessComponent(statusMsg);
@@ -22,16 +22,12 @@ export const showToastNotifications = async (data) => {
         hideOnOutsideClick: true,
         contentComponent: "<h1>Hello</h1>",
       },
-      { position: "center", direction: "up-push" }
+      {
+        position: position ? position : "center",
+        direction: direction ? direction : "up-push",
+      }
     );
   } else {
-    // notify({
-    //   message: `${statusMsg}`,
-    //   type: "error",
-    //   displayTime: 100,
-    //   position: "top-right",
-    //   width: 200,
-    // });
     notify(
       {
         message: statusMsg,
@@ -42,7 +38,10 @@ export const showToastNotifications = async (data) => {
         closeOnClick: true,
         hideOnOutsideClick: true,
       },
-      { position: "center", direction: "up-push" }
+      {
+        position: position ? position : "center",
+        direction: direction ? direction : "up-push",
+      }
     );
   }
 };

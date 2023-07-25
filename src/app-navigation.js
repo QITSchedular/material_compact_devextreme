@@ -82,6 +82,10 @@ export const navigation = [
         text: "Gate Inward",
         path: "/purchases/gatein",
       },
+      {
+        text: "Gate In and Print",
+        path: "/purchases/gatein-printqr",
+      },
     ],
   },
   {

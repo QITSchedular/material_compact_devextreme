@@ -6,7 +6,26 @@
     margin-bottom: "40px";
     min-height: 70vh;
     .title-section{
-
+        .title-name{
+            color: #393939;
+            font-feature-settings: 'clig' off, 'liga' off;
+            /* H5 Semi- bold */
+            font-family: Poppins;
+            font-size: 24px;
+            font-style: normal; 
+            font-weight: 600;
+            line-height: 28px; /* 116.667% */   
+        }
+.title-description{
+    color: #8D8D8D;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-bottom: 10px !important;
+        }
     }
     
     .actions-section{
@@ -14,6 +33,7 @@
         justify-content: baseline;
         gap: 15px;
         flex-wrap: wrap;
+        margin-top: 15px;
         .buttons-section{
             // margin-bottom: 1rem;
                 .dx-button{

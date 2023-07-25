@@ -5,6 +5,7 @@ import {
   ItemsGroupMasterPage,
   AddItemsGroupMasterPage,
   GateInPage,
+  GatePrintQrPage,
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 // import ItemGroupMaster from "./pages/masters/item-group-master/items-group-master";
@@ -34,6 +35,10 @@ const routes = [
   {
     path: "/purchases/gatein",
     element: GateInPage,
+  },
+  {
+    path: "/purchases/gatein-printqr",
+    element: GatePrintQrPage,
   },
 ];
 

@@ -1,7 +1,6 @@
 import { TextBox, Button as NormalButton, LoadPanel } from "devextreme-react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import DropDownButton from "devextreme-react/drop-down-button";
-import NodataImg from "../../../assets/images/no-data-po.svg";
 import DataGrid, {
   Column,
   Paging,
@@ -9,21 +8,26 @@ import DataGrid, {
   Selection,
   Editing,
   AsyncRule,
+  Button,
 } from "devextreme-react/data-grid";
-import "./gate-in-styles.scss";
+import "../gate-in-styles.scss";
 //sample data Things
+
+import { toast } from "react-toastify";
 import {
+  callUpdatePoApi,
   getPeriodIndicator,
   getPurchaseOrder,
   getSeriesPo,
-  callUpdatePoApi,
-} from "../../../utils/gate-in-purchase";
-import notify from "devextreme/ui/notify";
-import { toast } from "react-toastify";
+} from "../../../../utils/gate-in-purchase";
+import PrintPopup from "./print-popup";
+import { AppContext } from "../../../../contexts/dataContext";
 
 const buttonDropDownOptions = { width: 230 };
 
-const GateInComponent = () => {
+const PrintQrMainComp = () => {
+  const { isQrPopupVisible, openQrPopUp, closeQrPopUp } =
+    useContext(AppContext);
   const [scrollingMode, setScrollingMode] = React.useState("standard");
   const [periodIndicators, setPeriodIndicators] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -134,11 +138,21 @@ const GateInComponent = () => {
   useEffect(() => {
     getSeriesData();
   }, []);
-
+  const handleClone = (e) => {
+    console.log(e.row.data);
+    alert("Clone");
+  };
+  const [showPrintPop, setShowPrintPop] = useState(false);
+  const handleQrGenerate = async (e) => {
+    console.log(e.row.data);
+    await openQrPopUp();
+    setShowPrintPop(true);
+  };
   return (
     <div className="content-block dx-card responsive-paddings main-container">
+      {isQrPopupVisible && <PrintPopup />}
       <div className="title-section">
-        <h3 className="title-name">Gate In: Purchase Order</h3>
+        <h3 className="title-name">Generate & Print QR Code</h3>
         <span className="title-description">
           Select and Enter field values to get P.O
         </span>
@@ -209,12 +223,12 @@ const GateInComponent = () => {
               <Paging defaultPageSize={10} />
               <Selection mode="multiple" />
 
-              <Editing
+              {/* <Editing
                 mode="row"
                 allowDeleting
                 allowUpdating
                 selectTextOnEditStart={true}
-              />
+              /> */}
               <Column
                 dataField={"itemCode"}
                 caption={"Item Code"}
@@ -249,21 +263,22 @@ const GateInComponent = () => {
                   validationCallback={asyncValidation}
                 />
               </Column>
-              {/* <Column type="buttons" caption={"Actions"}>
+              <Column type="buttons" width={110} caption={"Actions"}>
                 <Button
-                  name="qrcode"
-                  icon={"fa-solid fa-qrcode"}
+                  hint="Generate QrCode..."
+                  icon="fa-solid fa-qrcode"
                   visible={true}
+                  onClick={handleQrGenerate}
                 />
                 <Button
-                  name="printqr"
-                  icon={"print"}
+                  hint="Clone"
+                  icon="fa-solid fa-print"
                   visible={true}
-                  onClick={handlePrintClick}
+                  onClick={handleClone}
                 />
-              </Column> */}
+              </Column>
             </DataGrid>
-            <div
+            {/* <div
               className="content-block-save"
               style={{ justifyContent: "flex-end", marginTop: "10rem" }}
             >
@@ -274,7 +289,7 @@ const GateInComponent = () => {
                 className="gate-in-button"
                 onClick={handleGateIn}
               />
-            </div>
+            </div> */}
           </>
         ) : (
           <div className="no-po-section">
@@ -287,4 +302,4 @@ const GateInComponent = () => {
   );
 };
 
-export default GateInComponent;
+export default PrintQrMainComp;

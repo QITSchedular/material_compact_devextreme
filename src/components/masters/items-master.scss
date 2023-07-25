@@ -180,3 +180,11 @@ margin-bottom: 15px !important;
 .dx-overlay-content.dx-popup-normal.dx-resizable{
     background: linear-gradient(to right, #4371B7 16px, #FFF 16px);
 }
+.dx-overlay-wrapper.dx-popup-wrapper.dx-datagrid-export-menu.dx-dropdownbutton-popup-wrapper{
+    div[title="Export all data to Excel"]{
+        padding-left: 5px;
+      }
+    div[title="Export selected rows to Excel"]{
+        padding-left: 5px;
+      }
+}
