@@ -28,6 +28,8 @@ const buttonDropDownOptions = { width: 230 };
 const PrintQrMainComp = () => {
   const { isQrPopupVisible, openQrPopUp, closeQrPopUp } =
     useContext(AppContext);
+
+  const [poDetailsfull, setPoDetailsFull] = React.useState("");
   const [scrollingMode, setScrollingMode] = React.useState("standard");
   const [periodIndicators, setPeriodIndicators] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,8 +48,13 @@ const PrintQrMainComp = () => {
   const [updatedItems, setUpdatedItems] = useState([]);
   const handleSearchPurchasedOrder = async () => {
     const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
+    const flag = "Y";
     setLoading(true);
-    const poResponse = await getPurchaseOrder(poNumber, selectedSeries.series);
+    const poResponse = await getPurchaseOrder(
+      poNumber,
+      selectedSeries.series,
+      flag
+    );
     if (poResponse.hasError) {
       return toast.error(poResponse.errorText, {
         position: "top-right",
@@ -64,8 +71,9 @@ const PrintQrMainComp = () => {
       ...item,
       recQty: 0,
     }));
-    console.log("This is the data", poDetArrayWithRecQty);
+    // console.log("This is the data", poDetArrayWithRecQty);
     await setPoData(poDetArrayWithRecQty);
+    await setPoDetailsFull(poResponse);
     setLoading(false);
   };
 
@@ -142,15 +150,30 @@ const PrintQrMainComp = () => {
     console.log(e.row.data);
     alert("Clone");
   };
+
+  //qr popup section and handlers
   const [showPrintPop, setShowPrintPop] = useState(false);
+  const [printQrVisibility, setPrintQrVisibility] = useState(false);
+  const [selectedQrRowData, setSelectedQrRowData] = useState("");
   const handleQrGenerate = async (e) => {
-    console.log(e.row.data);
-    await openQrPopUp();
+    setSelectedQrRowData(e.row.data);
     setShowPrintPop(true);
   };
+  const qrVisibilityHandler = async (data) => {
+    // console.log(data);
+    return await setShowPrintPop(data);
+  };
+
   return (
     <div className="content-block dx-card responsive-paddings main-container">
-      {isQrPopupVisible && <PrintPopup />}
+      {showPrintPop && (
+        <PrintPopup
+          qrVisibilityHandler={qrVisibilityHandler}
+          selectedQrRowData={selectedQrRowData}
+          poDetailsfull={poDetailsfull}
+          seriesList={seriesList}
+        />
+      )}
       <div className="title-section">
         <h3 className="title-name">Generate & Print QR Code</h3>
         <span className="title-description">
@@ -223,12 +246,6 @@ const PrintQrMainComp = () => {
               <Paging defaultPageSize={10} />
               <Selection mode="multiple" />
 
-              {/* <Editing
-                mode="row"
-                allowDeleting
-                allowUpdating
-                selectTextOnEditStart={true}
-              /> */}
               <Column
                 dataField={"itemCode"}
                 caption={"Item Code"}
@@ -240,17 +257,34 @@ const PrintQrMainComp = () => {
                 allowEditing={false}
               />
               <Column
+                caption={"Project Name"}
+                dataField={"project"}
+                allowEditing={false}
+              />
+              <Column
+                caption={"UOM"}
+                dataField={"uomCode"}
+                allowEditing={false}
+              />
+              <Column
+                caption={"Wharehouse"}
+                dataField={"whsCode"}
+                allowEditing={false}
+              />
+              {/* Bind this to any respective values */}
+              <Column
+                caption={"Qr Managed By"}
+                dataField={"qrMngBy"}
+                allowEditing={false}
+              />
+
+              <Column
                 dataField={"qty"}
                 caption={"Ordered Qty."}
                 allowEditing={false}
               />
               <Column
                 dataField={"openQty"}
-                caption={"Open Qty."}
-                allowEditing={false}
-              />
-              <Column
-                dataField={"recQty"}
                 type={"number"}
                 caption={"Received Qty"}
                 // allowEditing={
@@ -263,6 +297,11 @@ const PrintQrMainComp = () => {
                   validationCallback={asyncValidation}
                 />
               </Column>
+              <Column
+                dataField={"recDate"}
+                caption={"Rec. Date"}
+                allowEditing={false}
+              />
               <Column type="buttons" width={110} caption={"Actions"}>
                 <Button
                   hint="Generate QrCode..."

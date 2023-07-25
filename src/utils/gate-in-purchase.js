@@ -43,7 +43,7 @@ export const getSeriesPo = async (series, branchid) => {
   }
 };
 
-export const getPurchaseOrder = async (poNumber, selectedSeries) => {
+export const getPurchaseOrder = async (poNumber, selectedSeries, flag) => {
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -53,7 +53,7 @@ export const getPurchaseOrder = async (poNumber, selectedSeries) => {
     docNum: poNumber,
     series: selectedSeries,
     branchID: 1,
-    gateInOnly: "N",
+    gateInOnly: flag ? flag : "N",
   };
 
   try {

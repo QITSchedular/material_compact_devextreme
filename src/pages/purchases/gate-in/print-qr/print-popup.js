@@ -1,9 +1,65 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Popup, ToolbarItem } from "devextreme-react/popup";
 import { Button } from "devextreme-react/button";
 import TextBox from "devextreme-react/text-box";
 import { AppContext } from "../../../../contexts/dataContext";
-const renderContent = () => {
+import "./printqr-styles.scss";
+import { checkHeaderQrExistence } from "../../../../utils/qr-generation";
+import QRCode from "react-qr-code";
+
+const VisibleQr = ({ value }) => {
+  return (
+    <>
+      {value && (
+        <div
+          style={{
+            height: "auto",
+            margin: "0 auto",
+            maxWidth: 64,
+            width: "100%",
+          }}
+        >
+          <QRCode
+            size={256}
+            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+            value={value}
+            viewBox={`0 0 256 256`}
+          />
+        </div>
+      )}
+    </>
+  );
+};
+const renderContent = ({
+  qrVisibilityHandler,
+  selectedQrRowData,
+  poDetailsfull,
+  seriesList,
+}) => {
+  // console.log(seriesList[0]);
+  console.log(selectedQrRowData);
+
+  const handleCancel = async () => {
+    await qrVisibilityHandler(false);
+  };
+  const handleGenerateQr = async () => {
+    const { docEntry, docNum, objType } = poDetailsfull[0];
+    const { series } = seriesList[0];
+    const { gateInNo, itemCode } = selectedQrRowData;
+    const branchID = "1";
+
+    // manaual branch id, it should be dynamically generated
+    const resp = await checkHeaderQrExistence(
+      docEntry,
+      docNum,
+      objType,
+      series,
+      branchID,
+      itemCode,
+      gateInNo
+    );
+    const { qrCode } = resp;
+  };
   return (
     <div className="responsive-paddings">
       <div className="main-section">
@@ -12,7 +68,6 @@ const renderContent = () => {
           style={{ display: "flex", justifyContent: "space-between" }}
         >
           <TextBox
-            defaultValue={"Address"}
             stylingMode="outlined"
             width={200}
             showClearButton={true}
@@ -20,7 +75,6 @@ const renderContent = () => {
             label="No. of Batches"
           />
           <TextBox
-            defaultValue={"Remarks"}
             stylingMode="outlined"
             width={400}
             showClearButton={true}
@@ -31,12 +85,13 @@ const renderContent = () => {
       </div>
       <div className="action-section" style={{ paddingTop: "1rem" }}>
         <Button
-          className="send"
+          className="generate-button"
           type="default"
-          icon="fa fa-envelope-o"
+          icon="fa fa-qrcode"
           text="Generate Qr"
           width={150}
           height={35}
+          onClick={handleGenerateQr}
         />
         <Button
           className="close"
@@ -44,12 +99,14 @@ const renderContent = () => {
           text="Close"
           width={100}
           height={35}
+          onClick={handleCancel}
         />
       </div>
     </div>
   );
 };
-const renderTitle = () => {
+
+const renderTitle = ({ selectedQrRowData }) => {
   return (
     <div
       className="dx-flexbox"
@@ -59,30 +116,40 @@ const renderTitle = () => {
         marginLeft: "16px",
       }}
     >
-      <div>ItemCode: 45221</div>
-      <div>Order Qty</div>
-      <div>Recieved Qty</div>
+      <div>ItemCode: {selectedQrRowData.itemCode}</div>
+      <div>Recieved Qty: {selectedQrRowData.qty}</div>
     </div>
   );
 };
-const PrintPopup = () => {
-  const { isQrPopupVisible, openQrPopUp, closeQrPopUp } =
-    useContext(AppContext);
+
+const PrintPopup = ({
+  qrVisibilityHandler,
+  selectedQrRowData,
+  poDetailsfull,
+  seriesList,
+}) => {
+  // const { isQrPopupVisible, openQrPopUp, closeQrPopUp } =
+  //   useContext(AppContext);
   return (
     <>
-      {isQrPopupVisible && (
-        <div className="print-qr-popup">
-          <Popup
-            showTitle={true}
-            visible={isQrPopupVisible}
-            width={720}
-            height={200}
-            titleRender={renderTitle}
-            contentRender={renderContent}
-          ></Popup>
-          {/* ... */}
-        </div>
-      )}
+      <div className="print-qr-popup">
+        <Popup
+          showTitle={true}
+          visible={true}
+          width={720}
+          height={200}
+          titleRender={() => renderTitle({ selectedQrRowData })}
+          contentRender={() =>
+            renderContent({
+              qrVisibilityHandler,
+              selectedQrRowData,
+              poDetailsfull,
+              seriesList,
+            })
+          }
+        ></Popup>
+        {/* ... */}
+      </div>
     </>
   );
 };
