@@ -5,6 +5,8 @@ import {
   ItemsGroupMasterPage,
   AddItemsGroupMasterPage,
   GateInPage,
+  LocationMasterPage,
+  ProductPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 // import ItemGroupMaster from "./pages/masters/item-group-master/items-group-master";
@@ -30,11 +32,20 @@ const routes = [
     path: "/masters/additemsgroup",
     element: AddItemsGroupMasterPage,
   },
+  {
+    path: "/masters/location",
+    element: LocationMasterPage,
+  },
   //purchases
   {
     path: "/purchases/gatein",
     element: GateInPage,
   },
+  {
+    path: "/product",
+    element: ProductPage,
+  },
+
 ];
 
 export default routes.map((route) => {

@@ -12,7 +12,7 @@ import { useScreenSizeClass } from "./utils/media-query";
 import Content from "./Content";
 import UnauthenticatedContent from "./UnauthenticatedContent";
 import { AppContextProvider } from "./contexts/dataContext";
-
+// import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   const { user, loading } = useAuth();
 

@@ -89,4 +89,9 @@ export const navigation = [
     path: "/sales",
     icon: "fa-solid fa-bag-shopping",
   },
+  {
+    text: "Product",
+    path: "/product",
+    icon: "fa-solid fa-bag-shopping",
+  },
 ];
