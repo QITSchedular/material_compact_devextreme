@@ -1,4 +1,5 @@
+import siteLogo from "./assets/images/site-logo.svg";
 const appInfo = {
-  title: "Gato",
+  title: siteLogo,
 };
 export default appInfo;
