@@ -9,6 +9,7 @@ export const getAllItems = async () => {
   try {
     const response = await axios.get(`${API_URL}/Items/Get?Filter=A`);
     const data = response.data;
+    console.log(data);
 
     return data;
   } catch (error) {
