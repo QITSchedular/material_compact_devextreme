@@ -83,7 +83,7 @@ export const navigation = [
         path: "/purchases/gatein",
       },
       {
-        text: "Gate In and Print",
+        text: "Generate & Print",
         path: "/purchases/gatein-printqr",
       },
     ],

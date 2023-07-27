@@ -33,7 +33,8 @@ const GateInComponent = () => {
   const [poNumber, setPoNumber] = useState("");
   const [poData, setPoData] = useState(null);
   const [objType, setobjType] = useState(null);
-  const [docEntry, setDocEntry] = useState(null);
+  const [docEntry, setDocEntry] = useState("");
+  const [docNum, setDocNum] = useState("");
   const [selectedValue, setSelectedValue] = useState({
     periodIsSelected: false,
     seriesIsSelected: false,
@@ -60,8 +61,11 @@ const GateInComponent = () => {
       ...item,
       recQty: 0,
     }));
-    console.log("This is the data", poDetArrayWithRecQty);
+    await setDocEntry(poResponse[0].docEntry);
+    await setDocNum(poResponse[0].docNum);
+    // console.log("This is the whole P.O  data for gate In", poResponse);
     await setPoData(poDetArrayWithRecQty);
+
     setLoading(false);
   };
 
@@ -112,7 +116,30 @@ const GateInComponent = () => {
   };
 
   const handleGateIn = async () => {
-    const callLoop = callUpdatePoApi(updatedItems);
+    const callLoop = await callUpdatePoApi(updatedItems, docNum, docEntry);
+    if (callLoop.statusCode === "200") {
+      return toast.success("Items Taken in, add more?", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      return toast.error("Something went wrong, try again later", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   const handleGridSaving = useCallback((e) => {

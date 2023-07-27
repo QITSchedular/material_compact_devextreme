@@ -13,6 +13,7 @@ import Content from "./Content";
 import UnauthenticatedContent from "./UnauthenticatedContent";
 import { AppContextProvider } from "./contexts/dataContext";
 import { ToastContainer } from "react-toastify";
+import "animate.css/source/animate.css";
 import "react-toastify/dist/ReactToastify.css";
 function App() {
   const { user, loading } = useAuth();

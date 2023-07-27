@@ -22,6 +22,8 @@ import {
 } from "../../../../utils/gate-in-purchase";
 import PrintPopup from "./print-popup";
 import { AppContext } from "../../../../contexts/dataContext";
+import ItemsQrDisplayer from "./qr-displayer";
+import { fetchItemQrCode } from "../../../../utils/qr-generation";
 
 const buttonDropDownOptions = { width: 230 };
 
@@ -46,6 +48,9 @@ const PrintQrMainComp = () => {
     poIsEntered: false,
   });
   const [updatedItems, setUpdatedItems] = useState([]);
+  const [viewQr, setViewQr] = useState(false);
+  const [itemQrCode, setItemQrCode] = useState([]);
+
   const handleSearchPurchasedOrder = async () => {
     const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
     const flag = "Y";
@@ -144,18 +149,64 @@ const PrintQrMainComp = () => {
     await setPeriodIndicators(data);
   };
   useEffect(() => {
+    console.log("object");
     getSeriesData();
   }, []);
-  const handleClone = (e) => {
-    console.log(e.row.data);
-    alert("Clone");
+
+  // qr Visible handlers
+  const handleClone = async (e) => {
+    console.log("This is the selected row data", e.row.data);
+    await setSelectedQrRowData(e.row.data);
+    if (e.row.data) {
+      const iqstr = await fetchItemQrCode(
+        e.row.data,
+        poDetailsfull,
+        seriesList
+      );
+      // console.log("Ye le bahi", iqstr);
+      if (!iqstr.length > 0) {
+        console.log("in if");
+        toast.error("No Qr Data Found", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        return toast.error("Please generate the Qr Code first", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        console.log("nested else");
+        setViewQr(true);
+        setItemQrCode(iqstr);
+      }
+    } else {
+      return alert("Row data not exist");
+    }
   };
 
-  //qr popup section and handlers
+  const handleQrPopUpClose = async () => {
+    setItemQrCode("");
+    return setViewQr(false);
+  };
+
+  //qr Generator popup section and handlers
   const [showPrintPop, setShowPrintPop] = useState(false);
   const [printQrVisibility, setPrintQrVisibility] = useState(false);
   const [selectedQrRowData, setSelectedQrRowData] = useState("");
   const handleQrGenerate = async (e) => {
+    console.log(e.row.data, poDetailsfull);
     setSelectedQrRowData(e.row.data);
     setShowPrintPop(true);
   };
@@ -172,6 +223,13 @@ const PrintQrMainComp = () => {
           selectedQrRowData={selectedQrRowData}
           poDetailsfull={poDetailsfull}
           seriesList={seriesList}
+        />
+      )}
+      {viewQr && (
+        <ItemsQrDisplayer
+          itemQrCode={itemQrCode}
+          handleQrPopUpClose={handleQrPopUpClose}
+          displayerFlag={selectedQrRowData.qrMngBy}
         />
       )}
       <div className="title-section">

@@ -3,12 +3,24 @@
     .dx-texteditor.dx-editor-outlined{
         
         border-radius: 8px !important;
+        .dx-field{
+            
+        }
     }
 }
 .generate-button{
     .dx-button-content{
         span{
             color: #fff;
+        }
+    }
+}
+.lottie-conatiner{
+    .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-icon{
+        align-self: flex-end !important;
+        .dx-icon-close{
+            font-size: 24px;
+            color: #c5c5c5;
         }
     }
 }

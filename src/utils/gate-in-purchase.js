@@ -62,7 +62,7 @@ export const getPurchaseOrder = async (poNumber, selectedSeries, flag) => {
       requestBody
     );
     // handle the error here
-    // console.log(response.data);
+    console.log(response.data);
     const data = response.data;
     if (data) {
       return data;
@@ -82,15 +82,20 @@ export const getPurchaseOrder = async (poNumber, selectedSeries, flag) => {
   }
 };
 
-export const gateInAndUpdatePo = async (itemCode, receivedQty) => {
+export const gateInAndUpdatePo = async (
+  itemCode,
+  receivedQty,
+  docNum,
+  docEntry
+) => {
   //http://192.168.1.102:{{PORT}}/api/PurchaseOrders/GetPO
   // console.log("itemCode: " + itemCode, "recQty: " + receivedQty);
   // alert(recQty);
   const requestBody = {
     objType: "22",
     branchID: 1,
-    docEntry: 2683,
-    lineNum: 600069,
+    docEntry: docEntry,
+    lineNum: docNum,
     itemCode: itemCode,
     recQty: `${receivedQty}`,
   };
@@ -106,19 +111,23 @@ export const gateInAndUpdatePo = async (itemCode, receivedQty) => {
   } catch (error) {
     // Handle any errors that occurred during the A.seriesData
     console.error("Error:", error.response.data);
+    return "Error";
   }
 };
 // handling the async validation for the recieved quantity
 
-export const callUpdatePoApi = async (updatedItemsList) => {
-  // console.log(updatedItemsList);
+export const callUpdatePoApi = async (updatedItemsList, docNum, docEntry) => {
+  // console.log("From Call to Update api", updatedItemsList, docNum, docEntry);
   let length = updatedItemsList.length;
   for (let i = 0; i < length; i++) {
     const response = await gateInAndUpdatePo(
       updatedItemsList[i].key,
-      updatedItemsList[i].recQty
+      updatedItemsList[i].recQty,
+      docNum,
+      docEntry
     );
     console.log(response);
+    return response;
   }
   // call the above api one by one now
   // const loopCALL = updatedItemsList.map(async (element) => {
