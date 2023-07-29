@@ -155,7 +155,7 @@ const PrintQrMainComp = () => {
 
   // qr Visible handlers
   const handleClone = async (e) => {
-    console.log("This is the selected row data", e.row.data);
+    // console.log("This is the selected row data", e.row.data);
     await setSelectedQrRowData(e.row.data);
     if (e.row.data) {
       const iqstr = await fetchItemQrCode(
@@ -375,18 +375,6 @@ const PrintQrMainComp = () => {
                 />
               </Column>
             </DataGrid>
-            {/* <div
-              className="content-block-save"
-              style={{ justifyContent: "flex-end", marginTop: "10rem" }}
-            >
-              <NormalButton
-                type="default"
-                text="Gate In"
-                icon="fa-solid fa-right-to-bracket"
-                className="gate-in-button"
-                onClick={handleGateIn}
-              />
-            </div> */}
           </>
         ) : (
           <div className="no-po-section">
