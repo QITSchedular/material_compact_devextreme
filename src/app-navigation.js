@@ -25,51 +25,52 @@ export const navigation = [
     icon: "key",
     items: [
       {
-        text: "Item Master",
+        text: "Items",
         path: "/masters/items",
       },
       {
-        text: "Item Group Master",
-        path: "/masters/itemsgroup",
-      },
-      {
-        text: "Item Sub Group Master",
-        path: "/masters/itemssubgroup",
-      },
-      {
-        text: "Uom Master",
+        text: "Uom",
         path: "/masters/uom",
       },
       {
-        text: "Location Master",
-        path: "/masters/location",
+        text: "Item Group ",
+        path: "/masters/itemsgroup",
       },
       {
-        text: "Warehouse Master",
-        path: "/masters/warehouse",
+        text: "Item Sub Group",
+        path: "/masters/itemssubgroup",
       },
       {
-        text: "Bin Loaction Master",
-        path: "/masters/binlocation",
-      },
-      {
-        text: "Brand Master",
+        text: "Brands",
         path: "/masters/brand",
       },
       {
-        text: "Put Away Master",
+        text: "Location",
+        path: "/masters/location",
+      },
+      {
+        text: "Warehouse",
+        path: "/masters/warehouse",
+      },
+      {
+        text: "Bin Location",
+        path: "/masters/binlocation",
+      },
+
+      {
+        text: "Put Away",
         path: "/masters/putaway",
       },
       {
-        text: "Country Master",
+        text: "Country",
         path: "/masters/country",
       },
       {
-        text: "State Master",
+        text: "State",
         path: "/masters/state",
       },
       {
-        text: "Sales Employee Master",
+        text: "Sales Employee",
         path: "/masters/salesemployee",
       },
     ],
