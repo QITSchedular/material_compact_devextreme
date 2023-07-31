@@ -4,7 +4,10 @@ import { Button } from "devextreme-react/button";
 import TextBox from "devextreme-react/text-box";
 import { AppContext } from "../../../../contexts/dataContext";
 import "./printqr-styles.scss";
-import { checkHeaderQrExistence } from "../../../../utils/qr-generation";
+import {
+  checkHeaderQrExistence,
+  qrGenerationHandler,
+} from "../../../../utils/qr-generation";
 import QRCode from "react-qr-code";
 import { toast } from "react-toastify";
 import Lottie from "../../../../assets/images/success-lottiie-2.gif";
@@ -71,7 +74,7 @@ const renderContent = ({
     const branchID = "1";
 
     // manaual branch id, it should be dynamically generated
-    const resp = await checkHeaderQrExistence(
+    const resp = await qrGenerationHandler(
       docEntry,
       docNum,
       objType,
