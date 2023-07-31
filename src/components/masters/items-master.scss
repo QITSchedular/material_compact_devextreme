@@ -1,12 +1,5 @@
-// .dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget.dx-texteditor-with-floating-label.dx-state-focus{
-//     box-shadow: none !important;
-// }
-// .dx-texteditor.dx-editor-outlined{
-//     border-radius: 8px !important;
-// }
-// .dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-texteditor-empty.dx-widget.dx-texteditor-with-floating-label
-
 .dx-overlay-wrapper.dx-popup-wrapper.dx-overlay-shader{
+    
     .dx-overlay-content.dx-popup-normal.dx-resizable{
         border-radius: 8px !important;
         .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection.dx-popup-title.dx-has-close-button{
@@ -15,26 +8,25 @@
         .pop-content-container{
            box-shadow: none !important; 
         }
+        
     }
+}
+.popup__header--title{
+color: #525252;
+font-feature-settings: 'clig' off, 'liga' off;
+font-family: Poppins;
+font-size: 20px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+margin-top: 0px !important;
+margin-bottom: 15px !important;
 }
 .tabbed-items-group{
     border: 1px solid rgba(87, 133, 203, 0.5);
     padding-left: 5px;
     padding-right: 5px;
 }
-// .bottom-button-section{
-//     display: flex;
-//     justify-content: flex-end;
-// }
-// .popup-btn-save{
-//     .dx-button-content{
-//         background-color: #4371B7;
-        
-//     }
-//     span{
-//         color: #fff;
-//     }
-// }
 
 // popheader
 .popup-header{
@@ -44,12 +36,14 @@
     .dx-button-has-icon .dx-icon{
         font-size: 24px !important;
     }
+    .dx-icon.dx-icon-close{
+        color: #a8a8a8;
+    }
 }
 
 // tabbed items component styles;
 .dx-item-content.dx-multiview-item-content{
-
-    padding: 10px 15px;
+      padding: 10px 15px;
     background-color: #efefef;
 }
 .addimg-wrapper{
@@ -64,15 +58,7 @@
 .dx-tabpanel.dx-tabs-wrapper {
     display: flex !important;
 }
-// @media screen and (min-width: 600px) {
-//     .dx-tabs-wrapper{
-//         display: flex;
-//         justify-content: space-between;
-//     }
-//   }
-// .tabpanel{
-//     background-color: #8B77B9;
-// }
+
 
 .dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-texteditor-empty.dx-widget.dx-texteditor-with-floating-label.dx-validator.dx-visibility-change-handler.dx-state-focused{
     box-shadow: none !important;
@@ -116,14 +102,81 @@
 // submit buttons::after
 .submit-section{
     margin-top: 10px;
-    .dx-form-group-content{
-        display: flex !important;
-        justify-content: flex-end;
-        gap: 2px;
-        .save-button {
+    .dx-field-item:not(.dx-last-col) {
+        padding-right: 0px !important;
+    }
+    .dx-field-item:not(.dx-first-col) {
+        padding-left: 3px !important;
+    }
+    // .dx-form-group-content{
+    //     display: flex !important;
+    //     justify-content: flex-end;
+    //     gap: 2px;
+    //     .save-button {
+    //         .dx-button-text{
+    //                 color: #efefef;
+    //         }
+    //     }
+    // }
+    .dx-responsivebox-screen-xs{
+        
+        .dx-box-flex{
+            flex-direction: row !important;
+            justify-content: flex-end !important;
+            .dx-box-item{
+                flex: 0 0 0 !important;
+            }
+            .dx-item-content{
+                .popup-btn-cancel{
+                    padding-bottom: 0px !important;
+                }
+                .popup-btn-save{
+                    padding-top: 0px !important;
+                }
+            }
+        }
+            
+    }
+    .dx-item.dx-box-item{
+        justify-content: flex-end !important;
+        .dx-item-content.dx-box-item-content.dx-box-flex.dx-box.dx-widget.dx-collection{
+            flex-grow: 0 !important;
+            flex-wrap: nowrap;
+            
+        }
+        .popup-btn-save{
             .dx-button-text{
-                    color: #efefef;
+                color: #fff !important;
             }
         }
     }
+}
+.dx-popup-content{
+.dx-texteditor.dx-editor-filled .dx-placeholder::before, .dx-texteditor.dx-editor-filled .dx-texteditor-input, .dx-texteditor.dx-editor-outlined .dx-placeholder::before, .dx-texteditor.dx-editor-outlined .dx-texteditor-input{
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+    }
+}
+
+#popupform{
+    .dx-texteditor-label{
+        .dx-label-before{
+
+            border-radius: 8px 0 0 8px !important;
+        }
+        .dx-label-after{
+            border-radius: 0px 8px 8px 0 !important;
+        }
+        .dx-label-before,.dx-label-after,.dx-label {
+            box-shadow: inset 0 -1px rgba(0, 0, 0, 0.15) ,
+                            inset 0 1px rgba(0, 0, 0, 0.15) ,
+                        inset 0 -1px 0 transparent  rgba(0, 0, 0, 0.15),
+                        inset 1px 0 rgba(0, 0, 0, 0.15);
+        }
+    }
+    
+}
+//  making the left blue colr in the popup
+.dx-overlay-content.dx-popup-normal.dx-resizable{
+    background: linear-gradient(to right, #4371B7 16px, #FFF 16px);
 }
