@@ -1,6 +1,13 @@
 import axios from "axios";
 import { API_URL } from "./items-master-data";
 import { toast, cssTransition } from "react-toastify";
+import {
+  HeaderIncNo,
+  IsDetailQRExist,
+  IsHeaderQRExist,
+  itemsIncNum,
+  toastDisplayer,
+} from "../api/qrgenerators";
 
 // check if the header qr is generated or not
 //https://localhost:8084/api/Commons/IsHeaderQRExist
@@ -522,7 +529,7 @@ const itemsQrGeneratorAndSaver = async (
     if (savedItemResponse === "Saved Successfully!!!") {
       return "Qr Generated";
     } else {
-      return "Error: Failed to generate";
+      return "Error: Failed to generate, Qr Code";
     }
   }
 };
@@ -560,3 +567,96 @@ export const fetchItemQrCode = async (data, poDetailsfull, seriesData) => {
     return error.response.data;
   }
 };
+
+// New handlers
+// const qrGenerationHandler = async (
+//   docEntry,
+//   docNum,
+//   objType,
+//   series,
+//   branchID,
+//   itemCode,
+//   gateInNo,
+//   poDetailsfull,
+//   qrMngBy,
+//   openQty,
+//   addedRemarks,
+//   addedBatchNum
+// ) => {
+//   const doHeaderExists = await IsHeaderQRExist(
+//     docEntry,
+//     docNum,
+//     objType,
+//     series,
+//     branchID,
+//     itemCode,
+//     gateInNo,
+//     poDetailsfull,
+//     qrMngBy,
+//     openQty,
+//     addedRemarks,
+//     addedBatchNum
+//   );
+
+//   const data = await doHeaderExists;
+//   // if the header exists
+//   if (data.isExist === "Y") {
+//     // THE HEADER QR EXISTS
+//     console.log("Header Qr Exists, and it is: ", data.qrCode);
+//     console.log("I will check for items qr Now");
+//     const { qrCode } = data.qrCode;
+//     const doDetailsQrExists = await IsDetailQRExist(
+//       branchID,
+//       docEntry,
+//       docNum,
+//       series,
+//       objType,
+//       itemCode,
+//       gateInNo
+//     );
+
+//     // THE DETAILS QR CODE ALSO EXISTS
+//     if (doDetailsQrExists.isExist === "Y") {
+//       console.log(
+//         "The items QR Code also exists and , I have displayed the toast"
+//       );
+//       toastDisplayer("error", "Hey 👋, Qr has already been generated");
+//       return "Detail Qr already-generated";
+//     }
+
+//     // THE DETAILS QR CODE DOES NOT EXIST
+//     if (doDetailsQrExists.isExist === "N") {
+//       console.log("The items QR Code do not exists.");
+//       console.log(
+//         "Will find the items' inc number and then generate the Items QR Code"
+//       );
+//       // const itemsIncrementalNumber = await itemsIncNum(qrCode);
+//       const itemsQrGeneratedFinally = await itemsQrGeneratorAndSaver(
+//         branchID,
+//         qrCode,
+//         itemCode,
+//         qrMngBy,
+//         openQty,
+//         gateInNo,
+//         addedRemarks,
+//         addedBatchNum
+//       );
+//       console.log(
+//         "The items qr has also been generated and you will see the confirmation message"
+//       );
+//       return itemsQrGeneratedFinally;
+//     }
+//   }
+//   if (data.isExist === "N") {
+//     console.log("The header's data donot exists");
+//     console.log("I will generate the header data first");
+
+//     // Generate the header
+//     // Find the header Inc Number
+//     console.log("I will find the header Inc number first:");
+//     const headerIncrementalNumber = await HeaderIncNo();
+//     if (headerIncrementalNumber.isError === false) {
+//       const { headerincrementalNum } = headerIncrementalNumber;
+//     }
+//   }
+// };

@@ -9,6 +9,7 @@ import QRCode from "react-qr-code";
 import { toast } from "react-toastify";
 import Lottie from "../../../../assets/images/success-lottiie-2.gif";
 import { RequiredRule } from "devextreme-react/validator";
+import { toastDisplayer } from "../../../../api/qrgenerators";
 
 const renderSuccessContent = ({ qrVisibilityHandler, onQrGenerated }) => {
   const handleCancel = async () => {
@@ -51,11 +52,14 @@ const renderContent = ({
   onQrGenerated,
 }) => {
   // console.log(seriesList[0]);
-  // console.log(selectedQrRowData);
+  console.log(
+    "The selected Row Data from Generated QR POPUP",
+    selectedQrRowData
+  );
   var addedRemarks = "";
   var addedBatchNum = "";
   var addedProjectCode = "";
-
+  var { qty, openQty } = selectedQrRowData;
   const handleCancel = async () => {
     await qrVisibilityHandler(false);
   };
@@ -83,10 +87,13 @@ const renderContent = ({
     );
     // const { qrCode } = resp;
     if (resp === "Qr Generated") {
-      onQrGenerated(true);
+      return onQrGenerated(true);
     }
     if (resp === "Detail Qr already-generated") {
       return handleCancel();
+    }
+    if (resp === "Error: Failed to generate") {
+      await toastDisplayer("error", "Error: Failed to generate the QrCode");
     }
   };
 
@@ -209,7 +216,7 @@ const renderContent = ({
         >
           Summary
         </div>
-        <div className="summary_details" style={{}}>
+        <div className="summary_details">
           <div
             className="order__qty--sec"
             style={{
@@ -234,7 +241,7 @@ const renderContent = ({
                 fontWeight: "400",
               }}
             >
-              12334
+              {qty}
             </span>
           </div>
           <div
@@ -248,7 +255,7 @@ const renderContent = ({
                 fontWeight: "400",
               }}
             >
-              Ordered Qty.
+              Recieved Qty.
             </span>
             <span
               style={{
@@ -257,7 +264,7 @@ const renderContent = ({
                 fontWeight: "400",
               }}
             >
-              12334
+              {openQty}
             </span>
           </div>
         </div>
