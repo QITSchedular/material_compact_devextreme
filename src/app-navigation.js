@@ -87,6 +87,10 @@ export const navigation = [
         text: "Generate & Print",
         path: "/purchases/gatein-printqr",
       },
+      {
+        text: "GRPO",
+        path: "/purchases/grpo",
+      },
     ],
   },
   {

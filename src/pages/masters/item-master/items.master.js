@@ -122,7 +122,7 @@ export default function ItemsMaster() {
               width={190}
               className={"search-panel"}
             />
-            <Selection mode="multiple" />
+            <Selection mode="multiple" allowSelectAll={false} />
 
             <Column dataField={"itemCode"} width={90} />
             <Column dataField={"itemName"} width={190} caption={"Item Name"} />

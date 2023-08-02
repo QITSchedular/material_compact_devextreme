@@ -16,7 +16,8 @@ export default function Content() {
         {/* <Route path="/addsubgroup" element={<Add />} /> */}
       </Routes>
       <Footer>
-        Copyright © {new Date().getFullYear()}-2024 Quantum It Solution
+        Copyright © {new Date().getFullYear()}-{new Date().getFullYear() + 1}{" "}
+        Quantum It Solution
         {/* <br />
         All trademarks or registered trademarks are property of their respective
         owners. */}

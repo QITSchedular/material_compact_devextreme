@@ -6,6 +6,8 @@ import {
   AddItemsGroupMasterPage,
   GateInPage,
   GatePrintQrPage,
+  GrpoPage,
+  GrpoScanItemsPage,
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 // import ItemGroupMaster from "./pages/masters/item-group-master/items-group-master";
@@ -39,6 +41,14 @@ const routes = [
   {
     path: "/purchases/gatein-printqr",
     element: GatePrintQrPage,
+  },
+  {
+    path: "/purchases/grpo",
+    element: GrpoPage,
+  },
+  {
+    path: "/purchases/grpo/scanItems/:qrCode",
+    element: GrpoScanItemsPage,
   },
 ];
 

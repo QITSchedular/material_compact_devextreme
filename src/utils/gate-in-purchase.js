@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL } from "./items-master-data";
 import notify from "devextreme/ui/notify";
 import { toast as RToast } from "react-toastify";
+import { AppContext } from "../contexts/dataContext";
 
 export const getPeriodIndicator = async () => {
   try {
@@ -85,6 +86,7 @@ export const getPurchaseOrder = async (poNumber, selectedSeries, flag) => {
 export const gateInAndUpdatePo = async (
   itemCode,
   receivedQty,
+  lineNum,
   docNum,
   docEntry
 ) => {
@@ -95,7 +97,7 @@ export const gateInAndUpdatePo = async (
     objType: "22",
     branchID: 1,
     docEntry: docEntry,
-    lineNum: docNum,
+    lineNum: lineNum,
     itemCode: itemCode,
     recQty: `${receivedQty}`,
   };
@@ -123,6 +125,7 @@ export const callUpdatePoApi = async (updatedItemsList, docNum, docEntry) => {
     const response = await gateInAndUpdatePo(
       updatedItemsList[i].key,
       updatedItemsList[i].recQty,
+      updatedItemsList[i].lineNum,
       docNum,
       docEntry
     );
@@ -138,4 +141,31 @@ export const callUpdatePoApi = async (updatedItemsList, docNum, docEntry) => {
   // await gateInAndUpdatePo("P052", "1");
 };
 
-// PrintQrMainComp
+// Get all po list(used in Grpo)
+export const getPoLists = async () => {
+  const errors = {
+    hasError: false,
+    errorText: "Something went wrong",
+  };
+  // http://192.168.1.102:{{PORT}}/api/Commons/Series?Indicator=FY2223&ObjType=22&BranchID=1
+  try {
+    const response = await axios.post(
+      `${API_URL}/DraftGRPO/GetPOList?BranchID=1`
+    );
+    const data = response.data;
+    // console.log("This is from gerSeriesPo api", data);
+    if (data) {
+      return data;
+    } else {
+      return errors;
+    }
+  } catch (error) {
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
+  }
+};

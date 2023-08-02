@@ -37,6 +37,7 @@ export const getItemSubGroup = async () => {
     return error;
   }
 };
+
 export const getUom = async () => {
   try {
     const response = await axios.get(`${API_URL}/UOMs/Get?Filter=N`);
@@ -46,6 +47,7 @@ export const getUom = async () => {
     return error;
   }
 };
+
 export const getQrManagedBy = async () => {
   try {
     const response = await axios.get(`${API_URL}/Commons/QR Managed By`);
