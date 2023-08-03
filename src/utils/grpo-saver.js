@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_URL } from "./items-master-data";
+
 export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
   const requestBody = {
     branchId: "1",
@@ -24,32 +25,7 @@ export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
   }
 };
 
-export const grpoSaveHandler = async (scannedItemsData) => {
-  // const requestBody = {
-  //   branchId: "1",
-  //   headerQRCodeID: qrCode,
-  //   detailQRCodeID: detailQRCodeID,
-  // };
-  // // console.log("This is request body", requestBody);
-  // // return requestBody;
-  // try {
-  //   const response = await axios.post(
-  //     `${API_URL}/DraftGRPO/ValidateItemQR`,
-  //     requestBody
-  //   );
-  //   const data = response.data;
-  //   // console.log(data);
-
-  //   return data;
-  // } catch (error) {
-  //   console.error(error);
-  //   const { statusCode, statusMsg } = error.response.data;
-  //   return statusMsg;
-  // }
-  console.log(scannedItemsData);
-};
-
-const grpoDetailsConstructor = async (gridDataSource) => {
+const grpoDetailsConstructor = async (gridDataSource, comments) => {
   const groupPayloadByItemCode = async (gridDataSource) => {
     const groupedData = await gridDataSource.reduce((acc, item) => {
       const existingItem = acc.find(
@@ -69,19 +45,19 @@ const grpoDetailsConstructor = async (gridDataSource) => {
 
   const constructGrpoBatchSerial = async (groupedData) => {
     return groupedData.map((group) => {
-      const batchSerialData = groupedData
+      const grpoBatchSerialData = gridDataSource
         .filter((item) => item.itemCode === group.itemCode)
         .map((item) => ({
           itemCode: item.itemCode,
           batchSerialNo: item.batchSerialNo,
-          qty: item.qty,
+          qty: `${item.qty}`,
         }));
       return {
         itemCode: group.itemCode,
-        qty: group.qty,
-        lineNum: groupedData.indexOf(group).toString(),
+        lineNum: `${group.lineNum}`,
         itemMngBy: group.itemMngBy,
-        grpoBatchSerial: batchSerialData,
+        qty: `${group.qty}`,
+        grpoBatchSerial: grpoBatchSerialData,
       };
     });
   };
@@ -89,27 +65,35 @@ const grpoDetailsConstructor = async (gridDataSource) => {
   const groupedData = await groupPayloadByItemCode(gridDataSource);
   const grpoDetData = await constructGrpoBatchSerial(groupedData);
 
+  const headerItem = gridDataSource[0]; // Assuming gridDataSource has at least one element
   return {
-    docEntry: 2686, // static value
-    cardCode: "SP10450", // static value
-    docDate: "2023-07-25T00:00:00", // static value
-    comments: "", // static value
+    docEntry: headerItem.docEntry,
+    cardCode: headerItem.cardCode,
+    docDate: headerItem.docDate,
+    comments: comments,
     grpoDet: grpoDetData,
   };
 };
 
-export const generateGrpo = async (gridDataSource) => {
-  const structuredPayload = await grpoDetailsConstructor(gridDataSource);
-  console.log(structuredPayload);
+export const generateGrpo = async (gridDataSource, comments) => {
+  const structuredPayload = await grpoDetailsConstructor(
+    gridDataSource,
+    comments
+  );
+  console.log("This is the structuredPayload", structuredPayload);
+  console.log(JSON.stringify(structuredPayload));
   if (structuredPayload) {
     try {
       const res = await axios.post(
-        "https://localhost:5173/api/DraftGRPO/CreateDraftGRPO",
+        `${API_URL}/DraftGRPO/CreateDraftGRPO`,
         structuredPayload
       );
-      console.log(res);
+      const returnData = await res.data;
+      return returnData;
     } catch (error) {
       console.log(error);
+      const returnError = error.response.data;
+      return returnError;
     }
   }
 };

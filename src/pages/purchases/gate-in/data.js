@@ -317,3 +317,35 @@ const payload = [
     whsCode: "TSIPL",
   },
 ];
+
+const data = {
+  docEntry: 2686,
+  cardCode: "SP10450",
+  docDate: "2023-07-25T00:00:00",
+  comments: "",
+  grpoDet: [
+    {
+      itemCode: "C0001",
+      lineNum: "1",
+      itemMngBy: "B",
+      qty: "3",
+      grpoBatchSerial: [
+        { itemCode: "C0001", batchSerialNo: "2308S000001", qty: "1.000" },
+        { itemCode: "C0001", batchSerialNo: "2308S000002", qty: "1.000" },
+        { itemCode: "C0001", batchSerialNo: "2308S000003", qty: "1.000" },
+      ],
+    },
+    {
+      itemCode: "JSPL11246",
+      lineNum: "2",
+      itemMngBy: "S",
+      qty: "4",
+      grpoBatchSerial: [
+        { itemCode: "JSPL11246", batchSerialNo: "2308S000016", qty: "1.000" },
+        { itemCode: "JSPL11246", batchSerialNo: "2308S000017", qty: "1.000" },
+        { itemCode: "JSPL11246", batchSerialNo: "2308S000018", qty: "1.000" },
+        { itemCode: "JSPL11246", batchSerialNo: "2308S000019", qty: "1.000" },
+      ],
+    },
+  ],
+};

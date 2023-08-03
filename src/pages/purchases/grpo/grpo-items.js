@@ -1,7 +1,8 @@
-import { Button, TextBox } from "devextreme-react";
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Button, LoadPanel, TextBox } from "devextreme-react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { ValidateItemQR, generateGrpo } from "../../../utils/grpo-saver";
+import TextArea from "devextreme-react/text-area";
 import DataGrid, {
   Column,
   Editing,
@@ -12,45 +13,78 @@ import DataGrid, {
   Pager,
 } from "devextreme-react/data-grid";
 import { toastDisplayer } from "../../../api/qrgenerators";
+import "./grpo-items.styles.scss";
+import { useNavigation } from "../../../contexts/navigation";
+
 const GrpoItems = () => {
   const { qrCode } = useParams();
   const [selectedItemQr, setSelectedItemQR] = useState(null);
   const [gridDataSource, setGridDataSource] = useState([]);
-
+  const [displayGrid, setDisplayGrid] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [comments, setComments] = useState("");
+  const navigate = useNavigate();
   const handleTextValueChange = (e) => {
     // console.log(e.previousValue);
     // console.log(e.value);
     return setSelectedItemQR(e.value);
   };
+
   // on hit of search button
   const handleItemQrVerification = async (e) => {
     // validate the scanned item
-    const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
-    if (doItemExists === "No data found") {
-      // console.log("the scanned item does not exist");
-      return toastDisplayer("error", "Invalid Qr Scan Request");
+    if (selectedItemQr) {
+      const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
+      if (doItemExists === "No data found") {
+        // console.log("the scanned item does not exist");
+        return toastDisplayer("error", "Invalid Qr Scan Request");
+      } else {
+        setDisplayGrid(true);
+        return setGridDataSource((previous) => [...previous, ...doItemExists]);
+      }
     } else {
-      return setGridDataSource((previous) => [...previous, ...doItemExists]);
+      setDisplayGrid(false);
+      return toastDisplayer("error", "Scan the Item Qr first");
     }
   };
+
   const handleGrpoSaving = async () => {
-    // console.log("Yo there");
-    // console.log(
-    //   "This is the current Saved Data For Datgrid value",
-    //   gridDataSource
-    // );
-    // console.log(gridDataSource.length);
     if (!gridDataSource.length > 0) {
       toastDisplayer("error", " ❌ Request not allowed");
       return toastDisplayer("error", " ❌ Scan items to proceed");
     } else {
-      const doGrpo = await generateGrpo(gridDataSource);
-      console.log(doGrpo);
+      setLoading(true);
+      const doGrpo = await generateGrpo(gridDataSource, comments);
+      console.log("doGrpo", doGrpo.isSaved);
+      if (doGrpo.isSaved === "Y") {
+        console.log("saved");
+        setLoading(false);
+        return toastDisplayer("succes", `${doGrpo.statusMsg}`);
+      } else {
+        console.log("error in save");
+        setLoading(false);
+        return toastDisplayer("error", `${doGrpo.statusMsg}`);
+      }
     }
-    console.log("Current request data: ", gridDataSource);
   };
+
+  const onRowRemoved = async () => {
+    const newGridData = await gridDataSource;
+    if (newGridData.length === 0) {
+      return setDisplayGrid(false);
+    }
+  };
+
+  const handleComments = async (data) => {
+    return await setComments(data);
+  };
+  const handleCancel = async (data) => {
+    return navigate("/purchases/grpo");
+  };
+
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper">
+      {loading && <LoadPanel visible={true} />}
       <div className="title-section">
         <h3 className="title-name">Grpo</h3>
         <span className="title-description">
@@ -79,7 +113,7 @@ const GrpoItems = () => {
           />
         </div>
       </div>
-      {gridDataSource && (
+      {displayGrid && (
         <>
           <DataGrid
             dataSource={gridDataSource}
@@ -87,6 +121,7 @@ const GrpoItems = () => {
             showBorders={false}
             columnAutoWidth={true}
             hoverStateEnabled={true}
+            onRowRemoving={onRowRemoved}
           >
             <Paging defaultPageSize={10} />
             <Pager
@@ -103,22 +138,43 @@ const GrpoItems = () => {
             <DeleteButton icon="trash" />
           </Column> */}
           </DataGrid>
-          <div
-            className="cta-section"
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginTop: "1rem",
-            }}
-          >
-            <Button text="cancel" className="grpo-cancel"></Button>
-            <Button
-              text="Save"
-              type="default"
-              onClick={handleGrpoSaving}
-              className="grpo-save"
-            ></Button>
-          </div>
+          {gridDataSource.length > 0 && (
+            <>
+              <div
+                className="text-area-container"
+                style={{ marginTop: "1rem" }}
+              >
+                <TextArea
+                  height={40}
+                  autoResizeEnabled={true}
+                  defaultValue={""}
+                  stylingMode="outlined"
+                  placeholder="Add decscriptive comments(OPTIONAL..)"
+                  onValueChange={handleComments}
+                />
+              </div>
+              <div
+                className="cta-section"
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  marginTop: "1rem",
+                }}
+              >
+                <Button
+                  text="cancel"
+                  className="grpo-cancel"
+                  onClick={handleCancel}
+                ></Button>
+                <Button
+                  text="Save"
+                  type="default"
+                  onClick={handleGrpoSaving}
+                  className="grpo-save"
+                ></Button>
+              </div>
+            </>
+          )}
         </>
       )}
     </div>

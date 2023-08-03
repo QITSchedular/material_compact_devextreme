@@ -58,26 +58,32 @@ const PopupContent = ({ onSelectRow }) => {
           style={{
             margin: "50px",
             height: "200px",
-            background: "black",
             padding: "25px",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
+          <div className="text-section">Data Could not be loaded..</div>
+          <div className="text-section">Click outside to exit</div>
           <TransformerLoader />
         </div>
       ) : (
-        <DataGrid
-          height={440}
-          dataSource={dataSource}
-          keyExpr="docEntry"
-          showBorders={true}
-          columnAutoWidth={true}
-          hoverStateEnabled={true}
-          onSelectionChanged={handleDataGridRowSelection}
-        >
-          <Selection mode="single" />
-          <Scrolling columnRenderingMode="virtual" />
-          <Paging enabled={false} />
-        </DataGrid>
+        <div className="responsive-paddings">
+          <DataGrid
+            dataSource={dataSource}
+            keyExpr="docEntry"
+            showBorders={true}
+            columnAutoWidth={true}
+            hoverStateEnabled={true}
+            onSelectionChanged={handleDataGridRowSelection}
+          >
+            <Selection mode="single" />
+            <Scrolling columnRenderingMode="virtual" />
+            <Paging enabled={false} />
+          </DataGrid>
+        </div>
       )}
     </>
   );
@@ -145,15 +151,19 @@ const GrpoMain = () => {
 
   // handle the hit search event
   const handlePoVerification = async (e) => {
-    const doPoExists = await dataGridDataHandler(selectedPo);
-    if (grpoList.has(selectedPo)) {
-      // Show an alert or a message to inform the user about the duplicate value
-      alert("QR Code already exists in the list!");
+    if (selectedPo) {
+      const doPoExists = await dataGridDataHandler(selectedPo);
+      if (grpoList.has(selectedPo)) {
+        // Show an alert or a message to inform the user about the duplicate value
+        alert("QR Code already exists in the list!");
+      } else {
+        // Add the selectedPo to the grpoList using the Set's add method
+        setGrpoList((prevGrpoList) => new Set(prevGrpoList).add(selectedPo));
+      }
+      console.log("PO Exists:", doPoExists);
     } else {
-      // Add the selectedPo to the grpoList using the Set's add method
-      setGrpoList((prevGrpoList) => new Set(prevGrpoList).add(selectedPo));
+      return toastDisplayer("error", "Please type/scan P.O");
     }
-    console.log("PO Exists:", doPoExists);
   };
 
   const navigate = useNavigate();
@@ -166,6 +176,9 @@ const GrpoMain = () => {
       {loading && <LoadPanel visible={true} />}
       {showPoHelp && (
         <Popup
+          maxHeight={300}
+          minWidth={300}
+          maxWidth={720}
           visible={true}
           contentRender={() => (
             <PopupContent onSelectRow={handleRowSelection} />
@@ -215,24 +228,26 @@ const GrpoMain = () => {
         </div>
 
         {/* Tabs section */}
-        <div className="po-list-section">
-          {[...grpoList].map((qrCode, index) => (
-            <div key={index} className="single-po">
-              <div className="single-po-delete">
-                <Button icon="trash"></Button>
+        {grpoList.size > 0 && (
+          <div className="po-list-section">
+            {[...grpoList].map((qrCode, index) => (
+              <div key={index} className="single-po">
+                <div className="single-po-delete">
+                  <Button icon="trash"></Button>
+                </div>
+                <div className="single-po-name">
+                  <span className="po-name">{qrCode}</span>
+                </div>
+                <div className="single-po-proceed">
+                  <Button
+                    text="Proceed"
+                    onClick={() => handleProceed(qrCode)}
+                  ></Button>
+                </div>
               </div>
-              <div className="single-po-name">
-                <span className="po-name">{qrCode}</span>
-              </div>
-              <div className="single-po-proceed">
-                <Button
-                  text="Proceed"
-                  onClick={() => handleProceed(qrCode)}
-                ></Button>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
