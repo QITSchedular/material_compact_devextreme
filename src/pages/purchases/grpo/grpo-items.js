@@ -165,12 +165,16 @@ const GrpoItems = () => {
                   text="cancel"
                   className="grpo-cancel"
                   onClick={handleCancel}
+                  width={120}
+                  height={40}
                 ></Button>
                 <Button
                   text="Save"
                   type="default"
                   onClick={handleGrpoSaving}
                   className="grpo-save"
+                  width={120}
+                  height={40}
                 ></Button>
               </div>
             </>
