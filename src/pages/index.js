@@ -6,3 +6,4 @@ export { default as ItemsGroupMasterPage } from "./masters/item-group-master/ite
 export { default as AddItemsGroupMasterPage } from "./masters/item-group-master/add";
 export { default as GateInPage } from "./purchases/gate-in/gate-in";
 export { default as GatePrintQrPage } from "./purchases/gate-in/print-qr/print-qr";
+export { default as LocationMasterPage } from "./masters/location-master/location-master";
