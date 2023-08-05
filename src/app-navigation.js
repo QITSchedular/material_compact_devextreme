@@ -81,7 +81,7 @@ export const navigation = [
     items: [
       {
         text: "Gate Inward",
-        path: "/purchases/gatein",
+        path: "/purchases/gateinmain",
       },
       {
         text: "Generate & Print",

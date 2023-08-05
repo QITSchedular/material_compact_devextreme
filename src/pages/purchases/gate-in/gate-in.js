@@ -1,7 +1,16 @@
-import { TextBox, Button as NormalButton, LoadPanel } from "devextreme-react";
-import React, { useCallback, useEffect, useState } from "react";
+import {
+  TextBox,
+  Button as NormalButton,
+  LoadPanel,
+  Button,
+  CheckBox,
+  RadioGroup,
+  ScrollView,
+} from "devextreme-react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import DropDownButton from "devextreme-react/drop-down-button";
 import NodataImg from "../../../assets/images/no-data-po.svg";
+import { Popup, ToolbarItem } from "devextreme-react/popup";
 import DataGrid, {
   Column,
   Paging,
@@ -9,6 +18,7 @@ import DataGrid, {
   Selection,
   Editing,
   AsyncRule,
+  SearchPanel,
 } from "devextreme-react/data-grid";
 import "./gate-in-styles.scss";
 //sample data Things
@@ -17,11 +27,169 @@ import {
   getPurchaseOrder,
   getSeriesPo,
   callUpdatePoApi,
+  getAllTransportersList,
 } from "../../../utils/gate-in-purchase";
 import notify from "devextreme/ui/notify";
 import { toast } from "react-toastify";
+import { Button as TextBoxButton } from "devextreme-react/text-box";
+import { HelpIcons } from "../grpo/icons-exporter";
+import {
+  PopupHeaderText,
+  PopupSubText,
+} from "../../../components/typographyTexts/TypographyComponents";
+import { toastDisplayer } from "../../../api/qrgenerators";
 
 const buttonDropDownOptions = { width: 230 };
+
+// Childern componet Transporter
+const TransporterHelpComponent = ({
+  selectedTransporterDetail,
+  handleSaver,
+  outsideClickHandler,
+}) => {
+  const [transporterDataSource, setTransporterDataSource] = useState([]);
+  const [selectedRowData, setSelectedRowData] = useState("");
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const dataGridRef = useRef();
+
+  const handleTransporterSelection = async ({
+    selectedRowKeys,
+    selectedRowsData,
+  }) => {
+    // var selectedRowKeyIs = "";
+    // if (selectedRowKeys.length > 1) {
+    //   console.log("Length is greater than 1");
+    //   // selectedRowKeyIs = await selectedRowKeys[1];
+    //   selectedRowKeyIs = await dataGridRef.current.instance.selectRows(
+    //     selectedRowKeys[1]
+    //   );
+    // } else {
+    //   console.log("Length is less than 1");
+    //   selectedRowKeyIs = await dataGridRef.current.instance.selectRows(
+    //     selectedRowKeys
+    //   );
+    // }
+    // return await selectedRowSetter(selectedRowKeyIs);
+    // console.log(selectedRowKeys.length);
+    const length = await selectedRowKeys.length;
+    if (selectedRowKeys.length > 1) {
+      // clear selection
+      // console.log("Greater");
+      const value = await dataGridRef.current.instance.selectRows(
+        selectedRowKeys[length - 1]
+      );
+      return selectedRowSetter(value);
+    } else {
+      const value = await dataGridRef.current.instance.selectRows(
+        selectedRowKeys[0]
+      );
+      return selectedRowSetter(value);
+    }
+  };
+  const selectedRowSetter = async (params) => {
+    await setSelectedRowData(params);
+    console.log(params);
+  };
+
+  const handleCancel = async () => {
+    return await outsideClickHandler();
+  };
+  const handleSave = async () => {
+    if (!selectedRowData) {
+      return toastDisplayer("error", "Please select a row, to save changes");
+      // return outsideClickHandler(true);
+    } else {
+      return await handleSaver(selectedRowData);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    const getTransporterDataSource = async () => {
+      const transPortersData = await getAllTransportersList();
+      if (transPortersData.length > 0) {
+        setTransporterDataSource(transPortersData);
+        console.log(transPortersData);
+        return setLoading(false);
+      } else {
+        setError(true);
+        setLoading(false);
+      }
+      setLoading(false);
+    };
+    getTransporterDataSource();
+  }, []);
+
+  return (
+    <>
+      {error ? (
+        <h1>Error Loading the data....</h1>
+      ) : (
+        <>
+          {/* <ScrollView width="100%" height="100%"> */}
+          <div
+            className="title-section responsive-paddings"
+            style={{
+              padding: "5px 20px !important",
+              display: "flex",
+              flexDirection: "column",
+              gap: "5px",
+            }}
+          >
+            <PopupHeaderText text={"Choose a Vendor.."} />
+            <PopupSubText
+              text={"Scroll through the list or type in the search box.."}
+            />
+          </div>
+          <div
+            className="dx-card responsive-paddings transporter-content-datagrid-container"
+            style={{ margin: "8px 24px", height: "100% !important" }}
+          >
+            <DataGrid
+              height={window.innerHeight < 840 ? "450" : "500"}
+              dataSource={transporterDataSource}
+              keyExpr="cardCode"
+              showBorders={false}
+              columnAutoWidth={true}
+              hoverStateEnabled={true}
+              className="transporter-data-grid"
+              onSelectionChanged={handleTransporterSelection}
+              selectedRowKeys={selectedRowKeys}
+              ref={dataGridRef}
+            >
+              <SearchPanel visible={true} placeholder="Search..." />
+              <Selection mode="multiple" />
+              <Scrolling columnRenderingMode="virtual" mode="infinite" />
+              <Paging defaultPageSize={20} />
+            </DataGrid>
+          </div>
+          <div
+            className="buttons-section responsive-paddings"
+            style={{ display: "flex", justifyContent: "flex-end" }}
+          >
+            <Button
+              text="Cancel"
+              width={124}
+              height={35}
+              onClick={handleCancel}
+            />
+            <Button
+              text="OK"
+              type="default"
+              width={124}
+              height={35}
+              onClick={handleSave}
+              disabled={selectedRowKeys.length > 0 ? false : true}
+            />
+          </div>
+          {/* </ScrollView> */}
+        </>
+      )}
+    </>
+  );
+};
 
 const GateInComponent = () => {
   const [scrollingMode, setScrollingMode] = React.useState("standard");
@@ -35,11 +203,26 @@ const GateInComponent = () => {
   const [objType, setobjType] = useState(null);
   const [docEntry, setDocEntry] = useState("");
   const [docNum, setDocNum] = useState("");
+
   const [selectedValue, setSelectedValue] = useState({
     periodIsSelected: false,
     seriesIsSelected: false,
     poIsEntered: false,
   });
+
+  // help section of the transporter
+  const [showTransporterHelp, setShowTransporterHelp] = useState(false);
+  const helpOptions = {
+    icon: HelpIcons,
+    onClick: async () => {
+      showPopupHandler();
+    },
+  };
+  const showPopupHandler = () => {
+    // console.log("it is true to show");
+    return setShowTransporterHelp(true);
+  };
+
   const [updatedItems, setUpdatedItems] = useState([]);
   const handleSearchPurchasedOrder = async () => {
     const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
@@ -87,7 +270,7 @@ const GateInComponent = () => {
       });
     }
     // the dropdown should be series name
-    setSeriesList(seriesData);
+    await setSeriesList(seriesData);
     setSelectedValue({ periodIsSelected: true });
     console.log("This is series data", seriesData);
   };
@@ -116,6 +299,13 @@ const GateInComponent = () => {
   };
 
   const handleGateIn = async () => {
+    if (!vehicleName) {
+      return toastDisplayer("error", "Enter vehicle number");
+    }
+    if (!transporterName) {
+      return toastDisplayer("error", "Choose transporter");
+    }
+    console.log(updatedItems.map((items) => items));
     const callLoop = await callUpdatePoApi(updatedItems, docNum, docEntry);
     if (callLoop.statusCode === "200") {
       return toast.success("Items Taken in, add more?", {
@@ -144,11 +334,16 @@ const GateInComponent = () => {
 
   const handleGridSaving = useCallback((e) => {
     console.log(e.changes[0]);
+    if (e.changes[0].data.recQty) {
+      return toastDisplayer("error", "Enter a valid quantity");
+    }
     const newData = {
       key: e.changes[0].key,
       recQty: e.changes[0].data.recQty,
     };
-
+    if (e.changes[0].data.recQty === 0) {
+      console.log("Zero recQty");
+    }
     setUpdatedItems((prevData) => [...prevData, newData]);
   });
 
@@ -158,125 +353,209 @@ const GateInComponent = () => {
     // console.log(data);
     await setPeriodIndicators(data);
   };
+
+  // Transporter handlers
+  const [selectedTransporterData, setSelectedTransporterData] = useState([]);
+  const [transporterName, setTransporterName] = useState("");
+  const [vehicleName, setVehicleName] = useState("");
+
+  const handleTransporterRowSelection = (selectedTransporterDetail) => {
+    // return outsideClickHandler();
+    console.log(selectedTransporterDetail);
+  };
+  const outsideClickHandler = async () => {
+    return setShowTransporterHelp(false);
+  };
+  const handleVehicleEntry = async (enteredVehicleNum) => {
+    // console.log(enteredVehicleNum.value);
+    return setVehicleName(enteredVehicleNum.value);
+  };
+
+  const handleSaver = async (transporterSelectionDetails) => {
+    console.log("From saver", transporterSelectionDetails);
+    await setTransporterName(transporterSelectionDetails[0].cardName);
+    return outsideClickHandler();
+  };
   useEffect(() => {
+    setShowTransporterHelp(false);
     getSeriesData();
   }, []);
-
+  // const bookButtonOptions = React.useMemo(() => ({
+  //   width: 300,
+  //   text: "Save",
+  //   type: "default",
+  //   stylingMode: "contained",
+  //   onClick: () => console.log("hello"),
+  // }));
   return (
-    <div className="content-block dx-card responsive-paddings main-container">
-      <div className="title-section">
-        <h3 className="title-name">Gate In: Purchase Order</h3>
+    <>
+      {showTransporterHelp && (
+        <Popup
+          // height={400}
+          // maxHeight={400}
+          // minWidth={300}
+          // maxWidth={720}
+
+          visible={true}
+          contentRender={() => (
+            <TransporterHelpComponent
+              onSelectRow={handleTransporterRowSelection}
+              handleSaver={handleSaver}
+              outsideClickHandler={outsideClickHandler}
+            />
+          )}
+          showCloseButton={true}
+          hideOnOutsideClick={outsideClickHandler}
+        ></Popup>
+      )}
+      <div className="main-container">
+        {/* <div className="title-section">
+        <h5 className="title-name">Gate IN: PO</h5>
         <span className="title-description">
           Select and Enter field values to get P.O
         </span>
-      </div>
+      </div> */}
 
-      <div className="actions-section">
-        <div className="buttons-section">
-          <DropDownButton
-            text={
-              selectedPeriodIndicator
-                ? selectedPeriodIndicator
-                : "Select Period"
-            }
-            dropDownOptions={buttonDropDownOptions}
-            keyExpr="indicator"
-            displayExpr={"indicator"}
-            items={periodIndicators}
-            onItemClick={periodItemsClick}
-            className="period-indicator"
-          />
-          <DropDownButton
-            text={selectedSeries ? selectedSeries.seriesName : "Select Series"}
-            dropDownOptions={buttonDropDownOptions}
-            items={seriesList}
-            keyExpr={"series"}
-            displayExpr={"seriesName"}
-            onItemClick={handleSeriesSelectionClick}
-            className="series-indicator"
-          />
-        </div>
-        <div className="search-section">
-          <TextBox
-            className="dx-field-value"
-            stylingMode="outlined"
-            placeholder="Search by purchase order"
-            width={250}
-            showClearButton={true}
-            onValueChanged={handlePurchaseOrderEntry}
-          />
+        <div className="actions-section">
+          <div className="action-before-section">
+            <div className="buttons-section">
+              <DropDownButton
+                text={
+                  selectedPeriodIndicator
+                    ? selectedPeriodIndicator
+                    : "Select Period"
+                }
+                dropDownOptions={buttonDropDownOptions}
+                keyExpr="indicator"
+                displayExpr={"indicator"}
+                items={periodIndicators}
+                onItemClick={periodItemsClick}
+                className="period-indicator"
+              />
+              <DropDownButton
+                text={
+                  selectedSeries ? selectedSeries.seriesName : "Select Series"
+                }
+                dropDownOptions={buttonDropDownOptions}
+                items={seriesList}
+                keyExpr={"series"}
+                displayExpr={"seriesName"}
+                onItemClick={handleSeriesSelectionClick}
+                className="series-indicator"
+              />
+            </div>
+            <div className="search-section">
+              <TextBox
+                className="dx-field-value"
+                stylingMode="outlined"
+                placeholder="Search by purchase order"
+                width={250}
+                showClearButton={true}
+                valueChangeEvent="keyup"
+                onValueChanged={handlePurchaseOrderEntry}
+              />
 
-          <NormalButton
-            width={33}
-            height={33}
-            type="normal"
-            stylingMode="outlined"
-            icon="search"
-            onClick={handleSearchPurchasedOrder}
-          />
-        </div>
-      </div>
-      <div className="data-grid-section">
-        {loading && <LoadPanel />}
-        {poData ? (
-          <>
-            <DataGrid
-              id="data-grid-container-local"
-              dataSource={poData}
-              keyExpr={"itemCode"}
-              showBorders={false}
-              focusedRowEnabled={true}
-              defaultFocusedRowIndex={0}
-              columnAutoWidth={true}
-              columnHidingEnabled={false}
-              remoteOperations={true}
-              onSaving={handleGridSaving}
-            >
-              <Scrolling mode={scrollingMode} />
-              <Paging defaultPageSize={10} />
-              <Selection mode="multiple" />
+              <NormalButton
+                width={33}
+                height={33}
+                type="normal"
+                stylingMode="outlined"
+                icon="search"
+                onClick={handleSearchPurchasedOrder}
+                disabled={poNumber.length > 0 ? false : true}
+              />
+            </div>
+          </div>
 
-              <Editing
-                mode="row"
-                allowDeleting
-                allowUpdating
-                selectTextOnEditStart={true}
+          <div className="action-after-section">
+            <div className="search-section bp-search-details">
+              <TextBox
+                className="dx-field-value"
+                stylingMode="outlined"
+                placeholder="Enter vehicle number"
+                width={176}
+                showClearButton={true}
+                onValueChanged={handleVehicleEntry}
               />
-              <Column
-                dataField={"itemCode"}
-                caption={"Item Code"}
-                allowEditing={false}
-              />
-              <Column
-                dataField={"itemName"}
-                caption={"Item Name"}
-                allowEditing={false}
-              />
-              <Column
-                dataField={"qty"}
-                caption={"Ordered Qty."}
-                allowEditing={false}
-              />
-              <Column
-                dataField={"openQty"}
-                caption={"Open Qty."}
-                allowEditing={false}
-              />
-              <Column
-                dataField={"recQty"}
-                type={"number"}
-                caption={"Received Qty"}
-                // allowEditing={
-                //   poData && parseInt(poData.openQty) > 0 ? true : false
-                // }
-                allowEditing={true}
+              <TextBox
+                className="dx-field-value"
+                stylingMode="outlined"
+                placeholder="Transporter"
+                width={131}
+                showClearButton={true}
+                value={transporterName ? transporterName : ""}
               >
-                <AsyncRule
-                  message="Email address is not unique"
-                  validationCallback={asyncValidation}
+                <TextBoxButton
+                  name="currency"
+                  location="after"
+                  options={helpOptions}
                 />
-              </Column>
-              {/* <Column type="buttons" caption={"Actions"}>
+              </TextBox>
+            </div>
+          </div>
+        </div>
+
+        <div className="data-grid-section">
+          {loading && <LoadPanel />}
+          {poData ? (
+            <>
+              <DataGrid
+                id="data-grid-container-local"
+                dataSource={poData}
+                keyExpr={"itemCode"}
+                showBorders={false}
+                focusedRowEnabled={true}
+                defaultFocusedRowIndex={0}
+                columnAutoWidth={true}
+                columnHidingEnabled={false}
+                remoteOperations={true}
+                onSaving={handleGridSaving}
+              >
+                <Scrolling mode={scrollingMode} />
+                <Paging defaultPageSize={10} />
+                <Selection mode="multiple" />
+
+                <Editing
+                  mode="row"
+                  allowDeleting
+                  allowUpdating
+                  selectTextOnEditStart={true}
+                />
+                <Column
+                  dataField={"itemCode"}
+                  caption={"Item Code"}
+                  allowEditing={false}
+                />
+                <Column
+                  dataField={"itemName"}
+                  caption={"Item Name"}
+                  allowEditing={false}
+                />
+                <Column
+                  dataField={"qty"}
+                  caption={"Ordered Qty."}
+                  allowEditing={false}
+                />
+                <Column
+                  dataField={"openQty"}
+                  caption={"Open Qty."}
+                  allowEditing={false}
+                />
+                <Column
+                  dataField={"recQty"}
+                  type={"number"}
+                  caption={"Received Qty"}
+                  // allowEditing={
+                  //   poData && parseInt(poData.openQty) > 0 ? true : false
+                  // }
+                  allowEditing={true}
+                >
+                  <AsyncRule
+                    message="Email address is not unique"
+                    validationCallback={asyncValidation}
+                  />
+                </Column>
+                {/* <Column type="buttons" caption={"Actions"}>
                 <Button
                   name="qrcode"
                   icon={"fa-solid fa-qrcode"}
@@ -289,28 +568,29 @@ const GateInComponent = () => {
                   onClick={handlePrintClick}
                 />
               </Column> */}
-            </DataGrid>
-            <div
-              className="content-block-save"
-              style={{ justifyContent: "flex-end", marginTop: "10rem" }}
-            >
-              <NormalButton
-                type="default"
-                text="Gate In"
-                icon="fa-solid fa-right-to-bracket"
-                className="gate-in-button"
-                onClick={handleGateIn}
-              />
-            </div>
-          </>
-        ) : (
-          <div className="no-po-section">
-            {/* <h3>Nothing to Display</h3>
+              </DataGrid>
+              <div
+                className="content-block-save"
+                style={{ justifyContent: "flex-end", marginTop: "10rem" }}
+              >
+                <NormalButton
+                  type="default"
+                  text="Gate In"
+                  icon="fa-solid fa-right-to-bracket"
+                  className="gate-in-button"
+                  onClick={handleGateIn}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="no-po-section">
+              {/* <h3>Nothing to Display</h3>
             <img src={NodataImg} alt="No Data Found" /> */}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

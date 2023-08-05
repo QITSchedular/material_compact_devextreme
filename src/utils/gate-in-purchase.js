@@ -55,6 +55,7 @@ export const getPurchaseOrder = async (poNumber, selectedSeries, flag) => {
     series: selectedSeries,
     branchID: 1,
     gateInOnly: flag ? flag : "N",
+    gateInNo: "",
   };
 
   try {
@@ -167,5 +168,17 @@ export const getPoLists = async () => {
       return errors;
     }
     return errors;
+  }
+};
+
+// Get TransPorter List
+export const getAllTransportersList = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/Commons/Transporter`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
   }
 };
