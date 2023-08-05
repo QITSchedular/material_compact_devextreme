@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "devextreme-react/button";
-const MastersHeaderContent = ({ title, subtitle, handleAddClick }) => {
+import MasterGrid from "../master-grid/MasterGrid";
+
+const MastersHeaderContent = ({ title, subtitle, handleAddClick, columns, masterType, keyExpr }) => {
   return (
     <div className="content-blocks">
       <div className="content-block-wrapper">
@@ -23,6 +25,7 @@ const MastersHeaderContent = ({ title, subtitle, handleAddClick }) => {
           </div>
         </div>
       </div>
+      <MasterGrid columns={columns} masterType={masterType} keyExpr={keyExpr}/>
     </div>
   );
 };

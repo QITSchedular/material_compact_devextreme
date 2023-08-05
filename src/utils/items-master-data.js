@@ -19,7 +19,7 @@ export const getAllItems = async () => {
 
 export const getItemGroup = async () => {
   try {
-    const response = await axios.get(`${API_URL}/ItemGroups/Get?Filter=N`);
+    const response = await axios.get(`${API_URL}/ItemGroups/Get?Filter=A`);
     const data = response.data;
 
     return data;
@@ -37,6 +37,7 @@ export const getItemSubGroup = async () => {
     return error;
   }
 };
+
 export const getUom = async () => {
   try {
     const response = await axios.get(`${API_URL}/UOMs/Get?Filter=N`);
@@ -46,6 +47,17 @@ export const getUom = async () => {
     return error;
   }
 };
+
+export const getLocations = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/Locations/Get?Filter=N`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getQrManagedBy = async () => {
   try {
     const response = await axios.get(`${API_URL}/Commons/QR Managed By`);
@@ -59,6 +71,16 @@ export const getQrManagedBy = async () => {
 export const getAllWarehouseData = async () => {
   try {
     const response = await axios.get(`${API_URL}/Warehouses/Get?Filter=A`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getMasterData = async (masterType) => {
+  try {
+    const response = await axios.get(`${API_URL}/${masterType}/Get?Filter=A`);
     const data = response.data;
     return data;
   } catch (error) {
@@ -82,3 +104,24 @@ export const addNewItem = async (clientItemsData) => {
     return handledResponse;
   } catch (error) {}
 };
+
+export const addNewMasterItem = async (clientItemsData,clientMasterType) => {
+  console.log("clientItemsData " ,clientItemsData ,"\n\n\n clientMasterType ",clientMasterType);
+  console.log(`${API_URL}/${clientMasterType}/Save`);
+  try {
+    const response = await fetch(`${API_URL}/${clientMasterType}/Save`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(clientItemsData),
+    });
+    const responseData = await response.json();
+    console.log("responseData", responseData);
+    const handledResponse = await checkErrorMessages(responseData);
+    console.log("handledResponse", handledResponse);
+    return handledResponse;
+  } catch (error) {}
+};
+
+
