@@ -332,9 +332,12 @@ const GateInComponent = () => {
     }
   };
 
-  const handleGridSaving = useCallback((e) => {
+  const handleGridSaving = (e) => {
     console.log(e.changes[0]);
-    if (e.changes[0].data.recQty) {
+    if (!e.changes[0].data.recQty) {
+      return toastDisplayer("error", "Enter a valid quantity");
+    }
+    if (!e.changes[0]) {
       return toastDisplayer("error", "Enter a valid quantity");
     }
     const newData = {
@@ -345,7 +348,7 @@ const GateInComponent = () => {
       console.log("Zero recQty");
     }
     setUpdatedItems((prevData) => [...prevData, newData]);
-  });
+  };
 
   //fetch the searches data
   const getSeriesData = async () => {
