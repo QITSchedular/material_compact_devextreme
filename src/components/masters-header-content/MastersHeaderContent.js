@@ -1,6 +1,11 @@
 import React from "react";
 import Button from "devextreme-react/button";
-const MastersHeaderContent = ({ title, subtitle, handleAddClick }) => {
+import MasterGrid from "../master-grid/MasterGrid";
+import { getLocations } from "../../utils/items-master-data";
+const MastersHeaderContent = ({ title, subtitle, handleAddClick, masterType, columns, keyExpr }) => {
+  const getData = async (getDataFunction) => {
+    return await getDataFunction(); // Assuming the `getItemGroup`, `getItemSubGroup`, etc. functions return the data.
+  };
   return (
     <div className="content-blocks">
       <div className="content-block-wrapper">
@@ -19,10 +24,12 @@ const MastersHeaderContent = ({ title, subtitle, handleAddClick }) => {
               height={32}
               className="item-btn"
               onClick={handleAddClick}
+
             />
           </div>
         </div>
       </div>
+      <MasterGrid columns={columns} masterType={masterType} keyExpr={keyExpr} />
     </div>
   );
 };
