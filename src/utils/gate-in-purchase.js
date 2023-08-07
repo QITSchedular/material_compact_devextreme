@@ -89,11 +89,10 @@ export const gateInAndUpdatePo = async (
   receivedQty,
   lineNum,
   docNum,
-  docEntry
+  docEntry,
+  vehicleName,
+  selectedTransporterData
 ) => {
-  //http://192.168.1.102:{{PORT}}/api/PurchaseOrders/GetPO
-  // console.log("itemCode: " + itemCode, "recQty: " + receivedQty);
-  // alert(recQty);
   const requestBody = {
     objType: "22",
     branchID: 1,
@@ -101,6 +100,8 @@ export const gateInAndUpdatePo = async (
     lineNum: lineNum,
     itemCode: itemCode,
     recQty: `${receivedQty}`,
+    vehicleNo: vehicleName,
+    transporter: selectedTransporterData[0].cardCode,
   };
 
   try {
@@ -119,19 +120,37 @@ export const gateInAndUpdatePo = async (
 };
 // handling the async validation for the recieved quantity
 
-export const callUpdatePoApi = async (updatedItemsList, docNum, docEntry) => {
-  // console.log("From Call to Update api", updatedItemsList, docNum, docEntry);
+export const callUpdatePoApi = async (
+  updatedItemsList,
+  docNum,
+  docEntry,
+  vehicleName,
+  selectedTransporterData
+) => {
   let length = updatedItemsList.length;
+  const updatedResponses = [];
   for (let i = 0; i < length; i++) {
+    const vehicleNo = vehicleName;
+    console.log(
+      "Inside For loop",
+      updatedItemsList[i].key,
+      updatedItemsList[i].recQty,
+      updatedItemsList[i].lineNum,
+      docNum,
+      docEntry,
+      vehicleNo,
+      selectedTransporterData
+    );
     const response = await gateInAndUpdatePo(
       updatedItemsList[i].key,
       updatedItemsList[i].recQty,
       updatedItemsList[i].lineNum,
       docNum,
-      docEntry
+      docEntry,
+      vehicleNo,
+      selectedTransporterData
     );
-    console.log(response);
-    return response;
+    console.log("THIS IS THE RESPOSNE DATA", response);
   }
   // call the above api one by one now
   // const loopCALL = updatedItemsList.map(async (element) => {
