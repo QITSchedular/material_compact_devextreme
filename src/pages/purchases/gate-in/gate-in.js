@@ -385,13 +385,13 @@ const GateInComponent = () => {
     });
   };
 
+  // handle it
   //fetch the searches data
   const getSeriesData = async () => {
     const data = await getPeriodIndicator();
     // console.log(data);
     await setPeriodIndicators(data);
   };
-
   // Transporter handlers
   const [selectedTransporterData, setSelectedTransporterData] = useState([]);
   const [transporterName, setTransporterName] = useState("");
