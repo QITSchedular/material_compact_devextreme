@@ -333,18 +333,24 @@ const GateInComponent = () => {
   };
 
   const handleGridSaving = useCallback((e) => {
-    console.log(e.changes[0]);
-    if (e.changes[0].data.recQty) {
+    // console.log(e.changes.length);
+    const changes=e.changes.length;
+    if(changes<=0){
       return toastDisplayer("error", "Enter a valid quantity");
+    }else{
+      if (!e.changes[0].data.recQty) {
+        return toastDisplayer("error", "Enter a valid quantity");
+      }
+      const newData = {
+        key: e.changes[0].key,
+        recQty: e.changes[0].data.recQty,
+      };
+      if (e.changes[0].data.recQty === 0) {
+        console.log("Zero recQty");
+      }
+      setUpdatedItems((prevData) => [...prevData, newData]);
     }
-    const newData = {
-      key: e.changes[0].key,
-      recQty: e.changes[0].data.recQty,
-    };
-    if (e.changes[0].data.recQty === 0) {
-      console.log("Zero recQty");
-    }
-    setUpdatedItems((prevData) => [...prevData, newData]);
+    
   });
 
   //fetch the searches data
@@ -376,6 +382,7 @@ const GateInComponent = () => {
     await setTransporterName(transporterSelectionDetails[0].cardName);
     return outsideClickHandler();
   };
+
   useEffect(() => {
     setShowTransporterHelp(false);
     getSeriesData();

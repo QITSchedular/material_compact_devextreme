@@ -1,8 +1,9 @@
 import React, { createContext, useReducer } from "react";
-
+export { AppContext, AppContextProvider };
 const initialState = {
   isPopupVisible: false,
   isItemAdded: false,
+   isCommonPopupVisible: false,
   isQrPopupVisible: false,
   // Add more state properties as needed
 };
@@ -22,6 +23,10 @@ const reducer = (state, action) => {
     case "CLOSE_QR_POPUP":
       return { ...state, isQrPopupVisible: false };
     // Add more cases for other actions as needed
+    case "OPEN_COMMON_POPUP":
+      return { ...state, isCommonPopupVisible: true };
+    case "CLOSE_COMMON_POPUP":
+      return { ...state, isCommonPopupVisible: false };
     default:
       return state;
   }
@@ -53,16 +58,26 @@ const AppContextProvider = ({ children }) => {
   };
 
   // Add more functions to update the state as needed
+  const openCommonPopup = () => {
+    dispatch({ type: "OPEN_COMMON_POPUP" });
+  };
+
+  const closeCommonPopup = () => {
+    dispatch({ type: "CLOSE_COMMON_POPUP" });
+  };
 
   return (
     <AppContext.Provider
       value={{
         isPopupVisible: state.isPopupVisible,
         isItemAdded: state.isItemAdded,
+        isCommonPopupVisible: state.isCommonPopupVisible,
         openPopup,
         closePopup,
         newItemIsAdded,
         revertIsItemAdded,
+        openCommonPopup,
+        closeCommonPopup,
         openQrPopUp,
         closeQrPopUp,
         // Add more state properties and functions as needed
@@ -73,4 +88,3 @@ const AppContextProvider = ({ children }) => {
   );
 };
 
-export { AppContext, AppContextProvider };

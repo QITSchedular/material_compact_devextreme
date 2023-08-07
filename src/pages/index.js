@@ -9,3 +9,4 @@ export { default as GateInMainPage } from "./purchases/gate-in/gate-in-main";
 export { default as GatePrintQrPage } from "./purchases/gate-in/print-qr/print-qr";
 export { default as GrpoPage } from "./purchases/grpo/grpo-main";
 export { default as GrpoScanItemsPage } from "./purchases/grpo/grpo-items";
+export {default as ItemsubgroupmasterPage} from "./masters/item-sub-group-master/item-sub-group-master";

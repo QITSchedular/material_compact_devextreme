@@ -68,6 +68,17 @@ export const getAllWarehouseData = async () => {
   }
 };
 
+
+export const getMasterData = async (masterType) => {
+  try {
+    const response = await axios.get(`${API_URL}/${masterType}/Get?Filter=A`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
 //saving Data
 export const addNewItem = async (clientItemsData) => {
   try {
@@ -81,6 +92,23 @@ export const addNewItem = async (clientItemsData) => {
     const responseData = await response.json();
     const handledResponse = await checkErrorMessages(responseData);
     // console.log("handledResponse", handledResponse);
+    return handledResponse;
+  } catch (error) {}
+};
+
+export const addNewMasterItem = async (clientItemsData,clientMasterType) => {
+  console.log("clientItemsData " ,clientItemsData ,"\n\n\n clientMasterType ",clientMasterType);
+  try {
+    const response = await fetch(`${API_URL}/${clientMasterType}/Save`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(clientItemsData),
+    });
+    const responseData = await response.json();
+    const handledResponse = await checkErrorMessages(responseData);
+    console.log("handledResponse", handledResponse);
     return handledResponse;
   } catch (error) {}
 };
