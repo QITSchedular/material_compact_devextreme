@@ -203,6 +203,7 @@ const GateInComponent = () => {
   const [objType, setobjType] = useState(null);
   const [docEntry, setDocEntry] = useState("");
   const [docNum, setDocNum] = useState("");
+  const [dataLineNum, setDataLineNum] = useState([]);
 
   const [selectedValue, setSelectedValue] = useState({
     periodIsSelected: false,
@@ -228,6 +229,7 @@ const GateInComponent = () => {
     const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
     setLoading(true);
     const poResponse = await getPurchaseOrder(poNumber, selectedSeries.series);
+    // console.log(poResponse);
     if (poResponse.hasError) {
       return toast.error(poResponse.errorText, {
         position: "top-right",
@@ -244,10 +246,14 @@ const GateInComponent = () => {
       ...item,
       recQty: 0,
     }));
+
     await setDocEntry(poResponse[0].docEntry);
     await setDocNum(poResponse[0].docNum);
     // console.log("This is the whole P.O  data for gate In", poResponse);
+    await setDataLineNum(poDetArrayWithRecQty.map((item) => item.lineNum));
     await setPoData(poDetArrayWithRecQty);
+
+    // console.log(poDetArrayWithRecQty);
 
     setLoading(false);
   };
@@ -306,8 +312,16 @@ const GateInComponent = () => {
       return toastDisplayer("error", "Choose transporter");
     }
     console.log(updatedItems.map((items) => items));
-    const callLoop = await callUpdatePoApi(updatedItems, docNum, docEntry);
+    // console.log(vehicleName, selectedTransporterData);
+    const callLoop = await callUpdatePoApi(
+      updatedItems,
+      docNum,
+      docEntry,
+      vehicleName,
+      selectedTransporterData
+    );
     if (callLoop.statusCode === "200") {
+      await handleSearchPurchasedOrder();
       return toast.success("Items Taken in, add more?", {
         position: "top-right",
         autoClose: 5000,
@@ -332,10 +346,14 @@ const GateInComponent = () => {
     }
   };
 
+
   const handleGridSaving = useCallback((e) => {
     // console.log(e.changes.length);
     const changes=e.changes.length;
     if(changes<=0){
+  const handleGridSaving = async (e) => {
+    if (!e.changes[0].data.recQty) {
+
       return toastDisplayer("error", "Enter a valid quantity");
     }else{
       if (!e.changes[0].data.recQty) {
@@ -350,8 +368,45 @@ const GateInComponent = () => {
       }
       setUpdatedItems((prevData) => [...prevData, newData]);
     }
+
     
   });
+
+    if (!e.changes[0]) {
+      return toastDisplayer(
+        "error",
+        "Please, receive the quantity first to proceed"
+      );
+    }
+
+    const { key } = e.changes[0];
+    const lineNumConstruct = poData.filter((item) => item.itemCode === key);
+
+    const newData = {
+      key: key,
+      recQty: e.changes[0].data.recQty,
+      lineNum: lineNumConstruct.length > 0 ? lineNumConstruct[0].lineNum : null,
+    };
+
+    if (e.changes[0].data.recQty === 0) {
+      console.log("Zero recQty");
+    }
+
+    setUpdatedItems((prevData) => {
+      const existingItemIndex = prevData.findIndex((item) => item.key === key);
+
+      if (existingItemIndex !== -1) {
+        // Update the existing item with new recQty and lineNum
+        prevData[existingItemIndex] = newData;
+      } else {
+        // Add the new data if no existing item with the same key
+        prevData.push(newData);
+      }
+
+      return [...prevData];
+    });
+  };
+
 
   //fetch the searches data
   const getSeriesData = async () => {
@@ -379,6 +434,7 @@ const GateInComponent = () => {
 
   const handleSaver = async (transporterSelectionDetails) => {
     console.log("From saver", transporterSelectionDetails);
+    await setSelectedTransporterData(transporterSelectionDetails);
     await setTransporterName(transporterSelectionDetails[0].cardName);
     return outsideClickHandler();
   };
@@ -387,22 +443,10 @@ const GateInComponent = () => {
     setShowTransporterHelp(false);
     getSeriesData();
   }, []);
-  // const bookButtonOptions = React.useMemo(() => ({
-  //   width: 300,
-  //   text: "Save",
-  //   type: "default",
-  //   stylingMode: "contained",
-  //   onClick: () => console.log("hello"),
-  // }));
   return (
     <>
       {showTransporterHelp && (
         <Popup
-          // height={400}
-          // maxHeight={400}
-          // minWidth={300}
-          // maxWidth={720}
-
           visible={true}
           contentRender={() => (
             <TransporterHelpComponent
