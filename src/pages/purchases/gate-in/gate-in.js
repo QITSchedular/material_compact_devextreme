@@ -320,7 +320,19 @@ const GateInComponent = () => {
       vehicleName,
       selectedTransporterData
     );
-    if (callLoop.statusCode === "200") {
+    console.log(callLoop);
+    const allResponses = await Promise.all(
+      callLoop.map(async (item) => {
+        if (item.statusCode === "200") {
+          return "success";
+        } else {
+          const errorResponse = await item.statusMsg;
+          return `Error: ${errorResponse}`;
+        }
+      })
+    );
+    const isSuccess = allResponses.every((response) => response === "success");
+    if (isSuccess) {
       await handleSearchPurchasedOrder();
       return toast.success("Items Taken in, add more?", {
         position: "top-right",
@@ -333,7 +345,8 @@ const GateInComponent = () => {
         theme: "light",
       });
     } else {
-      return toast.error("Something went wrong, try again later", {
+      const errorMessage = allResponses.join("\n");
+      return toast.error("Something went wrong:\n${errorMessage}", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -344,6 +357,30 @@ const GateInComponent = () => {
         theme: "light",
       });
     }
+    // if (callLoop.statusCode === "200") {
+    //   await handleSearchPurchasedOrder();
+    //   return toast.success("Items Taken in, add more?", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    // } else {
+    // return toast.error("Something went wrong, try again later", {
+    //   position: "top-right",
+    //   autoClose: 5000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "light",
+    // });
+    // }
   };
 
   const handleGridSaving = async (e) => {

@@ -93,9 +93,14 @@ export const gateInAndUpdatePo = async (
   vehicleName,
   selectedTransporterData
 ) => {
+  const gateInNoResponse = await axios.post(
+    `${API_URL}/Commons/GetGateINNo?BranchID=${1}`
+  );
+
   const requestBody = {
     objType: "22",
     branchID: 1,
+    gateInNo: gateInNoResponse.data,
     docEntry: docEntry,
     lineNum: lineNum,
     itemCode: itemCode,
@@ -103,7 +108,7 @@ export const gateInAndUpdatePo = async (
     vehicleNo: vehicleName,
     transporter: selectedTransporterData[0].cardCode,
   };
-
+  console.log("Request body to save the gatein", requestBody);
   try {
     const response = await axios.post(
       `${API_URL}/PurchaseOrders/GateINPO`,
@@ -150,8 +155,18 @@ export const callUpdatePoApi = async (
       vehicleNo,
       selectedTransporterData
     );
-    console.log("THIS IS THE RESPOSNE DATA", response);
+    if (response.isSaved === "Y") {
+      updatedResponses.push(response);
+    } else {
+      const error = {
+        statusCode: "400",
+        isSaved: "N",
+        statusMsg: `Gate in failed for item code: ${updatedItemsList[i].key}`,
+      };
+      updatedResponses.push(error);
+    }
   }
+  return updatedResponses;
   // call the above api one by one now
   // const loopCALL = updatedItemsList.map(async (element) => {
   //   // console.log(element)
@@ -201,3 +216,5 @@ export const getAllTransportersList = async () => {
     return error;
   }
 };
+
+export const errorHandler = () => {};
