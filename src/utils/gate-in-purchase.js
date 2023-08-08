@@ -44,7 +44,12 @@ export const getSeriesPo = async (series, branchid) => {
   }
 };
 
-export const getPurchaseOrder = async (poNumber, selectedSeries, flag) => {
+export const getPurchaseOrder = async (
+  poNumber,
+  selectedSeries,
+  flag,
+  gateInNo
+) => {
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -55,7 +60,7 @@ export const getPurchaseOrder = async (poNumber, selectedSeries, flag) => {
     series: selectedSeries,
     branchID: 1,
     gateInOnly: flag ? flag : "N",
-    gateInNo: "",
+    gateInNo: flag === "Y" && gateInNo ? `${gateInNo}` : "",
   };
 
   try {
@@ -205,6 +210,18 @@ export const getPoLists = async () => {
   }
 };
 
+// get all this list of gate In number according to the selected po number
+export const getGateInNumberList = async (DocNum, Series) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/Commons/FillGateInNo?Series=${Series}&DocNum=${DocNum}`
+    );
+    console.log("The list of all the gate in done", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Error: " + error);
+  }
+};
 // Get TransPorter List
 export const getAllTransportersList = async () => {
   try {

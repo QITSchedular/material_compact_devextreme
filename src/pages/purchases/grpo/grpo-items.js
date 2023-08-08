@@ -1,4 +1,4 @@
-import { Button, LoadPanel, TextBox } from "devextreme-react";
+import { Button, LoadPanel, Popup, TextBox } from "devextreme-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ValidateItemQR, generateGrpo } from "../../../utils/grpo-saver";
@@ -15,6 +15,8 @@ import DataGrid, {
 import { toastDisplayer } from "../../../api/qrgenerators";
 import "./grpo-items.styles.scss";
 import { useNavigation } from "../../../contexts/navigation";
+import { HelpIcons } from "./icons-exporter";
+import { Button as TextBoxButton } from "devextreme-react/text-box";
 
 const GrpoItems = () => {
   const { qrCode } = useParams();
@@ -23,6 +25,8 @@ const GrpoItems = () => {
   const [displayGrid, setDisplayGrid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [comments, setComments] = useState("");
+  const [showWareHousePopupHelp, setShowWareHousePopupHelp] = useState(false);
+
   const navigate = useNavigate();
   const handleTextValueChange = (e) => {
     // console.log(e.previousValue);
@@ -35,9 +39,13 @@ const GrpoItems = () => {
     // validate the scanned item
     if (selectedItemQr) {
       const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
+      console.log(doItemExists);
       if (doItemExists === "No data found") {
         // console.log("the scanned item does not exist");
-        return toastDisplayer("error", "Invalid Qr Scan Request");
+        return toastDisplayer(
+          "error",
+          "The scanned item does not belong to this P.O"
+        );
       } else {
         setDisplayGrid(true);
         return setGridDataSource((previous) => [...previous, ...doItemExists]);
@@ -50,8 +58,11 @@ const GrpoItems = () => {
 
   const handleGrpoSaving = async () => {
     if (!gridDataSource.length > 0) {
-      toastDisplayer("error", " ❌ Request not allowed");
-      return toastDisplayer("error", " ❌ Scan items to proceed");
+      toastDisplayer(
+        "error",
+        " ❌ This request not allowed..Please Scan items to proceed"
+      );
+      return toastDisplayer("error", " ❌ Please Scan items to proceed");
     } else {
       setLoading(true);
       const doGrpo = await generateGrpo(gridDataSource, comments);
@@ -81,10 +92,20 @@ const GrpoItems = () => {
   const handleCancel = async (data) => {
     return navigate("/purchases/grpo");
   };
-
+  const helpOptions = {
+    icon: HelpIcons,
+    onClick: () => {
+      warehousePopUpHandler();
+    },
+  };
+  const warehousePopUpHandler = async () => {
+    console.log("Open pop up");
+    await setShowWareHousePopupHelp(true);
+  };
   return (
-    <div className="content-block dx-card responsive-paddings grpo-content-wrapper">
+    <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
       {loading && <LoadPanel visible={true} />}
+
       <div className="title-section">
         <h3 className="title-name">Grpo</h3>
         <span className="title-description">
@@ -111,6 +132,21 @@ const GrpoItems = () => {
             icon="search"
             onClick={handleItemQrVerification}
           />
+        </div>
+        <div className="warehouse-help-section">
+          <TextBox
+            className="dx-field-value"
+            stylingMode="outlined"
+            placeholder="Warehouse"
+            width={150}
+            showClearButton={true}
+          >
+            <TextBoxButton
+              name="currency"
+              location="after"
+              options={helpOptions}
+            />
+          </TextBox>
         </div>
       </div>
       {displayGrid && (

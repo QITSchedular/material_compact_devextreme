@@ -16,6 +16,7 @@ import "../gate-in-styles.scss";
 import { toast } from "react-toastify";
 import {
   callUpdatePoApi,
+  getGateInNumberList,
   getPeriodIndicator,
   getPurchaseOrder,
   getSeriesPo,
@@ -25,7 +26,7 @@ import { AppContext } from "../../../../contexts/dataContext";
 import ItemsQrDisplayer from "./qr-displayer";
 import { fetchItemQrCode } from "../../../../utils/qr-generation";
 
-const buttonDropDownOptions = { width: 230 };
+const buttonDropDownOptions = { width: 230, maxHeight: 450 };
 
 const PrintQrMainComp = () => {
   const { isQrPopupVisible, openQrPopUp, closeQrPopUp } =
@@ -38,6 +39,8 @@ const PrintQrMainComp = () => {
   const [selectedPeriodIndicator, setSelectedPeriodIndicator] = useState("");
   const [selectedSeries, setSelectedSeries] = useState("");
   const [seriesList, setSeriesList] = useState([]);
+  const [gateInNumList, setGetInNumList] = useState([]);
+  const [selectedGateInNum, setSelectedGateInNum] = useState("");
   const [poNumber, setPoNumber] = useState("");
   const [poData, setPoData] = useState(null);
   const [objType, setobjType] = useState(null);
@@ -46,6 +49,7 @@ const PrintQrMainComp = () => {
     periodIsSelected: false,
     seriesIsSelected: false,
     poIsEntered: false,
+    gateInIsIsSelected: false,
   });
   const [updatedItems, setUpdatedItems] = useState([]);
   const [viewQr, setViewQr] = useState(false);
@@ -54,11 +58,15 @@ const PrintQrMainComp = () => {
   const handleSearchPurchasedOrder = async () => {
     const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
     const flag = "Y";
+    // here set the gate in , give a drop down to select the gate in;
+    const gateInNo = "";
+
     setLoading(true);
     const poResponse = await getPurchaseOrder(
       poNumber,
       selectedSeries.series,
-      flag
+      flag,
+      selectedGateInNum.gateInNo
     );
     if (poResponse.hasError) {
       return toast.error(poResponse.errorText, {
@@ -72,6 +80,13 @@ const PrintQrMainComp = () => {
         theme: "light",
       });
     }
+    /* also get the list of the gateIn number for that Po;*/
+    const listOfGateInNumber = await getGateInNumberList(
+      poNumber,
+      selectedSeries.series
+    );
+    /* also get the list of the gateIn number for that Po;*/
+
     const poDetArrayWithRecQty = await poResponse[0].poDet.map((item) => ({
       ...item,
       recQty: 0,
@@ -110,10 +125,24 @@ const PrintQrMainComp = () => {
     // await setSelectedSeries(e.itemData.seriesNum);
     setSelectedValue({ seriesIsSelected: true });
   };
+  const handleGateInNumSelectionClick = async (e) => {
+    await setSelectedGateInNum(e.itemData);
+    console.log(e.itemData);
+    // await setSelectedSeries(e.itemData.seriesNum);
+    setSelectedValue({ gateInIsIsSelected: true });
+  };
 
   const handlePurchaseOrderEntry = async (enteredPoNum) => {
     await setPoNumber(enteredPoNum.value);
     setSelectedValue({ poIsEntered: true });
+    if (enteredPoNum.value) {
+      await setGetInNumList([]);
+      const listOfGateInNumber = await getGateInNumberList(
+        enteredPoNum.value,
+        selectedSeries.series
+      );
+      await setGetInNumList(listOfGateInNumber);
+    }
   };
 
   // Handle the editing of the cell recieved qty
@@ -262,6 +291,17 @@ const PrintQrMainComp = () => {
             displayExpr={"seriesName"}
             onItemClick={handleSeriesSelectionClick}
             className="series-indicator"
+          />
+          <DropDownButton
+            text={
+              selectedGateInNum ? `${selectedGateInNum.gateInNo}` : "Gatein Num"
+            }
+            dropDownOptions={buttonDropDownOptions}
+            items={gateInNumList}
+            keyExpr={"gateInNo"}
+            displayExpr={"gateInNo"}
+            onItemClick={handleGateInNumSelectionClick}
+            className="gatein-num-list"
           />
         </div>
         <div className="search-section">

@@ -165,6 +165,9 @@ const GrpoMain = () => {
       return toastDisplayer("error", "Please type/scan P.O");
     }
   };
+  const handleShowPoDropDetails = async (e) => {
+    console.log("Show Po Drop Details");
+  };
 
   const navigate = useNavigate();
   const handleProceed = (qrCode) => {
@@ -208,6 +211,7 @@ const GrpoMain = () => {
               value={
                 selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""
               }
+              // disabled={selectedRowsData.length > 0 ? false : true}
             >
               <TextBoxButton
                 name="currency"
@@ -237,6 +241,10 @@ const GrpoMain = () => {
                 </div>
                 <div className="single-po-name">
                   <span className="po-name">{qrCode}</span>
+                  <Button
+                    icon="custom-chevron-down-icon"
+                    onClick={handleShowPoDropDetails}
+                  ></Button>
                 </div>
                 <div className="single-po-proceed">
                   <Button
