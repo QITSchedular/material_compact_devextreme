@@ -3,6 +3,7 @@ import Tabs, { Item } from "devextreme-react/tabs";
 import "./gatein-main.styles.scss";
 import notify from "devextreme/ui/notify";
 import GateInComponent from "./gate-in";
+import OldEntryComponent from "./old-entry";
 const HeaderContent = () => {
   return (
     <div className="title-section">
@@ -50,9 +51,9 @@ const GateInMain = () => {
         <TabsContent setSelectedTab={setSelectedTab} />
       </div>
       <div className="tabs-selection-content">
-        {selectedTab === 0 ? <GateInComponent /> : <h1>Old Entry Content</h1>}
+        {selectedTab === 0 ? <GateInComponent /> : <OldEntryComponent />}
       </div>
-    </div>
+    </div >
   );
 };
 

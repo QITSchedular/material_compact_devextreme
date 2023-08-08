@@ -62,6 +62,7 @@
             .single-po-delete{
                 .dx-button{
                     margin-left: 0px !important;
+                    background-color: transparent;
                 }
                 .dx-icon.dx-icon-trash{
                     color: #6F6F6F !important;
@@ -72,6 +73,7 @@
                 padding-left: 15px;
                 display: flex !important;
                 align-items: center;
+                
                 .po-name{
                     color: #525252;
                     font-feature-settings: 'clig' off, 'liga' off;
@@ -80,6 +82,13 @@
                     font-style: normal;
                     font-weight: 400;
                     line-height: normal;
+                    width: 182px !important;
+                }
+                .dx-icon-custom-chevron-down-icon{
+                    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik02LjAwMDAyIDcuMzUzODdMMC4zNDYxOTEgMS43MDAwN0wxLjQwMDAyIDAuNjQ2MjRMNi4wMDAwMiA1LjI0NjI0TDEwLjYgMC42NDYyNEwxMS42NTM4IDEuNzAwMDdMNi4wMDAwMiA3LjM1Mzg3WiIgZmlsbD0iIzI2MjYyNiIvPgo8L3N2Zz4K);
+                    background-repeat: no-repeat;
+                    background-position: 0px 0px;
+                    margin-top: 5px !important;
                 }
             }
             .single-po-proceed{

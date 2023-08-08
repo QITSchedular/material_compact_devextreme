@@ -306,11 +306,18 @@ const GateInComponent = () => {
   };
 
   const handleGateIn = async () => {
+    console.log("Updated item from HandleGateIn", updatedItems);
     if (!vehicleName) {
       return toastDisplayer("error", "Enter vehicle number");
     }
     if (!transporterName) {
       return toastDisplayer("error", "Choose transporter");
+    }
+    if (updatedItems.length <= 0) {
+      return toastDisplayer(
+        "error",
+        "Please recieve some item, to proceed with gate in.."
+      );
     }
     console.log(updatedItems.map((items) => items));
     // console.log(vehicleName, selectedTransporterData);
@@ -321,7 +328,20 @@ const GateInComponent = () => {
       vehicleName,
       selectedTransporterData
     );
-    if (callLoop.statusCode === "200") {
+    console.log(callLoop);
+    const allResponses = await Promise.all(
+      callLoop.map(async (item) => {
+        if (item.statusCode === "200") {
+          return "success";
+        } else {
+          const errorResponse = await item.statusMsg;
+          return `Error: ${errorResponse}`;
+        }
+      })
+    );
+    const isSuccess = allResponses.every((response) => response === "success");
+    if (isSuccess) {
+      await setUpdatedItems([]);
       await handleSearchPurchasedOrder();
       return toast.success("Items Taken in, add more?", {
         position: "top-right",
@@ -334,7 +354,9 @@ const GateInComponent = () => {
         theme: "light",
       });
     } else {
-      return toast.error("Something went wrong, try again later", {
+      const errorMessage = allResponses.join("\n");
+      await setUpdatedItems([]);
+      return toast.error("Something went wrong:\n${errorMessage}", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -345,17 +367,46 @@ const GateInComponent = () => {
         theme: "light",
       });
     }
+    // if (callLoop.statusCode === "200") {
+    //   await handleSearchPurchasedOrder();
+    //   return toast.success("Items Taken in, add more?", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    // } else {
+    // return toast.error("Something went wrong, try again later", {
+    //   position: "top-right",
+    //   autoClose: 5000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "light",
+    // });
+    // }
   };
 
   const handleGridSaving = async (e) => {
-    if (!e.changes[0].data.recQty) {
-      return toastDisplayer("error", "Enter a valid quantity");
-    }
+    console.log(updatedItems);
     if (!e.changes[0]) {
       return toastDisplayer(
         "error",
         "Please, receive the quantity first to proceed"
       );
+    }
+    if (e.changes[0].data.recQty === 0) {
+      console.log("Zero recQty");
+      // return toastDisplayer("error", "Enter a valid quantity");
+    }
+    if (!e.changes[0].data.recQty) {
+      toastDisplayer("error", "Enter a valid quantity");
     }
 
     const { key } = e.changes[0];
@@ -367,16 +418,26 @@ const GateInComponent = () => {
       lineNum: lineNumConstruct.length > 0 ? lineNumConstruct[0].lineNum : null,
     };
 
-    if (e.changes[0].data.recQty === 0) {
-      console.log("Zero recQty");
-    }
-
     setUpdatedItems((prevData) => {
+      // const existingItemIndex = prevData.findIndex((item) => item.key === key);
+      if (newData.recQty === 0) {
+        const filteredData = prevData.filter((item) => item.key !== key);
+        console.log("update items :", filteredData);
+        return [...filteredData];
+      }
+
       const existingItemIndex = prevData.findIndex((item) => item.key === key);
 
+      console.log(
+        "prevData:",
+        prevData.findIndex((item) => item.key === key)
+      ); // Add this line for debugging
+      // console.log("newData:", newData); // Add this line for debugging
       if (existingItemIndex !== -1) {
         // Update the existing item with new recQty and lineNum
+        console.log("prev : ", prevData[existingItemIndex].recQty);
         prevData[existingItemIndex] = newData;
+        console.log("curr : ", prevData[existingItemIndex].recQty);
       } else {
         // Add the new data if no existing item with the same key
         prevData.push(newData);
