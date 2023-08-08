@@ -110,23 +110,9 @@ function OldEntryComponent() {
                     caption={"Transporter Code"}
                     allowEditing={false}
                 />
-
-                {/* <Column type="buttons" caption={"Actions"}>
-                <Button
-                  name="qrcode"
-                  icon={"fa-solid fa-qrcode"}
-                  visible={true}
-                />
-                <Button
-                  name="printqr"
-                  icon={"print"}
-                  visible={true}
-                  onClick={handlePrintClick}
-                />
-              </Column> */}
             </DataGrid>
             <div
-                className="content-block-save"
+                className="content-block-save content-block-wrapper"
                 style={{ justifyContent: "flex-end", marginTop: "10rem" }}
             >
             </div>
