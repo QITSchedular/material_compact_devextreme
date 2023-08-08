@@ -159,7 +159,8 @@ const TransporterHelpComponent = ({
               selectedRowKeys={selectedRowKeys}
               ref={dataGridRef}
             >
-              <SearchPanel visible={true} placeholder="Search..." />
+              <SearchPanel visible={true} width={190}
+                highlightCaseSensitive={true} className={"search-panel"} />
               <Selection mode="multiple" />
               <Scrolling columnRenderingMode="virtual" mode="infinite" />
               <Paging defaultPageSize={20} />
