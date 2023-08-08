@@ -234,4 +234,24 @@ export const getAllTransportersList = async () => {
   }
 };
 
+export const GateInList = async () => {
+  try {
+    const response = await axios.post(`${API_URL}/PurchaseOrders/GateINList?BranchID=`);
+    let data = response.data;
+    for (let i = 0; i < data.length; i++) {
+      // Convert the recDate to a Date object
+      let recDate = new Date(data[i].recDate);
+
+      // Extract only the date portion (YYYY-MM-DD) and store it back in the data object
+      data[i].recDate = recDate.toISOString().split('T')[0];
+
+      console.log(data[i].recDate);
+    }
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const errorHandler = () => {};
+
