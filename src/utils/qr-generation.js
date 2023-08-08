@@ -346,7 +346,7 @@ const mapDateToChars = async (incrementalNum, docDate, flag) => {
 };
 const seriesAppender = async (yyyy, MM, DD, incrementalNum, flag) => {
   if (flag === "headerIncNum") {
-    const finalString = yyyy + MM + DD + "~" + MM + "~" + incrementalNum;
+    const finalString = yyyy + MM + DD + " " + MM + " " + incrementalNum;
     return finalString;
   }
 };
@@ -420,7 +420,7 @@ const itemsQrGeneratorAndSaver = async (
     const qty = "1";
     for (let i = 0; i < loopLength; i++) {
       const itemIncNumber = await getItemsMaxIncNumber(qrCode);
-      const generateItemQr = qrCode + "~" + itemIncNumber;
+      const generateItemQr = qrCode + " " + itemIncNumber;
       const itemsGeneratedQr = generateItemQr;
       const isSavedItemQr = await SaveDetailQR(
         branchID,
@@ -475,7 +475,7 @@ const itemsQrGeneratorAndSaver = async (
     for (let i = 0; i < loopLength; i++) {
       const itemIncNumber = await getItemsMaxIncNumber(qrCode);
       console.log("The max inc num for this item is: ", itemIncNumber);
-      const generateItemQr = qrCode + "~" + itemIncNumber;
+      const generateItemQr = qrCode + " " + itemIncNumber;
       const itemsGeneratedQr = generateItemQr;
       const isSavedItemQr = await SaveDetailQR(
         branchID,
@@ -517,7 +517,7 @@ const itemsQrGeneratorAndSaver = async (
     }
   } else {
     const itemIncNumber = await getItemsMaxIncNumber(qrCode);
-    const generateItemQr = qrCode + "~" + itemIncNumber;
+    const generateItemQr = qrCode + " " + itemIncNumber;
     const itemsGeneratedQr = generateItemQr;
     const isSavedItemQr = await SaveDetailQR(
       branchID,

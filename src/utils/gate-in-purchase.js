@@ -44,7 +44,12 @@ export const getSeriesPo = async (series, branchid) => {
   }
 };
 
-export const getPurchaseOrder = async (poNumber, selectedSeries, flag) => {
+export const getPurchaseOrder = async (
+  poNumber,
+  selectedSeries,
+  flag,
+  gateInNo
+) => {
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -55,7 +60,7 @@ export const getPurchaseOrder = async (poNumber, selectedSeries, flag) => {
     series: selectedSeries,
     branchID: 1,
     gateInOnly: flag ? flag : "N",
-    gateInNo: "",
+    gateInNo: flag === "Y" && gateInNo ? `${gateInNo}` : "",
   };
 
   try {
@@ -93,9 +98,14 @@ export const gateInAndUpdatePo = async (
   vehicleName,
   selectedTransporterData
 ) => {
+  const gateInNoResponse = await axios.post(
+    `${API_URL}/Commons/GetGateINNo?BranchID=${1}`
+  );
+
   const requestBody = {
     objType: "22",
     branchID: 1,
+    gateInNo: gateInNoResponse.data,
     docEntry: docEntry,
     lineNum: lineNum,
     itemCode: itemCode,
@@ -103,7 +113,7 @@ export const gateInAndUpdatePo = async (
     vehicleNo: vehicleName,
     transporter: selectedTransporterData[0].cardCode,
   };
-
+  console.log("Request body to save the gatein", requestBody);
   try {
     const response = await axios.post(
       `${API_URL}/PurchaseOrders/GateINPO`,
@@ -150,8 +160,18 @@ export const callUpdatePoApi = async (
       vehicleNo,
       selectedTransporterData
     );
-    console.log("THIS IS THE RESPOSNE DATA", response);
+    if (response.isSaved === "Y") {
+      updatedResponses.push(response);
+    } else {
+      const error = {
+        statusCode: "400",
+        isSaved: "N",
+        statusMsg: `Gate in failed for item code: ${updatedItemsList[i].key}`,
+      };
+      updatedResponses.push(error);
+    }
   }
+  return updatedResponses;
   // call the above api one by one now
   // const loopCALL = updatedItemsList.map(async (element) => {
   //   // console.log(element)
@@ -190,6 +210,18 @@ export const getPoLists = async () => {
   }
 };
 
+// get all this list of gate In number according to the selected po number
+export const getGateInNumberList = async (DocNum, Series) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/Commons/FillGateInNo?Series=${Series}&DocNum=${DocNum}`
+    );
+    console.log("The list of all the gate in done", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Error: " + error);
+  }
+};
 // Get TransPorter List
 export const getAllTransportersList = async () => {
   try {
@@ -220,3 +252,6 @@ export const GateInList = async () => {
     return error;
   }
 };
+
+export const errorHandler = () => {};
+

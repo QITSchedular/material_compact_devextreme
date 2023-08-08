@@ -47,15 +47,16 @@
             .buttons-section {
 
                 // margin-bottom: 1rem;
-                .dx-button {
-                    height: 31px;
-                    margin-right: 15px;
-                }
 
-                .period-indicator,
-                .series-indicator {
-                    span {
-                        width: 90.554px !important;
+                    .dx-button{
+                        height: 31px;
+                        margin-right: 15px;
+                    }
+                    .period-indicator,.series-indicator,.gatein-num-list{
+                        span{
+                            width: 90.554px !important;
+                        }
+
                     }
                 }
 
