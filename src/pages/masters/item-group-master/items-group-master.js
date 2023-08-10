@@ -1,31 +1,78 @@
 import React, { useContext, useEffect, useState } from "react";
 import MastersHeaderContent from "../../../components/masters-header-content/MastersHeaderContent";
-import { useNavigate } from "react-router-dom";
-import { useNavigation } from "../../../contexts/navigation";
+import { AppContext } from "../../../contexts/dataContext";
+import { PopupForm } from "../../../components";
+import { getItemGroup,getQrManagedBy } from "../../../utils/items-master-data";
+import "../../../themes/custom-theme/dx.custom-material.scss";
 
 export default function ItemGroupMaster() {
-  const {
-    navigationData: { currentPath },
-  } = useNavigation();
-
-  const navigate = useNavigate();
-  const handleAddClick = () => {
-    return navigate("/masters/additemsgroup");
+  const [qrManagedByOptions, setQrManagedByOptions] = useState("");
+  useEffect(()=>{
+    const getData=async()=>{
+      var response=await getQrManagedBy();
+      setQrManagedByOptions(response);
+    }
+    getData();
+  },[])
+  const [showItemGroupMasterBox, setShowItemGroupMasterBox] = useState(false);
+  const { openCommonPopup} = useContext(AppContext);
+  const showItemGroupMaster = () => {
+    setShowItemGroupMasterBox(true);
+    openCommonPopup();
   };
-  useEffect(() => {
-    console.log(currentPath);
-  }, [currentPath]);
+  const dataArray = [
+    { feildType: "dxTextBox", label: 'Item Group Name', isValidate: true },
+    { feildType: "dxSelectBox", label: 'QR Managed By', isValidate: false ,AllData :qrManagedByOptions,dExpr:"qrMngByName" ,vExpr:"qrMngById" },
+    { feildType: "dxCheckBox", label: 'Locked', isValidate: false }
+  ];
+  
+  const columns = [
+    {
+      "caption": "Item Group Name",
+      "field": "itmsGrpNam"
+    },
+    {
+      "caption": "QR Managed By",
+      "field": "qrMngBy"
+    },
+    {
+      "caption": "Locked",
+      "field": "locked"
+    },
+    {
+      "caption": "Actions",
+      "field": ""
+    },
+  ]
+
+  // const keyArray=["itmsGrpNam","qrMngBy","locked"]  ;
+  const keyArray = [
+    { input: "itmsGrpNam" },
+    { input: "qrMngBy" },
+    { checkbox: "Locked" }
+];
+
   return (
     <React.Fragment>
       <div className="content-block dx-card responsive-paddings">
-        <div className="content-blocks">
+        <div cssClass="iconCss" className="content-blocks" >
           <MastersHeaderContent
             title={"Items Group Master"}
             subtitle={"You are viewing the total number of item groups"}
-            handleAddClick={handleAddClick}
+            handleAddClick={showItemGroupMaster}
+            columns={columns}
+            masterType={"ItemGroups"}
+            keyExpr={"itmsGrpCod"}
           />
         </div>
       </div>
+      {showItemGroupMasterBox && <PopupForm
+        title={"Item Group Master"}
+        field={dataArray}
+        clientMasterType={"ItemGroups"}
+        keyArray={keyArray}
+      />
+      }
     </React.Fragment>
   );
 }

@@ -9,9 +9,12 @@ import {
   GrpoPage,
   GrpoScanItemsPage,
   GateInMainPage,
+  LocationMasterPage,
+  UomMasterPage,
+  WarehouseMasterPage,
+  ItemsubgroupmasterPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
-// import ItemGroupMaster from "./pages/masters/item-group-master/items-group-master";
 
 const routes = [
   {
@@ -31,8 +34,24 @@ const routes = [
     element: ItemsGroupMasterPage,
   },
   {
+    path: "/masters/itemssubgroup",
+    element: ItemsubgroupmasterPage,
+  },
+  {
     path: "/masters/additemsgroup",
     element: AddItemsGroupMasterPage,
+  },
+  {
+    path: "/masters/uom",
+    element: UomMasterPage,
+  },
+  {
+    path: "/masters/warehouse",
+    element: WarehouseMasterPage,
+  },
+  {
+    path: "/masters/location",
+    element: LocationMasterPage,
   },
   //purchases
   {
@@ -55,6 +74,7 @@ const routes = [
     path: "/purchases/grpo/scanItems/:qrCode",
     element: GrpoScanItemsPage,
   },
+
 ];
 
 export default routes.map((route) => {

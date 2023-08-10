@@ -148,13 +148,13 @@ const TransporterHelpComponent = ({
             style={{ margin: "8px 24px", height: "100% !important" }}
           >
             <DataGrid
-              height={window.innerHeight < 840 ? "450" : "500"}
+              // height={window.innerHeight < 840 ? "450" : "500"}
               dataSource={transporterDataSource}
               keyExpr="cardCode"
               showBorders={false}
               columnAutoWidth={true}
               hoverStateEnabled={true}
-              className="transporter-data-grid"
+              className="transporter-data-grid testGrid"
               onSelectionChanged={handleTransporterSelection}
               selectedRowKeys={selectedRowKeys}
               ref={dataGridRef}

@@ -29,7 +29,7 @@
 
 .header-title .dx-item-content {
   padding: 0;
-  margin: 0;
+  margin-left: 20px;
 }
 
 .dx-theme-generic {
@@ -41,6 +41,64 @@
     padding: 3px;
   }
 }
-.dx-toolbar-items-container{
+
+.dx-toolbar-items-container {
   height: 55.997px !important;
+}
+
+
+// new header css
+.header-toolbar {
+  // display: flex;
+
+  .nav-icons {
+    // .dx-field-value {
+    //   align-items: center;
+    // }
+
+    .dx-button-has-icon .dx-icon {
+      width: 24px;
+      height: 24px;
+      background-size: cover;
+      background-position: center;
+
+      // position: relative;
+      .search-section {
+        .dx-field-value {
+          border: 1px solid red
+        }
+
+        display: flex;
+        // width: 389px;
+        // height: 44px;
+        padding: 0px 12px;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
+.breadcrumb {
+  // padding: 10px 16px;
+  color: #4371b7;
+  text-decoration: none;
+}
+
+.breadcrumb-item {
+  text-decoration: none;
+  display: inline;
+  font-size: 15px;
+}
+
+.breadcrumb .active:before {
+  content: "/";
+  padding: 8px;
+  color: #4371b7;
+}
+
+.breadcrumb-item .active {
+  color: #4371b7;
+  text-decoration: none;
 }
