@@ -98,3 +98,154 @@
     }
 }
 
+// The pop of searchig the po::after
+
+.dx-overlay-content.dx-popup-normal.dx-popup-draggable.dx-resizable{
+    .dx-popup-content{
+        .grpo-po-help-container{
+            .header-section{}
+
+            .dx-widget.dx-visibility-change-handler{
+                max-height: 80%;
+                .dx-datagrid.dx-gridbase-container.dx-datagrid-borders{
+                    // border-radius: 8px;
+                    // background: #FFF;
+                    // box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.10);
+                    margin: 15px 0;
+                    .dx-datagrid-header-panel{
+                        padding-bottom: 1rem !important;
+                        .dx-texteditor.dx-editor-filled {
+                            background-color: #fff !important;
+                            border: 1px solid #e0e0e0 !important;
+                            border-radius: 8px;
+                        }
+                    
+                        .dx-texteditor.dx-editor-filled::after {
+                            border-bottom: none !important;
+                        }
+                    
+                        .dx-texteditor.dx-state-focused::before {
+                            border-bottom: none !important;
+                            transform: none !important;
+                    
+                        }
+                        .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection {
+                            .dx-toolbar-items-container {
+                                .dx-toolbar-after {
+                                    padding-left: 0px !important;
+                                    width: 100%;
+
+                                    .dx-item.dx-toolbar-item.dx-toolbar-button {
+                                        .dx-item-content.dx-toolbar-item-content {
+                                            .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button {
+                                                width: 100% !important;
+                                                margin: 0 0 0 0 !important;
+
+                                                .dx-texteditor-container {
+                                                    width: 100% !important;
+
+                                                    .dx-texteditor-input-container {
+                                                        width: 100% !important;
+
+                                                    }
+                                                }
+                                            }
+                                            .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button.dx-texteditor-empty.dx-widget.dx-state-focused {
+                                                border: 1px solid #4371B7 !important;
+                                                box-shadow: 0px 1px 120px 0px rgba(0, 0, 0, 0.01);
+                                        
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+
+                    .dx-datagrid-headers.dx-datagrid-nowrap{
+                        padding-left: 24px !important;
+                        padding-right: 24px !important;
+                        border: 0px !important;
+                        border-radius: 8px 8px 0 0 !important;
+                        box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.10);
+                        .dx-datagrid-content.dx-datagrid-scroll-container{
+                            .dx-datagrid-table.dx-datagrid-table-fixed{
+                                margin:10px 0px !important;
+                            }
+
+                        }
+                       
+                    }
+                    .dx-datagrid-rowsview.dx-datagrid-nowrap.dx-scrollable.dx-visibility-change-handler.dx-scrollable-both.dx-scrollable-native.dx-scrollable-native-generic{
+                        border-radius: 0px 0px 8px 8px !important;
+                        border: 0px !important;
+                        padding-top: 10px !important;
+                        padding-bottom: 2rem !important;
+                        padding-left: 24px !important;
+                        padding-right: 24px !important;
+                        box-shadow: -2px 2px 8px 0px rgba(0, 0, 0, 0.10);
+
+                        .dx-scrollable-wrapper{
+                            .dx-scrollable-container{
+                                .dx-scrollable-content{
+                                    .dx-datagrid-content{
+                                        .dx-datagrid-table.dx-datagrid-table-fixed{
+                                            colgroup{
+                                                col{
+                                                    margin-top: 10px;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    
+                }
+            }
+        }
+       
+    }
+
+    .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection.dx-popup-bottom{
+        .dx-toolbar-items-container{
+            .dx-toolbar-after{
+                padding-right: 24px !important;
+                .tootlbar-save-button{
+                    .dx-item-content.dx-toolbar-item-content{
+                        div[aria-label="Save"].dx-button {
+                           .dx-button-content{
+                            .dx-button-text{
+                                color: #ffffff;
+                            }
+                           }
+                          }
+                    }
+                }
+            }
+        }
+    }
+    @media (max-width: 568px) {
+        .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection.dx-popup-bottom {
+          .dx-toolbar-items-container {
+            .dx-toolbar-after {
+              .tootlbar-save-button {
+                .dx-item-content.dx-toolbar-item-content {
+                  div[aria-label="Save"].dx-button {
+                    .dx-button-content {
+                      .dx-button-text {
+                        color: red; // Change the color to red for smaller screens
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
+}
