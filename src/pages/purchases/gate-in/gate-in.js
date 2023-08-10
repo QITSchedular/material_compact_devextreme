@@ -9,7 +9,6 @@ import {
 } from "devextreme-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import DropDownButton from "devextreme-react/drop-down-button";
-import NodataImg from "../../../assets/images/no-data-po.svg";
 import { Popup, ToolbarItem } from "devextreme-react/popup";
 import DataGrid, {
   Column,
