@@ -75,39 +75,32 @@ function OldEntryComponent() {
         <Paging defaultPageSize={12} />
         <Selection mode="multiple" />
 
-        <Editing
-          mode="row"
-          allowDeleting
-          allowUpdating
-          selectTextOnEditStart={true}
-
-        />
         <Column
           dataField={"docNum"}
           caption={"PO Document No."}
-          allowEditing={false}
+
           width={182}
         />
         <Column
           dataField={"gateInNo"}
           caption={"Gate In No."}
-          allowEditing={false}
+
         />
 
         <Column
           dataField={"recDate"}
           caption={"Recieved Date"}
-          allowEditing={false}
+
         />
         <Column
           dataField={"vehicleNo"}
           caption={"Vehical No."}
-          allowEditing={false}
+
         />
         <Column
           dataField={"transporterCode"}
           caption={"Transporter Code"}
-          allowEditing={false}
+
         />
       </DataGrid>
       <div
