@@ -106,15 +106,21 @@ const renderContent = ({
     return addedRemarks;
   };
   const handleBatchesValueChange = async (data) => {
-    const { qty } = selectedQrRowData;
+    console.log("This is data", data); // added batch number
+    const { qty } = selectedQrRowData; // the total quantity recieved
+    console.log(
+      "From handleBatchesValueChang, the total recieved quantity",
+      qty
+    );
     if (data > qty) {
       console.log("Data is greater than or equal to");
     }
     addedBatchNum = await addBatchNumber(data);
-    console.log(addedBatchNum);
+    console.log("This is added batch number", addedBatchNum);
     return addedBatchNum;
   };
   const addBatchNumber = async (totalBatches) => {
+    console.log("The total batches is ", totalBatches);
     const newBatchNum = totalBatches;
     return newBatchNum;
   };
