@@ -147,18 +147,19 @@ const TransporterHelpComponent = ({
             style={{ margin: "8px 24px", height: "100% !important" }}
           >
             <DataGrid
-              height={window.innerHeight < 840 ? "450" : "500"}
+              // height={window.innerHeight < 840 ? "450" : "500"}
               dataSource={transporterDataSource}
               keyExpr="cardCode"
               showBorders={false}
               columnAutoWidth={true}
               hoverStateEnabled={true}
-              className="transporter-data-grid"
+              className="transporter-data-grid testGrid"
               onSelectionChanged={handleTransporterSelection}
               selectedRowKeys={selectedRowKeys}
               ref={dataGridRef}
             >
-              <SearchPanel visible={true} placeholder="Search..." />
+              <SearchPanel visible={true} width={190}
+                highlightCaseSensitive={true} className={"search-panel"} />
               <Selection mode="multiple" />
               <Scrolling columnRenderingMode="virtual" mode="infinite" />
               <Paging defaultPageSize={20} />

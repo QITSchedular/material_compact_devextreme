@@ -32,7 +32,7 @@ const TabsContent = ({ setSelectedTab }) => {
   };
 
   return (
-    <Tabs width={300} selectedIndex={0} onItemClick={onItemClick}>
+    <Tabs width={300} selectedIndex={0} onItemClick={onItemClick} id="selectTab">
       <Item text="New Entry"></Item>
       <Item text="Old Entry"></Item>
     </Tabs>

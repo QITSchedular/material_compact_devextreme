@@ -11,6 +11,7 @@ import DataGrid, {
   Button,
 } from "devextreme-react/data-grid";
 import "../gate-in-styles.scss";
+import "./printqr-styles.scss";
 //sample data Things
 
 import { toast } from "react-toastify";
