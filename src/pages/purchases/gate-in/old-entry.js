@@ -78,8 +78,6 @@ function OldEntryComponent() {
 
                 <Editing
                     mode="row"
-                    allowDeleting
-                    allowUpdating
                     selectTextOnEditStart={true}
 
                 />
