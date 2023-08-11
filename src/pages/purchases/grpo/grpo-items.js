@@ -17,10 +17,6 @@ import "./grpo-items.styles.scss";
 import { useNavigation } from "../../../contexts/navigation";
 import { HelpIcons } from "./icons-exporter";
 import { Button as TextBoxButton } from "devextreme-react/text-box";
-import { ToolbarItem } from "devextreme-react/popup";
-import GrpoWarehouseChooserComponent, {
-  WarehouseChooserTitle,
-} from "./grpo-warehouse-chooser";
 
 const GrpoItems = () => {
   const { qrCode } = useParams();
@@ -30,7 +26,7 @@ const GrpoItems = () => {
   const [loading, setLoading] = useState(false);
   const [comments, setComments] = useState("");
   const [showWareHousePopupHelp, setShowWareHousePopupHelp] = useState(false);
-  const [uniqueIds, setUniqueIds] = useState(new Set());
+
   const navigate = useNavigate();
   const handleTextValueChange = (e) => {
     // console.log(e.previousValue);
@@ -43,7 +39,7 @@ const GrpoItems = () => {
     // validate the scanned item
     if (selectedItemQr) {
       const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
-
+      console.log(doItemExists);
       if (doItemExists === "No data found") {
         // console.log("the scanned item does not exist");
         return toastDisplayer(
@@ -51,10 +47,6 @@ const GrpoItems = () => {
           "The scanned item does not belong to this P.O"
         );
       } else {
-        // Filter out duplicate detailQRCodeID values
-        const newData = doItemExists.filter(
-          (item) => !uniqueIds.has(item.detailQRCodeID)
-        );
         setDisplayGrid(true);
         return setGridDataSource((previous) => [...previous, ...doItemExists]);
       }
@@ -106,56 +98,13 @@ const GrpoItems = () => {
       warehousePopUpHandler();
     },
   };
-  const saveButtonOptions = {
-    width: 120,
-    height: 40,
-    text: "OK",
-    type: "default",
-    stylingMode: "contained",
-  };
-  const cancelButtonOptions = {
-    width: 120,
-    height: 40,
-    text: "Cancel",
-    type: "error",
-    stylingMode: "contained",
-    // onClick: () => handleCancelNoSelection(),
-  };
   const warehousePopUpHandler = async () => {
     console.log("Open pop up");
-    return await setShowWareHousePopupHelp(true);
+    await setShowWareHousePopupHelp(true);
   };
-  const popupCloseHandler = async () => {
-    console.log("Open pop up");
-    return await setShowWareHousePopupHelp(false);
-  };
-
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
       {loading && <LoadPanel visible={true} />}
-      {showWareHousePopupHelp && (
-        <Popup
-          visible={true}
-          showCloseButton={true}
-          hideOnOutsideClick={popupCloseHandler}
-          contentRender={() => <GrpoWarehouseChooserComponent />}
-          // hideOnOutsideClick={outSideHandler}
-        >
-          <ToolbarItem
-            widget="dxButton"
-            toolbar="bottom"
-            location="after"
-            options={cancelButtonOptions}
-          />
-          <ToolbarItem
-            widget="dxButton"
-            toolbar="bottom"
-            location="after"
-            options={saveButtonOptions}
-            cssClass={"tootlbar-save-button"}
-          />
-        </Popup>
-      )}
 
       <div className="title-section">
         <h3 className="title-name">Grpo</h3>

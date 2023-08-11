@@ -237,9 +237,8 @@ export const getAllTransportersList = async () => {
 export const GateInList = async () => {
   try {
     const response = await axios.post(
-      `${API_URL}/PurchaseOrders/GateINList?BranchID=1`
+      `${API_URL}/PurchaseOrders/GateINList?BranchID=`
     );
-
     let data = response.data;
     for (let i = 0; i < data.length; i++) {
       // Convert the recDate to a Date object
@@ -256,11 +255,4 @@ export const GateInList = async () => {
   }
 };
 
-export const errorHandler = () => { };
-
-
-export const poExistValidator = async (qrStr) => {
-  try {
-    const allPoList = await getPoLists();
-  } catch (error) {}
-};
+export const errorHandler = () => {};
