@@ -25,7 +25,11 @@ export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
   }
 };
 
-const grpoDetailsConstructor = async (gridDataSource, comments) => {
+const grpoDetailsConstructor = async (
+  gridDataSource,
+  comments,
+  choosenWarehouseName
+) => {
   const groupPayloadByItemCode = async (gridDataSource) => {
     const groupedData = await gridDataSource.reduce((acc, item) => {
       const existingItem = acc.find(
@@ -48,13 +52,18 @@ const grpoDetailsConstructor = async (gridDataSource, comments) => {
       const grpoBatchSerialData = gridDataSource
         .filter((item) => item.itemCode === group.itemCode)
         .map((item) => ({
+          gateInNo: item.gateInNo,
           itemCode: item.itemCode,
+          detailQRCodeID: item.detailQRCodeID,
           batchSerialNo: item.batchSerialNo,
           qty: `${item.qty}`,
         }));
       return {
         itemCode: group.itemCode,
         lineNum: `${group.lineNum}`,
+        uomCode: `${group.uoMCode}`,
+        fromWhs: `${group.whsCode}`,
+        toWhs: `${choosenWarehouseName}`,
         itemMngBy: group.itemMngBy,
         qty: `${group.qty}`,
         grpoBatchSerial: grpoBatchSerialData,
@@ -67,18 +76,27 @@ const grpoDetailsConstructor = async (gridDataSource, comments) => {
 
   const headerItem = gridDataSource[0]; // Assuming gridDataSource has at least one element
   return {
+    branchId: "1",
     docEntry: headerItem.docEntry,
+    docNum: headerItem.docNum,
     cardCode: headerItem.cardCode,
     docDate: headerItem.docDate,
     comments: comments,
+    whsCode: choosenWarehouseName,
     grpoDet: grpoDetData,
   };
 };
 
-export const generateGrpo = async (gridDataSource, comments) => {
+export const generateGrpo = async (
+  gridDataSource,
+  comments,
+  choosenWarehouseName
+) => {
+  console.log("This is the grid data source", gridDataSource);
   const structuredPayload = await grpoDetailsConstructor(
     gridDataSource,
-    comments
+    comments,
+    choosenWarehouseName
   );
   console.log("This is the structuredPayload", structuredPayload);
   console.log(JSON.stringify(structuredPayload));
@@ -95,5 +113,17 @@ export const generateGrpo = async (gridDataSource, comments) => {
       const returnError = error.response.data;
       return returnError;
     }
+  }
+};
+
+export const wareHouseList = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/Warehouses/Get?Filter=N`);
+    const returnData = await res.data;
+    return returnData;
+  } catch (error) {
+    console.log(error);
+    const returnError = error.response.data;
+    return returnError;
   }
 };

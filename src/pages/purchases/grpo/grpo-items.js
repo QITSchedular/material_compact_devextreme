@@ -17,16 +17,22 @@ import "./grpo-items.styles.scss";
 import { useNavigation } from "../../../contexts/navigation";
 import { HelpIcons } from "./icons-exporter";
 import { Button as TextBoxButton } from "devextreme-react/text-box";
+import { ToolbarItem } from "devextreme-react/popup";
+import GrpoWarehouseChooserComponent, {
+  WarehouseChooserTitle,
+} from "./grpo-warehouse-chooser";
 
 const GrpoItems = () => {
   const { qrCode } = useParams();
   const [selectedItemQr, setSelectedItemQR] = useState(null);
   const [gridDataSource, setGridDataSource] = useState([]);
+  const [selectedRowsData, setSelectedRowsData] = useState([]);
   const [displayGrid, setDisplayGrid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [comments, setComments] = useState("");
   const [showWareHousePopupHelp, setShowWareHousePopupHelp] = useState(false);
-
+  const [uniqueIds, setUniqueIds] = useState(new Set());
+  const [choosenWarehouseName, setChoosenWarehouseName] = useState("");
   const navigate = useNavigate();
   const handleTextValueChange = (e) => {
     // console.log(e.previousValue);
@@ -39,7 +45,7 @@ const GrpoItems = () => {
     // validate the scanned item
     if (selectedItemQr) {
       const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
-      console.log(doItemExists);
+
       if (doItemExists === "No data found") {
         // console.log("the scanned item does not exist");
         return toastDisplayer(
@@ -47,6 +53,10 @@ const GrpoItems = () => {
           "The scanned item does not belong to this P.O"
         );
       } else {
+        // Filter out duplicate detailQRCodeID values
+        const newData = doItemExists.filter(
+          (item) => !uniqueIds.has(item.detailQRCodeID)
+        );
         setDisplayGrid(true);
         return setGridDataSource((previous) => [...previous, ...doItemExists]);
       }
@@ -57,15 +67,34 @@ const GrpoItems = () => {
   };
 
   const handleGrpoSaving = async () => {
+    // return null;
     if (!gridDataSource.length > 0) {
       toastDisplayer(
         "error",
         " ❌ This request not allowed..Please Scan items to proceed"
       );
       return toastDisplayer("error", " ❌ Please Scan items to proceed");
+    }
+    if (
+      selectedRowsData[0].length > 0 &&
+      choosenWarehouseName !== selectedRowsData[0].whsCode
+    ) {
+      await setSelectedRowsData([]);
+      return toastDisplayer(
+        "error",
+        "Invalid warehouse name, select one from the dropdown"
+      );
     } else {
+      if (selectedRowsData.length <= 0) {
+        return toastDisplayer("error", "Choose warehouse to save the grpo");
+        await setSelectedRowsData([]);
+      }
       setLoading(true);
-      const doGrpo = await generateGrpo(gridDataSource, comments);
+      const doGrpo = await generateGrpo(
+        gridDataSource,
+        comments,
+        choosenWarehouseName
+      );
       console.log("doGrpo", doGrpo.isSaved);
       if (doGrpo.isSaved === "Y") {
         console.log("saved");
@@ -98,13 +127,91 @@ const GrpoItems = () => {
       warehousePopUpHandler();
     },
   };
+  const saveButtonOptions = {
+    width: 120,
+    height: 40,
+    text: "OK",
+    type: "default",
+    stylingMode: "contained",
+    onClick: () => handleSaveSelectedPo(),
+  };
+  const handleSaveSelectedPo = () => {
+    if (selectedRowsData.length > 0) {
+      console.log("Current selected row data", selectedRowsData);
+      console.log("Close the popup window");
+      return setShowWareHousePopupHelp(false);
+    } else {
+      return toastDisplayer("error", "Please select a PO to save and proceed");
+    }
+  };
+  const handleCancelNoSelection = () => {
+    console.log("User have clicked the cancel buttpn, clear the selection");
+    // setSelectedRowsData([]);
+    return setShowWareHousePopupHelp(false);
+  };
+  const cancelButtonOptions = {
+    width: 120,
+    height: 40,
+    text: "Cancel",
+    type: "error",
+    stylingMode: "contained",
+    onClick: () => handleCancelNoSelection(),
+  };
   const warehousePopUpHandler = async () => {
     console.log("Open pop up");
-    await setShowWareHousePopupHelp(true);
+    return await setShowWareHousePopupHelp(true);
+  };
+  const popupCloseHandler = async () => {
+    console.log("Open pop up");
+    return await setShowWareHousePopupHelp(false);
+  };
+  const handleGrpoPoSelection = (params) => {
+    console.log("from the handleGrpoPoSelection shbchjasbs", params);
+    if (params.length > 0) {
+      return setSelectedRowsData(params);
+    }
+  };
+  const handleChoosenWareHouseChange = async (data) => {
+    // if (selectedRowsData.length > 0) {
+    //   return setChoosenWarehouseName(selectedRowsData[0].whsCode);
+    // } else {
+    //   setChoosenWarehouseName(data);
+
+    // }
+    console.log(data);
+    await setChoosenWarehouseName(data.value);
   };
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
       {loading && <LoadPanel visible={true} />}
+      {showWareHousePopupHelp && (
+        <Popup
+          visible={true}
+          showCloseButton={true}
+          hideOnOutsideClick={popupCloseHandler}
+          // contentRender={() => <GrpoWarehouseChooserComponent />}
+          contentRender={() => (
+            <GrpoWarehouseChooserComponent
+              handleSaveSelectedWarehouse={handleGrpoPoSelection}
+            />
+          )}
+          // hideOnOutsideClick={outSideHandler}
+        >
+          <ToolbarItem
+            widget="dxButton"
+            toolbar="bottom"
+            location="after"
+            options={cancelButtonOptions}
+          />
+          <ToolbarItem
+            widget="dxButton"
+            toolbar="bottom"
+            location="after"
+            options={saveButtonOptions}
+            cssClass={"tootlbar-save-button"}
+          />
+        </Popup>
+      )}
 
       <div className="title-section">
         <h3 className="title-name">Grpo</h3>
@@ -140,6 +247,10 @@ const GrpoItems = () => {
             placeholder="Warehouse"
             width={150}
             showClearButton={true}
+            onValueChanged={handleChoosenWareHouseChange}
+            value={
+              selectedRowsData.length > 0 ? selectedRowsData[0].whsCode : ""
+            }
           >
             <TextBoxButton
               name="currency"

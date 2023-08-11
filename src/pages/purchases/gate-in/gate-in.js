@@ -148,7 +148,7 @@ const TransporterHelpComponent = ({
             style={{ margin: "8px 24px", height: "100% !important" }}
           >
             <DataGrid
-              // height={window.innerHeight < 840 ? "450" : "500"}
+              height={window.innerHeight - 250}
               dataSource={transporterDataSource}
               keyExpr="cardCode"
               showBorders={false}
@@ -159,8 +159,12 @@ const TransporterHelpComponent = ({
               selectedRowKeys={selectedRowKeys}
               ref={dataGridRef}
             >
-              <SearchPanel visible={true} width={190}
-                highlightCaseSensitive={true} className={"search-panel"} />
+              <SearchPanel
+                visible={true}
+                width={190}
+                highlightCaseSensitive={true}
+                className={"search-panel"}
+              />
               <Selection mode="multiple" />
               <Scrolling columnRenderingMode="virtual" mode="infinite" />
               <Paging defaultPageSize={20} />
@@ -486,6 +490,7 @@ const GateInComponent = () => {
       {showTransporterHelp && (
         <Popup
           visible={true}
+          height={window.innerHeight - 20}
           contentRender={() => (
             <TransporterHelpComponent
               onSelectRow={handleTransporterRowSelection}

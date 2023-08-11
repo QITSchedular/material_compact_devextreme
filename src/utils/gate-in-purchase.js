@@ -237,7 +237,7 @@ export const getAllTransportersList = async () => {
 export const GateInList = async () => {
   try {
     const response = await axios.post(
-      `${API_URL}/PurchaseOrders/GateINList?BranchID=`
+      `${API_URL}/PurchaseOrders/GateINList?BranchID=1`
     );
     let data = response.data;
     for (let i = 0; i < data.length; i++) {
