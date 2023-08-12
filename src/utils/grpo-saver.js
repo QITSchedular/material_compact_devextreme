@@ -52,7 +52,7 @@ const grpoDetailsConstructor = async (
       const grpoBatchSerialData = gridDataSource
         .filter((item) => item.itemCode === group.itemCode)
         .map((item) => ({
-          gateInNo: item.gateInNo,
+          gateInNo: `${item.gateInNo}`,
           itemCode: item.itemCode,
           detailQRCodeID: item.detailQRCodeID,
           batchSerialNo: item.batchSerialNo,
