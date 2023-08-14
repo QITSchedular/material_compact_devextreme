@@ -1,0 +1,188 @@
+@import "../../themes/generated/variables.base.scss";
+
+.grid-container {
+    a {
+        text-decoration: none;
+    }
+
+    .dx-card {
+        box-sizing: border-box;
+        width: 224.915px;
+        height: 171.684px;
+        flex-shrink: 0;
+        margin: auto auto;
+        padding: 20px;
+        border-radius: 13.841px;
+        border-bottom: 4px solid #4371B7;
+        background: #FFF;
+        box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.10);
+        position: relative;
+
+        .pin {
+            position: absolute;
+            top: 0;
+            right: 0px;
+            padding: 12px 12px 0px 0px;
+        }
+
+
+        .header {
+            display: flex;
+            padding: 0;
+            margin-top: 22px;
+
+            .dx-button {
+                margin-left: 0;
+                background: transparent;
+                cursor: default;
+            }
+
+            .dx-button-has-icon .dx-icon {
+                width: 22px;
+                height: 22px;
+                color: #525252;
+            }
+
+            .heading {
+                margin-left: 2px;
+                color: $base-text-color;
+                line-height: 28px;
+                font-weight: 500;
+                font-size: 16px;
+                text-decoration: none;
+            }
+        }
+
+        .description {
+            color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+            line-height: 18px;
+            margin-top: 10px;
+        }
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .grid-container {
+        a {
+            text-decoration: none;
+        }
+
+        .dx-card {
+            box-sizing: border-box;
+            width: 224.915px;
+            height: 171.684px;
+            flex-shrink: 0;
+            margin: auto auto;
+            padding: 20px;
+            border-radius: 13.841px;
+            border-bottom: 4px solid #4371B7;
+            background: #FFF;
+            box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.10);
+            position: relative;
+
+            .pin {
+                position: absolute;
+                top: 0;
+                right: 0px;
+                padding: 12px 12px 0px 0px;
+            }
+
+
+            .header {
+                display: flex;
+                padding: 0;
+                margin-top: 22px;
+
+                .dx-button {
+                    margin-left: 0;
+                    background: transparent;
+                    cursor: default;
+                }
+
+                .dx-button-has-icon .dx-icon {
+                    width: 22px;
+                    height: 22px;
+                    color: #525252;
+                }
+
+                .heading {
+                    margin-left: 2px;
+                    color: $base-text-color;
+                    line-height: 28px;
+                    font-weight: 500;
+                    font-size: 16px;
+                    text-decoration: none;
+                }
+            }
+
+            .description {
+                color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+                line-height: 18px;
+                margin-top: 10px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .grid-container {
+        a {
+            text-decoration: none;
+        }
+
+        .dx-card {
+            box-sizing: border-box;
+            width: 224.915px;
+            height: 171.684px;
+            flex-shrink: 0;
+            margin: auto auto;
+            padding: 20px;
+            border-radius: 13.841px;
+            border-bottom: 4px solid #4371B7;
+            background: #FFF;
+            box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.10);
+            position: relative;
+
+            .pin {
+                position: absolute;
+                top: 0;
+                right: 0px;
+                padding: 12px 12px 0px 0px;
+            }
+
+
+            .header {
+                display: flex;
+                padding: 0;
+                margin-top: 22px;
+
+                .dx-button {
+                    margin-left: 0;
+                    background: transparent;
+                    cursor: default;
+                }
+
+                .dx-button-has-icon .dx-icon {
+                    width: 22px;
+                    height: 22px;
+                    color: #525252;
+                }
+
+                .heading {
+                    margin-left: 2px;
+                    color: $base-text-color;
+                    line-height: 28px;
+                    font-weight: 500;
+                    font-size: 16px;
+                    text-decoration: none;
+                }
+            }
+
+            .description {
+                color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+                line-height: 18px;
+                margin-top: 10px;
+            }
+        }
+    }
+}
