@@ -1,3 +1,5 @@
+import { Sacnner, pin } from "./assets/icon";
+
 export const navigation = [
   {
     text: "Home",
@@ -108,5 +110,12 @@ export const navigation = [
     text: "Sales",
     path: "/sales",
     icon: "fa-solid fa-bag-shopping",
+    items: [
+      {
+        text: "Scanner",
+        path: "/scan",
+        icon: "home",
+      },
+    ],
   },
 ];

@@ -301,8 +301,6 @@ const GrpoMain = () => {
       {loading && <LoadPanel visible={true} />}
       {showPoHelp && (
         <Popup
-          maxWidth={720}
-          maxHeight={500}
           visible={true}
           showCloseButton={true}
           contentRender={() => <PopupContent onSave={handleGrpoPoSelection} />}

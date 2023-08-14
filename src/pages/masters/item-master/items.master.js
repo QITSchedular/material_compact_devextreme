@@ -2,6 +2,7 @@ import { DataGrid, LoadPanel } from "devextreme-react";
 import {
   Button,
   Column,
+  ColumnFixing,
   Editing,
   Export,
   Pager,
@@ -123,6 +124,7 @@ export default function ItemsMaster() {
               className={"search-panel"}
             />
             <Selection mode="multiple" allowSelectAll={false} />
+            <ColumnFixing enabled={true} />
 
             <Column dataField={"itemCode"} width={90} />
             <Column dataField={"itemName"} width={190} caption={"Item Name"} />
@@ -136,7 +138,12 @@ export default function ItemsMaster() {
             <Column dataField={"qrMngByName"} caption={"Qr Managed By"} />
             <Column dataField={"itemMngByName"} caption={"Item Managed By"} />
             <Column dataField={"isActive"} caption={"Is Active"} />
-            <Column type="buttons" width={110} caption={"Actions"}>
+            <Column
+              type="buttons"
+              width={110}
+              caption={"Actions"}
+              fixedPosition={"right"}
+            >
               <Button name="edit" />
               <Button name="delete" />
               <Button

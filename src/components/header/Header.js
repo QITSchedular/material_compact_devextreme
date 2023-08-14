@@ -29,9 +29,10 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
           location={"before"}
           cssClass={"header-title"}
           text={title}
-        // visible={!!title}
+          // visible={!!title}
         >
           <nav className="breadcrumb">
+
             {
 
               path.map((value, key) => (
@@ -61,6 +62,7 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
           cssClass={'dx-toolbar-items-container'}
         >
           <div class="search-container">
+
             <TextBox
               className="search-input"
               stylingMode="outlined"
@@ -70,31 +72,15 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
             />
             <Button icon={Search} className="search-icon" />
           </div>
-          {/* <div className="search-section">
-            <SearchPanel visible={true} highlightCaseSensitive={true} />
-             <TextBox
-              className="dx-field-value"
-              stylingMode="outlined"
-              placeholder="Search by purchase order"
-              width={250}
-              showClearButton={true}
-            >
-              <NormalButton
-                width={33}
-                height={33}
-                icon={Search}
-              />
-            </TextBox>
-          </div> */}
+          
         </Item>
 
         <Item
           location={"after"}
           locateInMenu={"auto"}
           menuItemTemplate={"userPanelTemplate"}
-          cssClass={'nav-icons'}
+          cssClass={"nav-icons"}
         >
-
           <Button icon={bell} />
           <Button icon={setting} />
 
