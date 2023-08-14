@@ -14,3 +14,4 @@ export { default as UomMasterPage } from "./masters/uom-master/uom-master";
 export { default as WarehouseMasterPage } from "./masters/warehouse-master/warehouse-master";
 export { default as LocationMasterPage } from "./masters/location-master/location-master";
 export { default as ItemsubgroupmasterPage } from "./masters/item-sub-group-master/item-sub-group-master";
+export { default as IncomingQCPage } from "./qualityControl/incomigQualityControl/incomingQC-main";

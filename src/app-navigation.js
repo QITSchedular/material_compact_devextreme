@@ -1,3 +1,6 @@
+import { TransferInventory, qualityControl } from "./assets/icon";
+
+
 export const navigation = [
   {
     text: "Home",
@@ -90,6 +93,17 @@ export const navigation = [
       {
         text: "GRPO",
         path: "/purchases/grpo",
+      },
+    ],
+  },
+  {
+    text: "Quality Control",
+    icon: `${qualityControl}`,
+    items: [
+      {
+        text: "Incoming QC",
+        icon: `${TransferInventory}`,
+        path: "/qualityControl/incomingQC",
       },
     ],
   },
