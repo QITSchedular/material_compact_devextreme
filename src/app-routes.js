@@ -12,7 +12,9 @@ import {
   LocationMasterPage,
   UomMasterPage,
   WarehouseMasterPage,
-  ItemsubgroupmasterPage
+  ItemsubgroupmasterPage,
+  MasterPage,
+  purchasePage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -24,6 +26,10 @@ const routes = [
   {
     path: "/home",
     element: HomePage,
+  },
+  {
+    path: "/masters",
+    element: MasterPage,
   },
   {
     path: "/masters/items",
@@ -54,6 +60,10 @@ const routes = [
     element: LocationMasterPage,
   },
   //purchases
+  {
+    path: "/purchases",
+    element: purchasePage,
+  },
   {
     path: "/purchases/gateinmain",
     element: GateInMainPage,
