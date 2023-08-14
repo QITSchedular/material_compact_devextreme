@@ -1,4 +1,4 @@
-import { Sacnner, pin } from "./assets/icon";
+import { Sacnner, pin, TransferInventory, qualityControl } from "./assets/icon";
 
 export const navigation = [
   {
@@ -103,6 +103,17 @@ export const navigation = [
         text: "GRPO",
         path: "/purchases/grpo",
         icon: "GRPO"
+      },
+    ],
+  },
+  {
+    text: "Quality Control",
+    icon: `${qualityControl}`,
+    items: [
+      {
+        text: "Incoming QC",
+        icon: `${TransferInventory}`,
+        path: "/qualityControl/incomingQC",
       },
     ],
   },

@@ -1,0 +1,121 @@
+.inQCDropDownSection {
+    .main-section {
+        display: flex;
+
+        .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget {
+            border-radius: 8px !important;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
+
+        }
+
+        .date-section{
+            display: flex;
+            // flex-direction: row-reverse !important;
+
+        .purchaseQRField {
+            margin-left: 1rem;
+        } 
+    }
+
+    }
+}
+
+@media (max-width:320px) {
+    .qcCSS .headeQC {
+        .qcTitle {
+            font-size: large;
+        }
+
+        .qcDesc{
+            font-size: medium;
+        }
+    }
+
+    .inQCDropDownSection .main-section .date-section {
+        display: block; 
+    }
+
+    .date-section>*{
+        // border: 2px solid black;
+        width: 12rem !important;
+        margin-left: -1rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .btnSection>*{
+        margin-bottom: 1rem !important;
+    }
+
+}
+
+@media (min-width:321px) and (max-width:426px) {
+    .qcCSS .headeQC {
+        .qcTitle {
+            font-size: large;
+        }
+
+        .qcDesc{
+            font-size: medium;
+        }
+    }
+
+    .inQCDropDownSection .main-section .date-section {
+        display: flex;
+        flex-direction: column; 
+    }
+
+    .date-section>*{
+        width: 16rem !important;
+        margin-left: -0.5rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .btnSection>*{
+        margin-bottom: 1rem !important;
+    }
+
+}
+
+@media (max-width:568px) {
+    
+}
+
+@media (max-width:603px) {
+    
+}
+
+@media (max-width:768px) {
+    
+}
+
+@media (max-width:840px) {
+    .inQCDropDownSection .main-section {
+        // border: 10px solid black;
+        display: flex !important;
+    }
+}
+
+@media (max-width:992px) {
+    .inQCDropDownSection .main-section {
+        // border: 10px solid black;
+        display: flex !important;
+    }
+}
+
+@media (max-width:1024px) {
+    .inQCDropDownSection .main-section {
+        // border: 10px solid black;
+        display: flex !important;
+    }
+}
+
+@media (max-width:1200px) {
+    .inQCDropDownSection .main-section {
+        // border: 10px solid black;
+        display: flex !important;
+    }
+}
+
+@media (min-width:1200px) {
+    
+}

@@ -12,7 +12,8 @@ import {
   LocationMasterPage,
   UomMasterPage,
   WarehouseMasterPage,
-  ItemsubgroupmasterPage, 
+  ItemsubgroupmasterPage,
+  IncomingQCPage,
   MasterPage,
   purchasePage
 } from "./pages";
@@ -84,6 +85,10 @@ const routes = [
     path: "/purchases/grpo/scanItems/:qrCode",
     element: GrpoScanItemsPage,
   },
+  {
+    path: "/qualityControl/incomingQC",
+    element: IncomingQCPage,
+  },  
 ];
 
 export default routes.map((route) => {
