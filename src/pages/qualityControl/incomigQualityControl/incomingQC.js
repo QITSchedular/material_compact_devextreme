@@ -5,7 +5,6 @@ import { HelpIcons } from "../../purchases/grpo/icons-exporter";
 import "./incomingQC.scss";
 import { GRPOScanner, dateStartToEnd } from "../../../assets/icon";
 
-
 function IncomingQCComponent() {
   const helpOptions = {
     icon: HelpIcons,
@@ -23,7 +22,7 @@ function IncomingQCComponent() {
     <>
       <div className="main-section">
         <div className="date-section">
-        <TextBox
+          <TextBox
             className="dx-field-value"
             stylingMode="outlined"
             placeholder="Doc start to end date"
@@ -50,8 +49,6 @@ function IncomingQCComponent() {
               options={helpOptions}
             />
           </TextBox>
-         
-
         </div>
         <div className="btnSection">
           <NormalButton
@@ -70,7 +67,6 @@ function IncomingQCComponent() {
             icon={GRPOScanner}
           />
         </div>
-        
       </div>
     </>
   );

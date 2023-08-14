@@ -92,17 +92,17 @@ export const navigation = [
       {
         text: "Gate Inward",
         path: "/purchases/gateinmain",
-        icon: "GateIn"
+        icon: "GateIn",
       },
       {
         text: "Generate & Print",
         path: "/purchases/gatein-printqr",
-        icon: "GenerateAndPrint"
+        icon: "GenerateAndPrint",
       },
       {
         text: "GRPO",
         path: "/purchases/grpo",
-        icon: "GRPO"
+        icon: "GRPO",
       },
     ],
   },
