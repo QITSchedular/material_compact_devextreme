@@ -9,6 +9,7 @@ import DataGrid, {
   Editing,
   AsyncRule,
   Button,
+  ColumnFixing,
 } from "devextreme-react/data-grid";
 import "../gate-in-styles.scss";
 import "./printqr-styles.scss";
@@ -344,7 +345,7 @@ const PrintQrMainComp = () => {
               <Scrolling mode={scrollingMode} />
               <Paging defaultPageSize={10} />
               <Selection mode="multiple" />
-
+              <ColumnFixing enabled={true} />
               <Column
                 dataField={"itemCode"}
                 caption={"Item Code"}
@@ -401,7 +402,13 @@ const PrintQrMainComp = () => {
                 caption={"Rec. Date"}
                 allowEditing={false}
               />
-              <Column type="buttons" width={110} caption={"Actions"}>
+              <Column
+                type="buttons"
+                width={110}
+                caption={"Actions"}
+                fixed={true}
+                fixedPosition={"right"}
+              >
                 <Button
                   hint="Generate QrCode..."
                   icon="fa-solid fa-qrcode"

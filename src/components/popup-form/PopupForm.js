@@ -120,7 +120,6 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
             i++;
         }
 
-        console.log(transformedData)
         try {
             const response = await addNewMasterItem(
                 transformedData,

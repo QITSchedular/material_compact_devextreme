@@ -19,6 +19,7 @@ import DataGrid, {
   Editing,
   AsyncRule,
   SearchPanel,
+  ColumnFixing,
 } from "devextreme-react/data-grid";
 import "./gate-in-styles.scss";
 //sample data Things
@@ -608,6 +609,7 @@ const GateInComponent = () => {
                 <Scrolling mode={scrollingMode} />
                 <Paging defaultPageSize={10} />
                 <Selection mode="multiple" />
+                <ColumnFixing enabled={true} />
 
                 <Editing
                   mode="row"

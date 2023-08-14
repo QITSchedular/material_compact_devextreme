@@ -13,7 +13,9 @@ import {
   UomMasterPage,
   WarehouseMasterPage,
   ItemsubgroupmasterPage,
-  IncomingQCPage
+  IncomingQCPage,
+  MasterPage,
+  purchasePage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -25,6 +27,10 @@ const routes = [
   {
     path: "/home",
     element: HomePage,
+  },
+  {
+    path: "/masters",
+    element: MasterPage,
   },
   {
     path: "/masters/items",
@@ -56,6 +62,10 @@ const routes = [
   },
   //purchases
   {
+    path: "/purchases",
+    element: purchasePage,
+  },
+  {
     path: "/purchases/gateinmain",
     element: GateInMainPage,
   },
@@ -79,7 +89,6 @@ const routes = [
     path: "/qualityControl/incomingQC",
     element: IncomingQCPage,
   },  
-
 ];
 
 export default routes.map((route) => {

@@ -1,5 +1,4 @@
-import { TransferInventory, qualityControl } from "./assets/icon";
-
+import { Sacnner, pin, TransferInventory, qualityControl } from "./assets/icon";
 
 export const navigation = [
   {
@@ -25,74 +24,85 @@ export const navigation = [
   // },
   {
     text: "Masters List",
+    path: "/masters",
     icon: "key",
     items: [
       {
-        text: "Items",
+        text: "Item Master",
         path: "/masters/items",
+        icon: "ItemMaster",
       },
       {
-        text: "Uom",
-        path: "/masters/uom",
-      },
-      {
-        text: "Item Group ",
+        text: "Item Group",
         path: "/masters/itemsgroup",
+        icon: "ItemGroup",
       },
       {
         text: "Item Sub Group",
         path: "/masters/itemssubgroup",
+        icon: "ItemSubGroup",
       },
       {
-        text: "Brands",
-        path: "/masters/brand",
+        text: "Uom",
+        path: "/masters/uom",
+        icon: "UOM",
       },
       {
         text: "Location",
         path: "/masters/location",
+        icon: "location",
       },
       {
         text: "Warehouse",
         path: "/masters/warehouse",
+        icon: "warehouse",
       },
+      // {
+      //   text: "Bin Loaction",
+      //   path: "/masters/binlocation",
+      // },
       {
-        text: "Bin Location",
-        path: "/masters/binlocation",
+        text: "Brand",
+        path: "/masters/brand",
+        icon: "brands",
       },
-
-      {
-        text: "Put Away",
-        path: "/masters/putaway",
-      },
-      {
-        text: "Country",
-        path: "/masters/country",
-      },
-      {
-        text: "State",
-        path: "/masters/state",
-      },
-      {
-        text: "Sales Employee",
-        path: "/masters/salesemployee",
-      },
+      // {
+      //   text: "Put Away",
+      //   path: "/masters/putaway",
+      // },
+      // {
+      //   text: "Country",
+      //   path: "/masters/country",
+      // },
+      // {
+      //   text: "State",
+      //   path: "/masters/state",
+      // },
+      // {
+      //   text: "Sales Employee",
+      //   path: "/masters/salesemployee",
+      // },
     ],
   },
   {
     text: "Purchases",
+    path: "/purchases",
     icon: "fa-solid fa-cart-plus",
     items: [
       {
         text: "Gate Inward",
         path: "/purchases/gateinmain",
+        icon: "GateIn"
       },
       {
         text: "Generate & Print",
         path: "/purchases/gatein-printqr",
+        icon: "GenerateAndPrint"
       },
       {
         text: "GRPO",
         path: "/purchases/grpo",
+        icon: "GRPO"
       },
     ],
   },
@@ -111,5 +121,12 @@ export const navigation = [
     text: "Sales",
     path: "/sales",
     icon: "fa-solid fa-bag-shopping",
+    items: [
+      {
+        text: "Scanner",
+        path: "/scan",
+        icon: "home",
+      },
+    ],
   },
 ];

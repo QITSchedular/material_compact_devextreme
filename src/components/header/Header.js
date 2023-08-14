@@ -4,12 +4,14 @@ import Button from "devextreme-react/button";
 import UserPanel from "../user-panel/UserPanel";
 import "./Header.scss";
 import { Template } from "devextreme-react/core/template";
-import { bell, home, setting } from "../../assets/icon";
+import { Search, bell, home, setting } from "../../assets/icon";
 import { TextBox, Button as NormalButton } from "devextreme-react";
 import { Link, useLocation } from "react-router-dom";
+import { SearchPanel } from "devextreme-react/data-grid";
 
 export default function Header({ menuToggleEnabled, title, toggleMenu }) {
   const location = useLocation();
+  let path = location.pathname.split('/');
 
   return (
     <header className={"header-component"}>
@@ -27,20 +29,31 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
           location={"before"}
           cssClass={"header-title"}
           text={title}
-        // visible={!!title}
+          // visible={!!title}
         >
           <nav className="breadcrumb">
-            <Button icon={home} />
-            <Link to="/masters"
-              className={location.pathname === "/masters" ? "breadcrumb-item active" : "breadcrumb-item"}
-            >
-              Master
-            </Link>
-            <Link to="/masters/items"
-              className={location.pathname.startsWith("/masters") ? "breadcrumb-item active" : "breadcrumb-item"}
-            >
-              Items
-            </Link>
+
+            {
+
+              path.map((value, key) => (
+                (value !== "")
+                  ?
+                  <>
+                    <Link to={value}
+                      className={location.pathname.startsWith(path[0]) ? "breadcrumb-item active" : "breadcrumb-item"}
+                    >
+                      {value}
+                    </Link>
+                  </>
+                  :
+                  <>
+                    <Link to={"/home"}>
+                      Home
+                    </Link>
+                    {/* <Button icon={home} /> */}
+                  </>
+              ))
+            }
           </nav>
         </Item>
 
@@ -48,34 +61,26 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
           locateInMenu={"auto"}
           cssClass={'dx-toolbar-items-container'}
         >
-          <div className="search-section">
+          <div class="search-container">
+
             <TextBox
-              className="dx-field-value"
+              className="search-input"
               stylingMode="outlined"
-              placeholder="Search by purchase order"
-              width={250}
+              placeholder="Search the menu"
+              width={389}
               showClearButton={true}
-            >
-
-
-              {/* <NormalButton
-                                width={33}
-                                height={33}
-                                type="normal"
-                                stylingMode="outlined"
-                                icon="search"
-                            /> */}
-            </TextBox>
+            />
+            <Button icon={Search} className="search-icon" />
           </div>
+          
         </Item>
 
         <Item
           location={"after"}
           locateInMenu={"auto"}
           menuItemTemplate={"userPanelTemplate"}
-          cssClass={'nav-icons'}
+          cssClass={"nav-icons"}
         >
-
           <Button icon={bell} />
           <Button icon={setting} />
 
