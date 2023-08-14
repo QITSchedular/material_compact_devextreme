@@ -27,27 +27,34 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
           location={"before"}
           cssClass={"header-title"}
           text={title}
-        // visible={!!title}
+          // visible={!!title}
         >
           <nav className="breadcrumb">
             <Button icon={home} />
-            <Link to="/masters"
-              className={location.pathname === "/masters" ? "breadcrumb-item active" : "breadcrumb-item"}
+            <Link
+              to="/masters"
+              className={
+                location.pathname === "/masters"
+                  ? "breadcrumb-item active"
+                  : "breadcrumb-item"
+              }
             >
               Master
             </Link>
-            <Link to="/masters/items"
-              className={location.pathname.startsWith("/masters") ? "breadcrumb-item active" : "breadcrumb-item"}
+            <Link
+              to="/masters/items"
+              className={
+                location.pathname.startsWith("/masters")
+                  ? "breadcrumb-item active"
+                  : "breadcrumb-item"
+              }
             >
               Items
             </Link>
           </nav>
         </Item>
 
-        <Item
-          locateInMenu={"auto"}
-          cssClass={'dx-toolbar-items-container'}
-        >
+        <Item locateInMenu={"auto"} cssClass={"dx-toolbar-items-container"}>
           <div className="search-section">
             <TextBox
               className="dx-field-value"
@@ -56,8 +63,6 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
               width={250}
               showClearButton={true}
             >
-
-
               {/* <NormalButton
                                 width={33}
                                 height={33}
@@ -73,9 +78,8 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
           location={"after"}
           locateInMenu={"auto"}
           menuItemTemplate={"userPanelTemplate"}
-          cssClass={'nav-icons'}
+          cssClass={"nav-icons"}
         >
-
           <Button icon={bell} />
           <Button icon={setting} />
 
