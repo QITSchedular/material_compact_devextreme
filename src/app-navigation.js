@@ -1,4 +1,4 @@
-import { Sacnner, pin, TransferInventory, qualityControl } from "./assets/icon";
+import { Sacnner, pin, IncomingQC, qualityControl } from "./assets/icon";
 
 export const navigation = [
   {
@@ -112,7 +112,7 @@ export const navigation = [
     items: [
       {
         text: "Incoming QC",
-        icon: `${TransferInventory}`,
+        icon: `${IncomingQC}`,
         path: "/qualityControl/incomingQC",
       },
     ],
