@@ -29,8 +29,6 @@ function IncomingQCPage() {
     return (
         <>
             <div className="content-block dx-card responsive-paddings">
-            <div>{window.innerWidth}</div>
-                    <div>{window.innerHeight}</div> 
                 <div className="content-blocks qcCSS">
                     
                     <HeaderContent />

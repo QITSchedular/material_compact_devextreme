@@ -8,84 +8,199 @@
 
         }
 
-        .date-section{
+        .date-section {
             display: flex;
             // flex-direction: row-reverse !important;
 
-        .purchaseQRField {
-            margin-left: 1rem;
-        } 
-    }
+            .purchaseQRField {
+                margin-left: 1rem;
+            }
+        }
 
     }
 }
 
-@media (max-width:320px) {
+@media (max-width:370px) {
     .qcCSS .headeQC {
         .qcTitle {
             font-size: large;
         }
 
-        .qcDesc{
+        .qcDesc {
             font-size: medium;
         }
     }
 
     .inQCDropDownSection .main-section .date-section {
-        display: block; 
+        display: block;
     }
 
-    .date-section>*{
+    .date-section>* {
         // border: 2px solid black;
-        width: 12rem !important;
+        width: 100% !important;
         margin-left: -1rem !important;
         margin-bottom: 1rem !important;
     }
 
-    .btnSection>*{
+    .btnSection>* {
         margin-bottom: 1rem !important;
     }
 
 }
 
-@media (min-width:321px) and (max-width:426px) {
+@media (min-width:370px) and (max-width:426px) {
     .qcCSS .headeQC {
         .qcTitle {
             font-size: large;
         }
 
-        .qcDesc{
+        .qcDesc {
             font-size: medium;
         }
     }
 
     .inQCDropDownSection .main-section .date-section {
         display: flex;
-        flex-direction: column; 
+        flex-direction: column;
     }
 
-    .date-section>*{
-        width: 16rem !important;
-        margin-left: -0.5rem !important;
+    .date-section>* {
+        width: 15rem !important;
+        margin-left: 0rem !important;
         margin-bottom: 1rem !important;
     }
 
-    .btnSection>*{
+    .btnSection>* {
         margin-bottom: 1rem !important;
+        display: flex;
+        flex-direction: column;
     }
 
 }
 
-@media (max-width:568px) {
-    
+@media (min-width:426px) and (max-width:568px) {
+    .qcCSS .headeQC {
+        .qcTitle {
+            font-size: large;
+        }
+
+        .qcDesc {
+            font-size: medium;
+        }
+    }
+
+    .inQCDropDownSection .main-section .date-section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .date-section>* {
+        width: 18rem !important;
+        margin-left: 0rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .btnSection>* {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem !important;
+    }
 }
 
-@media (max-width:603px) {
-    
+@media (min-width:568px) and (max-width:600px) {
+    .qcCSS .headeQC {
+        .qcTitle {
+            font-size: large;
+        }
+
+        .qcDesc {
+            font-size: medium;
+        }
+    }
+
+    .inQCDropDownSection .main-section .date-section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .date-section>* {
+        width: 25rem !important;
+        margin-left: 0rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .btnSection>* {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem !important;
+    }
 }
 
-@media (max-width:768px) {
-    
+@media (min-width:600px) and (max-width:741px) {
+    .qcCSS .headeQC {
+        .qcTitle {
+            font-size: large;
+        }
+
+        .qcDesc {
+            font-size: medium;
+        }
+    }
+
+    .inQCDropDownSection .main-section .date-section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .date-section>* {
+        width: 22rem !important;
+        margin-left: 0rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .btnSection>* {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem !important;
+    }
+}
+
+@media (min-width:741px) and (max-width:768px) {
+    .qcCSS .headeQC {
+        .qcTitle {
+            font-size: large;
+        }
+
+        .qcDesc {
+            font-size: medium;
+        }
+    }
+
+    .inQCDropDownSection .main-section .date-section {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .date-section>* {
+        width: 14rem !important;
+        margin-left: 0rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .date-section {
+        display: flex;
+        // flex-direction: row-reverse !important;
+
+        .purchaseQRField {
+            margin-left: 1rem !important;
+        }
+    }
+
+    .btnSection {
+        display: flex;
+        flex-direction: row !important;
+        margin-bottom: 1rem !important;
+    }
 }
 
 @media (max-width:840px) {
@@ -116,6 +231,4 @@
     }
 }
 
-@media (min-width:1200px) {
-    
-}
+@media (min-width:1200px) {}
