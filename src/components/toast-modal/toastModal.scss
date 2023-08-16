@@ -1,0 +1,63 @@
+.custom-toast {
+    width: 800px;
+    /* Set the desired width */
+}
+
+.popupalertCss {
+    display: block !important;
+    margin-top: 1rem !important;
+    .popupCaption {
+        display: flex;
+        justify-content: center;
+    }
+
+    .popupImg {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    .popupImg .imgCss  {
+        height: 10rem;
+        width: 10rem;
+    }
+}
+
+.cancelPopUp {
+    display: flex;
+    justify-content: end;
+    font-size: 32px;
+    cursor: pointer;
+    color: #999;
+}
+
+.custom-close {
+    margin-top: -1rem;
+}
+
+@media (max-width:768px) {
+    .custom-close {
+        margin-top: 0rem;
+    }
+
+    .popupalertCss {
+        
+        .popupImg .imgCss {
+            height: 7rem;
+            width: 7rem;
+        }
+    }
+
+    .item-master-popup-container {
+        margin-top: 2rem !important;
+        width: 35rem;
+        height: 18rem !important;
+        display: block;
+    }
+}
+
+.item-master-popup-container {
+    width: 35rem;
+    height: 25rem;
+    display: block;
+}

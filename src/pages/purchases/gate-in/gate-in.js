@@ -7,7 +7,7 @@ import {
   RadioGroup,
   ScrollView,
 } from "devextreme-react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import DropDownButton from "devextreme-react/drop-down-button";
 import NodataImg from "../../../assets/images/no-data-po.svg";
 import { Popup, ToolbarItem } from "devextreme-react/popup";
@@ -39,6 +39,8 @@ import {
   PopupSubText,
 } from "../../../components/typographyTexts/TypographyComponents";
 import { toastDisplayer } from "../../../api/qrgenerators";
+import { ShowMiniToast } from "../../../components";
+import { ToastContext } from "../../../contexts/toastContext";
 
 const buttonDropDownOptions = { width: 230 };
 
@@ -54,7 +56,9 @@ const TransporterHelpComponent = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const dataGridRef = useRef();
-
+  
+  // handling toast context
+  const { toastModalFalse,toastModalTrue } = useContext(ToastContext);
   const handleTransporterSelection = async ({
     selectedRowKeys,
     selectedRowsData,
@@ -99,12 +103,17 @@ const TransporterHelpComponent = ({
   };
   const handleSave = async () => {
     if (!selectedRowData) {
-      return toastDisplayer("error", "Please select a row, to save changes");
+      // return toastDisplayer("error", "Please select a row, to save changes");
+      toastModalFalse();
+      // toastModalTrue(); 
+      return ShowMiniToast("error","Please select a row, to save changes");
       // return outsideClickHandler(true);
     } else {
       return await handleSaver(selectedRowData);
     }
   };
+
+
 
   useEffect(() => {
     setLoading(true);
@@ -211,6 +220,8 @@ const GateInComponent = () => {
   const [docNum, setDocNum] = useState("");
   const [dataLineNum, setDataLineNum] = useState([]);
 
+  // handling toast context
+  const { toastModalFalse,toastModalTrue } = useContext(ToastContext);
   const [selectedValue, setSelectedValue] = useState({
     periodIsSelected: false,
     seriesIsSelected: false,
@@ -319,10 +330,12 @@ const GateInComponent = () => {
       return toastDisplayer("error", "Choose transporter");
     }
     if (updatedItems.length <= 0) {
-      return toastDisplayer(
-        "error",
-        "Please recieve some item, to proceed with gate in.."
-      );
+      toastModalFalse();
+      return ShowMiniToast("error","Please recieve some item, to proceed with gate in..");
+      // return toastDisplayer(
+      //   "error",
+      //   "Please recieve some item, to proceed with gate in.."
+      // );
     }
     console.log(updatedItems.map((items) => items));
     // console.log(vehicleName, selectedTransporterData);

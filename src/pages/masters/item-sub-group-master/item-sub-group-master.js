@@ -9,6 +9,7 @@ import { getItemGroup } from "../../../utils/items-master-data";
 // import "../../../themes/custom-theme/dx.material-custom.css"
 function Itemsubgroupmaster() {
     const [itemsGroupEditorOptions, setItemsGroupEditorOptions] = useState("");
+    
     useEffect(() => {
         var getdata = async () => {
             const getItemGroupData = await getItemGroup();
