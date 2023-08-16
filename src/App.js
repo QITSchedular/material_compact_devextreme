@@ -15,6 +15,8 @@ import { AppContextProvider } from "./contexts/dataContext";
 import { ToastContainer } from "react-toastify";
 import "animate.css/source/animate.css";
 import "react-toastify/dist/ReactToastify.css";
+import CommonToast from "./components/toast-modal/CustomToast";
+import { ToastContext, ToastContextProvider } from "./contexts/toastContext";
 function App() {
   const { user, loading } = useAuth();
 
@@ -38,9 +40,12 @@ export default function Root() {
       <AuthProvider>
         <NavigationProvider>
           <AppContextProvider>
-            <div className={`app ${screenSizeClass}`}>
-              <App />
-            </div>
+            <ToastContextProvider>
+              <CommonToast />
+              <div className={`app ${screenSizeClass}`}>
+                <App />
+              </div>
+            </ToastContextProvider>
           </AppContextProvider>
         </NavigationProvider>
       </AuthProvider>
