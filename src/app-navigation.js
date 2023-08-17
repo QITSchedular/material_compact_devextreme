@@ -1,4 +1,7 @@
 import { Sacnner, pin, TransferInventory, qualityControl } from "./assets/icon";
+import * as icon from './assets/icon';
+
+// console.log(icon['ABC']);
 
 export const navigation = [
   {
@@ -30,32 +33,32 @@ export const navigation = [
       {
         text: "Item Master",
         path: "/masters/items",
-        icon: "ItemMaster",
+        icon: icon['ItemMaster'],
       },
       {
         text: "Item Group",
         path: "/masters/itemsgroup",
-        icon: "ItemGroup",
+        icon: `${icon['ItemGroup']}`,
       },
       {
         text: "Item Sub Group",
         path: "/masters/itemssubgroup",
-        icon: "ItemSubGroup",
+        icon: `${icon['ItemSubGroup']}`,
       },
       {
         text: "Uom",
         path: "/masters/uom",
-        icon: "UOM",
+        icon: `${icon['UOM']}`,
       },
       {
         text: "Location",
         path: "/masters/location",
-        icon: "location",
+        icon: `${icon['location']}`,
       },
       {
         text: "Warehouse",
         path: "/masters/warehouse",
-        icon: "warehouse",
+        icon: `${icon['warehouse']}`,
       },
       // {
       //   text: "Bin Loaction",
@@ -64,7 +67,7 @@ export const navigation = [
       {
         text: "Brand",
         path: "/masters/brand",
-        icon: "brands",
+        icon: `${icon['brands']}`,
       },
       // {
       //   text: "Put Away",
@@ -92,27 +95,27 @@ export const navigation = [
       {
         text: "Gate Inward",
         path: "/purchases/gateinmain",
-        icon: "GateIn"
+        icon: `${icon['GateIn']}`
       },
       {
         text: "Generate & Print",
         path: "/purchases/gatein-printqr",
-        icon: "GenerateAndPrint"
+        icon: `${icon['GenerateAndPrint']}`
       },
       {
         text: "GRPO",
         path: "/purchases/grpo",
-        icon: "GRPO"
+        icon: `${icon['GRPO']}`
       },
     ],
   },
   {
     text: "Quality Control",
-    icon: `${qualityControl}`,
+    icon: `${icon['qualityControl']}`,
     items: [
       {
         text: "Incoming QC",
-        icon: `${TransferInventory}`,
+        icon: `${icon['TransferInventory']}`,
         path: "/qualityControl/incomingQC",
       },
     ],
