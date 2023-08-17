@@ -129,4 +129,16 @@ export const navigation = [
       },
     ],
   },
+  {
+    text: "Production",
+    path: "/production",
+    icon: "fa-solid fa-bag-shopping",
+    items: [
+      {
+        text: "Issue Material",
+        path: "/production/issue-material",
+        icon: "login",
+      },
+    ],
+  },
 ];

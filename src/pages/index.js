@@ -16,3 +16,4 @@ export { default as ItemsubgroupmasterPage } from "./masters/item-sub-group-mast
 export { default as IncomingQCPage } from "./qualityControl/incomigQualityControl/incomingQC-main";
 export { default as MasterPage } from "./masters/master/master";
 export { default as purchasePage } from "./purchases/purchase/purchase";
+export { default as IssueMaterialPage } from "./production/issue-material/issue-material-main";

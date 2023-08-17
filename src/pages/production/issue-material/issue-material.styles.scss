@@ -1,0 +1,24 @@
+.issue-material-container{
+
+    .header-section{
+
+    }
+    .search-section,.issue-material-main-section{
+        margin-top: 2rem;
+    }
+    
+    .issue-material-main-section{
+        #selectTab{
+            .dx-tabs-wrapper{
+                //when the tab is selected
+                .dx-item.dx-tab{
+                    .dx-item-content.dx-tab-content{
+                        .dx-tab-text{
+                            color: #161616;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
