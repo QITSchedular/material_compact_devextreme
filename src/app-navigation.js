@@ -1,7 +1,4 @@
-import { Sacnner, pin, TransferInventory, qualityControl } from "./assets/icon";
 import * as icon from './assets/icon';
-
-// console.log(icon['ABC']);
 
 export const navigation = [
   {
@@ -115,7 +112,7 @@ export const navigation = [
     items: [
       {
         text: "Incoming QC",
-        icon: `${icon['TransferInventory']}`,
+        icon: `${icon['IncomingQC']}`,
         path: "/qualityControl/incomingQC",
       },
     ],
