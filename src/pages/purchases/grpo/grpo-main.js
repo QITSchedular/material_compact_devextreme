@@ -240,6 +240,7 @@ const GrpoMain = () => {
         return toastDisplayer("error", "QR Code already exists in the list!");
       } else if (doPoExists && !grpoList.has(selectedPo)) {
         // Add the selectedPo to the grpoList using the Set's add method
+        console.log("grpoList : ",grpoList);
         return setGrpoList((prevGrpoList) =>
           new Set(prevGrpoList).add(selectedPo)
         );

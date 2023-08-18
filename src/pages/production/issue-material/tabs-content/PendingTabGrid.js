@@ -2,7 +2,7 @@ import React from "react";
 import DataGrid from "devextreme-react/data-grid";
 import { customers } from "./data.js";
 
-const columns = ["CompanyName", "City", "State", "Phone", "Fax"];
+const columns = ["CompanyName", "City", "State", "PhoneNo", "Fax"];
 const PendingTabGrid = () => {
   return (
     <div>
