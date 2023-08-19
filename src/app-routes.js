@@ -17,6 +17,7 @@ import {
   MasterPage,
   purchasePage,
   IssueMaterialPage,
+  IssueMaterialProcess,
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -93,6 +94,10 @@ const routes = [
   {
     path: "/production/issue-material",
     element: IssueMaterialPage,
+  },
+  {
+    path: "/production/issue-material/productionProcess/:qrCode",
+    element: IssueMaterialProcess,
   },
 ];
 

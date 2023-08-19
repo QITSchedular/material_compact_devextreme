@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   PopupHeaderText,
   PopupSubText,
@@ -7,7 +7,7 @@ import {
 import { Button, TextBox } from "devextreme-react";
 import { GRPOScanner } from "../../../assets/icon";
 import Tabs, { Item } from "devextreme-react/tabs";
-
+import { toastDisplayer } from "../../../api/qrgenerators";
 import ApprovedTabContent from "./tabs-content/ApprovedTabContent";
 import PendingTabContent from "./tabs-content/PendingTabContent";
 import RejectedTabContent from "./tabs-content/RejectedTabContent";
@@ -18,10 +18,10 @@ import { HelpIcons } from "../../purchases/grpo/icons-exporter";
 import { getPoLists } from "../../../utils/gate-in-purchase";
 
 const IssueMaterialMain = () => {
-  const [grpoList, setGrpoList] = useState(new Set()); 
+  const [grpoList, setGrpoList] = useState(new Set());
   const [activeTab, setActiveTab] = useState("Pending"); // Set default active tab
   const [selectedPo, setSelectedPo] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const tabsItemClickHandler = (e) => {
     const selectedTab = e.itemData.text;
     setActiveTab(selectedTab);
@@ -46,60 +46,54 @@ const IssueMaterialMain = () => {
       alert();
     },
   };
+
   const dataGridDataHandler = async (qrCode) => {
-    // setLoading(true);
+    setLoading(true);
     // alert(qrCode);
     try {
       const poListData = await getPoLists();
       if (poListData.length > 0) {
         const qrCodeIds = poListData.map((item) => item.qrCodeID);
         const doPoExists = qrCodeIds.includes(qrCode[0].qrCodeID);
-        // setLoading(false);
+        setLoading(false);
         return doPoExists;
       } else {
-        alert("else");
         // setError("No data found");
-        // setLoading(false);
-        // toastDisplayer("error", "No matching P.O found, try again");
+        setLoading(false);
+        toastDisplayer("error", "No matching P.O found, try again");
         return false;
       }
     } catch (error) {
       // setError("Error fetching data");
-      // setLoading(false);
+      setLoading(false);
       return false;
     }
   };
   const handlePoVerification = async (param) => {
-    console.log("param : ",param)
-    // return setSelectedPo(param);
-    if (param) {
+    console.log("param : ",param);
+    if (param.length>0 && param) {
       setSelectedPo(param);
       console.log("selectedPo : ",param );
       const doPoExists = await dataGridDataHandler(param);
       if (doPoExists && grpoList.has(param[0].qrCodeID)) {
         // Show an alert or a message to inform the user about the duplicate value
-        
-        alert("QR Code already exists in the list!");
-        // return toastDisplayer("error", "QR Code already exists in the list!");
+
+        return toastDisplayer("error", "QR Code already exists in the list!");
       } else if (doPoExists && !grpoList.has(param[0].qrCodeID)) {
         // Add the selectedPo to the grpoList using the Set's add method
-        // return setGrpoList((prevGrpoList) =>
-        //   new Set(prevGrpoList).add(param)
-        // );
-        console.log("grpoList : ",grpoList);
+
+        // console.log("grpoList : ",grpoList);
         return setGrpoList((prevGrpoList) =>
           new Set(prevGrpoList).add(param[0].qrCodeID)
         );
       } else if (!doPoExists) {
-        return alert("Invalid Grpo, please select a valid Grpo")
-        // return toastDisplayer(
-        //   "error",
-        //   "Invalid Grpo, please select a valid Grpo"
-        // );
+        return toastDisplayer(
+          "error",
+          "Invalid Grpo, please select a valid Grpo"
+        );
       }
     } else {
-      return alert("Please type/scan P.O");
-      // return toastDisplayer("error", "Please type/scan P.O");
+      return toastDisplayer("error", "Please type/scan P.O");
     }
   };
   // const getparamFunc = (param)=>{
@@ -107,7 +101,7 @@ const IssueMaterialMain = () => {
   //   return setSelectedPo(param);
   // }
   const keyArray1 = [
-  { feildType: "textBox", handlefunc: "handleTextValueChange",placeholder : "Search by purchase order" ,selectedRowsData : "selectedRowsData"},
+  { feildType: "textBox", handlefunc: "handleTextValueChange",placeholder : "Search by purchase order" ,selectedRowsData : "selectedRowsData" ,TextWithIcon:true},
   { feildType: "button", handlefunc: handlePoVerification ,btnIcon : "search"},
   // { feildType: "button", handlefunc: "handlePoVerification" ,btnIcon : GRPOScanner},
 ];
@@ -145,7 +139,7 @@ const IssueMaterialMain = () => {
           onClick={() => console.log("first")}
         />
       </div> */}
-      <QtcSearchColumn optionFunc={helpOptions} keyArray={keyArray1} PopUpContent={getPoLists()} getparamFunc={handlePoVerification}/>
+      <QtcSearchColumn popupHeaderText="Purchase Order List" popupSubHeaderText="Search the purchase order" keyArray={keyArray1} PopUpContent={getPoLists()} getparamFunc={handlePoVerification}/>
 
       <div className="issue-material-main-section">
         <Tabs

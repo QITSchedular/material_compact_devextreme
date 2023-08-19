@@ -1,12 +1,26 @@
 .issue-material-container{
 
-    .header-section{
-
+    .header-section {
+        .typ-sub-text {
+            margin-top: 10px;
+        }
     }
-    .search-section,.issue-material-main-section{
+
+    .search-section {
+        margin-top: 1rem;
+    }
+
+    .issue-material-main-section {
         margin-top: 2rem;
     }
-    
+
+    .dx-texteditor-buttons-container {
+        .dx-button-has-icon {
+            margin: 0px !important;
+            background: transparent;
+        }
+    }
+
     .issue-material-main-section{
         #selectTab{
             .dx-tabs-wrapper{
@@ -21,4 +35,7 @@
             }
         }
     }
+
+
+
 }

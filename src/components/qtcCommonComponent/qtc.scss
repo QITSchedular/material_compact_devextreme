@@ -3,8 +3,8 @@
     flex-direction: column;
     padding-top: 1rem;
     gap: 5px;
-    
-    .single-po{
+
+    .single-po1{
         padding: 12px 8px;
         display: flex !important;
         justify-content: space-between;
@@ -30,7 +30,7 @@
             padding-left: 15px;
             display: flex !important;
             align-items: center;
-            
+
             .po-name{
                 color: #525252;
                 font-feature-settings: 'clig' off, 'liga' off;

@@ -11,13 +11,13 @@ import { PopupHeaderText, PopupSubText } from "../typographyTexts/TypographyComp
 import { Column, Paging, Scrolling, SearchPanel, Selection } from "devextreme-react/data-grid";
 import { HelpIcons } from "../../pages/purchases/grpo/icons-exporter";
 
-const PopupContent = ({ onSelectRow, onSave ,PopUpContent,selectedRowsData }) => {
+const PopupContent = ({ popupHeaderText,popupSubHeaderText,onSelectRow, onSave ,PopUpContent,selectedRowsData }) => {
   const [dataSource, setDataSource] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState("");
   const dataGridRef = useRef();
- 
+
   const handleDataGridRowSelection = async ({
     selectedRowKeys,
     selectedRowsData,
@@ -34,7 +34,7 @@ const PopupContent = ({ onSelectRow, onSave ,PopUpContent,selectedRowsData }) =>
       const value = await dataGridRef.current.instance.selectRows(
         selectedRowKeys[length - 1]
         );
-      return selectedRowSetter(value);  
+      return selectedRowSetter(value);
     } else {
       const value = await dataGridRef.current.instance.selectRows(
         selectedRowKeys[0]
@@ -65,7 +65,7 @@ const PopupContent = ({ onSelectRow, onSave ,PopUpContent,selectedRowsData }) =>
     setLoading(true);
     dataGridDataHandler();
   }, []);
- 
+
   return (
     <>
       {error ? (
@@ -88,8 +88,8 @@ const PopupContent = ({ onSelectRow, onSave ,PopUpContent,selectedRowsData }) =>
       ) : (
         <div className="responsive-paddings grpo-po-help-container">
           <div className="header-section">
-            <PopupHeaderText text={"Purchase Order List"} />
-            <PopupSubText text={"Search the purchase order"} />
+            <PopupHeaderText text={popupHeaderText} />
+            <PopupSubText text={popupSubHeaderText} />
           </div>
           <DataGrid
             height={420}
@@ -143,7 +143,8 @@ const PopupContent = ({ onSelectRow, onSave ,PopUpContent,selectedRowsData }) =>
 
 
 const QtcSearchColumn = ({
-  optionFunc,
+  popupHeaderText,
+  popupSubHeaderText,
   keyArray, // Search element array passes
   PopUpContent,
   getparamFunc
@@ -152,8 +153,6 @@ const QtcSearchColumn = ({
   const [selectedData, setSelectedData] = useState([]); // State to store the selected row data
   const [showPoHelp, setShowPoHelp] = useState(false);
   const showPopupHandler = () => {
-    // console.log("it is true to show");
-    
     return setShowPoHelp(true);
   };
   const handleGrpoPoSelection = (params) => {
@@ -171,7 +170,6 @@ const QtcSearchColumn = ({
     icon: HelpIcons,
     onClick: async () => {
       showPopupHandler();
-      // alert();
     },
   };
    const handleSaveSelectedPo = () => {
@@ -206,13 +204,12 @@ const QtcSearchColumn = ({
     return getparamFunc(selectedData);
   };
   return (
-    
     <div className="search-section">
         {showPoHelp && (
         <Popup
           visible={true}
           showCloseButton={true}
-          contentRender={() => <PopupContent PopUpContent={PopUpContent} onSave={handleGrpoPoSelection} selectedRowsData={selectedRowsData}/>}
+          contentRender={() => <PopupContent popupHeaderText={popupHeaderText} popupSubHeaderText={popupSubHeaderText} PopUpContent={PopUpContent} onSave={handleGrpoPoSelection} selectedRowsData={selectedRowsData}/>}
           // contentRender={() => <PopupContent PopUpContent={PopUpContent}/>}
           // hideOnOutsideClick={outSideHandler}
         >
@@ -238,38 +235,67 @@ const QtcSearchColumn = ({
           const selectedData = item.selectedRowsData;
           const placeholder = item.placeholder;
           const btnIcon = item.btnIcon;
+          const TextWithIcon= item.TextWithIcon;
           if (key === "textBox") {
-            return (
-              <TextBox
-                className="dx-field-value"
-                stylingMode="outlined"
-                placeholder={placeholder}
-                width={250}
-                showClearButton={true}
-                onValueChanged={handlefunc}
-                value={selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""}
-                // disabled={selectedData.length > 0 ? false : true}
-              >
-                <TextBoxButton
-                  name="currency"
-                  location="after"
-                  // options={optionFunc}
-                  options={helpOptions}
-                />
-              </TextBox>
-            );
+            if(TextWithIcon){
+              return (
+                <TextBox
+                  className="dx-field-value"
+                  stylingMode="outlined"
+                  placeholder={placeholder}
+                  width={250}
+                  showClearButton={true}
+                  onValueChanged={handlefunc}
+                  value={selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""}
+                  // disabled={selectedData.length > 0 ? false : true}
+                >
+                  <TextBoxButton
+                    name="currency"
+                    location="after"
+                    // options={optionFunc}
+                    options={helpOptions}
+                  />
+                </TextBox>
+              );
+            }else{
+              return (
+                <TextBox
+                  className="dx-field-value"
+                  stylingMode="outlined"
+                  placeholder={placeholder}
+                  width={250}
+                  showClearButton={true}
+                  onValueChanged={handlefunc}
+                  value={selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""}
+                  // disabled={selectedData.length > 0 ? false : true}
+                >
+                </TextBox>
+              );
+            }
           } else if (key === "button") {
-            return (
-              <Button
-                width={33}
-                height={33}
-                type="normal"
-                stylingMode="outlined"
-                icon={btnIcon}
-                // onClick={handlefunc}
-                onClick={selectedRowSetter}
-              />
-            );
+            if(btnIcon=="search"){
+              return (
+                <Button
+                  width={33}
+                  height={33}
+                  type="normal"
+                  stylingMode="outlined"
+                  icon={btnIcon}
+                  onClick={selectedRowSetter}
+                />
+              );
+            }else{
+              return (
+                <Button
+                  width={33}
+                  height={33}
+                  type="normal"
+                  stylingMode="outlined"
+                  icon={btnIcon}
+                  onClick={handlefunc}
+                />
+              );
+            }
           }
         })}
     </div>

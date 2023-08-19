@@ -10,9 +10,12 @@ const PendingTabContent = ({selectedPo}) => {
   const navigate = useNavigate();
   const [isDataGridVisible, setIsDataGridVisible] = useState(false);
 
-  const proceedToItemsScan = () => {
-    navigate("/production/issue-material/verify-material");
+  const proceedToItemsScan = (param) => {
+    console.log("params : " ,param);
+    console.log("navigate : " ,`/production/issue-material/verify-material/${param}`);
+    navigate(`/production/issue-material/productionProcess/${param}`);
   };
+
 
   const handleShowRealtiveDataGrid = () => {
     return setIsDataGridVisible(!isDataGridVisible);
@@ -65,7 +68,7 @@ const PendingTabContent = ({selectedPo}) => {
     //     </div>
     //   )}
     // </div>
-    <QtcMainColumn IQCList={selectedPo} columns={columns} Data={customers} keyExpr="ID"/>
+    <QtcMainColumn IQCList={selectedPo} columns={columns} Data={customers} keyExpr="ID" handleProceed1={proceedToItemsScan}/>
   );
 };
 

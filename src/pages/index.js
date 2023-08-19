@@ -17,3 +17,4 @@ export { default as IncomingQCPage } from "./qualityControl/incomigQualityContro
 export { default as MasterPage } from "./masters/master/master";
 export { default as purchasePage } from "./purchases/purchase/purchase";
 export { default as IssueMaterialPage } from "./production/issue-material/issue-material-main";
+export { default as IssueMaterialProcess} from "./production/issue-material/issue-material-process";
