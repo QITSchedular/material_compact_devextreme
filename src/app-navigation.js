@@ -139,6 +139,16 @@ export const navigation = [
         path: "/production/issue-material",
         icon: "login",
       },
+      {
+        text: "Verify Material",
+        path: "/production/verify-material",
+        icon: "login",
+      },
+      {
+        text: "Receive Material",
+        path: "/production/receive-material",
+        icon: "login",
+      },
     ],
   },
 ];

@@ -1,5 +1,5 @@
 import React from "react";
-import DataGrid from "devextreme-react/data-grid";
+import DataGrid, { Selection } from "devextreme-react/data-grid";
 import { customers } from "./data.js";
 
 const columns = ["CompanyName", "City", "State", "Phone", "Fax"];
@@ -11,7 +11,10 @@ const PendingTabGrid = () => {
         keyExpr="ID"
         defaultColumns={columns}
         showBorders={true}
-      />
+        className="pending-tab-data-grid"
+      >
+        <Selection mode={"multiple"} />
+      </DataGrid>
     </div>
   );
 };

@@ -11,7 +11,7 @@ import { SearchPanel } from "devextreme-react/data-grid";
 
 export default function Header({ menuToggleEnabled, title, toggleMenu }) {
   const location = useLocation();
-  let path = location.pathname.split('/');
+  let path = location.pathname.split("/");
 
   return (
     <header className={"header-component"}>
@@ -32,37 +32,32 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
           // visible={!!title}
         >
           <nav className="breadcrumb">
-
-            {
-
-              path.map((value, key) => (
-                (value !== "")
-                  ?
-                  <>
-                    <Link to={value}
-                      className={location.pathname.startsWith(path[0]) ? "breadcrumb-item active" : "breadcrumb-item"}
-                    >
-                      {value}
-                    </Link>
-                  </>
-                  :
-                  <>
-                    <Link to={"/home"}>
-                      Home
-                    </Link>
-                    {/* <Button icon={home} /> */}
-                  </>
-              ))
-            }
+            {path.map((value, key) =>
+              value !== "" ? (
+                <>
+                  <Link
+                    to={value}
+                    className={
+                      location.pathname.startsWith(path[0])
+                        ? "breadcrumb-item active"
+                        : "breadcrumb-item"
+                    }
+                  >
+                    {value}
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link to={"/home"}>Home</Link>
+                  {/* <Button icon={home} /> */}
+                </>
+              )
+            )}
           </nav>
         </Item>
 
-        <Item
-          locateInMenu={"auto"}
-          cssClass={'dx-toolbar-items-container'}
-        >
-          <div class="search-container">
-
+        <Item locateInMenu={"auto"} cssClass={"dx-toolbar-items-container"}>
+          <div className="search-container">
             <TextBox
               className="search-input"
               stylingMode="outlined"
@@ -72,7 +67,6 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
             />
             <Button icon={Search} className="search-icon" />
           </div>
-          
         </Item>
 
         <Item

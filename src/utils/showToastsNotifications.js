@@ -2,7 +2,11 @@ import notify from "devextreme/ui/notify";
 import { AppContext } from "../contexts/dataContext";
 import { useContext, useState } from "react";
 import { Toast, Position } from "devextreme-react/toast";
+import Swal from "sweetalert2";
+import failureLottie from "../assets/images/failure-lottie.gif";
+import successLottie from "../assets/images/success-lottiie-2.gif";
 
+import "./notification.styles.scss";
 export const showToastNotifications = async (data, position, direction) => {
   const { hasError, statusCode, statusMsg } = data;
   if (hasError === false) {
@@ -97,3 +101,31 @@ export const showToastNotifications = async (data, position, direction) => {
 // const renderSuccessComponent = (statusMsg) => {
 //   return <SuccessToast statusMsg={statusMsg} />;
 // };
+
+export const SwalDisplayer = (type, title, text) => {
+  /*
+    will recieve props
+  */
+
+  if (type === "success") {
+    return Swal.fire({
+      title: title,
+      text: text ? text : "",
+      imageUrl: `${successLottie}`,
+      imageWidth: 200,
+      imageHeight: 200,
+      imageAlt: "operation successful",
+    });
+  }
+  if (type === "error") {
+    return Swal.fire({
+      title: title,
+      text: text ? text : "",
+      imageUrl: `${failureLottie}`,
+      imageWidth: 200,
+      imageHeight: 200,
+      imageAlt: "operation failed",
+      timer: 3000,
+    });
+  }
+};

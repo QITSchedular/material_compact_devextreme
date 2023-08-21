@@ -9,7 +9,7 @@ const PendingTabContent = () => {
   const [isDataGridVisible, setIsDataGridVisible] = useState(false);
 
   const proceedToItemsScan = () => {
-    navigate("/production/issue-material/verify-material");
+    navigate("/production/verify-material/verify-items:prodid");
   };
 
   const handleShowRealtiveDataGrid = () => {

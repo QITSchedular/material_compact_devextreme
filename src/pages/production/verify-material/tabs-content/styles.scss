@@ -64,3 +64,22 @@
 }
 
 /* ------------------------ pending tab content style ----------------------------*/
+
+
+
+/* ------------------------ Verify material scanned item section  ----------------------------*/
+
+.issue-material-container{
+    
+
+    /* the data Grid*/
+    .data-grid-section{
+        .dx-datagrid.dx-gridbase-container{
+            .dx-datagrid-headers.dx-datagrid-nowrap{
+                // background: rgb(0, 0, 0, 0.04) !important;
+                background: #f4f4f4 !important;
+            }
+        }
+    }
+}
+/* ------------------------ Verify material scanned item section ----------------------------*/

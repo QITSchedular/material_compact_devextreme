@@ -16,4 +16,12 @@ export { default as ItemsubgroupmasterPage } from "./masters/item-sub-group-mast
 export { default as IncomingQCPage } from "./qualityControl/incomigQualityControl/incomingQC-main";
 export { default as MasterPage } from "./masters/master/master";
 export { default as purchasePage } from "./purchases/purchase/purchase";
+
+// production module
+export { default as VerifyMaterialPage } from "./production/verify-material/verify-material-main";
+export { default as VerifyMaterialScanItemsPage } from "./production/verify-material/tabs-content/VerifyScanItems";
+
+export { default as ReceiveMaterialPage } from "./production/receive-material/receive-material.main";
+export { default as ReceiveMaterialScanItemsPage } from "./production/receive-material/receive-material-scan-items";
+
 export { default as IssueMaterialPage } from "./production/issue-material/issue-material-main";

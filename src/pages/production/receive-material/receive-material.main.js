@@ -1,16 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   PopupHeaderText,
   PopupSubText,
 } from "../../../components/typographyTexts/TypographyComponents";
 import { Button, LoadPanel, TextBox } from "devextreme-react";
 import { GRPOScanner } from "../../../assets/icon";
-import IssueMaterialListing from "./issue-material-listings";
-import { useNavigate } from "react-router-dom";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import { testGetDetailsByProductionNumber } from "../../../api/test-apis";
+import RecievematerialListing from "./recieve-material.listing";
 
-const IssueMaterialMain = () => {
+const ReceiveMaterialMain = () => {
   const [isSearchButtonDisabled, setIsSearchButtonDisabled] = useState(true);
   const [inputQrValue, setInputQrValue] = useState("");
   const [listingDataSource, setListingDataSource] = useState([]);
@@ -74,14 +74,15 @@ const IssueMaterialMain = () => {
   const handleProceed = (headerQrId) => {
     navigate(`/recieve-material/scanitems/${headerQrId}`); // Use navigate function
   };
+
   return (
-    <div className="content-block dx-card responsive-paddings default-main-conatiner issue-material-container ">
+    <div className="content-block dx-card responsive-paddings default-main-conatiner receive-material-container ">
       {loading && <LoadPanel visible={true} />}
       {/*----header Section ------*/}
 
       <div className="header-section">
-        <PopupHeaderText text={"Issue Material"} />
-        <PopupSubText text={"Search the production number to proceed"} />
+        <PopupHeaderText text={"Receive Material"} />
+        <PopupSubText text={"Create the qr code of receive "} />
       </div>
 
       {/*----Input Textbox search/ scan section ------*/}
@@ -117,7 +118,7 @@ const IssueMaterialMain = () => {
 
       {/*------- LISTING SECTION -----*/}
       {listingDataSource.length > 0 ? (
-        <IssueMaterialListing
+        <RecievematerialListing
           listingDataSource={listingDataSource}
           onDeleteItem={handleDeleteItem}
           onProceed={handleProceed}
@@ -129,4 +130,4 @@ const IssueMaterialMain = () => {
   );
 };
 
-export default IssueMaterialMain;
+export default ReceiveMaterialMain;

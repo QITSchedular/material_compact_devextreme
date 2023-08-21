@@ -16,6 +16,10 @@ import {
   IncomingQCPage,
   MasterPage,
   purchasePage,
+  VerifyMaterialPage,
+  VerifyMaterialScanItemsPage,
+  ReceiveMaterialPage,
+  ReceiveMaterialScanItemsPage,
   IssueMaterialPage,
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
@@ -89,6 +93,22 @@ const routes = [
   {
     path: "/qualityControl/incomingQC",
     element: IncomingQCPage,
+  },
+  {
+    path: "/production/verify-material",
+    element: VerifyMaterialPage,
+  },
+  {
+    path: "/production/verify-material/verify-items:prodid",
+    element: VerifyMaterialScanItemsPage,
+  },
+  {
+    path: "/production/receive-material",
+    element: ReceiveMaterialPage,
+  },
+  {
+    path: "/recieve-material/scanitems/:id",
+    element: ReceiveMaterialScanItemsPage,
   },
   {
     path: "/production/issue-material",
