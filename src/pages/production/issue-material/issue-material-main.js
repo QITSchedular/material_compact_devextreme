@@ -15,7 +15,7 @@ import RejectedTabContent from "./tabs-content/RejectedTabContent";
 import "./issue-material.styles.scss";
 import QtcSearchColumn from "../../../components/qtcCommonComponent/qtcSearchColumn";
 import { HelpIcons } from "../../purchases/grpo/icons-exporter";
-import { getPoLists } from "../../../utils/gate-in-purchase";
+import { getPoLists, searchPoListsIQC } from "../../../utils/gate-in-purchase";
 
 const IssueMaterialMain = () => {
   const [grpoList, setGrpoList] = useState(new Set());
@@ -39,57 +39,52 @@ const IssueMaterialMain = () => {
         return null;
     }
   };
-  const helpOptions = {
-    icon: HelpIcons,
-    onClick: async () => {
-      // showPopupHandler();
-      alert();
-    },
-  };
 
-  const dataGridDataHandler = async (qrCode) => {
-    setLoading(true);
-    // alert(qrCode);
-    try {
-      const poListData = await getPoLists();
-      if (poListData.length > 0) {
-        const qrCodeIds = poListData.map((item) => item.qrCodeID);
-        const doPoExists = qrCodeIds.includes(qrCode[0].qrCodeID);
-        setLoading(false);
-        return doPoExists;
-      } else {
-        // setError("No data found");
-        setLoading(false);
-        toastDisplayer("error", "No matching P.O found, try again");
-        return false;
-      }
-    } catch (error) {
-      // setError("Error fetching data");
-      setLoading(false);
-      return false;
-    }
-  };
+
   const handlePoVerification = async (param) => {
     console.log("param : ",param);
     if (param.length>0 && param) {
       setSelectedPo(param);
       console.log("selectedPo : ",param );
-      const doPoExists = await dataGridDataHandler(param);
-      if (doPoExists && grpoList.has(param[0].qrCodeID)) {
+      const doPoExists = await searchPoListsIQC(param[0].qrCodeID);
+      console.log(doPoExists);
+      var doProuctExist;
+      if (grpoList.size > 0) {
+        doProuctExist = false;
+        grpoList.forEach((value) => {
+
+          if (value.headerQRCodeID == param[0].qrCodeID) {
+            doProuctExist = true;
+            return;
+          }
+        });
+      } else {
+        doProuctExist = false;
+      }
+      if (doProuctExist && doPoExists) {
         // Show an alert or a message to inform the user about the duplicate value
 
         return toastDisplayer("error", "QR Code already exists in the list!");
-      } else if (doPoExists && !grpoList.has(param[0].qrCodeID)) {
+      } else if (doPoExists && !doProuctExist) {
         // Add the selectedPo to the grpoList using the Set's add method
 
         // console.log("grpoList : ",grpoList);
-        return setGrpoList((prevGrpoList) =>
-          new Set(prevGrpoList).add(param[0].qrCodeID)
+         setGrpoList((prevGrpoList) =>{
+          const updatedSet = new Set(prevGrpoList); // Create a new Set based on the previous Set
+
+          doPoExists.forEach((response) => {
+            updatedSet.add(response); // Add each object from prodResponse to the updatedSet
+          });
+
+          return updatedSet;
+         }
+
         );
-      } else if (!doPoExists) {
+      } else if (doProuctExist === "No data found") {
+        // console.log("the scanned item does not exist");
         return toastDisplayer(
           "error",
-          "Invalid Grpo, please select a valid Grpo"
+          "The scanned item does not belong to this P.O"
         );
       }
     } else {
@@ -103,7 +98,6 @@ const IssueMaterialMain = () => {
   const keyArray1 = [
   { feildType: "textBox", handlefunc: "handleTextValueChange",placeholder : "Search by purchase order" ,selectedRowsData : "selectedRowsData" ,TextWithIcon:true},
   { feildType: "button", handlefunc: handlePoVerification ,btnIcon : "search"},
-  // { feildType: "button", handlefunc: "handlePoVerification" ,btnIcon : GRPOScanner},
 ];
   return (
     <div className="content-block dx-card responsive-paddings issue-material-container">
@@ -112,33 +106,6 @@ const IssueMaterialMain = () => {
         <PopupSubText text={"Search the production number to verify"} />
       </div>
 
-      {/* <div className="search-section">
-        <TextBox
-          className="dx-field-value"
-          stylingMode="outlined"
-          placeholder="Type the production number"
-          width={250}
-          showClearButton={true}
-          valueChangeEvent="keyup"
-          onValueChanged={() => {}}
-        ></TextBox>
-        <Button
-          width={33}
-          height={33}
-          type="normal"
-          stylingMode="outlined"
-          icon="search"
-          onClick={() => console.log("Text")}
-        />
-        <Button
-          width={33}
-          height={33}
-          type="normal"
-          stylingMode="outlined"
-          icon={GRPOScanner}
-          onClick={() => console.log("first")}
-        />
-      </div> */}
       <QtcSearchColumn popupHeaderText="Purchase Order List" popupSubHeaderText="Search the purchase order" keyArray={keyArray1} PopUpContent={getPoLists()} getparamFunc={handlePoVerification}/>
 
       <div className="issue-material-main-section">

@@ -187,13 +187,48 @@ export const getPoLists = async () => {
     hasError: false,
     errorText: "Something went wrong",
   };
+
   // http://192.168.1.102:{{PORT}}/api/Commons/Series?Indicator=FY2223&ObjType=22&BranchID=1
   try {
     const response = await axios.post(
       `${API_URL}/DraftGRPO/GetPOList?BranchID=1`
     );
     const data = response.data;
-    // console.log("This is from gerSeriesPo api", data);
+    if (data) {
+      return data;
+    } else {
+      return errors;
+    }
+  } catch (error) {
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
+  }
+};
+
+export const searchPoListsIQC = async (QRCode) => {
+  const requestBody = {
+    branchID: 1,
+    fromDate: "",
+    toDate: "",
+    headerQRCodeID: QRCode,
+  };
+  console.log("QRCode : ",QRCode)
+  const errors = {
+    hasError: false,
+    errorText: "Something went wrong",
+  };
+  try {
+    const response = await axios.post(
+      `${API_URL}/IncomingQC/GetGRPOListByPO`, //api will be change
+      requestBody
+    );
+    const data = response.data;
+    console.log("data : ",data);
     if (data) {
       return data;
     } else {

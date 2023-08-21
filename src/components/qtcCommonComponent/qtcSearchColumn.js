@@ -184,6 +184,14 @@ const QtcSearchColumn = ({
       // return toastDisplayer("error", "Please select a PO to save and proceed");
     }
   };
+
+  // const handleTextValueChange = (e) => {
+  //   alert();
+  //   // console.log(e.previousValue);
+  //   // console.log(e.value);
+  //   return setSelectedRowsData(e.value);
+  // };
+
   const cancelButtonOptions = {
     width: 120,
     height: 40,

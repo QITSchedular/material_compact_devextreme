@@ -5,6 +5,7 @@ import './qtc.scss'
 import { Navigate } from 'react-router-dom'
 
 function QtcMainColumn ({ IQCList, columns, Data, keyExpr,handleProceed1 }) {
+  console.log("IQCList : ",IQCList)
   const [isDataGridVisible, setIsDataGridVisible] = useState(false)
   // const handleShowRealtiveDataGrid = () => {
   //   return setIsDataGridVisible(!isDataGridVisible)
@@ -43,43 +44,39 @@ function QtcMainColumn ({ IQCList, columns, Data, keyExpr,handleProceed1 }) {
   // useEffect(()=>{},[IQCList])
   return (
     <>
+
       {IQCList.size > 0 && (
-        <div className='pending-list-section'>
-          <div className='po-list-section'>
-            {[...IQCList].map((qrCode, index) => (
-              <div key={index} className='single-po'>
-                <div  className='single-po1'>
-                  <div className='single-po-delete'>
-                    <Button icon='trash'></Button>
-                  </div>
-                  <div className='single-po-name'>
-                    <span className='po-name'>{qrCode}</span>
-                    <Button
-                      icon='custom-chevron-down-icon'
-                      onClick={() => handleShowRealtiveDataGrid(qrCode)}
-                    ></Button>
-                  </div>
-                  <div className='single-po-proceed'>
-                    <Button
-                      text='Proceed'
-                      onClick={() => handleProceed(qrCode)}
-                    ></Button>
-                  </div>
+        <div className="po-list-section">
+          {[...IQCList].map((item, index) => (
+            <div key={index} className="single-po">
+              <div className="single-po1">
+                <div className="single-po-delete">
+                  <Button icon="trash"></Button>
                 </div>
-                <div  className='single-po'>
-                {data[qrCode] && (
-                  <div className='data-grid-drop-down'>
-                    <QtcDataGrid
-                      columns={columns}
-                      Data={Data}
-                      keyExpr={keyExpr}
-                    />
-                  </div>
-                )}
+                <div className="single-po-name">
+                  <span className="po-name">{item["headerQRCodeID"]}</span>
+                  <Button
+                    icon="custom-chevron-down-icon"
+                    onClick={() =>handleShowRealtiveDataGrid(item["docEntry"])}
+                  ></Button>
+                </div>
+                <div className="single-po-proceed">
+                  <Button
+                    text="Proceed"
+                    onClick={() => handleProceed(item['docEntry'])}
+                  ></Button>
                 </div>
               </div>
-            ))}
-          </div>
+              <div className="single-po2">
+                {data[item["docEntry"]] && (
+                  <div className="data-grid-drop-down">
+                    <QtcDataGrid columns={columns} Data={item} keyExpr="docEntry"/>
+                  </div>
+                )}
+              </div>
+
+            </div>
+          ))}
         </div>
       )}
     </>

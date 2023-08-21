@@ -22,26 +22,47 @@ const PendingTabContent = ({selectedPo}) => {
   };
   const columns = [
     {
-      caption: "Company Name",
-      field: "CompanyName",
+      caption: "Vendor Code",
+      field: "cardCode",
     },
     {
-      caption: "City",
-      field: "City",
+      caption: "Vendor Ref No.",
+      field: "cardCode",
     },
     {
-      caption: "State",
-      field: "State",
+      caption: "Vendor Name",
+      field: "cardName",
     },
     {
-      caption: "Phone No",
-      field: "Phone",
+      caption: "Doc Series",
+      field: "series",
     },
     {
-      caption: "Fax",
-      field: "Fax",
+      caption: "Doc No.",
+      field: "docNum",
+    },
+    {
+      caption: "Doc Date",
+      field: "docDate",
+    },
+    {
+      caption: "Post Date",
+      field: "postDate",
+    },
+    {
+      caption: "Project",
+      field: "project",
+    },
+    {
+      caption: "Remark",
+      field: "project",
+    },
+    {
+      caption: "Doc Entry",
+      field: "docEntry",
     },
   ];
+
   return (
     // <div className="pending-list-section">
     //   <div className="single-pending">
@@ -68,7 +89,7 @@ const PendingTabContent = ({selectedPo}) => {
     //     </div>
     //   )}
     // </div>
-    <QtcMainColumn IQCList={selectedPo} columns={columns} Data={customers} keyExpr="ID" handleProceed1={proceedToItemsScan}/>
+    <QtcMainColumn IQCList={selectedPo} columns={columns} Data={selectedPo} keyExpr="ID" handleProceed1={proceedToItemsScan}/>
   );
 };
 
