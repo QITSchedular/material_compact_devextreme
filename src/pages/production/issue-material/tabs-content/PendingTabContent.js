@@ -64,7 +64,7 @@ const PendingTabContent = ({selectedPo}) => {
   ];
 
   return (
-    <QtcMainColumn IQCList={selectedPo} columns={columns} Data={selectedPo} keyExpr="ID" handleProceed1={proceedToItemsScan} displayname="headerQRCodeID" DownArrowKey="docEntry"/>
+    <QtcMainColumn IQCList={selectedPo} columns={columns} handleProceed1={proceedToItemsScan} displayname="headerQRCodeID" DownArrowKey="docEntry"/>
   );
 };
 export default PendingTabContent;

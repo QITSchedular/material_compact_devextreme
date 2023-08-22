@@ -6,8 +6,6 @@ import './qtc.scss'
 function QtcMainColumn ({
   IQCList,
   columns,
-  Data,
-  keyExpr,
   handleProceed1,
   displayname,
   DownArrowKey
