@@ -1,52 +1,35 @@
 @import "../../themes/generated/variables.base.scss";
 
 .grid-container {
-    display: grid;
-    gap: 20px 10px;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 30px 10px;
-
     a {
         text-decoration: none;
     }
 
     .dx-card {
-        width: 350px;
-        // height: 200px;
+        box-sizing: border-box;
+        width: 224.915px;
+        height: 171.684px;
+        flex-shrink: 0;
         margin: auto auto;
-        padding: 15px;
+        padding: 20px;
         border-radius: 13.841px;
         border-bottom: 4px solid #4371B7;
         background: #FFF;
         box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.10);
+        position: relative;
 
         .pin {
-            text-align: right;
+            position: absolute;
+            top: 0;
+            right: 0px;
+            padding: 12px 12px 0px 0px;
         }
 
-        .card-body {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .circle {
-            width: 70px;
-            height: 70px;
-            line-height: 70px;
-            font-size: 30px;
-            border-radius: 8px;
-            background-color: #4371b7;
-            text-align: center;
-            color: #FFF;
-            text-shadow: 3px 3px 1px #525252;
-        }
 
         .header {
             display: flex;
             padding: 0;
-            color: #4371B7;
+            margin-top: 22px;
 
             .dx-button {
                 margin-left: 0;
@@ -75,130 +58,130 @@
             line-height: 18px;
             margin-top: 10px;
         }
-
-        .card-footer {
-            .dx-button {
-                margin: 0px !important;
-            }
-
-            .dx-button-has-text .dx-button-content .dx-button-text {
-                color: #4371B7;
-            }
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            justify-self: end;
-            margin-top: 20px;
-        }
     }
 }
 
-// 450 | 600 | 768 | 840 | 992 | 1024
-
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 1024px) {
     .grid-container {
-        gap: 30px;
-        grid-template-columns: 1fr;
-
-        .dx-card {
-            width: 320px;
-
-            .circle {
-                width: 60px;
-                height: 50px;
-                line-height: 50px;
-                font-size: 20px;
-            }
+        a {
+            text-decoration: none;
         }
-    }
-}
-
-@media only screen and (min-width: 450px) {
-    .grid-container {
-        gap: 30px;
-        grid-template-columns: 1fr;
 
         .dx-card {
-            width: 350px;
+            box-sizing: border-box;
+            width: 224.915px;
+            height: 171.684px;
+            flex-shrink: 0;
+            margin: auto auto;
+            padding: 20px;
+            border-radius: 13.841px;
+            border-bottom: 4px solid #4371B7;
+            background: #FFF;
+            box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.10);
+            position: relative;
 
-            .circle {
-                width: 60px;
-                height: 45px;
-                line-height: 45px;
-                font-size: 20px;
+            .pin {
+                position: absolute;
+                top: 0;
+                right: 0px;
+                padding: 12px 12px 0px 0px;
             }
-        }
-    }
-}
 
-@media only screen and (min-width: 600px) {
-    .grid-container {
-        gap: 20px;
-        grid-template-columns: 1fr 1fr;
 
-        .dx-card {
-            width: 280px;
+            .header {
+                display: flex;
+                padding: 0;
+                margin-top: 22px;
 
-            .circle {
-                width: 60px;
-                height: 50px;
-                line-height: 50px;
-                font-size: 20px;
+                .dx-button {
+                    margin-left: 0;
+                    background: transparent;
+                    cursor: default;
+                }
+
+                .dx-button-has-icon .dx-icon {
+                    width: 22px;
+                    height: 22px;
+                    color: #525252;
+                }
+
+                .heading {
+                    margin-left: 2px;
+                    color: $base-text-color;
+                    line-height: 28px;
+                    font-weight: 500;
+                    font-size: 16px;
+                    text-decoration: none;
+                }
+            }
+
+            .description {
+                color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+                line-height: 18px;
+                margin-top: 10px;
             }
         }
     }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (max-width: 360px) {
     .grid-container {
-        gap: 20px;
-        grid-template-columns: 1fr 1fr;
-
-        .dx-card {
-            width: 310px;
-
-            .circle {
-                width: 75px;
-                height: 50px;
-                line-height: 50px;
-                font-size: 20px;
-            }
+        a {
+            text-decoration: none;
         }
-    }
-}
-
-@media only screen and (min-width: 840px) {
-    .grid-container {
-        gap: 20px;
-        grid-template-columns: 1fr 1fr 1fr;
 
         .dx-card {
-            width: 290px;
+            box-sizing: border-box;
+            width: 224.915px;
+            height: 171.684px;
+            flex-shrink: 0;
+            margin: auto auto;
+            padding: 20px;
+            border-radius: 13.841px;
+            border-bottom: 4px solid #4371B7;
+            background: #FFF;
+            box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.10);
+            position: relative;
 
-            .circle {
-                width: 70px;
-                height: 50px;
-                line-height: 50px;
-                font-size: 25px;
+            .pin {
+                position: absolute;
+                top: 0;
+                right: 0px;
+                padding: 12px 12px 0px 0px;
             }
-        }
-    }
-}
 
-@media only screen and (min-width: 1024px) {
-    .grid-container {
-        gap: 20px;
-        grid-template-columns: 1fr 1fr 1fr;
 
-        .dx-card {
-            width: 350px;
+            .header {
+                display: flex;
+                padding: 0;
+                margin-top: 22px;
 
-            .circle {
-                width: 70px;
-                height: 60px;
-                line-height: 60px;
-                font-size: 25px;
+                .dx-button {
+                    margin-left: 0;
+                    background: transparent;
+                    cursor: default;
+                }
+
+                .dx-button-has-icon .dx-icon {
+                    width: 22px;
+                    height: 22px;
+                    color: #525252;
+                }
+
+                .heading {
+                    margin-left: 2px;
+                    color: $base-text-color;
+                    line-height: 28px;
+                    font-weight: 500;
+                    font-size: 16px;
+                    text-decoration: none;
+                }
+            }
+
+            .description {
+                color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+                line-height: 18px;
+                margin-top: 10px;
             }
         }
     }

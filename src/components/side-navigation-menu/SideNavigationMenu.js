@@ -8,7 +8,8 @@ import "./SideNavigationMenu.scss";
 import * as events from "devextreme/events";
 
 export default function SideNavigationMenu(props) {
-  const { children, selectedItemChanged, openMenu, compactMode, onMenuReady } = props;
+  const { children, selectedItemChanged, openMenu, compactMode, onMenuReady } =
+    props;
 
   const { isLarge } = useScreenSize();
   function normalizePath() {
@@ -16,7 +17,6 @@ export default function SideNavigationMenu(props) {
       ...item,
       expanded: isLarge,
       path: item.path && !/^\//.test(item.path) ? `/${item.path}` : item.path,
-      icon: (typeof item.icon === "object") ? item.icon['dark'] : item.icon,
     }));
   }
 
