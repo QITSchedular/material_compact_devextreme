@@ -96,7 +96,7 @@ const routes = [
     element: IssueMaterialPage,
   },
   {
-    path: "/production/issue-material/productionProcess/:qrCode",
+    path: "/production/issue-material/productionProcess/:qrCode/:docEntry",
     element: IssueMaterialProcess,
   },
 ];

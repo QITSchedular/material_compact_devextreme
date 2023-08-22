@@ -4,19 +4,18 @@ import {
   PopupHeaderText,
   PopupSubText
 } from '../../../components/typographyTexts/TypographyComponents'
-import { Navigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import QtcSearchColumn from '../../../components/qtcCommonComponent/qtcSearchColumn'
 import { getPoLists } from '../../../utils/gate-in-purchase'
 import { GRPOScanner } from '../../../assets/icon'
-import { ValidateItemQR, generateGrpo } from '../../../utils/grpo-saver'
+import { ValidateItemQR1 } from '../../../utils/grpo-saver'
 import { toastDisplayer } from '../../../api/qrgenerators'
 import { Button } from 'devextreme-react'
 import QtcDataGrid from '../../../components/qtcCommonComponent/qtcDataGrid'
 const IssueMaterialProcess = () => {
-  const { qrCode } = useParams()
-  const [uniqueIds, setUniqueIds] = useState(new Set())
+  const { qrCode, docEntry } = useParams()
   const [selectedItemQr, setSelectedItemQR] = useState(null)
-  const [gridDataSource, setGridDataSource] = useState([])
+  const [gridDataSource, setGridDataSource] = useState('')
   const [displayGrid, setDisplayGrid] = useState(false)
 
   const handleTextValueChange = e => {
@@ -32,33 +31,30 @@ const IssueMaterialProcess = () => {
 
   // on hit of search button
   const handleItemQrVerification = async e => {
-    // validate the scanned item
     if (selectedItemQr) {
-      const doItemExists = await ValidateItemQR(qrCode, selectedItemQr)
-
+      const doItemExists = await ValidateItemQR1(
+        qrCode,
+        selectedItemQr,
+        docEntry
+      )
+      console.log('doItemExists : ', doItemExists)
       if (doItemExists === 'No data found') {
-        // console.log("the scanned item does not exist");
         return toastDisplayer(
           'error',
           'The scanned item does not belong to this P.O'
         )
       } else {
-        // Filter out duplicate detailQRCodeID values
-        const newData = doItemExists.filter(
-          item => !uniqueIds.has(item.detailQRCodeID)
-        )
         setDisplayGrid(true)
-        console.log('setGridDataSource : ', gridDataSource)
         return setGridDataSource(previous => [...previous, ...doItemExists])
       }
     } else {
-      //   setDisplayGrid(false);
+      setDisplayGrid(false)
       return toastDisplayer('error', 'Scan the Item Qr first')
     }
   }
 
   const handleGrpoSaving = async () => {
-    console.log("gridDataSource : ",gridDataSource);
+    console.log('gridDataSource : ', gridDataSource)
   }
 
   const handleScanner = () => {
@@ -95,18 +91,15 @@ const IssueMaterialProcess = () => {
 
       {displayGrid && (
         <div
-        style={{
-          marginTop: '1rem'
-        }}>
-
+          style={{
+            marginTop: '1rem'
+          }}
+        >
           <QtcDataGrid
-            keyExpr='detailQRCodeID'
+            keyExpr='grpoDocEntry'
             Data={gridDataSource}
             onRowRemoved={onRowRemoved}
-
-          >
-
-          </QtcDataGrid>
+          />
 
           {gridDataSource.length > 0 && (
             <>
@@ -134,5 +127,4 @@ const IssueMaterialProcess = () => {
     </div>
   )
 }
-
-export default IssueMaterialProcess
+export default IssueMaterialProcess;

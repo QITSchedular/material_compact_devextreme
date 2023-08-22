@@ -10,10 +10,10 @@ const PendingTabContent = ({selectedPo}) => {
   const navigate = useNavigate();
   const [isDataGridVisible, setIsDataGridVisible] = useState(false);
 
-  const proceedToItemsScan = (param) => {
-    console.log("params : " ,param);
+  const proceedToItemsScan = (param,param1) => {
+    console.log("params : " ,param1);
     console.log("navigate : " ,`/production/issue-material/verify-material/${param}`);
-    navigate(`/production/issue-material/productionProcess/${param}`);
+    navigate(`/production/issue-material/productionProcess/${param}/${param1}`);
   };
 
 
@@ -64,33 +64,7 @@ const PendingTabContent = ({selectedPo}) => {
   ];
 
   return (
-    // <div className="pending-list-section">
-    //   <div className="single-pending">
-    //     <div className="single-pending-delete">
-    //       <Button icon="trash"></Button>
-    //     </div>
-
-    //     <div className="single-pending-name">
-    //       <span className="pending-name">{"CACDAHBH AH 000001"}</span>
-    //       <Button
-    //         icon="custom-chevron-down-icon"
-    //         onClick={handleShowRealtiveDataGrid}
-    //       ></Button>
-    //     </div>
-
-    //     <div className="single-pending-proceed">
-    //       <Button text="Proceed" onClick={proceedToItemsScan}></Button>
-    //     </div>
-    //   </div>
-    //   {isDataGridVisible && (
-    //     <div className="data-grid-drop-down">
-    //       {/* <PendingTabGrid /> */}
-    //       <QtcDataGrid columns={columns} Data={customers} keyExpr="ID"/>
-    //     </div>
-    //   )}
-    // </div>
-    <QtcMainColumn IQCList={selectedPo} columns={columns} Data={selectedPo} keyExpr="ID" handleProceed1={proceedToItemsScan}/>
+    <QtcMainColumn IQCList={selectedPo} columns={columns} Data={selectedPo} keyExpr="ID" handleProceed1={proceedToItemsScan} displayname="headerQRCodeID" DownArrowKey="docEntry"/>
   );
 };
-
 export default PendingTabContent;

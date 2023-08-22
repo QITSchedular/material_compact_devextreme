@@ -6,11 +6,6 @@ import {
   Button as TextBoxButton,
 } from "devextreme-react/text-box";
 
-// key array example to be passsed
-// const keyArray1 = [
-//   { feildType: "textBox", handlefunc: handleTextValueChange,placeholder : "Search by purchase order" ,selectedRowsData : selectedRowsData},
-//   { feildType: "button", handlefunc: handlePoVerification ,btnIcon : "search"},
-// ];
 const QtcHeader = ({
   title,
   subtitle,
@@ -48,7 +43,6 @@ const QtcHeader = ({
                     value={
                       selectedData.length > 0 ? selectedData[0].qrCodeID : ""
                     }
-                    // disabled={selectedData.length > 0 ? false : true}
                   >
                     <TextBoxButton
                       name="currency"
@@ -102,6 +96,3 @@ const QtcHeader = ({
 };
 
 export default QtcHeader;
-
-//  {/* <QtcHeader title="Grpo" subtitle="Type or scan the purchase order to make an entry" optionFunc={helpOptions} keyArray={keyArray1} grpoList={grpoList} handleShowPoDropDetails={handleShowPoDropDetails}
-// handleProceed={handleProceed}/> */} usage of qtcHeader

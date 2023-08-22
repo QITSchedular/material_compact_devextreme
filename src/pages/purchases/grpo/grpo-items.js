@@ -21,6 +21,7 @@ import { ToolbarItem } from "devextreme-react/popup";
 import GrpoWarehouseChooserComponent, {
   WarehouseChooserTitle,
 } from "./grpo-warehouse-chooser";
+import QtcDataGrid from "../../../components/qtcCommonComponent/qtcDataGrid";
 
 const GrpoItems = () => {
   const { qrCode } = useParams();
@@ -261,73 +262,20 @@ const GrpoItems = () => {
         </div>
       </div>
       {displayGrid && (
-        <>
-          <DataGrid
-            dataSource={gridDataSource}
-            keyExpr="detailQRCodeID"
-            showBorders={false}
-            columnAutoWidth={true}
-            hoverStateEnabled={true}
-            onRowRemoving={onRowRemoved}
+        <div
+        style={{
+          marginTop: '1rem'
+        }}>
+
+          <QtcDataGrid
+            keyExpr='detailQRCodeID'
+            Data={gridDataSource}
+            onRowRemoved={onRowRemoved}
+
           >
-            <Paging defaultPageSize={10} />
-            <Pager
-              showPageSizeSelector={true}
-              showInfo={true}
-              showNavigationButtons={true}
-            />
-            <Scrolling columnRenderingMode="virtual" />
-            {/* <Paging enabled={true} /> */}
-            <Selection mode="multiple" allowSelectAll={false} />
-            {/* <Column dataField={"docEntry"} caption={"Doc Entry"} /> */}
-            <Editing mode={"row"} allowDeleting={true} />
-            {/* <Column type={"buttons"} caption={"Actions"}>
-            <DeleteButton icon="trash" />
-          </Column> */}
-          </DataGrid>
-          {gridDataSource.length > 0 && (
-            <>
-              <div
-                className="text-area-container"
-                style={{ marginTop: "1rem" }}
-              >
-                <TextArea
-                  height={40}
-                  autoResizeEnabled={true}
-                  defaultValue={""}
-                  stylingMode="outlined"
-                  placeholder="Add decscriptive comments(OPTIONAL..)"
-                  onValueChange={handleComments}
-                />
-              </div>
-              <div
-                className="cta-section"
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  marginTop: "1rem",
-                }}
-              >
-                <Button
-                  text="cancel"
-                  className="grpo-cancel"
-                  onClick={handleCancel}
-                  width={120}
-                  height={40}
-                ></Button>
-                <Button
-                  text="Save"
-                  type="default"
-                  onClick={handleGrpoSaving}
-                  className="grpo-save"
-                  width={120}
-                  height={40}
-                ></Button>
-              </div>
-            </>
-          )}
-        </>
-      )}
+
+          </QtcDataGrid>
+          </div>)}
     </div>
   );
 };
