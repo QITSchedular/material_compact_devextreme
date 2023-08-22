@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Toolbar, { Item } from "devextreme-react/toolbar";
 import Button from "devextreme-react/button";
 import UserPanel from "../user-panel/UserPanel";
@@ -8,10 +8,15 @@ import { Search, bell, home, setting } from "../../assets/icon";
 import { TextBox, Button as NormalButton } from "devextreme-react";
 import { Link, useLocation } from "react-router-dom";
 import { SearchPanel } from "devextreme-react/data-grid";
+import SettingsDrawerMain from "../settings-drawer/SettingsDrawer.main";
 
 export default function Header({ menuToggleEnabled, title, toggleMenu }) {
   const location = useLocation();
   let path = location.pathname.split("/");
+  const [ok, setOk] = useState(false);
+  const drawerVisibilityHandler = () => {
+    setOk(true);
+  };
 
   return (
     <header className={"header-component"}>
@@ -76,7 +81,8 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
           cssClass={"nav-icons"}
         >
           <Button icon={bell} />
-          <Button icon={setting} />
+          <Button icon={setting} onClick={drawerVisibilityHandler} />
+          {ok && <SettingsDrawerMain />}
 
           <Button
             className={"user-button authorization"}
