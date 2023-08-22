@@ -10,12 +10,13 @@ export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
   // console.log("This is request body", requestBody);
   // return requestBody;
   try {
+    console.log(API_URL+"/DraftGRPO/ValidateItemQR");
     const response = await axios.post(
       `${API_URL}/DraftGRPO/ValidateItemQR`,
       requestBody
     );
     const data = response.data;
-    // console.log(data);
+    console.log("data from API : ",data);
 
     return data;
   } catch (error) {

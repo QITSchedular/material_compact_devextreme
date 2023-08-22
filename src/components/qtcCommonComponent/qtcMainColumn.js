@@ -63,7 +63,7 @@ function QtcMainColumn ({ IQCList, columns, Data, keyExpr,handleProceed1 }) {
                 <div className="single-po-proceed">
                   <Button
                     text="Proceed"
-                    onClick={() => handleProceed(item['docEntry'])}
+                    onClick={() => handleProceed(item['headerQRCodeID'])}
                   ></Button>
                 </div>
               </div>
