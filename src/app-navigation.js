@@ -1,4 +1,4 @@
-import * as icon from './assets/icon';
+import { Sacnner, pin, IncomingQC, qualityControl } from "./assets/icon";
 
 export const navigation = [
   {
@@ -30,32 +30,32 @@ export const navigation = [
       {
         text: "Item Master",
         path: "/masters/items",
-        icon: icon['ItemMaster'],
+        icon: "ItemMaster",
       },
       {
         text: "Item Group",
         path: "/masters/itemsgroup",
-        icon: `${icon['ItemGroup']}`,
+        icon: "ItemGroup",
       },
       {
         text: "Item Sub Group",
         path: "/masters/itemssubgroup",
-        icon: `${icon['ItemSubGroup']}`,
+        icon: "ItemSubGroup",
       },
       {
         text: "Uom",
         path: "/masters/uom",
-        icon: `${icon['UOM']}`,
+        icon: "UOM",
       },
       {
         text: "Location",
         path: "/masters/location",
-        icon: `${icon['location']}`,
+        icon: "location",
       },
       {
         text: "Warehouse",
         path: "/masters/warehouse",
-        icon: `${icon['warehouse']}`,
+        icon: "warehouse",
       },
       // {
       //   text: "Bin Loaction",
@@ -64,7 +64,7 @@ export const navigation = [
       {
         text: "Brand",
         path: "/masters/brand",
-        icon: `${icon['brands']}`,
+        icon: "brands",
       },
       // {
       //   text: "Put Away",
@@ -92,27 +92,27 @@ export const navigation = [
       {
         text: "Gate Inward",
         path: "/purchases/gateinmain",
-        icon: `${icon['GateIn']}`
+        icon: "GateIn"
       },
       {
         text: "Generate & Print",
         path: "/purchases/gatein-printqr",
-        icon: `${icon['GenerateAndPrint']}`
+        icon: "GenerateAndPrint"
       },
       {
         text: "GRPO",
         path: "/purchases/grpo",
-        icon: `${icon['GRPO']}`
+        icon: "GRPO"
       },
     ],
   },
   {
     text: "Quality Control",
-    icon: `${icon['qualityControl']}`,
+    icon: `${qualityControl}`,
     items: [
       {
         text: "Incoming QC",
-        icon: `${icon['IncomingQC']}`,
+        icon: `${IncomingQC}`,
         path: "/qualityControl/incomingQC",
       },
     ],

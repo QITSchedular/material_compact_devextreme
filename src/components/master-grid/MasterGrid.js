@@ -42,9 +42,7 @@ function MasterGrid({ columns, masterType, keyExpr }) {
     useEffect(() => {
         const getData = async () => {
             const allItemsData = await getMasterData(masterType);
-            if(allItemsData){
-                return setItemsData(allItemsData.reverse());
-            }
+            setItemsData(allItemsData.reverse());
         }
         getData();
     }, [isItemAdded]);
