@@ -30,7 +30,6 @@ function IncomingQCPage() {
         <>
             <div className="content-block dx-card responsive-paddings">
                 <div className="content-blocks qcCSS">
-                    
                     <HeaderContent />
                 </div>
 

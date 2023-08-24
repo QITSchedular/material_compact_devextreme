@@ -1,8 +1,6 @@
 import React from 'react';
-// import './IndexCards.scss';
 import { navigation } from '../../app-navigation';
 import Card from '../../components/card/Card';
-import * as Icon from '../../assets/icon';
 
 export default function IndexCards({ path }) {
     let navobj = {}, arr = [];
@@ -26,7 +24,6 @@ export default function IndexCards({ path }) {
                             <Card
                                 title={value['text']}
                                 description={"Here is the description for the particular card"}
-                                // icon1={value['icon'].dark}
                                 icon={(typeof value['icon'] === "object") ? value['icon'].dark : value['icon']}
                                 path={value['path']}
                             />

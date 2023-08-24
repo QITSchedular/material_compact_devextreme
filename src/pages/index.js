@@ -15,4 +15,7 @@ export { default as LocationMasterPage } from "./masters/location-master/locatio
 export { default as ItemsubgroupmasterPage } from "./masters/item-sub-group-master/item-sub-group-master";
 export { default as IncomingQCPage } from "./qualityControl/incomigQualityControl/incomingQC-main";
 export { default as MasterPage } from "./masters/master/master";
-export { default as purchasePage } from "./purchases/purchase/purchase";
+export { default as PurchasePage } from "./purchases/purchase/purchase";
+export { default as SalePage } from "./sales/salesIndex/sale";
+export { default as DeliveryPage } from "./sales/delivery/delivery";
+export { default as DeliveryProcessPage } from "./sales/delivery/delivery-process";

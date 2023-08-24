@@ -1,53 +1,56 @@
+.grpo-content-wrapper {
 
-.grpo-content-wrapper{
-
-    .title-section{
-        .title-name{
+    .title-section {
+        .title-name {
             color: #393939;
             font-feature-settings: 'clig' off, 'liga' off;
             /* H5 Semi- bold */
             font-family: Poppins;
             font-size: 24px;
-            font-style: normal; 
+            font-style: normal;
             font-weight: 600;
-            line-height: 28px; /* 116.667% */   
+            line-height: 28px;
+            /* 116.667% */
         }
-    .title-description{
-    color: #8D8D8D;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    padding-bottom: 10px !important;
+
+        .title-description {
+            color: #8D8D8D;
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Poppins;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            padding-bottom: 10px !important;
         }
     }
-    .actions-section{
+
+    .actions-section {
         display: flex !important;
         justify-content: baseline;
         gap: 15px;
         flex-wrap: wrap;
         margin-top: 15px;
         margin-bottom: 1rem;
-        
-        .search-section{
+
+        .search-section {
             display: flex !important;
-           
-                .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget{
-                    border-radius: 8px !important;
-                    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
-                }
-            
+
+            .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget {
+                border-radius: 8px !important;
+                box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
+            }
+
         }
     }
-    .po-list-section{
+
+    .po-list-section {
         display: flex !important;
         flex-direction: column;
         padding-top: 1rem;
         gap: 5px;
-        
-        .single-po{
+
+        .single-po {
             padding: 12px 8px;
             display: flex !important;
             justify-content: space-between;
@@ -55,26 +58,30 @@
             max-height: 80px;
             border: 0.5px solid #e0e0e0;
             border-radius: 8px;
+
             &:nth-child(even) {
                 background: rgba(87, 133, 203, 0.05);
                 border: 0.5px solid rgba(87, 133, 203, 0.05);
-              }
-            .single-po-delete{
-                .dx-button{
+            }
+
+            .single-po-delete {
+                .dx-button {
                     margin-left: 0px !important;
                     background-color: transparent;
                 }
-                .dx-icon.dx-icon-trash{
+
+                .dx-icon.dx-icon-trash {
                     color: #6F6F6F !important;
                 }
             }
-            .single-po-name{
+
+            .single-po-name {
                 flex: 1;
                 padding-left: 15px;
                 display: flex !important;
                 align-items: center;
-                
-                .po-name{
+
+                .po-name {
                     color: #525252;
                     font-feature-settings: 'clig' off, 'liga' off;
                     font-family: Poppins;
@@ -84,16 +91,16 @@
                     line-height: normal;
                     width: 182px !important;
                 }
-                .dx-icon-custom-chevron-down-icon{
+
+                .dx-icon-custom-chevron-down-icon {
                     background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik02LjAwMDAyIDcuMzUzODdMMC4zNDYxOTEgMS43MDAwN0wxLjQwMDAyIDAuNjQ2MjRMNi4wMDAwMiA1LjI0NjI0TDEwLjYgMC42NDYyNEwxMS42NTM4IDEuNzAwMDdMNi4wMDAwMiA3LjM1Mzg3WiIgZmlsbD0iIzI2MjYyNiIvPgo8L3N2Zz4K);
                     background-repeat: no-repeat;
                     background-position: 0px 0px;
                     margin-top: 5px !important;
                 }
             }
-            .single-po-proceed{
 
-            }
+            .single-po-proceed {}
         }
     }
 }
@@ -169,8 +176,8 @@
                     }
 
                     .dx-datagrid-headers.dx-datagrid-nowrap {
-                        padding-left: 24px !important;
-                        padding-right: 24px !important;
+                        padding-left: 24px;
+                        padding-right: 24px;
                         border: 0px !important;
                         border-radius: 8px 8px 0 0 !important;
                         box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.10);
@@ -217,7 +224,7 @@
 
     }
 
-// the pop of searching the grpo thingy
+    // the pop of searching the grpo thingy
     .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection.dx-popup-bottom {
         .dx-toolbar-items-container {
             .dx-toolbar-after {
