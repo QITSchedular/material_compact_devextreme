@@ -18,7 +18,8 @@ import {
   SalePage,
   PurchasePage,
   DeliveryPage,
-  DeliveryProcessPage
+  DeliveryProcessPage,
+  IncomingQcScanItemsPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -92,6 +93,10 @@ const routes = [
     path: "/qualityControl/incomingQC",
     element: IncomingQCPage,
   },
+  {
+    path: "/qualityControl/incomigQualityControl/IncomingQcScanItemsPage/:headerQRCodeID/:docEntry",
+    element: IncomingQcScanItemsPage,
+  },
   //Sales Page
   {
     path: "/sales",
@@ -104,7 +109,7 @@ const routes = [
   {
     path: "/production/issue-material/verify-material/:qrCode/:docEntry",
     element: DeliveryProcessPage,
-  },
+  }, 
 ];
 
 export default routes.map((route) => {

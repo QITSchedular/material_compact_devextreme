@@ -1,7 +1,4 @@
-import {
-  TextBox,
-  Button as NormalButton
-} from "devextreme-react";
+import { TextBox, Button as NormalButton, DateBox } from "devextreme-react";
 import React, { useRef, useState } from "react";
 import { Button as TextBoxButton } from "devextreme-react/text-box";
 import { HelpIcons } from "../../purchases/grpo/icons-exporter";
@@ -12,6 +9,7 @@ import PurchaseOrderList from "./purchaseOrderList";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import { getPoLists } from "../../../utils/gate-in-purchase";
 import IncomingQCOrderList from "./incomingQC-OrderList";
+import { searchPoListsIQC } from "../../../utils/incoming-QC";
 
 function IncomingQCComponent() {
   const [showTransporterHelp, setShowTransporterHelp] = useState(false);
@@ -22,7 +20,9 @@ function IncomingQCComponent() {
   const [selectedRowData, setSelectedRowData] = useState("");
   const [txtValueOfTypePOL, settxtValueOfTypePOL] = useState(""); // State to store the selection indicator
   const [IQCList, setIQCList] = useState(new Set()); // State to store the selected row data
+  const [IQCList2, setIQCList2] = useState(new Set()); // State to store the selected row data
   const dataGridRef = useRef();
+  
   const outsideClickHandler = async () => {
     return setShowTransporterHelp(false);
   };
@@ -65,7 +65,6 @@ function IncomingQCComponent() {
   const handleSaveSelectedPo = () => {
     setSelectedRowKeys(selectedRowKeysOnChange);
     if (selectedRowsData.length > 0) {
-      // setSelectedRowsData([]);
       return setShowTransporterHelp(false);
     } else {
       return toastDisplayer(
@@ -99,17 +98,23 @@ function IncomingQCComponent() {
     },
   };
 
-  const handleSearchProdVerification = async () => {
+  const SearchHandler = async () => {
     if (txtValueOfTypePOL) {
-      const prodResponse = await getSelectedProdData(txtValueOfTypePOL);
-      console.log(prodResponse);
-      if (prodResponse && IQCList.has(txtValueOfTypePOL)) {
-        return toastDisplayer("error", "QR Code already exists in the list!");
-      } else if (prodResponse && !IQCList.has(txtValueOfTypePOL)) {
-        return setIQCList((prevIQCList) =>
-          new Set(prevIQCList).add(txtValueOfTypePOL)
-        );
-      } else if (!prodResponse) {
+      const prodResponse = await searchPoListsIQC(txtValueOfTypePOL);
+      var doProuctExist;
+
+      if (IQCList2.size > 0) {
+        doProuctExist = false;
+        IQCList2.forEach((value) => {
+          if (value.headerQRCodeID == txtValueOfTypePOL) {
+            doProuctExist = true;
+            return;
+          }
+        });
+      } else {
+        doProuctExist = false;
+      }
+      if (prodResponse["errorText"]=="No data found") {
         return toastDisplayer(
           "error",
           "Invalid Incoming QC, please select a valid Incoming QC"
@@ -118,26 +123,6 @@ function IncomingQCComponent() {
     } else {
       return toastDisplayer("error", "Please type/scan P.O");
     }
-  };
-
-  // get selected product data
-  const getSelectedProdData = async (QRCode) => {
-    setLoading(true);
-    try {
-      // get all data
-      const allProdListData = await getPoLists();
-      if (allProdListData.length > 0) {
-        const qrCodeIds = allProdListData.map((item) => item.qrCodeID);
-        const doPoExists = qrCodeIds.includes(QRCode);
-        setLoading(false);
-
-        return doPoExists;
-      } else {
-        setLoading(false);
-        toastDisplayer("error", "No matching Product found, try again");
-        return false;
-      }
-    } catch (err) {}
   };
 
   return (
@@ -162,21 +147,26 @@ function IncomingQCComponent() {
       )}
 
       <div className="main-section">
+        <div className="inputWrapper">
         <div className="date-section">
-          <TextBox
-            className="dx-field-value"
-            stylingMode="outlined"
-            placeholder="Doc start to end date"
-            width={220}
-            showClearButton={true}
-            valueChangeEvent="keyup"
-          >
-            <TextBoxButton
-              name="currency"
-              location="before"
-              options={dateOptions}
+          <div>
+            <DateBox
+              className="dx-field-value"
+              placeholder="From"
+              stylingMode="outlined"
+              type="date"
+              width={230}
             />
-          </TextBox>
+          </div>
+          <div>
+            <DateBox
+              className="dx-field-value"
+              placeholder="To"
+              stylingMode="outlined"
+              type="date"
+              width={230}
+            />
+          </div>
           <TextBox
             className="dx-field-value purchaseQRField"
             stylingMode="outlined"
@@ -202,7 +192,7 @@ function IncomingQCComponent() {
             type="normal"
             stylingMode="outlined"
             icon="search"
-            onClick={handleSearchProdVerification}
+            onClick={SearchHandler}
           />
 
           <NormalButton
@@ -213,10 +203,13 @@ function IncomingQCComponent() {
             icon={GRPOScanner}
           />
         </div>
+        </div>
       </div>
 
       <div className="orderList-section">
-        <IncomingQCOrderList IQCList={IQCList} />
+        <IncomingQCOrderList
+          IQCList2={IQCList2}
+        />
       </div>
     </>
   );

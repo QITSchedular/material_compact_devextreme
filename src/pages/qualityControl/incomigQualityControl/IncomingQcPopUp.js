@@ -4,6 +4,7 @@ import {
   Button as NormalButton,
   Button,
   ScrollView,
+  Popup,
 } from "devextreme-react";
 import {
   PopupHeaderText,
@@ -18,24 +19,35 @@ import DataGrid, {
 } from "devextreme-react/data-grid";
 import { getPoLists } from "../../../utils/gate-in-purchase";
 
-function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelection, dataGridRef,selectedRowKeys }) {
+function IncomingQcPopUp({
+  handleCancel,
+  handleSave,
+  apiCallFun,
+  keyExpr,
+  columns,
+    handleDataGridRowSelection,
+    dataGridRef,
+    selectedRowKeys,
+  outsideClickHandler,
+  title,
+  caption,
+}) {
   const [dataSource, setDataSource] = useState(null);
-  const [error, setError] = useState(false);
-  const [selectedRowKeysNew, setSelectedRowKeys] = useState([]); // State to store the selected row data
+  //   const [error, setError] = useState(false);
+    const [selectedRowKeysNew, setSelectedRowKeys] = useState([]); // State to store the selected row data
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
     const dataGridDataHandler = async () => {
-      const poListData = await getPoLists();
-
-      if (poListData.length > 0) {
-        console.log("It has data");
+      const allDataList = await apiCallFun;
+      if (allDataList.length > 0) {
+        // console.log("It has data");
         setSelectedRowKeys(selectedRowKeys);
-        setDataSource(poListData);
+        setDataSource(allDataList);
         return setLoading(false); // Correct the state update to false
       } else {
-        const { errorText } = poListData;
-        return setError(errorText);
+        // const { errorText } = poListData;
+        // return setError(errorText);
       }
     };
     setLoading(true);
@@ -44,7 +56,6 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
 
   return (
     <>
-      {/* <ScrollView ScrollView width="100%" height="100%"> */}
       <div className="purchaseOrderList-main-containter">
         <div className="purchaseOrderList-header">
           <div
@@ -56,8 +67,8 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
               gap: "5px",
             }}
           >
-            <PopupHeaderText text={"Purchase Order List"} />
-            <PopupSubText text={"Search the purchase order"} />
+            <PopupHeaderText text={title} />
+            <PopupSubText text={caption} />
           </div>
           <div className="close-btn-section">
             <Button icon="close" onClick={handleCancel} />
@@ -65,9 +76,9 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
         </div>
         <div className="purchaseOrderList-data-section">
           <DataGrid
-            height={420}
+            // height={420}
             dataSource={dataSource}
-            keyExpr="docEntry"
+            keyExpr={keyExpr}
             showBorders={true}
             columnAutoWidth={true}
             hoverStateEnabled={true}
@@ -79,23 +90,15 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
             <Selection mode="multiple" />
             <Scrolling columnRenderingMode="infinite" />
             <Paging enabled={false} />
-            <Column
-              dataField="cardCode"
-              alignment="left"
-              caption={"Vendor Code"}
-            />
-            <Column
-              dataField="cardName"
-              alignment="left"
-              caption={"Vendor Name"}
-            />
-            <Column dataField="docNum" alignment="left" caption={"PO No."} />
-            <Column
-              dataField="docDate"
-              alignment="left"
-              caption={"Doc Date"}
-              dataType={"date"}
-            />
+            {columns &&
+            columns.map((value, key) => (
+              <Column
+                dataField={value['field']}
+                caption={value['caption']}
+                hidingPriority={6}
+              >
+              </Column>
+            ))}
           </DataGrid>
         </div>
         <div
@@ -119,9 +122,8 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
           />
         </div>
       </div>
-      {/* </ScrollView> */}
     </>
   );
 }
 
-export default PurchaseOrderList;
+export default IncomingQcPopUp;
