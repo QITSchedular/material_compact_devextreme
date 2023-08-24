@@ -14,8 +14,10 @@ import {
   WarehouseMasterPage,
   ItemsubgroupmasterPage,
   IncomingQCPage,
+  InprocessQCPage,
   MasterPage,
-  purchasePage
+  purchasePage,
+  InprocessQcScanItemsPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -88,7 +90,15 @@ const routes = [
   {
     path: "/qualityControl/incomingQC",
     element: IncomingQCPage,
-  },  
+  },
+  {
+    path: "/qualityControl/inprocessQC",
+    element: InprocessQCPage,
+  },
+  {
+    path: "/qualityControl/inprocessQualityControl/InprocessQcScanItemsPage/:headerQRCodeID/:docEntry",
+    element: InprocessQcScanItemsPage,
+  },
 ];
 
 export default routes.map((route) => {

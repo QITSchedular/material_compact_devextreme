@@ -1,3 +1,5 @@
+
+
 export { default as HomePage } from "./home/home";
 export { default as ProfilePage } from "./profile/profile";
 // export { default as TasksPage } from "./tasks/tasks";
@@ -14,5 +16,7 @@ export { default as WarehouseMasterPage } from "./masters/warehouse-master/wareh
 export { default as LocationMasterPage } from "./masters/location-master/location-master";
 export { default as ItemsubgroupmasterPage } from "./masters/item-sub-group-master/item-sub-group-master";
 export { default as IncomingQCPage } from "./qualityControl/incomigQualityControl/incomingQC-main";
+export { default as InprocessQCPage } from "./qualityControl/inprocessQualityControl/inprocessQC-main";
+export { default as InprocessQcScanItemsPage } from "./qualityControl/inprocessQualityControl/inprocessQcScanItemsPage";
 export { default as MasterPage } from "./masters/master/master";
 export { default as purchasePage } from "./purchases/purchase/purchase";

@@ -1,6 +1,6 @@
 .inQCDropDownSection {
     .main-section {
-        display: flex;
+        // display: flex;
 
         .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget {
             border-radius: 8px !important;
@@ -20,215 +20,215 @@
     }
 }
 
-@media (max-width:370px) {
-    .qcCSS .headeQC {
-        .qcTitle {
-            font-size: large;
-        }
+// @media (max-width:370px) {
+//     .qcCSS .headeQC {
+//         .qcTitle {
+//             font-size: large;
+//         }
 
-        .qcDesc {
-            font-size: medium;
-        }
-    }
+//         .qcDesc {
+//             font-size: medium;
+//         }
+//     }
 
-    .inQCDropDownSection .main-section .date-section {
-        display: block;
-    }
+//     .inQCDropDownSection .main-section .date-section {
+//         display: block;
+//     }
 
-    .date-section>* {
-        // border: 2px solid black;
-        width: 100% !important;
-        margin-left: -1rem !important;
-        margin-bottom: 1rem !important;
-    }
+//     .date-section>* {
+//         // border: 2px solid black;
+//         width: 100% !important;
+//         margin-left: -1rem !important;
+//         margin-bottom: 1rem !important;
+//     }
 
-    .btnSection>* {
-        margin-bottom: 1rem !important;
-    }
+//     .btnSection>* {
+//         margin-bottom: 1rem !important;
+//     }
 
-}
+// }
 
-@media (min-width:370px) and (max-width:426px) {
-    .qcCSS .headeQC {
-        .qcTitle {
-            font-size: large;
-        }
+// @media (min-width:370px) and (max-width:426px) {
+//     .qcCSS .headeQC {
+//         .qcTitle {
+//             font-size: large;
+//         }
 
-        .qcDesc {
-            font-size: medium;
-        }
-    }
+//         .qcDesc {
+//             font-size: medium;
+//         }
+//     }
 
-    .inQCDropDownSection .main-section .date-section {
-        display: flex;
-        flex-direction: column;
-    }
+//     .inQCDropDownSection .main-section .date-section {
+//         display: flex;
+//         flex-direction: column;
+//     }
 
-    .date-section>* {
-        width: 15rem !important;
-        margin-left: 0rem !important;
-        margin-bottom: 1rem !important;
-    }
+//     .date-section>* {
+//         width: 15rem !important;
+//         margin-left: 0rem !important;
+//         margin-bottom: 1rem !important;
+//     }
 
-    .btnSection>* {
-        margin-bottom: 1rem !important;
-        display: flex;
-        flex-direction: column;
-    }
+//     .btnSection>* {
+//         margin-bottom: 1rem !important;
+//         display: flex;
+//         flex-direction: column;
+//     }
 
-}
+// }
 
-@media (min-width:426px) and (max-width:568px) {
-    .qcCSS .headeQC {
-        .qcTitle {
-            font-size: large;
-        }
+// @media (min-width:426px) and (max-width:568px) {
+//     .qcCSS .headeQC {
+//         .qcTitle {
+//             font-size: large;
+//         }
 
-        .qcDesc {
-            font-size: medium;
-        }
-    }
+//         .qcDesc {
+//             font-size: medium;
+//         }
+//     }
 
-    .inQCDropDownSection .main-section .date-section {
-        display: flex;
-        flex-direction: column;
-    }
+//     .inQCDropDownSection .main-section .date-section {
+//         display: flex;
+//         flex-direction: column;
+//     }
 
-    .date-section>* {
-        width: 18rem !important;
-        margin-left: 0rem !important;
-        margin-bottom: 1rem !important;
-    }
+//     .date-section>* {
+//         width: 18rem !important;
+//         margin-left: 0rem !important;
+//         margin-bottom: 1rem !important;
+//     }
 
-    .btnSection>* {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 1rem !important;
-    }
-}
+//     .btnSection>* {
+//         display: flex;
+//         flex-direction: column;
+//         margin-bottom: 1rem !important;
+//     }
+// }
 
-@media (min-width:568px) and (max-width:600px) {
-    .qcCSS .headeQC {
-        .qcTitle {
-            font-size: large;
-        }
+// @media (min-width:568px) and (max-width:600px) {
+//     .qcCSS .headeQC {
+//         .qcTitle {
+//             font-size: large;
+//         }
 
-        .qcDesc {
-            font-size: medium;
-        }
-    }
+//         .qcDesc {
+//             font-size: medium;
+//         }
+//     }
 
-    .inQCDropDownSection .main-section .date-section {
-        display: flex;
-        flex-direction: column;
-    }
+//     .inQCDropDownSection .main-section .date-section {
+//         display: flex;
+//         flex-direction: column;
+//     }
 
-    .date-section>* {
-        width: 25rem !important;
-        margin-left: 0rem !important;
-        margin-bottom: 1rem !important;
-    }
+//     .date-section>* {
+//         width: 25rem !important;
+//         margin-left: 0rem !important;
+//         margin-bottom: 1rem !important;
+//     }
 
-    .btnSection>* {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 1rem !important;
-    }
-}
+//     .btnSection>* {
+//         display: flex;
+//         flex-direction: column;
+//         margin-bottom: 1rem !important;
+//     }
+// }
 
-@media (min-width:600px) and (max-width:741px) {
-    .qcCSS .headeQC {
-        .qcTitle {
-            font-size: large;
-        }
+// @media (min-width:600px) and (max-width:741px) {
+//     .qcCSS .headeQC {
+//         .qcTitle {
+//             font-size: large;
+//         }
 
-        .qcDesc {
-            font-size: medium;
-        }
-    }
+//         .qcDesc {
+//             font-size: medium;
+//         }
+//     }
 
-    .inQCDropDownSection .main-section .date-section {
-        display: flex;
-        flex-direction: column;
-    }
+//     .inQCDropDownSection .main-section .date-section {
+//         display: flex;
+//         flex-direction: column;
+//     }
 
-    .date-section>* {
-        width: 22rem !important;
-        margin-left: 0rem !important;
-        margin-bottom: 1rem !important;
-    }
+//     .date-section>* {
+//         width: 22rem !important;
+//         margin-left: 0rem !important;
+//         margin-bottom: 1rem !important;
+//     }
 
-    .btnSection>* {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 1rem !important;
-    }
-}
+//     .btnSection>* {
+//         display: flex;
+//         flex-direction: column;
+//         margin-bottom: 1rem !important;
+//     }
+// }
 
-@media (min-width:741px) and (max-width:768px) {
-    .qcCSS .headeQC {
-        .qcTitle {
-            font-size: large;
-        }
+// @media (min-width:741px) and (max-width:768px) {
+//     .qcCSS .headeQC {
+//         .qcTitle {
+//             font-size: large;
+//         }
 
-        .qcDesc {
-            font-size: medium;
-        }
-    }
+//         .qcDesc {
+//             font-size: medium;
+//         }
+//     }
 
-    .inQCDropDownSection .main-section .date-section {
-        display: flex;
-        flex-direction: row;
-    }
+//     .inQCDropDownSection .main-section .date-section {
+//         display: flex;
+//         flex-direction: row;
+//     }
 
-    .date-section>* {
-        width: 14rem !important;
-        margin-left: 0rem !important;
-        margin-bottom: 1rem !important;
-    }
+//     .date-section>* {
+//         width: 14rem !important;
+//         margin-left: 0rem !important;
+//         margin-bottom: 1rem !important;
+//     }
 
-    .date-section {
-        display: flex;
-        // flex-direction: row-reverse !important;
+//     .date-section {
+//         display: flex;
+//         // flex-direction: row-reverse !important;
 
-        .purchaseQRField {
-            margin-left: 1rem !important;
-        }
-    }
+//         .purchaseQRField {
+//             margin-left: 1rem !important;
+//         }
+//     }
 
-    .btnSection {
-        display: flex;
-        flex-direction: row !important;
-        margin-bottom: 1rem !important;
-    }
-}
+//     .btnSection {
+//         display: flex;
+//         flex-direction: row !important;
+//         margin-bottom: 1rem !important;
+//     }
+// }
 
-@media (max-width:840px) {
-    .inQCDropDownSection .main-section {
-        // border: 10px solid black;
-        display: flex !important;
-    }
-}
+// @media (max-width:840px) {
+//     .inQCDropDownSection .main-section {
+//         // border: 10px solid black;
+//         display: flex !important;
+//     }
+// }
 
-@media (max-width:992px) {
-    .inQCDropDownSection .main-section {
-        // border: 10px solid black;
-        display: flex !important;
-    }
-}
+// @media (max-width:992px) {
+//     .inQCDropDownSection .main-section {
+//         // border: 10px solid black;
+//         display: flex !important;
+//     }
+// }
 
-@media (max-width:1024px) {
-    .inQCDropDownSection .main-section {
-        // border: 10px solid black;
-        display: flex !important;
-    }
-}
+// @media (max-width:1024px) {
+//     .inQCDropDownSection .main-section {
+//         // border: 10px solid black;
+//         display: flex !important;
+//     }
+// }
 
-@media (max-width:1200px) {
-    .inQCDropDownSection .main-section {
-        // border: 10px solid black;
-        display: flex !important;
-    }
-}
+// @media (max-width:1200px) {
+//     .inQCDropDownSection .main-section {
+//         // border: 10px solid black;
+//         display: flex !important;
+//     }
+// }
 
-@media (min-width:1200px) {}
+// @media (min-width:1200px) {}
