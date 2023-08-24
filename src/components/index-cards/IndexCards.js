@@ -1,7 +1,6 @@
 import React from 'react';
-import './IndexCards.scss';
+// import './IndexCards.scss';
 import { navigation } from '../../app-navigation';
-import { Link } from 'react-router-dom';
 import Card from '../../components/card/Card';
 import * as Icon from '../../assets/icon';
 
@@ -22,16 +21,16 @@ export default function IndexCards({ path }) {
             <div className="grid-container">
                 {
                     navobj[path].map((value, key) => (
-                        <Link to={value['path']} key={key}>
+                        <>
+                            {(typeof value['icon'] === "object") ? console.log(value['icon'].dark) : console.log(value['icon'])}
                             <Card
                                 title={value['text']}
                                 description={"Here is the description for the particular card"}
-                                icon={Icon[value['icon']]}
+                                // icon1={value['icon'].dark}
+                                icon={(typeof value['icon'] === "object") ? value['icon'].dark : value['icon']}
+                                path={value['path']}
                             />
-                            {/* {
-                            document.write(window.innerWidth)
-                        } */}
-                        </Link>
+                        </>
                     ))}
             </div>
         </React.Fragment>
