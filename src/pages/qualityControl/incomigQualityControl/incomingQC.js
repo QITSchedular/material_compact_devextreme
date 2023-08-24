@@ -120,25 +120,11 @@ function IncomingQCComponent() {
           "Invalid Incoming QC, please select a valid Incoming QC"
         );
       }
-      else if (prodResponse && doProuctExist) {
-        return toastDisplayer("error", "Product alredy exist..!!");
-      } else if (prodResponse && !doProuctExist) {
-        setIQCList2((prevIQCList) => {
-          const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
-        
-          prodResponse.forEach((response) => {
-            updatedSet.add(response); // Add each object from prodResponse to the updatedSet
-          });
-        
-          return updatedSet; // Return the updated Set
-        });
-      } 
     } else {
       return toastDisplayer("error", "Please type/scan P.O");
     }
   };
 
- 
   return (
     <>
       {showTransporterHelp && (
@@ -161,7 +147,6 @@ function IncomingQCComponent() {
       )}
 
       <div className="main-section">
-        {/* {console.log(IQCList2)} */}
         <div className="inputWrapper">
         <div className="date-section">
           <div>

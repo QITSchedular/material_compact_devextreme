@@ -4,6 +4,7 @@ import { API_URL } from "./items-master-data";
 import notify from "devextreme/ui/notify";
 import { toast as RToast } from "react-toastify";
 import { AppContext } from "../contexts/dataContext";
+import { toastDisplayer } from "../api/qrgenerators";
 
 export const getPeriodIndicator = async () => {
   try {
@@ -200,6 +201,48 @@ export const getPoLists = async () => {
       return errors;
     }
   } catch (error) {
+    if (error) {
+      errors.hasError = true;
+      errors.errorText = errors.message;
+
+      // return errors;
+      return toastDisplayer('error', error.message);
+    }
+    // const { statusMsg } = error.response.data;
+    // if (statusMsg) {
+    //   errors.hasError = true;
+    //   errors.errorText = statusMsg;
+    //   return errors;
+    // }
+    return toastDisplayer('error', error.message);
+    // return errors;
+  }
+};
+
+export const searchPoListsIQC = async (QRCode) => {
+  const requestBody = {
+    branchID: 1,
+    fromDate: "",
+    toDate: "",
+    headerQRCodeID: QRCode,
+  };
+  console.log("QRCode : ", QRCode)
+  const errors = {
+    hasError: false,
+    errorText: "Something went wrong",
+  };
+  try {
+    const response = await axios.post(
+      `${API_URL}/IncomingQC/GetGRPOListByPO`, //api will be change
+      requestBody
+    );
+    const data = response.data;
+    if (data) {
+      return data;
+    } else {
+      return errors;
+    }
+  } catch (error) {
     const { statusMsg } = error.response.data;
     if (statusMsg) {
       errors.hasError = true;
@@ -209,6 +252,7 @@ export const getPoLists = async () => {
     return errors;
   }
 };
+
 
 // get all this list of gate In number according to the selected po number
 export const getGateInNumberList = async (DocNum, Series) => {
@@ -255,4 +299,4 @@ export const GateInList = async () => {
   }
 };
 
-export const errorHandler = () => {};
+export const errorHandler = () => { };

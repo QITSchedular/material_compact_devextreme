@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './Card.scss';
 import { Button } from 'devextreme-react';
 import { pin } from '../../assets/icon';
