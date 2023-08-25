@@ -25,6 +25,7 @@
             }
 
             .dx-icon.dx-icon-trash {
+                font-size: 18px !important;
                 color: #6F6F6F !important;
             }
         }
@@ -45,15 +46,30 @@
                 line-height: normal;
                 width: 182px !important;
             }
-
-            .dx-icon-custom-chevron-down-icon {
-                background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik02LjAwMDAyIDcuMzUzODdMMC4zNDYxOTEgMS43MDAwN0wxLjQwMDAyIDAuNjQ2MjRMNi4wMDAwMiA1LjI0NjI0TDEwLjYgMC42NDYyNEwxMS42NTM4IDEuNzAwMDdMNi4wMDAwMiA3LjM1Mzg3WiIgZmlsbD0iIzI2MjYyNiIvPgo8L3N2Zz4K);
-                background-repeat: no-repeat;
-                background-position: 0px 0px;
-                margin-top: 5px !important;
+            .dx-button-has-icon .dx-icon {
+                font-size: 22px !important;
             }
         }
-
-        .single-po-proceed {}
     }
+}
+
+.dx-popup-content {
+    .dx-overlay-wrapper .dx-overlay-content .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection.dx-popup-bottom {
+        background-color: transparent !important;
+    }
+
+    .dx-datagrid.dx-gridbase-container.dx-datagrid-borders {
+        .dx-datagrid-headers.dx-datagrid-nowrap {
+            padding: 0px !important;
+        }
+    }
+
+    .dx-toolbar-items-container {
+        margin: 10px !important;
+    }
+}
+
+.dx-overlay-wrapper .dx-overlay-content .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection.dx-popup-bottom {
+    background-color: transparent !important;
+    padding-bottom: 20px;
 }

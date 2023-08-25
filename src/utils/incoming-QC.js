@@ -3,7 +3,6 @@ import { API_URL } from "./items-master-data";
 
 // Get all po list(used in incoming QC)
 export const searchPoListsIQC = async (QRCode) => {
-  console.log(QRCode);
   const requestBody = {
     branchID: 1,
     fromDate: "",
@@ -71,7 +70,6 @@ export const validatePoListsIQC = async (obj) => {
   }
 };
 
-
 export const LockedWareHouseList = async () => {
   try {
     const res = await axios.get(`${API_URL}/Warehouses/Get?Filter=N`);
@@ -82,4 +80,6 @@ export const LockedWareHouseList = async () => {
     const returnError = error.response.data;
     return returnError;
   }
+
 };
+

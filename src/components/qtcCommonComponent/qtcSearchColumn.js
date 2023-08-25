@@ -7,11 +7,28 @@ import {
 } from "devextreme-react/text-box";
 import { DataGrid, Popup } from "devextreme-react";
 import { ToolbarItem } from "devextreme-react/autocomplete";
-import { PopupHeaderText, PopupSubText } from "../typographyTexts/TypographyComponents";
-import { Column, Paging, Scrolling, SearchPanel, Selection } from "devextreme-react/data-grid";
+import {
+    PopupHeaderText,
+    PopupSubText,
+} from "../typographyTexts/TypographyComponents";
+import {
+    Column,
+    Paging,
+    Scrolling,
+    SearchPanel,
+    Selection,
+} from "devextreme-react/data-grid";
 import { HelpIcons } from "../../pages/purchases/grpo/icons-exporter";
+import { toastDisplayer } from "../../api/qrgenerators";
 
-const PopupContent = ({ popupHeaderText, popupSubHeaderText, onSelectRow, onSave, PopUpContent, selectedRowsData }) => {
+const PopupContent = ({
+    popupHeaderText,
+    popupSubHeaderText,
+    onSave,
+    PopUpContent,
+    selectedRowsData,
+    keyExpr
+}) => {
     const [dataSource, setDataSource] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -22,15 +39,8 @@ const PopupContent = ({ popupHeaderText, popupSubHeaderText, onSelectRow, onSave
         selectedRowKeys,
         selectedRowsData,
     }) => {
-        // console.log(selectedRowsData);
-        // onSelectRow(selectedRowsData);
-        // console.log(selectedRowKeys);
-        // console.log(selectedRowsData);
         const length = await selectedRowKeys.length;
-        // console.log("selectedOnchangeKey : ",selectedOnchangeKey);
         if (selectedRowKeys.length > 1) {
-            // clear selection
-            // console.log("Greater");
             const value = await dataGridRef.current.instance.selectRows(
                 selectedRowKeys[length - 1]
             );
@@ -54,7 +64,6 @@ const PopupContent = ({ popupHeaderText, popupSubHeaderText, onSelectRow, onSave
             const poListData = await PopUpContent;
             console.log(poListData);
             if (poListData.length > 0) {
-                console.log("It has data");
                 setDataSource(poListData);
                 return setLoading(false); // Correct the state update to false
             } else {
@@ -83,7 +92,6 @@ const PopupContent = ({ popupHeaderText, popupSubHeaderText, onSelectRow, onSave
                 >
                     <div className="text-section">Data Could not be loaded..</div>
                     <div className="text-section">Click outside to exit</div>
-                    {/* <TransformerLoader /> */}
                 </div>
             ) : (
                 <div className="responsive-paddings grpo-po-help-container">
@@ -94,12 +102,14 @@ const PopupContent = ({ popupHeaderText, popupSubHeaderText, onSelectRow, onSave
                     <DataGrid
                         height={420}
                         dataSource={dataSource}
-                        keyExpr="docEntry"
+                        keyExpr={keyExpr}
                         showBorders={true}
                         columnAutoWidth={true}
                         hoverStateEnabled={true}
                         onSelectionChanged={handleDataGridRowSelection}
-                        selectedRowKeys={selectedRowsData.length > 0 ? [selectedRowsData[0].docEntry] : ""}
+                        selectedRowKeys={
+                            selectedRowsData.length > 0 ? [selectedRowsData[0][keyExpr]] : ""
+                        }
                         ref={dataGridRef}
                     >
                         <SearchPanel visible={true} />
@@ -124,10 +134,6 @@ const PopupContent = ({ popupHeaderText, popupSubHeaderText, onSelectRow, onSave
                             dataType={"date"}
                         />
                     </DataGrid>
-                    <div className="buttons-section">
-                        {/* <Button text="Cancel" />
-            <Button text="Save" /> */}
-                    </div>
                 </div>
             )}
         </>
@@ -135,35 +141,27 @@ const PopupContent = ({ popupHeaderText, popupSubHeaderText, onSelectRow, onSave
 };
 
 
-// key array example to be passsed
-// const keyArray1 = [
-//   { feildType: "textBox", handlefunc: handleTextValueChange,placeholder : "Search by purchase order" ,selectedRowsData : selectedRowsData},
-//   { feildType: "button", handlefunc: handlePoVerification ,btnIcon : "search"},
-// ];
-
-
 const QtcSearchColumn = ({
     popupHeaderText,
     popupSubHeaderText,
-    keyArray, // Search element array passes
+    keyArray,
     PopUpContent,
-    getparamFunc
+    getparamFunc,
+    valueToShowParam,
+    keyExpr
 }) => {
-    const [selectedRowsData, setSelectedRowsData] = useState([]); // State to store the selected row data
-    const [selectedData, setSelectedData] = useState([]); // State to store the selected row data
+    const [selectedRowsData, setSelectedRowsData] = useState([]);
+    const [selectedData, setSelectedData] = useState([]);
     const [showPoHelp, setShowPoHelp] = useState(false);
     const showPopupHandler = () => {
         return setShowPoHelp(true);
     };
     const handleGrpoPoSelection = (params) => {
-        console.log("from the handleGrpoPoSelection", params);
         if (params.length > 0) {
             return setSelectedRowsData(params);
         }
     };
     const handleCancelNoSelection = () => {
-        // console.log("User have clicked the cancel buttpn, clear the selection");
-        // setSelectedRowsData([]);
         return setShowPoHelp(false);
     };
     const helpOptions = {
@@ -172,25 +170,17 @@ const QtcSearchColumn = ({
             showPopupHandler();
         },
     };
+  
     const handleSaveSelectedPo = () => {
         console.log("The save button has been clicked");
         if (selectedRowsData.length > 0) {
-            console.log("Current selected row data", selectedRowsData);
-            console.log("Close the popup window");
+            console.log("selectedData : ", selectedData);
             setSelectedData(selectedRowsData);
             return setShowPoHelp(false);
         } else {
-            return alert("error", "Please select a PO to save and proceed");
-            // return toastDisplayer("error", "Please select a PO to save and proceed");
+            return toastDisplayer("error", "Please select a PO to save and proceed");
         }
     };
-
-    // const handleTextValueChange = (e) => {
-    //   alert();
-    //   // console.log(e.previousValue);
-    //   // console.log(e.value);
-    //   return setSelectedRowsData(e.value);
-    // };
 
     const cancelButtonOptions = {
         width: 120,
@@ -217,9 +207,16 @@ const QtcSearchColumn = ({
                 <Popup
                     visible={true}
                     showCloseButton={true}
-                    contentRender={() => <PopupContent popupHeaderText={popupHeaderText} popupSubHeaderText={popupSubHeaderText} PopUpContent={PopUpContent} onSave={handleGrpoPoSelection} selectedRowsData={selectedRowsData} />}
-                // contentRender={() => <PopupContent PopUpContent={PopUpContent}/>}
-                // hideOnOutsideClick={outSideHandler}
+                    contentRender={() => (
+                        <PopupContent
+                            popupHeaderText={popupHeaderText}
+                            popupSubHeaderText={popupSubHeaderText}
+                            PopUpContent={PopUpContent}
+                            onSave={handleGrpoPoSelection}
+                            selectedRowsData={selectedRowsData}
+                            keyExpr={keyExpr}
+                        />
+                    )}
                 >
                     <ToolbarItem
                         widget="dxButton"
@@ -254,13 +251,16 @@ const QtcSearchColumn = ({
                                     width={250}
                                     showClearButton={true}
                                     onValueChanged={handlefunc}
-                                    value={selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""}
+                                    value={
+                                        selectedRowsData.length > 0
+                                            ? selectedRowsData[0][valueToShowParam]
+                                            : ""
+                                    }
                                 // disabled={selectedData.length > 0 ? false : true}
                                 >
                                     <TextBoxButton
                                         name="currency"
                                         location="after"
-                                        // options={optionFunc}
                                         options={helpOptions}
                                     />
                                 </TextBox>
@@ -274,14 +274,17 @@ const QtcSearchColumn = ({
                                     width={250}
                                     showClearButton={true}
                                     onValueChanged={handlefunc}
-                                    value={selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""}
+                                    value={
+                                        selectedRowsData.length > 0
+                                            ? selectedRowsData[0][valueToShowParam]
+                                            : ""
+                                    }
                                 // disabled={selectedData.length > 0 ? false : true}
-                                >
-                                </TextBox>
+                                ></TextBox>
                             );
                         }
                     } else if (key === "button") {
-                        if (btnIcon == "search") {
+                        if (btnIcon === "search") {
                             return (
                                 <Button
                                     width={33}
@@ -312,5 +315,3 @@ const QtcSearchColumn = ({
 
 export default QtcSearchColumn;
 
-//  {/* <QtcHeader title="Grpo" subtitle="Type or scan the purchase order to make an entry" optionFunc={helpOptions} keyArray={keyArray1} grpoList={grpoList} handleShowPoDropDetails={handleShowPoDropDetails}
-// handleProceed={handleProceed}/> */} usage of qtcHeader

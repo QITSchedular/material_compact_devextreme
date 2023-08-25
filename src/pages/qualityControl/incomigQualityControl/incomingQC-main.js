@@ -1,28 +1,7 @@
 import React from "react";
-// import { HelpIcons } from "../../purchases/grpo/icons-exporter";
 import "./incomingQC.scss";
 import IncomingQCComponent from "./incomingQC";
-
-const HeaderContent = () => {
-    return (
-
-        <div className="content-blocks headeQC">
-            <div className="content-block-wrapper">
-                <div className="content-block-1">
-                    <div className="content-text">
-                        <div className="content-text-header qcTitle">
-                            Incoming Quality Control
-                        </div>
-                        <div className="content-text-info qcDesc">
-                            Ckeck the quality and make the decision
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    );
-};
+import IncomingQc_Header from "./IncomingQc-Header";
 
 function IncomingQCPage() {
 
@@ -30,8 +9,7 @@ function IncomingQCPage() {
         <>
             <div className="content-block dx-card responsive-paddings">
                 <div className="content-blocks qcCSS">
-                    
-                    <HeaderContent />
+                    <IncomingQc_Header header_title="Incoming Quality Control" header_content="Ckeck the quality and make the decision" />
                 </div>
 
                 <div className="inQCDropDownSection">
