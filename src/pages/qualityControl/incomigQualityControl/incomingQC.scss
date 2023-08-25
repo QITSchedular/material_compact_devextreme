@@ -1,13 +1,13 @@
 .inQCDropDownSection {
     .main-section {
-      display: flex !important;
+        display: flex !important;
         justify-content: space-between;
 
-        .inputWrapper{
+        .inputWrapper {
             display: flex !important;
         }
 
-        .helperWrapper{
+        .helperWrapper {
             display: flex !important;
             flex-direction: row;
             gap: 1rem !important;
@@ -21,28 +21,28 @@
 
         .date-section {
             display: flex;
-            gap:1rem;
+            gap: 1rem;
         }
     }
 
     .orderList-section {
         margin-top: 2% !important;
-        
+
         .single-po {
-            .single-po1{
+            .single-po1 {
                 display: flex !important;
                 justify-content: space-between;
                 max-height: 80px;
             }
 
-            .single-po2{
+            .single-po2 {
                 margin-top: 1% !important;
             }
 
             padding: 12px 8px;
             margin-top: 1% !important;
             padding-bottom: 0px !important;
-            
+
             align-items: center;
             border: 0.5px solid #e0e0e0;
             border-radius: 8px;
@@ -335,7 +335,7 @@
         margin-bottom: 1rem !important;
     }
 
-    .btnSection{
+    .btnSection {
         display: flex !important;
         flex-direction: column-reverse !important;
     }
@@ -368,7 +368,7 @@
         margin-bottom: 1rem !important;
     }
 
-    .btnSection{
+    .btnSection {
         display: flex !important;
         flex-direction: column-reverse !important;
     }
@@ -401,7 +401,7 @@
         margin-bottom: 1rem !important;
     }
 
-    .btnSection{
+    .btnSection {
         display: flex !important;
         flex-direction: column-reverse !important;
     }
@@ -433,7 +433,7 @@
         margin-bottom: 1rem !important;
     }
 
-    .btnSection{
+    .btnSection {
         display: flex !important;
         flex-direction: column-reverse !important;
     }
@@ -465,7 +465,7 @@
         margin-bottom: 1rem !important;
     }
 
-    .btnSection{
+    .btnSection {
         display: flex !important;
         flex-direction: column-reverse !important;
     }

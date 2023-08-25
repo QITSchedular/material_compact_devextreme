@@ -3,7 +3,6 @@ import React, { useState, useRef } from 'react';
 import { Button as TextBoxButton } from "devextreme-react/text-box";
 import { HelpIcons } from "../../purchases/grpo/icons-exporter";
 import { GRPOScanner, dateStartToEnd } from "../../../assets/icon";
-import 'devextreme/dist/css/dx.light.css';
 import "./inprocessQC.scss";
 import { Popup } from "devextreme-react/popup";
 import ProductReceiptList from "./productReceiptList";
