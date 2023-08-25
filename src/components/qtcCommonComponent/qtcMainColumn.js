@@ -11,6 +11,7 @@ function QtcMainColumn({
     DownArrowKey,
     keyExpr
 }) {
+
     const [data, setData] = useState([])
     const handleShowRealtiveDataGrid = qrCode => {
         setData(prevData => ({

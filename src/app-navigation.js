@@ -115,6 +115,11 @@ export const navigation = [
                 icon: `${icon['IncomingQC']}`,
                 path: "/qualityControl/incomingQC",
             },
+            {
+                text: "Inprocess QC",
+                icon: `${icon['IncomingQC']}`,
+                path: "/qualityControl/inprocessQC",
+            },
         ],
     },
     {

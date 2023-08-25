@@ -5,7 +5,6 @@ import {
     Button as NormalButton,
     Button as TextBoxButton,
 } from "devextreme-react/text-box";
-
 const QtcHeader = ({
     title,
     subtitle,

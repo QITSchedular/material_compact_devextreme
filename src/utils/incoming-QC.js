@@ -40,10 +40,9 @@ export const validatePoListsIQC = async (obj) => {
   console.log(obj);
   const requestBody = {
     "branchID": 1,
-  "headerQRCodeID": obj.headerQRCodeID,
-  "detailQRCodeID": obj.detailQRCodeID,
-  // "grpoDocEntry": obj.docEntry
-  "grpoDocEntry": "5312"
+    "headerQRCodeID": obj.headerQRCodeID,
+    "detailQRCodeID": obj.detailQRCodeID,
+    "grpoDocEntry": obj.docEntry
   };
   const errors = {
     hasError: false,
@@ -81,4 +80,6 @@ export const LockedWareHouseList = async () => {
     const returnError = error.response.data;
     return returnError;
   }
+
 };
+

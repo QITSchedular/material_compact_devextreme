@@ -14,7 +14,10 @@ import {
   WarehouseMasterPage,
   ItemsubgroupmasterPage,
   IncomingQCPage,
+  InprocessQCPage,
   MasterPage,
+  purchasePage,
+  InprocessQcScanItemsPage,
   SalePage,
   PurchasePage,
   DeliveryPage,
@@ -92,6 +95,14 @@ const routes = [
   {
     path: "/qualityControl/incomingQC",
     element: IncomingQCPage,
+  },
+  {
+    path: "/qualityControl/inprocessQC",
+    element: InprocessQCPage,
+  },
+  {
+    path: "/qualityControl/inprocessQualityControl/InprocessQcScanItemsPage/:headerQRCodeID/:docEntry",
+    element: InprocessQcScanItemsPage,
   },
   {
     path: "/qualityControl/incomigQualityControl/IncomingQcScanItemsPage/:headerQRCodeID/:docEntry",

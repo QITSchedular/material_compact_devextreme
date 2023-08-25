@@ -140,6 +140,7 @@ const PopupContent = ({
     );
 };
 
+
 const QtcSearchColumn = ({
     popupHeaderText,
     popupSubHeaderText,
@@ -169,6 +170,7 @@ const QtcSearchColumn = ({
             showPopupHandler();
         },
     };
+  
     const handleSaveSelectedPo = () => {
         console.log("The save button has been clicked");
         if (selectedRowsData.length > 0) {
@@ -310,4 +312,6 @@ const QtcSearchColumn = ({
         </div>
     );
 };
+
 export default QtcSearchColumn;
+
