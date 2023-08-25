@@ -22,7 +22,7 @@ function IncomingQCComponent() {
   const [IQCList, setIQCList] = useState(new Set()); // State to store the selected row data
   const [IQCList2, setIQCList2] = useState(new Set()); // State to store the selected row data
   const dataGridRef = useRef();
-  
+
   const outsideClickHandler = async () => {
     return setShowTransporterHelp(false);
   };
@@ -114,11 +114,23 @@ function IncomingQCComponent() {
       } else {
         doProuctExist = false;
       }
-      if (prodResponse["errorText"]=="No data found") {
+      if (prodResponse["errorText"] == "No data found") {
         return toastDisplayer(
           "error",
           "Invalid Incoming QC, please select a valid Incoming QC"
         );
+      } else if (prodResponse && doProuctExist) {
+        return toastDisplayer("error", "Product alredy exist..!!");
+      } else if (prodResponse && !doProuctExist) {
+        setIQCList2((prevIQCList) => {
+          const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
+
+          prodResponse.forEach((response) => {
+            updatedSet.add(response); // Add each object from prodResponse to the updatedSet
+          });
+
+          return updatedSet; // Return the updated Set
+        });
       }
     } else {
       return toastDisplayer("error", "Please type/scan P.O");
@@ -147,69 +159,68 @@ function IncomingQCComponent() {
       )}
 
       <div className="main-section">
+        {/* {console.log(IQCList2)} */}
         <div className="inputWrapper">
-        <div className="date-section">
-          <div>
-            <DateBox
-              className="dx-field-value"
-              placeholder="From"
+          <div className="date-section">
+            <div>
+              <DateBox
+                className="dx-field-value"
+                placeholder="From"
+                stylingMode="outlined"
+                type="date"
+                width={230}
+              />
+            </div>
+            <div>
+              <DateBox
+                className="dx-field-value"
+                placeholder="To"
+                stylingMode="outlined"
+                type="date"
+                width={230}
+              />
+            </div>
+            <TextBox
+              className="dx-field-value purchaseQRField"
               stylingMode="outlined"
-              type="date"
+              placeholder="Type the purchase QR code"
+              value={
+                selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""
+              }
               width={230}
-            />
+              onValueChanged={handleTextValueChange}
+              showClearButton={true}
+            >
+              <TextBoxButton
+                name="currency"
+                location="after"
+                options={helpOptions}
+              />
+            </TextBox>
           </div>
-          <div>
-            <DateBox
-              className="dx-field-value"
-              placeholder="To"
+          <div className="btnSection">
+            <NormalButton
+              width={33}
+              height={33}
+              type="normal"
               stylingMode="outlined"
-              type="date"
-              width={230}
+              icon="search"
+              onClick={SearchHandler}
             />
-          </div>
-          <TextBox
-            className="dx-field-value purchaseQRField"
-            stylingMode="outlined"
-            placeholder="Type the purchase QR code"
-            value={
-              selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""
-            }
-            width={230}
-            onValueChanged={handleTextValueChange}
-            showClearButton={true}
-          >
-            <TextBoxButton
-              name="currency"
-              location="after"
-              options={helpOptions}
-            />
-          </TextBox>
-        </div>
-        <div className="btnSection">
-          <NormalButton
-            width={33}
-            height={33}
-            type="normal"
-            stylingMode="outlined"
-            icon="search"
-            onClick={SearchHandler}
-          />
 
-          <NormalButton
-            width={33}
-            height={33}
-            type="normal"
-            stylingMode="outlined"
-            icon={GRPOScanner}
-          />
-        </div>
+            <NormalButton
+              width={33}
+              height={33}
+              type="normal"
+              stylingMode="outlined"
+              icon={GRPOScanner}
+            />
+          </div>
         </div>
       </div>
 
       <div className="orderList-section">
-        <IncomingQCOrderList
-          IQCList2={IQCList2}
-        />
+        <IncomingQCOrderList IQCList2={IQCList2} />
       </div>
     </>
   );
