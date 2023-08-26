@@ -1,10 +1,11 @@
-#gate-in-main-container{
-    .navigation-header-gatein{
+#gate-in-main-container {
+    .navigation-header-gatein {
 
         display: flex;
         justify-content: space-between;
-        .title-section{
-            .title-name{
+
+        .title-section {
+            .title-name {
                 color: #393939;
                 margin-top: 10px;
                 margin-bottom: 10px;
@@ -14,29 +15,34 @@
                 font-size: 24px;
                 font-style: normal;
                 font-weight: 500;
-                line-height: 28px; /* 116.667% */   
+                line-height: 28px;
+                /* 116.667% */
             }
-    .title-description{
-        color: #8D8D8D;
-        font-feature-settings: 'clig' off, 'liga' off;
-        font-family: Poppins;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        padding-bottom: 10px !important;
+
+            .title-description {
+                color: #8D8D8D;
+                font-feature-settings: 'clig' off, 'liga' off;
+                font-family: Poppins;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+                padding-bottom: 10px !important;
             }
         }
-        .dx-tabs.dx-widget.dx-visibility-change-handler.dx-collection.dx-tabs-expanded{
+
+        .dx-tabs.dx-widget.dx-visibility-change-handler.dx-collection.dx-tabs-expanded {
             font-family: Poppins !important;
             align-self: flex-start !important;
-            .dx-tabs-wrapper{
-                
-                .dx-item.dx-tab.dx-tab-selected{
-                    .dx-item-content.dx-tab-content{
+
+            .dx-tabs-wrapper {
+
+                .dx-item.dx-tab.dx-tab-selected {
+                    .dx-item-content.dx-tab-content {
                         text-transform: none !important;
-                        .dx-tab-text{
-                            
+
+                        .dx-tab-text {
+
                             color: #161616;
                             font-family: Poppins;
                             font-style: normal;

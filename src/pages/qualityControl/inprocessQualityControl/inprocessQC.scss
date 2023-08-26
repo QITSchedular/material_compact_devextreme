@@ -1,9 +1,6 @@
 .inQCDropDownSection {
     .main-section {
-        .doc-chooser-wrapper {
-            // display: flex;
-            // gap: 1rem;
-        }
+        .doc-chooser-wrapper {}
 
         .search-section {
             margin-left: 1rem;
@@ -99,7 +96,6 @@
         position: absolute;
         top: 0;
         right: 0;
-
     }
 }
 
@@ -252,8 +248,6 @@
             .dx-datebox {
                 width: 100%;
                 margin-top: 1rem;
-
-                .dx-field-value {}
             }
         }
 
