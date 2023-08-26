@@ -25,3 +25,7 @@ export { default as ReceiveMaterialPage } from "./production/receive-material/re
 export { default as ReceiveMaterialScanItemsPage } from "./production/receive-material/receive-material-scan-items";
 
 export { default as IssueMaterialPage } from "./production/issue-material/issue-material-main";
+
+// Inventroy transfer Module
+export { default as InventoryTransferMainPage } from "./inventory/inventory-transfer/inventory-transfer-main";
+export { default as PickPackMain } from "./inventory/pick-pack/Pick-pack-main";

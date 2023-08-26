@@ -151,4 +151,21 @@ export const navigation = [
       },
     ],
   },
+  {
+    text: "Inventory",
+    path: "/inventory",
+    icon: "fa-solid fa-arrow-down-up-lock",
+    items: [
+      {
+        text: "Inventory Transfer",
+        path: "/inventory/transfer",
+        icon: "login",
+      },
+      {
+        text: "Pick & Pack",
+        path: "/inventory/pick-pack",
+        icon: "login",
+      },
+    ],
+  },
 ];

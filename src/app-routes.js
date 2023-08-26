@@ -21,6 +21,8 @@ import {
   ReceiveMaterialPage,
   ReceiveMaterialScanItemsPage,
   IssueMaterialPage,
+  InventoryTransferMainPage,
+  PickPackMain,
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -113,6 +115,14 @@ const routes = [
   {
     path: "/production/issue-material",
     element: IssueMaterialPage,
+  },
+  {
+    path: "/inventory/transfer",
+    element: InventoryTransferMainPage,
+  },
+  {
+    path: "/inventory/pick-pack",
+    element: PickPackMain,
   },
 ];
 
