@@ -8,7 +8,7 @@
     .header-section{}
 
     .main-content-section{
-        
+            height: 53vh;
             .main-content-top{
                     
                 display: flex;
@@ -29,7 +29,14 @@
             }
             
             .main-content-datagrid-section{
-
+                margin-top: 2rem;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .save-section{
+                    align-self: flex-end;
+                }
             }
         
     

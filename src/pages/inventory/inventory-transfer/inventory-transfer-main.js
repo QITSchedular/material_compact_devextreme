@@ -10,6 +10,8 @@ import { getAllWarehouseData } from "../../../utils/items-master-data";
 import { getAllTransportersList } from "../../../utils/gate-in-purchase";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import { verifyProdcutionQrInput } from "../../../api/inventory.transfer.api";
+import ItemsGrid from "./inner-components/items-grid";
+import { Button } from "devextreme-react";
 
 const InventorytransferMain = () => {
   const [showToWarehousePopup, setShowToWarehousePopup] = useState(false);
@@ -27,18 +29,22 @@ const InventorytransferMain = () => {
   const [productionNumberInput, setProductionNumberInput] = useState("");
   const [innerWidth, setInnerWidth] = useState("");
 
+  const [dataGridDataSource, setDataGridDataSource] = useState([]);
+
   const toWarehouseChooser = async () => {
     console.log("ToWarehouseChooser");
     const allwarehouses = await getWareHouseList();
     setToWarehouseList(allwarehouses);
     setShowToWarehousePopup(true);
   };
+
   const fromWarehouseChooser = async () => {
     console.log("FromWarehouseChooser");
     const allwarehouses = await getWareHouseList();
     setFromWarehouseList(allwarehouses);
     setShowFromWarehousePopup(true);
   };
+
   const bpDetailsChooser = async () => {
     console.log("BPDetailsChooser");
     const allbpdetails = await getBPDetailsList();
@@ -57,9 +63,22 @@ const InventorytransferMain = () => {
   const productionNumberInputHandler = (data) => {
     setProductionNumberInput(data.value);
   };
+
   const productionNumberInputSearchHandler = async () => {
     if (!productionNumberInput) {
       return toastDisplayer("error", "Search field cannot be empty");
+    }
+    if (!selectedToWarehouse || !selectedFromWarehouse) {
+      return toastDisplayer("error", "Choose both To and From warehouses");
+    }
+
+    /* check dupliacte entries*/
+    // Check for duplicate entries before updating dataGridDataSource
+    const isDuplicateEntry = dataGridDataSource.some(
+      (item) => item.detailQRCodeID === productionNumberInput
+    );
+    if (isDuplicateEntry) {
+      return toastDisplayer("error", "Duplicate Item scan");
     }
     /*
       hit the api
@@ -69,15 +88,20 @@ const InventorytransferMain = () => {
         productionNumberInput,
         selectedFromWarehouse
       );
-      // console.log("try block of frontend");
-      // console.log(apiRes);
+
       const { hasError, errorMessage, responseData } = await apiRes;
-      if (hasError) {
-        return toastDisplayer("error", errorMessage);
+
+      if (hasError === true) {
+        console.log("The api fetch error", hasError);
+        toastDisplayer("error", errorMessage);
+        return toastDisplayer("error", "Invalid item scan");
       } else {
-        return toastDisplayer("succes", responseData);
+        console.log("The api fetch success", apiRes);
+        return setDataGridDataSource([...dataGridDataSource, responseData]);
       }
     } catch (error) {
+      console.log(error);
+      console.log(dataGridDataSource);
       return toastDisplayer(
         "error",
         "Something went wrong, please try again later.."
@@ -157,6 +181,11 @@ const InventorytransferMain = () => {
             />
           </div>
         </div>
+        {dataGridDataSource.length > 0 && (
+          <div className="main-content-datagrid-section">
+            <ItemsGrid dataGridDataSource={dataGridDataSource} />
+          </div>
+        )}
       </div>
     </div>
   );
