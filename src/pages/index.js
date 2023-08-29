@@ -1,5 +1,5 @@
 export { default as HomePage } from "./home/home";
-export { default as NotfoundPage } from "./Not Found/NotFound";
+export { default as NotfoundPage } from "./notFound/NotFound";
 export { default as ProfilePage } from "./profile/profile";
 // export { default as TasksPage } from "./tasks/tasks";
 export { default as ItemsMasterPage } from "./masters/item-master/items.master";
