@@ -97,3 +97,34 @@ html, body {
     background: linear-gradient(to right, #fff 16px, #FFF 16px)
   }
 }
+
+// the color for blue button text
+.default-button{
+  .dx-button-content{
+    .dx-button-text{
+      color: #fff;
+    }
+  }
+}
+
+/*------------------------- pages default wrapper container ------------------------------------*/
+  .default-main-conatiner{
+    min-height: 80vh !important;
+    display: flex !important;
+    flex-direction: column;
+    gap: 1.5rem !important;
+    .header-section{
+      display: flex !important;
+      flex-direction: column;
+      gap: 5px !important;
+    }
+
+    .search-section{}
+  }
+/*------------------------- pages default wrapper container ------------------------------------*/
+@media only screen and (max-width:568px){
+  .default-button{
+    width: 100px !important;
+    height: 30px !important;
+  }
+}

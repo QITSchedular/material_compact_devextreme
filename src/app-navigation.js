@@ -66,22 +66,6 @@ export const navigation = [
                 path: "/masters/brand",
                 icon: `${icon['brands']}`,
             },
-            // {
-            //   text: "Put Away",
-            //   path: "/masters/putaway",
-            // },
-            // {
-            //   text: "Country",
-            //   path: "/masters/country",
-            // },
-            // {
-            //   text: "State",
-            //   path: "/masters/state",
-            // },
-            // {
-            //   text: "Sales Employee",
-            //   path: "/masters/salesemployee",
-            // },
         ],
     },
     {
@@ -121,6 +105,45 @@ export const navigation = [
                 path: "/qualityControl/inprocessQC",
             },
         ],
+    },
+    {
+        text: "Production",
+        path: "/production",
+        icon: "fa-solid fa-bag-shopping",
+        items: [
+          {
+            text: "Issue Material",
+            path: "/production/issue-material",
+            icon: "login",
+          },
+          {
+            text: "Verify Material",
+            path: "/production/verify-material",
+            icon: "login",
+          },
+          {
+            text: "Receive Material",
+            path: "/production/receive-material",
+            icon: "login",
+          },
+        ],
+    },
+    {
+      text: "Inventory",
+      path: "/inventory",
+      icon: "fa-solid fa-arrow-down-up-lock",
+      items: [
+        {
+          text: "Inventory Transfer",
+          path: "/inventory/transfer",
+          icon: "login",
+        },
+        {
+          text: "Pick & Pack",
+          path: "/inventory/pick-pack",
+          icon: "login",
+        },
+      ],
     },
     {
         text: "Sales",

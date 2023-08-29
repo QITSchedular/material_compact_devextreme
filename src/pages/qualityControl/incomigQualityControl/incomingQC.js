@@ -207,7 +207,6 @@ function IncomingQCComponent() {
               icon="search"
               onClick={SearchHandler}
             />
-
             <NormalButton
               width={33}
               height={33}
@@ -218,7 +217,6 @@ function IncomingQCComponent() {
           </div>
         </div>
       </div>
-
       <div className="orderList-section">
         <IncomingQCOrderList IQCList2={IQCList2} />
       </div>

@@ -24,6 +24,8 @@ import {
   PopupHeaderText,
   PopupSubText,
 } from "../../../components/typographyTexts/TypographyComponents";
+import { GRPOScanner } from "../../../assets/icon";
+import Html5QrcodePlugin from "./scanner/scanner-component";
 
 const PopupContent = ({ onSelectRow, onSave }) => {
   const [dataSource, setDataSource] = useState(null);
@@ -154,6 +156,7 @@ const GrpoMain = () => {
   const [loading, setLoading] = useState(false); // State to store the selection indicator
   const [gridDataSourceForPopup, setGridDataSourceForPopup] = useState([]); // State to store the
   const [isSelectedFromPopup, setIsSelectedFromPopup] = useState(false); // State to store the
+  const [showScanner, setShowScanner] = useState(false);
   const helpOptions = {
     icon: HelpIcons,
     onClick: async () => {
@@ -281,6 +284,12 @@ const GrpoMain = () => {
     setSelectedRowsData([]);
     return setShowPoHelp(false);
   };
+
+  // scanner handlers
+  const handleScan = () => {
+    setShowScanner(true);
+    console.log("Handle Scan");
+  };
   useEffect(() => {
     setLoading(true);
     const fetchAllPo = async () => {
@@ -295,6 +304,11 @@ const GrpoMain = () => {
     };
     fetchAllPo();
   }, []);
+  const [decodedResults, setDecodedResults] = useState([]);
+  const onNewScanResult = (decodedText, decodedResult) => {
+    console.log("App [result]", decodedResult);
+    setDecodedResults((prev) => [...prev, decodedResult]);
+  };
   return (
     <>
       {loading && <LoadPanel visible={true} />}
@@ -320,7 +334,14 @@ const GrpoMain = () => {
           />
         </Popup>
       )}
-
+      {showScanner && (
+        <Html5QrcodePlugin
+          fps={10}
+          qrbox={250}
+          disableFlip={false}
+          qrCodeSuccessCallback={onNewScanResult}
+        />
+      )}
       <div className="content-block dx-card responsive-paddings grpo-content-wrapper">
         <div className="title-section">
           <h3 className="title-name">Grpo</h3>
@@ -357,6 +378,16 @@ const GrpoMain = () => {
               stylingMode="outlined"
               icon="search"
               onClick={handlePoVerification}
+            />
+
+            {/* {The scanner opener button} */}
+            <Button
+              width={33}
+              height={33}
+              type="normal"
+              stylingMode="outlined"
+              icon={GRPOScanner}
+              onClick={handleScan}
             />
           </div>
         </div>
