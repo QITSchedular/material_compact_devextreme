@@ -10,6 +10,13 @@ import { QtcDataGrid } from "../../../components";
 import { Popup } from "devextreme-react/popup";
 import './inprocessQC.scss';
 import InprocessQcPopUp from "./InprocessQcPopUp";
+import DataGrid, {
+    Column,
+    Paging,
+    Selection,
+    Scrolling,
+} from "devextreme-react/data-grid";
+import InprocessQrRequest from "./inprocessQrRequest";
 
 function InprocessQcScanItem() {
     const columns = [
@@ -76,6 +83,7 @@ function InprocessQcScanItem() {
         },
     ];
 
+    const [QrRequestPopUp, setQrRequestPopUp] = useState(false);
     const [ApproveWareHouse, setApproveWareHouse] = useState(false);
     const [RejectWareHouse, setRejectWareHouse] = useState(false);
     const [selectedRowsDataApprove, setselectedRowsDataApprove] = useState([]); // State to store the selected row data
@@ -88,12 +96,23 @@ function InprocessQcScanItem() {
     var [detailQRCodeID, setdetailQRCodeID] = useState("");
     var [isGridVisible, setIsGridVisible] = useState(false);
     const [IQCList, setIQCList] = useState(new Set()); // State to store the selected row data
+    const [QrRequestData, setQrRequestData] = useState(new Set()); // State to store the selected row data
     const [selectedRowData, setSelectedRowData] = useState("");
     const dataGridRef = useRef();
+    const dataGridRefList = useRef();
+
+    //pop up cancel handler QR request
+    const handleCancelQrRequest = async () => {
+        return await outsideClickHandlerQrRequest();
+    };
+
+    //close QR request
+    const outsideClickHandlerQrRequest = async () => {
+        return setQrRequestPopUp(false);
+    };
 
     // popUp save btn handler approve
     const handleSave = async (params) => {
-        console.log("click ok btn");
         handleSaveSelectedRowData();
     };
 
@@ -109,7 +128,6 @@ function InprocessQcScanItem() {
 
     // popUp save btn handler reject
     const handleSaveReject = async (params) => {
-        console.log("click ok btn");
         handleSaveSelectedRowDataReject();
     };
 
@@ -157,6 +175,7 @@ function InprocessQcScanItem() {
                 detailQRCodeID: detailQRCodeID,
             };
             var response = await validatePoListsIQC(reqBody);
+
             console.log("response : ", response);
             var doProuctExist;
             if (IQCList.size > 0) {
@@ -308,6 +327,38 @@ function InprocessQcScanItem() {
         }
     };
 
+    const handleDataGridRowSelection = async ({ selectedRowKeys }) => {
+        setSelectedRowKeysOnChangeApprove(selectedRowKeys);
+        const length = await selectedRowKeys.length;
+        if (selectedRowKeys.length == 1) {
+            if (selectedRowsDataApprove.length > 0 && selectedRowsDataReject.length > 0) {
+                setQrRequestPopUp(true);
+                IQCList.forEach((item) => {
+                    if (item.itemCode == selectedRowKeys[0]) {
+                        setQrRequestData(item);
+                    }
+                });
+            } else {
+                return toastDisplayer(
+                    "error",
+                    "Please select warehouse"
+                );
+            }
+
+        }
+        if (selectedRowKeys.length > 1) {
+            const value = await dataGridRefList.current.instance.selectRows(
+                selectedRowKeys[length - 1]
+            );
+            return selectedRowSetter(value);
+        } else {
+            const value = await dataGridRefList.current.instance.selectRows(
+                selectedRowKeys[0]
+            );
+            return selectedRowSetter(value);
+        }
+    };
+
     return (
         <>
             {ApproveWareHouse && (
@@ -453,13 +504,50 @@ function InprocessQcScanItem() {
             </div>
             {isGridVisible && (
                 <div className="orderList-section">
-                    {/* {console.log("IQClist",IQCList,"        ",Array.from(IQCList))} */}
-                    <QtcDataGrid
-                        columns={columns}
-                        Data={Array.from(IQCList)}
-                        keyExpr="poDocEntry"
-                    />
+                    <DataGrid
+                        // height={420}
+                        dataSource={Array.from(IQCList)}
+                        keyExpr={"itemCode"}
+                        showBorders={true}
+                        columnAutoWidth={true}
+                        hoverStateEnabled={true}
+                        onSelectionChanged={handleDataGridRowSelection}
+                        ref={dataGridRefList}
+                    // selectedRowKeys={selectedRowKeysNew}
+                    >
+                        {/* <SearchPanel visible={true} /> */}
+                        <Selection mode="multiple" />
+                        <Scrolling columnRenderingMode="infinite" />
+                        <Paging enabled={false} />
+                        {columns &&
+                            columns.map((value, key) => (
+                                <Column
+                                    dataField={value["field"]}
+                                    caption={value["caption"]}
+                                    hidingPriority={6}
+                                ></Column>
+                            ))}
+                    </DataGrid>
                 </div>
+            )}
+            {QrRequestPopUp && (
+                <Popup
+                    visible={true}
+                    height={window.innerHeight - 100}
+                    width={window.innerWidth - 925}
+                    showCloseButton={true}
+                    className="QrRequestPopUp"
+                    hideOnOutsideClick={false}
+                    contentRender={() => (
+                        <InprocessQrRequest
+                            handleCancelQrRequest={handleCancelQrRequest}
+                            requestData={QrRequestData}
+                            approveWareHouse={selectedRowsDataApprove[0].whsCode}
+                            rejectWareHouse={selectedRowsDataReject[0].whsCode}
+                        />
+                    )}
+                >
+                </Popup>
             )}
         </>
     );

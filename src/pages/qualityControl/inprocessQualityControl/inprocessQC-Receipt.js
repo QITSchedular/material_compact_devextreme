@@ -260,7 +260,7 @@ function InprocessQCReceipt({ IQCList2 }) {
                             <div className="single-po2">
                                 {data[item["docEntry"]] && (
                                     <div className="data-grid-drop-down">
-                                        <QtcDataGrid columns={columns} Data={item} keyExpr="docEntry" />
+                                        <QtcDataGrid columns={columns} Data={[item]} keyExpr="docEntry" />
                                     </div>
                                 )}
                             </div>
