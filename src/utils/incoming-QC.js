@@ -107,7 +107,7 @@ export const validatePoListsIQC = async (obj) => {
 
 // save QC Item
 export const SavePoListsIQC = async (obj) => {
-  console.log("===========",obj);
+  console.log("===========", obj);
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -144,16 +144,8 @@ export const LockedWareHouseList = async () => {
 
 };
 
-export const SavePoListsIQC = async () => {
-  try {
-    const res = await axios.get(`${API_URL}/IncomingQC/QC`);
-    const returnData = await res.data;
-    return returnData;
-  } catch (error) {
-    console.log(error);
-    const returnError = error.response.data;
-    return returnError;
-  }
 
-};
 
+
+
+// This comment should be removed asap
