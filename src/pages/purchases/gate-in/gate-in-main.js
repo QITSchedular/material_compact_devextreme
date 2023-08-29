@@ -32,7 +32,12 @@ const TabsContent = ({ setSelectedTab }) => {
   };
 
   return (
-    <Tabs width={300} selectedIndex={0} onItemClick={onItemClick} id="selectTab">
+    <Tabs
+      width={300}
+      selectedIndex={0}
+      onItemClick={onItemClick}
+      id="selectTab"
+    >
       <Item text="New Entry"></Item>
       <Item text="Old Entry"></Item>
     </Tabs>
@@ -53,7 +58,7 @@ const GateInMain = () => {
       <div className="tabs-selection-content">
         {selectedTab === 0 ? <GateInComponent /> : <OldEntryComponent />}
       </div>
-    </div >
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Toolbar, { Item } from "devextreme-react/toolbar";
 import Button from "devextreme-react/button";
 import UserPanel from "../user-panel/UserPanel";
@@ -7,6 +7,8 @@ import { Template } from "devextreme-react/core/template";
 import { Search, bell, home, setting } from "../../assets/icon";
 import { TextBox } from "devextreme-react";
 import { Link, useLocation } from "react-router-dom";
+import { SearchPanel } from "devextreme-react/data-grid";
+import SettingsDrawerMain from "../settings-drawer/SettingsDrawer.main";
 
 export default function Header({ menuToggleEnabled, title, toggleMenu }) {
     const location = useLocation();
