@@ -83,16 +83,4 @@ export const LockedWareHouseList = async () => {
 
 };
 
-export const SavePoListsIQC = async () => {
-  try {
-    const res = await axios.get(`${API_URL}/IncomingQC/QC`);
-    const returnData = await res.data;
-    return returnData;
-  } catch (error) {
-    console.log(error);
-    const returnError = error.response.data;
-    return returnError;
-  }
-
-};
 
