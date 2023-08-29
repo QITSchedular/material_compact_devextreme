@@ -19,8 +19,17 @@ export { default as InprocessQCPage } from "./qualityControl/inprocessQualityCon
 export { default as InprocessQcScanItemsPage } from "./qualityControl/inprocessQualityControl/inprocessQcScanItemsPage";
 export { default as IncomingQcScanItemsPage } from "./qualityControl/incomigQualityControl/IncomingQcScanItemsPage";
 export { default as MasterPage } from "./masters/master/master";
+// production module
+export { default as VerifyMaterialPage } from "./production/verify-material/verify-material-main";
+export { default as VerifyMaterialScanItemsPage } from "./production/verify-material/tabs-content/VerifyScanItems";
+export { default as ReceiveMaterialPage } from "./production/receive-material/receive-material.main";
+export { default as ReceiveMaterialScanItemsPage } from "./production/receive-material/receive-material-scan-items";
+export { default as IssueMaterialPage } from "./production/issue-material/issue-material-main";
+export { default as InventoryTransferMainPage } from "./inventory/inventory-transfer/inventory-transfer-main";
+export { default as PickPackMain } from "./inventory/pick-pack/Pick-pack-main";
 export { default as PurchasePage } from "./purchases/purchase/purchase";
 export { default as SalePage } from "./sales/salesIndex/sale";
 export { default as DeliveryPage } from "./sales/delivery/delivery";
 export { default as DeliveryProcessPage } from "./sales/delivery/delivery-process";
 export { default as MachineInOutPage } from "./Track Machines/MachineInOut";
+

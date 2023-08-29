@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  TextBox,
-  Button as NormalButton,
-  Button,
-  ScrollView,
+  Button
 } from "devextreme-react";
 import {
   PopupHeaderText,
@@ -16,7 +13,7 @@ import DataGrid, {
   SearchPanel,
   Selection,
 } from "devextreme-react/data-grid";
-import { getPoLists } from "../../../utils/gate-in-purchase";
+import { getPoListsIC } from "../../../utils/incoming-QC";
 
 function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelection, dataGridRef,selectedRowKeys }) {
   const [dataSource, setDataSource] = useState(null);
@@ -26,8 +23,7 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
   useEffect(() => {
     setLoading(true);
     const dataGridDataHandler = async () => {
-      const poListData = await getPoLists();
-
+      const poListData = await getPoListsIC();
       if (poListData.length > 0) {
         console.log("It has data");
         setSelectedRowKeys(selectedRowKeys);
@@ -44,13 +40,11 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
 
   return (
     <>
-      {/* <ScrollView ScrollView width="100%" height="100%"> */}
       <div className="purchaseOrderList-main-containter">
         <div className="purchaseOrderList-header">
           <div
             className="purchaseOrderList-title-section responsive-paddings"
             style={{
-              // padding: "5px 20px !important",
               display: "flex",
               flexDirection: "column",
               gap: "5px",
@@ -67,7 +61,7 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
           <DataGrid
             height={420}
             dataSource={dataSource}
-            keyExpr="docEntry"
+            keyExpr="poDocEntry"
             showBorders={true}
             columnAutoWidth={true}
             hoverStateEnabled={true}
@@ -89,12 +83,12 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
               alignment="left"
               caption={"Vendor Name"}
             />
-            <Column dataField="docNum" alignment="left" caption={"PO No."} />
+            <Column dataField="poDocNum" alignment="left" caption={"PO No."} />
             <Column
-              dataField="docDate"
+              dataField="seriesName"
               alignment="left"
               caption={"Doc Date"}
-              dataType={"date"}
+              // dataType={"date"}
             />
           </DataGrid>
         </div>
@@ -115,11 +109,9 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
             height={35}
             onClick={handleSave}
             className="OkQcBtn"
-            // disabled={selectedRowKeys.length > 0 ? false : true}
           />
         </div>
       </div>
-      {/* </ScrollView> */}
     </>
   );
 }

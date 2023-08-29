@@ -16,7 +16,13 @@ import {
   IncomingQCPage,
   InprocessQCPage,
   MasterPage,
-  purchasePage,
+  VerifyMaterialPage,
+  VerifyMaterialScanItemsPage,
+  ReceiveMaterialPage,
+  ReceiveMaterialScanItemsPage,
+  IssueMaterialPage,
+  InventoryTransferMainPage,
+  PickPackMain,
   InprocessQcScanItemsPage,
   SalePage,
   PurchasePage,
@@ -114,6 +120,35 @@ const routes = [
     path: "/qualityControl/incomigQualityControl/IncomingQcScanItemsPage/:headerQRCodeID/:docEntry",
     element: IncomingQcScanItemsPage,
   },
+  //Production Page
+  {
+    path: "/production/verify-material",
+    element: VerifyMaterialPage,
+  },
+  {
+    path: "/production/verify-material/verify-items:prodid",
+    element: VerifyMaterialScanItemsPage,
+  },
+  {
+    path: "/production/receive-material",
+    element: ReceiveMaterialPage,
+  },
+  {
+    path: "/recieve-material/scanitems/:id",
+    element: ReceiveMaterialScanItemsPage,
+  },
+  {
+    path: "/production/issue-material",
+    element: IssueMaterialPage,
+  },
+  {
+    path: "/inventory/transfer",
+    element: InventoryTransferMainPage,
+  },
+  {
+    path: "/inventory/pick-pack",
+    element: PickPackMain,
+  },
   //Sales Page
   {
     path: "/sales",
@@ -127,7 +162,6 @@ const routes = [
     path: "/production/issue-material/verify-material/:qrCode/:docEntry",
     element: DeliveryProcessPage,
   },
-  {
     path: "/TrackMachines",
     element: MachineInOutPage,
   },
@@ -135,6 +169,7 @@ const routes = [
     path: "/TrackMachines/MachineInOut",
     element: MachineInOutPage,
   },
+
 ];
 
 export default routes.map((route) => {
