@@ -1,12 +1,13 @@
-.typ-header-text{
-color: #161616;
-font-family: Roboto;
-font-size: 18px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
+.typ-header-text {
+    color: #161616;
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
 }
-.typ-sub-text{
+
+.typ-sub-text {
     color: #8D8D8D;
     font-family: Poppins;
     font-size: 14px;
@@ -21,4 +22,5 @@ line-height: normal;
     .typ-sub-text{
         font-size: 12px !important;
     }
+
 }

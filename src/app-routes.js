@@ -14,8 +14,8 @@ import {
   WarehouseMasterPage,
   ItemsubgroupmasterPage,
   IncomingQCPage,
+  InprocessQCPage,
   MasterPage,
-  purchasePage,
   VerifyMaterialPage,
   VerifyMaterialScanItemsPage,
   ReceiveMaterialPage,
@@ -23,6 +23,12 @@ import {
   IssueMaterialPage,
   InventoryTransferMainPage,
   PickPackMain,
+  InprocessQcScanItemsPage,
+  SalePage,
+  PurchasePage,
+  DeliveryPage,
+  DeliveryProcessPage,
+  IncomingQcScanItemsPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -70,7 +76,7 @@ const routes = [
   //purchases
   {
     path: "/purchases",
-    element: purchasePage,
+    element: PurchasePage,
   },
   {
     path: "/purchases/gateinmain",
@@ -96,6 +102,19 @@ const routes = [
     path: "/qualityControl/incomingQC",
     element: IncomingQCPage,
   },
+  {
+    path: "/qualityControl/inprocessQC",
+    element: InprocessQCPage,
+  },
+  {
+    path: "/qualityControl/inprocessQualityControl/InprocessQcScanItemsPage/:headerQRCodeID/:docEntry",
+    element: InprocessQcScanItemsPage,
+  },
+  {
+    path: "/qualityControl/incomigQualityControl/IncomingQcScanItemsPage/:headerQRCodeID/:docEntry",
+    element: IncomingQcScanItemsPage,
+  },
+  //Production Page
   {
     path: "/production/verify-material",
     element: VerifyMaterialPage,
@@ -123,6 +142,19 @@ const routes = [
   {
     path: "/inventory/pick-pack",
     element: PickPackMain,
+  },
+  //Sales Page
+  {
+    path: "/sales",
+    element: SalePage,
+  },
+  {
+    path: "/sales/delivery",
+    element: DeliveryPage,
+  },
+  {
+    path: "/production/issue-material/verify-material/:qrCode/:docEntry",
+    element: DeliveryProcessPage,
   },
 ];
 

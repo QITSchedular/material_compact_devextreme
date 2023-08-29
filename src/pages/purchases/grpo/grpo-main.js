@@ -185,7 +185,6 @@ const GrpoMain = () => {
     setLoading(true);
     try {
       const poListData = await getPoLists();
-
       if (poListData.length > 0) {
         const qrCodeIds = poListData.map((item) => item.qrCodeID);
         const doPoExists = qrCodeIds.includes(qrCode);
