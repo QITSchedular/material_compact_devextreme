@@ -134,4 +134,16 @@ export const navigation = [
             },
         ],
     },
+    {
+        text: "Track Machines",
+        path: "/TrackMachines",
+        icon: "fa-solid fa-bag-shopping",
+        items: [
+            {
+                text: "Machine In & Out",
+                path: "/TrackMachines/MachineInOut",
+                icon: "home",
+            },
+        ],
+    },
 ];

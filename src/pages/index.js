@@ -1,6 +1,5 @@
-
-
 export { default as HomePage } from "./home/home";
+export { default as NotfoundPage } from "./Not Found/NotFound";
 export { default as ProfilePage } from "./profile/profile";
 // export { default as TasksPage } from "./tasks/tasks";
 export { default as ItemsMasterPage } from "./masters/item-master/items.master";
@@ -24,3 +23,4 @@ export { default as PurchasePage } from "./purchases/purchase/purchase";
 export { default as SalePage } from "./sales/salesIndex/sale";
 export { default as DeliveryPage } from "./sales/delivery/delivery";
 export { default as DeliveryProcessPage } from "./sales/delivery/delivery-process";
+export { default as MachineInOutPage } from "./Track Machines/MachineInOut";
