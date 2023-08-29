@@ -2,11 +2,12 @@
     .main-section {
         display: flex !important;
         justify-content: space-between;
-        .inputWrapper{
+
+        .inputWrapper {
             display: flex !important;
         }
 
-        .helperWrapper{
+        .helperWrapper {
             display: flex !important;
             flex-direction: row;
             gap: 1rem !important;
@@ -20,35 +21,81 @@
 
         .date-section {
             display: flex;
-            // flex-direction: row-reverse !important;
-            gap:1rem;
-
-            // .purchaseQRField {
-            //     margin-left: 1rem;
-            // }
+            gap: 1rem;
         }
-
-       
     }
 
     .orderList-section {
         margin-top: 2% !important;
-        
+
         .single-po {
-            .single-po1{
+            .single-po1 {
                 display: flex !important;
                 justify-content: space-between;
                 max-height: 80px;
             }
 
-            .single-po2{
+            .single-po2 {
                 margin-top: 1% !important;
             }
 
             padding: 12px 8px;
             margin-top: 1% !important;
             padding-bottom: 0px !important;
-            
+
+            align-items: center;
+            border: 0.5px solid #e0e0e0;
+            border-radius: 8px;
+
+            &:nth-child(even) {
+                background: rgba(87, 133, 203, 0.05);
+                border: 0.5px solid rgba(87, 133, 203, 0.05);
+            }
+
+            .single-po-delete {
+                .dx-button {
+                    margin-left: 0px !important;
+                    background-color: transparent;
+                }
+
+                .dx-icon.dx-icon-trash {
+                    color: #6F6F6F !important;
+                }
+            }
+
+            .single-po-name {
+                flex: 1;
+                padding-left: 15px;
+                display: flex !important;
+                align-items: center;
+
+                .po-name {
+                    color: #525252;
+                    font-feature-settings: 'clig' off, 'liga' off;
+                    font-family: Poppins;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                    width: 182px !important;
+                }
+
+                .dx-icon-custom-chevron-down-icon {
+                    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik02LjAwMDAyIDcuMzUzODdMMC4zNDYxOTEgMS43MDAwN0wxLjQwMDAyIDAuNjQ2MjRMNi4wMDAwMiA1LjI0NjI0TDEwLjYgMC42NDYyNEwxMS42NTM4IDEuNzAwMDdMNi4wMDAwMiA3LjM1Mzg3WiIgZmlsbD0iIzI2MjYyNiIvPgo8L3N2Zz4K);
+                    background-repeat: no-repeat;
+                    background-position: 0px 0px;
+                    margin-top: 5px !important;
+                }
+            }
+
+            .single-po2 {
+                margin-top: 1% !important;
+            }
+
+            padding: 12px 8px;
+            margin-top: 1% !important;
+            padding-bottom: 0px !important;
+
             align-items: center;
             border: 0.5px solid #e0e0e0;
             border-radius: 8px;
@@ -122,6 +169,30 @@
             padding-top: 2%;
             // padding-right: 2%;
         }
+    }
+}
+
+.popup-header {
+    display: flex;
+    justify-content: right !important;
+}
+
+.buttons-section {
+    .OkQcBtn .dx-button-text {
+        color: white !important;
+    }
+}
+
+.purchaseOrderList-main-containter {
+    padding: 0px 3%;
+
+    .purchaseOrderList-header {
+        display: flex;
+        justify-content: space-between;
+
+        .close-btn-section {
+            padding-top: 2%;
+        }
 
         .purchaseOrderList-title-section {
             padding-left: 0px !important;
@@ -135,12 +206,6 @@
         max-height: 80%;
 
         .dx-datagrid.dx-gridbase-container.dx-datagrid-borders {
-            // border-radius: 8px;
-            // background: #FFF;
-            // box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.10);
-            // margin: 15px 0;
-            // padding: 0px 3% !important;
-
             .dx-datagrid-header-panel {
                 padding-bottom: 1rem !important;
                 padding-left: 0px !important;
@@ -301,7 +366,7 @@
         margin-bottom: 1rem !important;
     }
 
-    .btnSection{
+    .btnSection {
         display: flex !important;
         flex-direction: column-reverse !important;
     }
@@ -334,7 +399,7 @@
         margin-bottom: 1rem !important;
     }
 
-    .btnSection{
+    .btnSection {
         display: flex !important;
         flex-direction: column-reverse !important;
     }
@@ -367,7 +432,7 @@
         margin-bottom: 1rem !important;
     }
 
-    .btnSection{
+    .btnSection {
         display: flex !important;
         flex-direction: column-reverse !important;
     }
@@ -399,7 +464,7 @@
         margin-bottom: 1rem !important;
     }
 
-    .btnSection{
+    .btnSection {
         display: flex !important;
         flex-direction: column-reverse !important;
     }
@@ -431,7 +496,7 @@
         margin-bottom: 1rem !important;
     }
 
-    .btnSection{
+    .btnSection {
         display: flex !important;
         flex-direction: column-reverse !important;
     }
@@ -461,7 +526,6 @@
 
     .date-section {
         display: flex;
-        // flex-direction: row-reverse !important;
 
         .purchaseQRField {
             margin-left: 1rem !important;
@@ -477,28 +541,24 @@
 
 @media (max-width:840px) {
     .inQCDropDownSection .main-section {
-        // border: 10px solid black;
         display: flex !important;
     }
 }
 
 @media (max-width:992px) {
     .inQCDropDownSection .main-section {
-        // border: 10px solid black;
         display: flex !important;
     }
 }
 
 @media (max-width:1024px) {
     .inQCDropDownSection .main-section {
-        // border: 10px solid black;
         display: flex !important;
     }
 }
 
 @media (max-width:1200px) {
     .inQCDropDownSection .main-section {
-        // border: 10px solid black;
         display: flex !important;
     }
 }

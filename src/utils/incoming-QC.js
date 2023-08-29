@@ -74,11 +74,10 @@ export const searchPoListsIQC = async (QRCode) => {
 // Get all po list(used in incoming QC)
 export const validatePoListsIQC = async (obj) => {
   const requestBody = {
-    branchID: 1,
-    headerQRCodeID: obj.headerQRCodeID,
-    detailQRCodeID: obj.detailQRCodeID,
-    grpoDocEntry: obj.docEntry,
-    // "grpoDocEntry": "5312"
+    "branchID": 1,
+    "headerQRCodeID": obj.headerQRCodeID,
+    "detailQRCodeID": obj.detailQRCodeID,
+    "grpoDocEntry": obj.docEntry
   };
   const errors = {
     hasError: false,
@@ -142,4 +141,6 @@ export const LockedWareHouseList = async () => {
     const returnError = error.response.data;
     return returnError;
   }
+
 };
+

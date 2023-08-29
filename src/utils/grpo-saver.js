@@ -127,3 +127,28 @@ export const wareHouseList = async () => {
     return returnError;
   }
 };
+
+
+
+export const ValidateItemQR1 = async (qrCode, detailQRCodeID, docEntry) => {
+  const requestBody = {
+    "branchID": 1,
+    "headerQRCodeID": qrCode,
+    "detailQRCodeID": detailQRCodeID,
+    "grpoDocEntry": docEntry
+  };
+  // return requestBody;
+  try {
+    const response = await axios.post(
+      `${API_URL}/IncomingQC/ValidateItem`,
+      requestBody
+    );
+    const data = response.data;
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    const { statusCode, statusMsg } = error.response.data;
+    return statusMsg;
+  }
+};

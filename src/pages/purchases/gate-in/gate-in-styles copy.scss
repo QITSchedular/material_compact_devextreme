@@ -190,19 +190,19 @@
 }
 
 // new added 
-.transpoterGrid{
+.transpoterGrid {
     // border:10px solid black;
     height: 350px;
 }
 
 
 
-@media (max-width:320px){
-    .transpoterGrid{
+@media (max-width:320px) {
+    .transpoterGrid {
         height: 280px;
     }
 
-    #gate-in-main-container .navigation-header-gatein{
+    #gate-in-main-container .navigation-header-gatein {
         display: block !important;
     }
 
@@ -212,55 +212,56 @@
         }
     }
 
-    #selectTab{
+    #selectTab {
         width: 240px !important;
     }
 
-    .buttons-section{
+    .buttons-section {
         border: 2px solid black;
     }
 
-    .main-container .actions-section .buttons-section
-    {
+    .main-container .actions-section .buttons-section {
         margin-left: 2rem !important;
         width: inherit !important;
     }
 }
 
-@media (min-width:321px) and (max-width:390px){
-    .transpoterGrid{
+@media (min-width:321px) and (max-width:390px) {
+    .transpoterGrid {
         height: 280px;
     }
 
-    #gate-in-main-container .navigation-header-gatein{
+    #gate-in-main-container .navigation-header-gatein {
         display: block !important;
     }
+
     .title-section {
         .title-name {
             font-size: 16px !important;
         }
     }
 
-    .main-container .actions-section .buttons-section
-    {
+    .main-container .actions-section .buttons-section {
         margin-left: 1rem !important;
     }
 
 }
 
 @media (min-width: 391px) and (max-width:766px) {
-    .transpoterGrid{
+    .transpoterGrid {
         height: 280px;
     }
 
-    #gate-in-main-container .navigation-header-gatein{
+    #gate-in-main-container .navigation-header-gatein {
         display: block !important;
     }
+
     .title-section {
         .title-name {
             font-size: 16px !important;
         }
     }
+
     // .actions-section .buttons-section{
     //     border: 2px solid black;
     //     // .dx-button {
@@ -269,8 +270,7 @@
     //     // }
     // }
 
-    .main-container .actions-section .buttons-section
-    {
+    .main-container .actions-section .buttons-section {
         margin-left: 1rem !important;
     }
 }

@@ -1,3 +1,5 @@
+
+
 export { default as HomePage } from "./home/home";
 export { default as ProfilePage } from "./profile/profile";
 // export { default as TasksPage } from "./tasks/tasks";
@@ -14,6 +16,19 @@ export { default as WarehouseMasterPage } from "./masters/warehouse-master/wareh
 export { default as LocationMasterPage } from "./masters/location-master/location-master";
 export { default as ItemsubgroupmasterPage } from "./masters/item-sub-group-master/item-sub-group-master";
 export { default as IncomingQCPage } from "./qualityControl/incomigQualityControl/incomingQC-main";
+export { default as InprocessQCPage } from "./qualityControl/inprocessQualityControl/inprocessQC-main";
+export { default as InprocessQcScanItemsPage } from "./qualityControl/inprocessQualityControl/inprocessQcScanItemsPage";
 export { default as IncomingQcScanItemsPage } from "./qualityControl/incomigQualityControl/IncomingQcScanItemsPage";
 export { default as MasterPage } from "./masters/master/master";
-export { default as purchasePage } from "./purchases/purchase/purchase";
+// production module
+export { default as VerifyMaterialPage } from "./production/verify-material/verify-material-main";
+export { default as VerifyMaterialScanItemsPage } from "./production/verify-material/tabs-content/VerifyScanItems";
+export { default as ReceiveMaterialPage } from "./production/receive-material/receive-material.main";
+export { default as ReceiveMaterialScanItemsPage } from "./production/receive-material/receive-material-scan-items";
+export { default as IssueMaterialPage } from "./production/issue-material/issue-material-main";
+export { default as InventoryTransferMainPage } from "./inventory/inventory-transfer/inventory-transfer-main";
+export { default as PickPackMain } from "./inventory/pick-pack/Pick-pack-main";
+export { default as PurchasePage } from "./purchases/purchase/purchase";
+export { default as SalePage } from "./sales/salesIndex/sale";
+export { default as DeliveryPage } from "./sales/delivery/delivery";
+export { default as DeliveryProcessPage } from "./sales/delivery/delivery-process";
