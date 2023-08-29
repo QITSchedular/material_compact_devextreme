@@ -1,0 +1,2306 @@
+{
+	"info": {
+		"_postman_id": "ecba8f1f-70e1-45d2-adbd-04229fc367dc",
+		"name": "WMS UI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29249213",
+		"_collection_link": "https://lively-resonance-825257.postman.co/workspace/My-Workspace~c39eed62-685d-4321-8195-b36d128a440f/collection/21337714-ecba8f1f-70e1-45d2-adbd-04229fc367dc?action=share&source=collection_link&creator=29249213"
+	},
+	"item": [
+		{
+			"name": "Common",
+			"item": [
+				{
+					"name": "QR Managed By",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/QR Managed By",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"QR Managed By"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "IsItemGroupExist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/IsItemGroupExist?_ItemGroupName=FG008",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"IsItemGroupExist"
+							],
+							"query": [
+								{
+									"key": "_ItemGroupName",
+									"value": "FG008"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Branch",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/Branch",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"Branch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Period Indicator",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/Period Indicator",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"Period Indicator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Series",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/Series?Indicator=FY2223&ObjType=22&BranchID=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"Series"
+							],
+							"query": [
+								{
+									"key": "Indicator",
+									"value": "FY2223"
+								},
+								{
+									"key": "ObjType",
+									"value": "22"
+								},
+								{
+									"key": "BranchID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/Project",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"Project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Header INC No",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/HeaderIncNo",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"HeaderIncNo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Is Header QR Exist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": \"1\",\r\n  \"docEntry\": 2686,\r\n  \"docNum\": 600072,\r\n  \"series\": 245,\r\n  \"objType\": \"22\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/IsHeaderQRExist",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"IsHeaderQRExist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Header QR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": \"1\",\r\n  \"qrCodeID\": \"CACDAHCF AH 000002\",\r\n  \"docEntry\": 2686,\r\n  \"docNum\": 600072,\r\n  \"series\": 245,\r\n  \"docDate\": \"2023-08-04\",\r\n  \"objType\": \"22\",\r\n  \"incNo\": \"000002\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/SaveHeaderQR",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"SaveHeaderQR"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail Inc No",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/DetailIncNo?HeaderQR=CACDAHBH AH 000001",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"DetailIncNo"
+							],
+							"query": [
+								{
+									"key": "HeaderQR",
+									"value": "CACDAHBH AH 000001"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Detail QR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": \"1\",\r\n  \"headerQRCodeID\": \"CACDAHCF AH 000002\",\r\n  \"detailQRCodeID\": \"CACDAHCF AH 000002 000001\",\r\n  \"incNo\": \"000001\",\r\n  \"itemCode\": \"JSPL11246\",\r\n  \"qrMngBy\": \"S\",\r\n  \"qty\": \"1\",\r\n  \"gateInNo\": 4,\r\n  \"remark\": \"Test\",\r\n  \"batchSerialNo\": \"2308S000017\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/SaveDetailQR",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"SaveDetailQR"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Is Detail QR Exist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": \"1\",\r\n  \"docEntry\": 2686,\r\n  \"docNum\": 600072,\r\n  \"series\": 245,\r\n  \"objType\": \"22\",\r\n  \"itemCode\": \"JSPL11246\",\r\n  \"gateInNo\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/IsDetailQRExist",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"IsDetailQRExist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail QR Data",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": \"1\",\r\n  \"docEntry\": 2686,\r\n  \"docNum\": 600072,\r\n  \"series\": 245,\r\n  \"objType\": \"22\",\r\n  \"itemCode\": \"JSPL11246\",\r\n  \"gateInNo\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/GetDetailDataQR",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"GetDetailDataQR"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Batch Qty",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"docEntry\": 2686,\r\n  \"docNum\": 600072,\r\n  \"objType\": \"22\",\r\n  \"itemCode\": \"MG\",\r\n  \"gateInNo\": 2,\r\n  \"branchID\": \"1\",\r\n  \"detailQRCodeID\": \"CACDAHCF AH 000001 000021\",\r\n  \"qty\": \"2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/UpdateBatchQty",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"UpdateBatchQty"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "WMS Warehouse",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/Warehouse",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"Warehouse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get GateIN No",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/GetGateINNo?BranchID=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"GetGateINNo"
+							],
+							"query": [
+								{
+									"key": "BranchID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transporter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/Transporter",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"Transporter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fill Gate IN No",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/FillGateInNo?Series=245&DocNum=600072",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"FillGateInNo"
+							],
+							"query": [
+								{
+									"key": "Series",
+									"value": "245"
+								},
+								{
+									"key": "DocNum",
+									"value": "600072"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item Stock",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Commons/ItemStock?ItemCode=",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Commons",
+								"ItemStock"
+							],
+							"query": [
+								{
+									"key": "ItemCode",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Masters",
+			"item": [
+				{
+					"name": "Location",
+					"item": [
+						{
+							"name": "Get Location",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Locations/Get",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Locations",
+										"Get"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save Location",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"location\": \"ABC\",\r\n  \"gstin\": \"15261515\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Locations/Save",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Locations",
+										"Save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Location",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"location\": \"ABC\",\r\n  \"gstin\": \"96312\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Locations/Update/5",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Locations",
+										"Update",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Location",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Locations/Delete?_LocCode=5",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Locations",
+										"Delete"
+									],
+									"query": [
+										{
+											"key": "_LocCode",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Warehouse",
+					"item": [
+						{
+							"name": "Get All Warehouse",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Warehouses/Get?Filter=A",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Warehouses",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "A"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Locked Warehouse",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Warehouses/Get?Filter=Y",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Warehouses",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "Y"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Unlocked Warehouse",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Warehouses/Get?Filter=N",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Warehouses",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "N"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save Warehouse",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"whsCode\": \"0001\",\r\n  \"whsName\": \"123\",\r\n  \"locCode\": 4, \r\n  \"locked\": \"Y\",\r\n  \"binActivat\": \"N\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Warehouses/Save",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Warehouses",
+										"Save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Warehouse",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"whsName\": \"qw\",\r\n  \"locCode\": 0, \r\n  \"locked\": \"Y\",\r\n  \"binActivat\": \"Y\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Warehouses/Update/001",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Warehouses",
+										"Update",
+										"001"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Warehouse",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Warehouses/Delete?_Code=001",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Warehouses",
+										"Delete"
+									],
+									"query": [
+										{
+											"key": "_Code",
+											"value": "001"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Item Group",
+					"item": [
+						{
+							"name": "Get All Item Group",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/ItemGroups/Get?Filter=A",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"ItemGroups",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "A"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Locked Item Group",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/ItemGroups/Get?Filter=Y",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"ItemGroups",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "Y"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Unlocked Item Group",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/ItemGroups/Get?Filter=N",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"ItemGroups",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "N"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save Item Group",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itmsGrpNam\": \"Hardware\",\r\n  \"qrMngBy\": \"B\",\r\n  \"locked\": \"Y\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/ItemGroups/Save",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"ItemGroups",
+										"Save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Item Group",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itmsGrpNam\": \"Hardware Category\",\r\n  \"qrMngBy\": \"S\",\r\n  \"locked\": \"N\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/ItemGroups/Update/5",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"ItemGroups",
+										"Update",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Item Group",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/ItemGroups/Delete?_Code=5",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"ItemGroups",
+										"Delete"
+									],
+									"query": [
+										{
+											"key": "_Code",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Item",
+					"item": [
+						{
+							"name": "Get All Items",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Items/Get?Filter=A",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Items",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "A"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Active Items",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Items/Get?Filter=Y",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Items",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "Y"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Inactive Items",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Items/Get?Filter=N",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Items",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "N"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Item By Code",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Items/GetItemByItemCode?ItemCode=H1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Items",
+										"GetItemByItemCode"
+									],
+									"query": [
+										{
+											"key": "ItemCode",
+											"value": "H1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save Item",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itemCode\": \"H1\",\r\n  \"itemName\": \"H111\",\r\n  \"itmsGrpCod\": 3,\r\n  \"itmsSubGrpCod\": 1,\r\n  \"uomEntry\": \"asa\",\r\n  \"qrMngBy\": \"B\",\r\n  \"itemMngBy\": \"S\",\r\n  \"isActive\": \"Y\",\r\n  \"atcEntry\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Items/Save",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Items",
+										"Save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Item",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itemName\": \"H12\",\r\n  \"itmsGrpCod\": 3,\r\n  \"itmsSubGrpCod\": 1,\r\n  \"uomEntry\": 3,\r\n  \"qrMngBy\": \"S\",\r\n  \"itemMngBy\": \"S\",\r\n  \"isActive\": \"Y\",\r\n  \"atcEntry\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Items/Update/H1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Items",
+										"Update",
+										"H1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Item",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/Items/Delete?_ItemCode=H111",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"Items",
+										"Delete"
+									],
+									"query": [
+										{
+											"key": "_ItemCode",
+											"value": "H111"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Item Sub Group",
+					"item": [
+						{
+							"name": "Get All Item Sub Group",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/ItemSubGroups/Get?Filter=A",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"ItemSubGroups",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "A"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Locked Item Sub Group",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/ItemSubGroups/Get?Filter=Y",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"ItemSubGroups",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "Y"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Unlocked Item Sub Group",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/ItemSubGroups/Get?Filter=N",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"ItemSubGroups",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "N"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save Item Sub Group",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itmsGrpCod\": 4, \r\n  \"itmsSubGrpNam\": \"Test\",\r\n  \"locked\": \"N\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/ItemSubGroups/Save",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"ItemSubGroups",
+										"Save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Item Sub Group",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itmsGrpCod\": 3,\r\n  \"itmsSubGrpCod\": 4,\r\n  \"itmsSubGrpNam\": \" 02 08 2023 Test \",\r\n  \"locked\": \"N\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/ItemSubGroups/Update",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"ItemSubGroups",
+										"Update"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UOM",
+					"item": [
+						{
+							"name": "Get All UOM",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/UOMs/Get?Filter=A",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"UOMs",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "A"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Locked UOM",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/UoMs/Get?Filter=Y",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"UoMs",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "Y"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Unlocked UOM",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/UOMs/Get?Filter=N",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"UOMs",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "Filter",
+											"value": "N"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save UOM",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n  \"uomCode\": \"AS\",\r\n  \"uomName\": \"ASX\",\r\n  \"locked\": \"Y\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/UOMs/Save",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"UOMs",
+										"Save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update UOM",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"uomCode\": \"ABC\",\r\n  \"uomName\": \"DEF\",\r\n  \"locked\": \"Y\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/UOMs/Update/3",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"UOMs",
+										"Update",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete UOM",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://192.168.1.102:{{PORT}}/api/UoMs/Delete?_UomEntry=1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"1",
+										"102"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"UoMs",
+										"Delete"
+									],
+									"query": [
+										{
+											"key": "_UomEntry",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Config - System Setup",
+			"item": [
+				{
+					"name": "Save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": \"1\",\r\n  \"atcPath\": \"D:\\\\SAP attachment\",\r\n  \"genMethod\": \"A\",\r\n  \"qrMngBy\": \"S\",\r\n  \"qrGenMethod\": \"M\",\r\n  \"batchType\": \"B\",\r\n  \"remark\": \"y\",\r\n  \"indicator\": \"FY2223\",\r\n  \"qcRequired\": \"N\",\r\n  \"incomingQCWhs\": \"\",\r\n  \"inProcessQCWhs\": \"\",\r\n  \"approvedWhs\": \"\",\r\n  \"rejectedWhs\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Configs/Save",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Configs",
+								"Save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Configs/Get?BranchID=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Configs",
+								"Get"
+							],
+							"query": [
+								{
+									"key": "BranchID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GateIN-Generate&Print",
+			"item": [
+				{
+					"name": "Get PO - Gate IN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"docNum\": 600069,\r\n  \"series\": 245,\r\n  \"branchID\": 1,\r\n  \"gateInOnly\": \"N\",\r\n  \"gateInNo\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/PurchaseOrders/GetPO",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"PurchaseOrders",
+								"GetPO"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get PO - Gen&Print",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"docNum\": 600069,\r\n  \"series\": 245,\r\n  \"branchID\": 1,\r\n  \"gateInOnly\": \"Y\",\r\n  \"gateInNo\": \"2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/PurchaseOrders/GetPO",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"PurchaseOrders",
+								"GetPO"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Gate IN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"objType\": \"22\",\r\n  \"branchID\": 1,\r\n  \"gateInNo\": 1,\r\n  \"docEntry\": 2686,\r\n  \"lineNum\": 0,\r\n  \"itemCode\": \"JSPL11246\",\r\n  \"recQty\": \"1\",\r\n  \"vehicleNo\": \"2578\",\r\n  \"transporter\": \"TP10075\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/PurchaseOrders/GateINPO",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"PurchaseOrders",
+								"GateINPO"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Is Valid PO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"objType\": \"22\",\r\n  \"branchID\": 1,\r\n  \"docNum\": 600069,\r\n  \"series\": 245\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/PurchaseOrders/IsValidPO",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"PurchaseOrders",
+								"IsValidPO"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GateIN List",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/PurchaseOrders/GateINList?BranchID=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"PurchaseOrders",
+								"GateINList"
+							],
+							"query": [
+								{
+									"key": "BranchID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GRPO",
+			"item": [
+				{
+					"name": "Get PO List",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/DraftGRPO/GetPOList?BranchID=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"DraftGRPO",
+								"GetPOList"
+							],
+							"query": [
+								{
+									"key": "BranchID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Item QR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"headerQRCodeID\": \"CACDAHCF AH 000001\",\r\n  \"detailQRCodeID\": \"CACDAHCF AH 000001 000015\",\r\n  \"branchID\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/DraftGRPO/ValidateItemQR",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"DraftGRPO",
+								"ValidateItemQR"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create GRPO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": 1,\r\n  \"docEntry\": 2686,\r\n  \"docNum\": 600069,\r\n  \"cardCode\": \"SP10112\",\r\n  \"docDate\": \"2023-08-04\",\r\n  \"comments\": \"Test GRPO\",\r\n  \"whsCode\": \"QC\",\r\n  \"grpoDet\": [\r\n    {\r\n      \"itemCode\": \"JSPL11246\",\r\n      \"lineNum\": \"0\",\r\n      \"uoMCode\": \"NOS\",\r\n      \"fromWhs\": \"TSIPL\",\r\n      \"toWhs\": \"QC\",\r\n      \"itemMngBy\": \"B\",\r\n      \"qty\": \"2\",\r\n      \"grpoBatchSerial\": [\r\n        {\r\n          \"gateInNo\": 17,\r\n          \"itemCode\": \"JSPL11246\",\r\n          \"detailQRCodeID\": \"CACDAIAF AI 000001 000124\",\r\n          \"batchSerialNo\": \"2308S000124\",\r\n          \"qty\": \"1\" \r\n        },\r\n        {\r\n          \"gateInNo\": 17,\r\n          \"itemCode\": \"JSPL11246\",\r\n          \"detailQRCodeID\": \"CACDAIAF AI 000001 000125\",\r\n          \"batchSerialNo\": \"2308S000125\",\r\n          \"qty\": \"1\" \r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/DraftGRPO/CreateDraftGRPO",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"DraftGRPO",
+								"CreateDraftGRPO"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Incoming QC",
+			"item": [
+				{
+					"name": "Get PO Help",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": 1,\r\n  \"fromDate\": \"\",\r\n  \"toDate\": \"\",\r\n  \"headerQRCodeID\": \"\",\r\n  \"getAll\": \"Y\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/IncomingQC/GetPOList",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"IncomingQC",
+								"GetPOList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get GRPO List",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": 1,\r\n  \"fromDate\": \"2022-08-01\",\r\n  \"toDate\": \"2023-08-21\",\r\n  \"headerQRCodeID\": \"CACDAIAF AI 000001\"\r\n}\r\n\r\n\r\n// Vendor Code = cardCode, Vendor Name = cardName, ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/IncomingQC/GetGRPOListByPO",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"IncomingQC",
+								"GetGRPOListByPO"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ValidateItem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": 1,\r\n  \"headerQRCodeID\": \"CACDAIAF AI 000001\",\r\n  \"detailQRCodeID\": \"CACDAIAF AI 000001 000245\",\r\n  \"grpoDocEntry\": 5312 // ??????\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/IncomingQC/ValidateItem",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"IncomingQC",
+								"ValidateItem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "QC",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": 1,\r\n  \"grpoDocEntry\": 5312,\r\n  \"detailQRCodeID\": \"CACDAIAF AI 000001 000245\",\r\n  \"fromWhs\": \"QC\",\r\n  \"toWhs\": \"JSPL_RGH\",\r\n  \"action\": \"A\",\r\n  \"qty\": 10,\r\n  \"rejectComment\": \"\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8084/api/IncomingQC/QC",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"api",
+								"IncomingQC",
+								"QC"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory Transfer",
+			"item": [
+				{
+					"name": "Validating Item QR in Whs",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": 1,\r\n  \"fromWhs\": \"QC\",\r\n  \"detailQRCodeID\": \"CACDAICC AI 000001 000702\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/InventoryTransfer/ItemDataInWhs",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"InventoryTransfer",
+								"ItemDataInWhs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Transfer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"branchID\": 1,\r\n  \"cardCode\": \"OS10327\",\r\n  \"fromWhsCode\": \"QC\",\r\n  \"toWhsCode\": \"LS1\",\r\n  \"comments\": \"Test IT 23082023\",\r\n  \"itDetails\": [\r\n    {\r\n      \"itemCode\": \"C002\",\r\n      \"totalItemQty\": 5,\r\n      \"project\": \"\",\r\n      \"itemMngBy\": \"B\",\r\n      \"itQRDetails\": [\r\n        {\r\n          \"gateInNo\": 84,\r\n          \"detailQRCodeID\": \"CACDAICC AI 000001 000702\",\r\n          \"batchSerialNo\": \"2308B000432\",\r\n          \"qty\": 5\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/InventoryTransfer/InventoryTransfer",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"InventoryTransfer",
+								"InventoryTransfer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Production Issue",
+			"item": [
+				{
+					"name": "Production Order Help",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Production/GetProductionOrderList",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Production",
+								"GetProductionOrderList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Item QR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"proDocEntry\": 59,\r\n  \"detailQRCodeID\": \"CACDAICC AI 000001 000702\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Production/ValidateItemQR",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Production",
+								"ValidateItemQR"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Production Issue",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"BranchID\": 1,\r\n  \"proOrdDocEntry\": 59,\r\n  \"Comment\": \"Test Issue 23082023\",\r\n  \"piItems\": [\r\n    {\r\n      \"itemCode\": \"C002\",\r\n      \"lineNum\":0,\r\n      \"itemMngBy\": \"B\",\r\n      \"toWhs\": \"QC\",\r\n      \"qty\": \"0.01\",\r\n      \"piBatchSerial\": [\r\n        {\r\n          \"gateInNo\": 83,\r\n          \"itemCode\": \"C002\",\r\n          \"detailQRCodeID\": \"CACDAICC AI 000001 000700\",\r\n          \"batchSerialNo\": \"2308B000430\",\r\n          \"qty\": \"0.01\"\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"itemCode\": \"C003\",\r\n      \"lineNum\":1,\r\n      \"itemMngBy\": \"B\",\r\n      \"toWhs\": \"QC\",\r\n      \"qty\": \"0.02\",\r\n      \"piBatchSerial\": [\r\n        {\r\n          \"gateInNo\": 83,\r\n          \"itemCode\": \"C003\",\r\n          \"detailQRCodeID\": \"CACDAICC AI 000001 000701\",\r\n          \"batchSerialNo\": \"2308B000431\",\r\n          \"qty\": \"0.02\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.1.102:{{PORT}}/api/Production/ProductionIssue",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"102"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"Production",
+								"ProductionIssue"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "PORT",
+			"value": "5173"
+		}
+	]
+}

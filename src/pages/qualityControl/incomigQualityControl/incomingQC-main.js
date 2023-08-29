@@ -1,5 +1,4 @@
 import React from "react";
-// import { HelpIcons } from "../../purchases/grpo/icons-exporter";
 import "./incomingQC.scss";
 import IncomingQCComponent from "./incomingQC";
 import IncomingQc_Header from "./IncomingQc-Header";

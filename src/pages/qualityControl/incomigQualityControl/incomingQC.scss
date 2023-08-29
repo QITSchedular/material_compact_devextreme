@@ -244,6 +244,37 @@
     }
 }
 
+.QrBodyWrapper{
+    // border: 2px solid dark !important;
+    // margin-top: -1rem !important;
+    .summaryTxt{
+        // border: 2px solid dark !important;
+        font-size: large;
+    }
+    .detailsWrapper{
+        display: flex !important;
+        flex-direction: column;
+
+        .particularDetail{
+            display: flex !important;
+            justify-content: space-between;
+        }
+
+        .titleTxt{
+            margin: 0.5rem !important;
+            font-size: 16px;
+            color: #6F6F6F;
+        }
+    
+        .valueTxt{
+            margin: 0 !important;
+            font-size: 16px;
+        }
+    }
+
+    
+}
+
 @media (max-width:370px) {
     .qcCSS .headeQC {
         .qcTitle {
