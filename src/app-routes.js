@@ -28,7 +28,9 @@ import {
   PurchasePage,
   DeliveryPage,
   DeliveryProcessPage,
-  IncomingQcScanItemsPage
+  IncomingQcScanItemsPage,
+  NotfoundPage,
+  MachineInOutPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -40,6 +42,10 @@ const routes = [
   {
     path: "/home",
     element: HomePage,
+  },
+  {
+    path: "/Notfound",
+    element: NotfoundPage,
   },
   {
     path: "/masters",
@@ -156,6 +162,14 @@ const routes = [
     path: "/production/issue-material/verify-material/:qrCode/:docEntry",
     element: DeliveryProcessPage,
   },
+    path: "/TrackMachines",
+    element: MachineInOutPage,
+  },
+  {
+    path: "/TrackMachines/MachineInOut",
+    element: MachineInOutPage,
+  },
+
 ];
 
 export default routes.map((route) => {
