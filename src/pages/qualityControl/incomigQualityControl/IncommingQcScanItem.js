@@ -14,11 +14,14 @@ import {
   validatePoListsIQC,
 } from "../../../utils/incoming-QC";
 import { toastDisplayer } from "../../../api/qrgenerators";
-import { QtcDataGrid } from "../../../components";
 import IncomingQcPopUp, { popUp } from "./IncomingQcPopUp";
-import DataGrid, { Column, Paging,
-  Selection, Scrolling } from "devextreme-react/data-grid";
-import incomingQrRequest from "./incomingQrRequest";
+import DataGrid, {
+  Column,
+  Paging,
+  Selection,
+  Scrolling,
+} from "devextreme-react/data-grid";
+import IncomingQrRequest from "./incomingQrRequest";
 
 function IncommingQcScanItem() {
   const columns = [
@@ -92,16 +95,29 @@ function IncommingQcScanItem() {
   const [selectedRowsDataReject, setselectedRowsDataReject] = useState([]); // State to store the selected row data
   const [selectedRowsData, setselectedRowsData] = useState([]); // State to store the selected row data
   const { headerQRCodeID, docEntry } = useParams();
-  const [selectedRowKeysOnChangeApprove, setSelectedRowKeysOnChangeApprove] = useState([]); // State to store the selected row data
-  const [selectedRowKeysOnChangeReject, setSelectedRowKeysOnChangeReject] = useState([]); // State to store the selected row data
+  const [selectedRowKeysOnChangeApprove, setSelectedRowKeysOnChangeApprove] =
+    useState([]); // State to store the selected row data
+  const [selectedRowKeysOnChangeReject, setSelectedRowKeysOnChangeReject] =
+    useState([]); // State to store the selected row data
   const [selectedRowKeys, setSelectedRowKeys] = useState([]); // State to store the selected row data
   const [selectedRowKeysReject, setSelectedRowKeysReject] = useState([]); // State to store the selected row data
   var [detailQRCodeID, setdetailQRCodeID] = useState("");
   var [isGridVisible, setIsGridVisible] = useState(false);
   const [IQCList, setIQCList] = useState(new Set()); // State to store the selected row data
+  const [QrRequestData, setQrRequestData] = useState(new Set()); // State to store the selected row data
   const [selectedRowData, setSelectedRowData] = useState("");
   const dataGridRef = useRef();
   const dataGridRefList = useRef();
+
+  //pop up cancel handler QR request
+  const handleCancelQrRequest = async () => {
+    return await outsideClickHandlerQrRequest();
+  };
+
+  //close QR request
+  const outsideClickHandlerQrRequest = async () => {
+    return setQrRequestPopUp(false);
+  };
 
   //pop up cancel handler approve
   const handleCancel = async () => {
@@ -110,7 +126,6 @@ function IncommingQcScanItem() {
 
   // popUp save btn handler approve
   const handleSave = async (params) => {
-    console.log("click ok btn");
     handleSaveSelectedRowData();
   };
 
@@ -121,14 +136,12 @@ function IncommingQcScanItem() {
 
   // popUp save btn handler reject
   const handleSaveReject = async (params) => {
-    console.log("click ok btn");
     handleSaveSelectedRowDataReject();
   };
 
   // called when approve popup save btn clicked
   const handleSaveSelectedRowData = () => {
     setSelectedRowKeys(selectedRowKeysOnChangeApprove);
-    console.log(selectedRowsDataApprove);
     if (selectedRowsDataApprove.length > 0) {
       return setApproveWareHouse(false);
     } else {
@@ -172,7 +185,6 @@ function IncommingQcScanItem() {
       if (IQCList.size > 0) {
         doProuctExist = false;
         IQCList.forEach((value) => {
-          console.log(value);
           if (value.detailQRCodeID == detailQRCodeID) {
             doProuctExist = true;
             return;
@@ -203,7 +215,6 @@ function IncommingQcScanItem() {
   };
 
   const handleTextValueChange = (e) => {
-    // console.log(e.value);
     return setdetailQRCodeID(e.value);
   };
 
@@ -225,7 +236,7 @@ function IncommingQcScanItem() {
   };
 
   const approveWareHouse = () => {
-      return setApproveWareHouse(true);
+    return setApproveWareHouse(true);
   };
 
   const rejectWareHouseHandler = {
@@ -236,7 +247,7 @@ function IncommingQcScanItem() {
   };
 
   const rejectWareHouse = () => {
-      return setRejectWareHouse(true);
+    return setRejectWareHouse(true);
   };
 
   const column = [
@@ -312,7 +323,6 @@ function IncommingQcScanItem() {
 
   //when select any row of reject popup this will called
   const handleDataGridRowSelectionReject = async ({ selectedRowKeys }) => {
-    // console.log(selectedRowKeys);
     setSelectedRowKeysOnChangeReject(selectedRowKeys);
     const length = await selectedRowKeys.length;
     if (selectedRowKeys.length > 1) {
@@ -329,9 +339,23 @@ function IncommingQcScanItem() {
   };
 
   const handleDataGridRowSelection = async ({ selectedRowKeys }) => {
-    setQrRequestPopUp(true);
     setSelectedRowKeysOnChangeApprove(selectedRowKeys);
     const length = await selectedRowKeys.length;
+    if (selectedRowKeys.length == 1) {
+      if (
+        selectedRowsDataApprove.length > 0 &&
+        selectedRowsDataReject.length > 0
+      ) {
+        setQrRequestPopUp(true);
+        IQCList.forEach((item) => {
+          if (item.itemCode == selectedRowKeys[0]) {
+            setQrRequestData(item);
+          }
+        });
+      } else {
+        return toastDisplayer("error", "Please select warehouse");
+      }
+    }
     if (selectedRowKeys.length > 1) {
       const value = await dataGridRefList.current.instance.selectRows(
         selectedRowKeys[length - 1]
@@ -366,6 +390,7 @@ function IncommingQcScanItem() {
               handleDataGridRowSelection={handleDataGridRowSelectionApprove}
               dataGridRef={dataGridRef}
               selectedRowKeys={selectedRowKeys}
+              selectedWarehouse={selectedRowKeysReject}
             />
           )}
         >
@@ -392,6 +417,7 @@ function IncommingQcScanItem() {
               handleDataGridRowSelection={handleDataGridRowSelectionReject}
               dataGridRef={dataGridRef}
               selectedRowKeys={selectedRowKeysReject}
+              selectedWarehouse={selectedRowKeys}
             />
           )}
         >
@@ -399,7 +425,6 @@ function IncommingQcScanItem() {
         </Popup>
       )}
       <div className="main-section">
-        {/* {console.log(IQCList2)} */}
         <div className="inputWrapper">
           <div className="date-section">
             <div>
@@ -482,7 +507,9 @@ function IncommingQcScanItem() {
             stylingMode="outlined"
             placeholder="Rejected Wherehouse"
             value={
-              selectedRowsDataReject.length > 0 ? selectedRowsDataReject[0].whsCode : ""
+              selectedRowsDataReject.length > 0
+                ? selectedRowsDataReject[0].whsCode
+                : ""
             }
             width={230}
             // onValueChanged={handleTextValueChange}
@@ -498,7 +525,6 @@ function IncommingQcScanItem() {
       </div>
       {isGridVisible && (
         <div className="orderList-section">
-          {/* {console.log("IQClist",IQCList,"        ",Array.from(IQCList))} */}
           <DataGrid
             // height={420}
             dataSource={Array.from(IQCList)}
@@ -515,18 +541,36 @@ function IncommingQcScanItem() {
             <Scrolling columnRenderingMode="infinite" />
             <Paging enabled={false} />
             {columns &&
-            columns.map((value, key) => (
-              <Column
-                dataField={value['field']}
-                caption={value['caption']}
-                hidingPriority={6}
-              >
-              </Column>
-            ))}
+              columns.map((value, key) => (
+                <Column
+                  dataField={value["field"]}
+                  caption={value["caption"]}
+                  hidingPriority={6}
+                ></Column>
+              ))}
           </DataGrid>
         </div>
       )}
-      {QrRequestPopUp && <incomingQrRequest isCommonPopupVisible={QrRequestPopUp} />}
+      {QrRequestPopUp && (
+        <Popup
+          visible={true}
+          height={window.innerHeight - 100}
+          width={window.innerWidth - 925}
+          showCloseButton={true}
+          className="QrRequestPopUp"
+          hideOnOutsideClick={false}
+          contentRender={() => (
+            <IncomingQrRequest
+              handleCancelQrRequest={handleCancelQrRequest}
+              requestData={QrRequestData}
+              approveWareHouse={selectedRowsDataApprove[0].whsCode}
+              rejectWareHouse={selectedRowsDataReject[0].whsCode}
+            />
+          )}
+        >
+        </Popup>
+      )}
+      {/* {QrRequestPopUp && <incomingQrRequest isCommonPopupVisible={QrRequestPopUp} />} */}
     </>
   );
 }

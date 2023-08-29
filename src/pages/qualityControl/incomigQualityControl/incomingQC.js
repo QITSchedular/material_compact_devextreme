@@ -7,7 +7,6 @@ import { GRPOScanner, dateStartToEnd } from "../../../assets/icon";
 import { Popup } from "devextreme-react/popup";
 import PurchaseOrderList from "./purchaseOrderList";
 import { toastDisplayer } from "../../../api/qrgenerators";
-import { getPoLists } from "../../../utils/gate-in-purchase";
 import IncomingQCOrderList from "./incomingQC-OrderList";
 import { searchPoListsIQC } from "../../../utils/incoming-QC";
 
@@ -207,7 +206,6 @@ function IncomingQCComponent() {
               icon="search"
               onClick={SearchHandler}
             />
-
             <NormalButton
               width={33}
               height={33}
@@ -218,7 +216,6 @@ function IncomingQCComponent() {
           </div>
         </div>
       </div>
-
       <div className="orderList-section">
         <IncomingQCOrderList IQCList2={IQCList2} />
       </div>

@@ -89,6 +89,7 @@ const TransporterHelpComponent = ({
       return selectedRowSetter(value);
     }
   };
+
   const selectedRowSetter = async (params) => {
     await setSelectedRowData(params);
     console.log(params);
@@ -300,6 +301,7 @@ const GateInComponent = () => {
 
   // Handle the editing of the cell recieved qty
   const asyncValidation = (params) => {
+    console.log(params);
     return new Promise((resolve, reject) => {
       const { qty, recQty, openQty } = params.data;
       if (recQty > openQty) {
