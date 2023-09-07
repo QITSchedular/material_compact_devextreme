@@ -127,12 +127,35 @@ const InventorytransferMain = () => {
     selectedFromWarehouseResolver();
   }, [selectedFromWarehouse]);
 
+  const refreshPage = ()=>{
+    // on click button reset the states of selected warehouse 
+  }
+  
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner inventory-transfer-main-container ">
-      <div className="header-section">
+      {/* <div className="header-section">
         <PopupHeaderText text={"Inventory Transfer"} />
         <PopupSubText text={"You can transfer the inventories here "} />
+      </div> */}
+       <div className="content-block-wrapper">
+        <div className="content-block-1">
+          <div className="content-text">
+          <PopupHeaderText text={"Inventory Transfer"} />
+          <PopupSubText text={"You can transfer the inventories here "} />
+          </div>
+          <div className="button-groups">
+            <Button
+              text="New Item"
+              type="default"
+              icon="add"
+              height={32}
+              className="item-btn"
+              onClick={refreshPage}
+            />
+          </div>
+        </div>
       </div>
+      
 
       <div className="main-content-section">
         <div className="main-content-top">

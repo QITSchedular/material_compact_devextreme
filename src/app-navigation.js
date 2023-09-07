@@ -66,6 +66,16 @@ export const navigation = [
                 path: "/masters/brand",
                 icon: `${icon['brands']}`,
             },
+            {
+                text: "Machine ",
+                path: "/masters/machine",
+                icon: `${icon['brands']}`,
+            },
+            {
+                text: "Employee ",
+                path: "/masters/employee",
+                icon: `${icon['brands']}`,
+            },
         ],
     },
     {
@@ -92,6 +102,7 @@ export const navigation = [
     },
     {
         text: "Quality Control",
+        path: "/qualityControl",
         icon: `${icon['qualityControl']}`,
         items: [
             {

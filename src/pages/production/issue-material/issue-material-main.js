@@ -9,6 +9,7 @@ import IssueMaterialListing from "./issue-material-listings";
 import { useNavigate } from "react-router-dom";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import { testGetDetailsByProductionNumber } from "../../../api/test-apis";
+import "./issue-list.scss";
 
 const IssueMaterialMain = () => {
   const [isSearchButtonDisabled, setIsSearchButtonDisabled] = useState(true);

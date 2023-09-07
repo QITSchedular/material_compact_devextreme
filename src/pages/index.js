@@ -14,11 +14,16 @@ export { default as UomMasterPage } from "./masters/uom-master/uom-master";
 export { default as WarehouseMasterPage } from "./masters/warehouse-master/warehouse-master";
 export { default as LocationMasterPage } from "./masters/location-master/location-master";
 export { default as ItemsubgroupmasterPage } from "./masters/item-sub-group-master/item-sub-group-master";
+export { default as MachinemasterPage} from "./masters/machine-master/machine-master";
+export { default as EmployeemasterPage } from "./masters/employee-master/employee-master";
 export { default as IncomingQCPage } from "./qualityControl/incomigQualityControl/incomingQC-main";
 export { default as InprocessQCPage } from "./qualityControl/inprocessQualityControl/inprocessQC-main";
 export { default as InprocessQcScanItemsPage } from "./qualityControl/inprocessQualityControl/inprocessQcScanItemsPage";
 export { default as IncomingQcScanItemsPage } from "./qualityControl/incomigQualityControl/IncomingQcScanItemsPage";
 export { default as MasterPage } from "./masters/master/master";
+export { default as QualityControlPage } from "./qualityControl/qualityControls/qualityControls";
+export { default as ProductionPage} from "./production/productions/productions";
+export { default as InventoryPage} from "./inventory/inventories/inventories";
 // production module
 export { default as VerifyMaterialPage } from "./production/verify-material/verify-material-main";
 export { default as VerifyMaterialScanItemsPage } from "./production/verify-material/tabs-content/VerifyScanItems";
@@ -27,6 +32,7 @@ export { default as ReceiveMaterialScanItemsPage } from "./production/receive-ma
 export { default as IssueMaterialPage } from "./production/issue-material/issue-material-main";
 export { default as InventoryTransferMainPage } from "./inventory/inventory-transfer/inventory-transfer-main";
 export { default as PickPackMain } from "./inventory/pick-pack/Pick-pack-main";
+export { default as PickPackProcess } from "./inventory/pick-pack/Pick-pack-process";
 export { default as PurchasePage } from "./purchases/purchase/purchase";
 export { default as SalePage } from "./sales/salesIndex/sale";
 export { default as DeliveryPage } from "./sales/delivery/delivery";
