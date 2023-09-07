@@ -30,7 +30,8 @@ import {
   DeliveryProcessPage,
   IncomingQcScanItemsPage,
   NotfoundPage,
-  MachineInOutPage
+  MachineInOutPage,
+  MachineManagementPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -162,13 +163,17 @@ const routes = [
     path: "/production/issue-material/verify-material/:qrCode/:docEntry",
     element: DeliveryProcessPage,
   },
-{
+  {
     path: "/TrackMachines",
     element: MachineInOutPage,
   },
   {
     path: "/TrackMachines/MachineInOut",
     element: MachineInOutPage,
+  },
+  {
+    path: "/TrackMachines/MachineManagement",
+    element: MachineManagementPage,
   },
 ];
 

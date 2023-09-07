@@ -31,5 +31,6 @@ export { default as PurchasePage } from "./purchases/purchase/purchase";
 export { default as SalePage } from "./sales/salesIndex/sale";
 export { default as DeliveryPage } from "./sales/delivery/delivery";
 export { default as MachineInOutPage } from "./Track Machines/MachineInOut";
+export { default as MachineManagementPage } from "./Track Machines/MachineManagement";
 export { default as DeliveryProcessPage } from "./sales/delivery/delivery-process";
 
