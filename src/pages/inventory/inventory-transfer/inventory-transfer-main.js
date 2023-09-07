@@ -11,7 +11,7 @@ import { getAllTransportersList } from "../../../utils/gate-in-purchase";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import { verifyProdcutionQrInput } from "../../../api/inventory.transfer.api";
 import ItemsGrid from "./inner-components/items-grid";
-import { Button } from "devextreme-react";
+import { Button, Switch } from "devextreme-react";
 
 const InventorytransferMain = () => {
   const [showToWarehousePopup, setShowToWarehousePopup] = useState(false);
@@ -65,11 +65,20 @@ const InventorytransferMain = () => {
   };
 
   const productionNumberInputSearchHandler = async () => {
+    // console.log(
+    //   "selectedToWarehouse : ",
+    //   selectedToWarehouse[0].whsCode,
+    //   "\n\n selectedFromWarehouse : ",
+    //   selectedFromWarehouse[0].whsCode
+    // );
     if (!productionNumberInput) {
       return toastDisplayer("error", "Search field cannot be empty");
     }
-    if (!selectedToWarehouse || !selectedFromWarehouse) {
-      return toastDisplayer("error", "Choose both To and From warehouses");
+    if (!selectedToWarehouse) {
+      return toastDisplayer("error", "Please select To Warehouse !");
+    }
+    if (!selectedFromWarehouse) {
+      return toastDisplayer("error", "Please select From Warehouse !");
     }
 
     /* check dupliacte entries*/
@@ -78,7 +87,10 @@ const InventorytransferMain = () => {
       (item) => item.detailQRCodeID === productionNumberInput
     );
     if (isDuplicateEntry) {
-      return toastDisplayer("error", "Duplicate Item scan");
+      return toastDisplayer(
+        "error",
+        "You have scanned duplicate items, please scan unique items"
+      );
     }
     /*
       hit the api
@@ -139,15 +151,6 @@ const InventorytransferMain = () => {
           <div className="left-section">
             <div className="warehouse-chooser-section">
               <PopupInputs
-                placeholder={"To Warehouse"}
-                chooser={toWarehouseChooser}
-                showHelpPopup={showToWarehousePopup}
-                setShowHelpPopup={setShowToWarehousePopup}
-                gridDataSourceList={toWarehouseList}
-                selectedValue={selectedToWarehouse}
-                setSelectedValue={setSelectedToWarehouse}
-              />
-              <PopupInputs
                 placeholder={"From Warehouse"}
                 chooser={fromWarehouseChooser}
                 showHelpPopup={showFromWarehousePopup}
@@ -155,6 +158,15 @@ const InventorytransferMain = () => {
                 gridDataSourceList={fromWarehouseList}
                 selectedValue={selectedFromWarehouse}
                 setSelectedValue={setSelectedFromWarehouse}
+              />
+              <PopupInputs
+                placeholder={"To Warehouse"}
+                chooser={toWarehouseChooser}
+                showHelpPopup={showToWarehousePopup}
+                setShowHelpPopup={setShowToWarehousePopup}
+                gridDataSourceList={toWarehouseList}
+                selectedValue={selectedToWarehouse}
+                setSelectedValue={setSelectedToWarehouse}
               />
             </div>
 
@@ -183,7 +195,11 @@ const InventorytransferMain = () => {
         </div>
         {dataGridDataSource.length > 0 && (
           <div className="main-content-datagrid-section">
-            <ItemsGrid dataGridDataSource={dataGridDataSource} />
+            <ItemsGrid
+              dataGridDataSource={dataGridDataSource}
+              selectedToWarehouse={selectedToWarehouse}
+              selectedFromWarehouse={selectedFromWarehouse}
+            />
           </div>
         )}
       </div>
