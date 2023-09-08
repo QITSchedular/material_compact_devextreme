@@ -54,6 +54,7 @@ const PopupInputs = ({
         width={160}
         showClearButton={true}
         value={textBoxValue || ""}
+        disabled={textBoxValue ? true : false}
       >
         <TextBoxButton name="currency" location="after" options={helpOptions} />
       </TextBox >

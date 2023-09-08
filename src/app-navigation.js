@@ -67,6 +67,16 @@ export const navigation = [
                 path: "/masters/brand",
                 icon: `material-icons-outlined ic-real_estate_agent`,
             },
+            {
+                text: "Machine ",
+                path: "/masters/machine",
+                icon: `${icon['brands']}`,
+            },
+            {
+                text: "Employee ",
+                path: "/masters/employee",
+                icon: `${icon['brands']}`,
+            },
         ],
     },
     {
@@ -93,6 +103,7 @@ export const navigation = [
     },
     {
         text: "Quality Control",
+        path: "/qualityControl",
         icon: `material-icons-outlined ic-fact_check`,
         items: [
             {
