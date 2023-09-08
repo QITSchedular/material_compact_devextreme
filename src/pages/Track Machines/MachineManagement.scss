@@ -1,0 +1,16 @@
+.machine-card {
+    margin: 1rem;
+    padding: 1rem;
+    height: 100%;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #FFF;
+    box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.10);
+}
+
+.filter-toolbar-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 3rem;
+}

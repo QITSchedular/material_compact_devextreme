@@ -6,25 +6,41 @@ import {
   PopupSubText,
 } from "../typographyTexts/TypographyComponents";
 
-function Template_PopUp({ isPopupVisible, handleClosePopUp }) {
+function Template_PopUp({ isPopupVisible, handleClosePopUp,filefunction,handlesaveImportedFileData }) {
   const [selectedFile, setSelectedFile] = useState(null);
-
-  const handleFileChange = (event) => {
-    // setSelectedFile(event.target.files[0]);
-    const selectedFileType = event.target.files[0].type;
-    alert(selectedFileType);
+  const [isfileUpload,setFileUpdload] =useState(false);
+  const handleFileChange = (file)=>{
+    const selectedFileType = file.target.files[0].type;
     if (
       selectedFileType == "text/csv" ||
       selectedFileType ===
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ) {
-      setSelectedFile(event.target.files[0]);
-    } else {
+      setFileUpdload(true);
+      setSelectedFile(file.target.files[0]);
+      return filefunction(file);
+    }else {
       return toastDisplayer("error", "Please select a CSV or XLSX file.");
     }
-  };
+  }
+
+  // const handleFileChange = (event) => {
+  //   // setSelectedFile(event.target.files[0]);
+  //   const selectedFileType = event.target.files[0].type;
+  //   alert(selectedFileType);
+  //   if (
+  //     selectedFileType == "text/csv" ||
+  //     selectedFileType ===
+  //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  //   ) {
+  //     setSelectedFile(event.target.files[0]);
+  //   } else {
+  //     return toastDisplayer("error", "Please select a CSV or XLSX file.");
+  //   }
+  // };
 
   const handleFileDelete = () => {
+    setFileUpdload(false);
     setSelectedFile(null);
   };
 
@@ -39,7 +55,10 @@ function Template_PopUp({ isPopupVisible, handleClosePopUp }) {
     link.click();
     document.body.removeChild(link);
   };
-
+  const filechkfunc = ()=>{
+    // alert();
+    return toastDisplayer("error", "Please select a CSV or XLSX file.");
+  }
   return (
     <Popup
       maxWidth={850}
@@ -128,7 +147,7 @@ function Template_PopUp({ isPopupVisible, handleClosePopUp }) {
             type="default"
             width={124}
             height={35}
-            // onClick={handleSave}
+            onClick={isfileUpload ? handlesaveImportedFileData : filechkfunc}
             className="OkQcBtn"
             // disabled={selectedRowKeys.length > 0 ? false : true}
           />

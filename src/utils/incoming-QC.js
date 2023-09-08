@@ -107,7 +107,7 @@ export const validatePoListsIQC = async (obj) => {
 
 // save QC Item
 export const SavePoListsIQC = async (obj) => {
-  console.log("===========",obj);
+  console.log("===========", obj);
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -144,3 +144,8 @@ export const LockedWareHouseList = async () => {
 
 };
 
+
+
+
+
+// This comment should be removed asap

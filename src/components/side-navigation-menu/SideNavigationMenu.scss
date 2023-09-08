@@ -1,6 +1,8 @@
 @import "../../dx-styles.scss";
 @import "../../themes/generated/variables.additional.scss";
 
+
+
 .side-navigation-menu {
   display: flex;
   flex-direction: column;
@@ -8,6 +10,7 @@
   height: 100%;
   width: 250px !important;
   background-color: $base-accent;
+  color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
   .menu-container {
@@ -21,21 +24,27 @@
       // ##
       // added
       margin-top: 1rem !important;
+
       // ## Icon width customization
       .dx-treeview-item {
         padding-left: 0;
         padding-right: 0;
         color: white;
-        transition: 0.3 ease-in;
+
+        //transition: 0.3 ease-in;
 
         .dx-icon {
           width: $side-panel-min-width !important;
           margin: 0 !important;
-          color: white;
+
+          .dx-icon-menu {
+            color: white !important;
+          }
         }
       }
+
       // ##
-      
+
       // ## Arrow customization
       .dx-treeview-node {
         padding: 0 0 !important;
@@ -51,6 +60,7 @@
         left: 10px;
         right: auto;
       }
+
       // ##
 
       // ## Item levels customization
@@ -62,79 +72,103 @@
           font-family: Poppins;
           font-size: 14px;
           font-style: normal;
-          font-weight: 500; 
+          font-weight: 500;
           line-height: normal;
           text-transform: capitalize;
         }
-        &[aria-level='2'] .dx-item{
+
+        &[aria-level='2'] .dx-item {
           // background-color: red;
           // border: 1px solid;
           font-size: 12px;
           // margin-top: 4px;
 
         }
+
         &[aria-level='2'] .dx-treeview-item-content {
           font-weight: normal;
           font-size: 13px;
-          padding: 4px 24px;
-          max-width: 190px;
+          padding: 4px 24px 0px 0px;
+          max-width: 210px;
           margin-left: 30px;
           color: white;
-          .dx-icon{
-            width: 30px !important;
-          }
+
+          //  .dx-icon {
+          //    width: 30px !important;
+          //    color: #ffffff !important;
+          //  }
+
         }
       }
+
       // ##
     }
 
     // ## Selected & Focuced items customization
     .dx-treeview {
       .dx-treeview-node-container {
-        .dx-state-selected{
-          .dx-treeview-item{
-            .dx-treeview-item-content{
+        .dx-state-selected {
+          .dx-treeview-item {
+            .dx-treeview-item-content {
               padding-top: 8px;
               padding-bottom: 8px;
-              
+
+              /**/
+              // .dx-icon {
+              //   &.material-icons-outlined {
+              //     color: #161616 !important;
+              //   }
+              // }
+
+              /**/
+
             }
           }
         }
+
         .dx-treeview-node {
-          &.dx-state-selected:not(.dx-state-focused)> .dx-treeview-item {
+          &.dx-state-selected:not(.dx-state-focused)>.dx-treeview-item {
             background: transparent;
-            
+
+            .dx-icon {
+              &.material-icons-outlined {
+                color: #161616 !important;
+              }
+            }
+
           }
 
-          &.dx-state-selected > .dx-treeview-item * {
+          &.dx-state-selected>.dx-treeview-item * {
             // color: $base-accent;
-            transition: all 0.3s ease-in-out;
+            //transition: all 0.3s ease-in-out;
             background-color: white !important;
             //  color: #4371B7;
-              color: #161616;
-              border-radius: 8px;
+            color: #161616;
+            border-radius: 8px;
           }
 
           &:not(.dx-state-focused)>.dx-treeview-item.dx-state-hover {
-            
+            transition: all 0.5s ease-in-out !important;
           }
-          
+
         }
       }
     }
 
     .dx-theme-generic .dx-treeview {
-      .dx-treeview-node-container .dx-treeview-node.dx-state-selected.dx-state-focused > .dx-treeview-item * {
+      .dx-treeview-node-container .dx-treeview-node.dx-state-selected.dx-state-focused>.dx-treeview-item * {
         // color: inherit;
         color: #ffffff
       }
     }
+
     // ##
   }
 }
-.dx-treeview-item.dx-treeview-item.dx-state-hover{
+
+.dx-treeview-item.dx-treeview-item.dx-state-hover {
   background: none !important;
-  color: white !important;
+  //color: white !important;
 }
 
 .dx-drawer-overlap.pre-init-blink-fix {
