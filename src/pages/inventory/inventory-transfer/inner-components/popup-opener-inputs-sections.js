@@ -49,6 +49,7 @@ const PopupInputs = ({
       <TextBox
         className="dx-field-value"
         stylingMode="outlined"
+        label={placeholder}
         placeholder={placeholder}
         width={160}
         showClearButton={true}
@@ -56,7 +57,7 @@ const PopupInputs = ({
         disabled={textBoxValue ? true : false}
       >
         <TextBoxButton name="currency" location="after" options={helpOptions} />
-      </TextBox>
+      </TextBox >
     </>
   );
 };

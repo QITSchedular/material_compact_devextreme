@@ -1,0 +1,28 @@
+.filter-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-item {
+    display: flex;
+    height: 44px;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-dropdown {
+    border-radius: 8px;
+    border: 1px solid var(--default-gray-20, #E0E0E0);
+}
+
+.filter-dropdown .dx-dropdownmenu-content {
+    padding: 5px !important;
+}
