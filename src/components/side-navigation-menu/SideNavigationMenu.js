@@ -82,6 +82,15 @@ export default function SideNavigationMenu(props) {
     }
   }, [currentPath, expandedPath]);
 
+  // const itemRender = (items) => {
+  //   return (
+  //     <>
+  //       <i className="dx-icon material-symbols-outlined">{items.icon}</i>
+  //       <span>{items.text}</span>
+  //     </>
+  //   );
+  // };
+
   return (
     <div className={"dx-swatch-additional side-navigation-menu"} ref={getWrapperRef}>
       {children}
@@ -97,6 +106,7 @@ export default function SideNavigationMenu(props) {
           onItemClick={handleTreeViewItemClick}
           onContentReady={onMenuReady}
           width={"100%"}
+        // itemRender={itemRender}
         />
       </div>
     </div>

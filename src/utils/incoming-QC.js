@@ -137,7 +137,6 @@ export const LockedWareHouseList = async () => {
     const returnData = await res.data;
     return returnData;
   } catch (error) {
-    console.log(error);
     const returnError = error.response.data;
     return returnError;
   }
