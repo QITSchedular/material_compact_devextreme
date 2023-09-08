@@ -3,15 +3,20 @@
     flex-direction: column;
     padding-top: 1rem;
     gap: 5px;
+    .single-po2 {
+        // border: 2px solid;
+        margin-top: 1% !important;
+        margin-bottom: 1% !important;
+    }
 
     .single-po1 {
-        padding: 12px 8px;
+        // padding: 12px 8px;
         display: flex !important;
         justify-content: space-between;
         align-items: center;
-        max-height: 80px;
-        border: 0.5px solid #e0e0e0;
-        border-radius: 8px;
+        // max-height: 80px;
+        // border: 0.5px solid #e0e0e0;
+        // border-radius: 8px;
 
         &:nth-child(even) {
             background: rgba(87, 133, 203, 0.05);
@@ -44,7 +49,7 @@
                 font-style: normal;
                 font-weight: 400;
                 line-height: normal;
-                width: 182px !important;
+                width: 182px;
             }
             .dx-button-has-icon .dx-icon {
                 font-size: 22px !important;
@@ -64,9 +69,9 @@
         }
     }
 
-    .dx-toolbar-items-container {
-        margin: 10px !important;
-    }
+    // .dx-toolbar-items-container {
+    //     margin: 10px !important;
+    // }
 }
 
 .dx-overlay-wrapper .dx-overlay-content .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection.dx-popup-bottom {

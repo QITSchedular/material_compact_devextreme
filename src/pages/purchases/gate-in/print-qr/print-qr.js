@@ -264,10 +264,10 @@ const PrintQrMainComp = () => {
         />
       )}
       <div className="title-section">
-        <h3 className="title-name">Generate & Print QR Code</h3>
-        <span className="title-description">
-          Select and Enter field values to get P.O
-        </span>
+        <div className="title-name">Generate & Print QR Code</div>
+        <div className="title-description">
+        Select and Enter field values to get P.O
+        </div>
       </div>
 
       <div className="actions-section">

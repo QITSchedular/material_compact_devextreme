@@ -1,14 +1,21 @@
 #gate-in-main-container {
+    margin-top: 40px !important;
+
     .navigation-header-gatein {
 
         display: flex;
         justify-content: space-between;
+        padding: 16px 0px;
 
         .title-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+
             .title-name {
                 color: #393939;
-                margin-top: 10px;
-                margin-bottom: 10px;
+                // margin-top: 10px;
+                // margin-bottom: 10px;
                 font-feature-settings: 'clig' off, 'liga' off;
                 /* H5 Semi- bold */
                 font-family: Poppins;
@@ -27,7 +34,7 @@
                 font-style: normal;
                 font-weight: 400;
                 line-height: normal;
-                padding-bottom: 10px !important;
+                // padding-bottom: 10px !important;
             }
         }
 
@@ -50,6 +57,26 @@
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 880px) {
+    #gate-in-main-container {
+        .navigation-header-gatein {
+            flex-direction: column;
+            .title-section {
+                .title-name{
+                    font-size: 18px;
+                }
+                .title-description {
+                    font-size: 14px;
+                }
+            }
+
+            #selectTab{
+                width: 100% !important;
             }
         }
     }

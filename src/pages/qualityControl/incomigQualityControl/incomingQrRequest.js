@@ -1,8 +1,4 @@
-import {
-  Button,
-  NumberBox,
-  TextBox,
-} from "devextreme-react";
+import { Button, NumberBox, TextBox } from "devextreme-react";
 import React, { useRef, useState } from "react";
 import {
   PopupHeaderText,
@@ -45,48 +41,48 @@ function IncomingQrRequest({
       const apiCalls = [];
       if (rejQty > 0) {
         const reqBodyRej = {
-            branchID: 1,
-            grpoDocEntry: QrRequestData["grpoDocEntry"],
-            detailQRCodeID: QrRequestData["detailQRCodeID"],
-            fromWhs: "QC",
-            toWhs: rejectWareHouse,
-            action: "R",
-            qty: rejQty,
-            rejectComment: RejectComment,
+          branchID: 1,
+          grpoDocEntry: QrRequestData["grpoDocEntry"],
+          detailQRCodeID: QrRequestData["detailQRCodeID"],
+          fromWhs: "QC",
+          toWhs: rejectWareHouse,
+          action: "R",
+          qty: rejQty,
+          rejectComment: RejectComment,
         };
 
         const rejectCall = SavePoListsIQC(reqBodyRej);
         apiCalls.push(rejectCall);
-    }
+      }
 
-    if (appQty > 0) {
+      if (appQty > 0) {
         const reqBodyApp = {
-            branchID: 1,
-            grpoDocEntry: QrRequestData["grpoDocEntry"],
-            detailQRCodeID: QrRequestData["detailQRCodeID"],
-            fromWhs: "QC",
-            toWhs: approveWareHouse,
-            action: "A",
-            qty: appQty,
-            rejectComment: RejectComment,
+          branchID: 1,
+          grpoDocEntry: QrRequestData["grpoDocEntry"],
+          detailQRCodeID: QrRequestData["detailQRCodeID"],
+          fromWhs: "QC",
+          toWhs: approveWareHouse,
+          action: "A",
+          qty: appQty,
+          rejectComment: RejectComment,
         };
 
         const approveCall = SavePoListsIQC(reqBodyApp);
         apiCalls.push(approveCall);
-    }
+      }
 
-    try {
+      try {
         const responses = await Promise.all(apiCalls);
         responses.forEach((response, index) => {
-            if (response["errorText"] == "GRPO Details not found") {
-                toastDisplayer("error", "GRPO Details not found");
-            } else if (response["statusCode"] == "200") {
-                if (index == 0) {
-                    toastDisplayer("succes", "Approve processed successfully..!!");
-                } else if (index == 1) {
-                    toastDisplayer("succes", "Reject processed successfully..!!");
-                }
+          if (response["statusCode"] == "200") {
+            if (index == 0) {
+              toastDisplayer("succes", "Approve processed successfully..!!");
+            } else if (index == 1) {
+              toastDisplayer("succes", "Reject processed successfully..!!");
             }
+          }else{
+            toastDisplayer("error", response["errorText"]);
+          }
         });
 
         handleCancelQrRequest();
@@ -159,42 +155,70 @@ function IncomingQrRequest({
               </p>
             </div>
           </div>
-          <hr />
+          <hr className="hrLine" />
           <div className="detailsWrapper">
             <div className="particularDetail">
-              <div>
-                <p className="titleTxt">Approved Quantity</p>
-                <p>{approveWareHouse}</p>
+              <div className="particularDetail-txt">
+                <p className="particularDetail-titleTxt">Approved Quantity</p>
+                <p className="titleTxt">{approveWareHouse}</p>
               </div>
               <NumberBox
-                label="Qty"
-                value={0}
+                // className="dx-field-value"
+                className="form-element"
+                stylingMode="outlined"
+                // placeholder={placeholder}
+                label={"Qty"}
                 labelMode="floating"
+                width={160}
+                showClearButton={true}
+                value={""}
                 onValueChanged={onValueChangedApprove}
-              ></NumberBox>
+              >
+                      
+              </NumberBox>
             </div>
-            <div className="particularDetail">
-              <div>
-                <p className="titleTxt">Rejected Quantity</p>
-                <p>{rejectWareHouse}</p>
+            <div className="particularDetail" style={{"marginTop":"0.5rem"}}>
+              <div className="particularDetail-txt">
+                <p className="particularDetail-titleTxt">Rejected Quantity</p>
+                <p className="titleTxt">{rejectWareHouse}</p>
               </div>
               <NumberBox
-                label="Qty"
-                value={0}
+                // className="dx-field-value"
+                className="form-element"
+                stylingMode="outlined"
+                // placeholder={placeholder}
+                label={"Qty"}
                 labelMode="floating"
+                width={160}
+                showClearButton={true}
+                value={""}
                 onValueChanged={onValueChangedReject}
-              ></NumberBox>
+              >
+                      
+              </NumberBox>
             </div>
-            <TextBox
-              // value={this.state.textBoxValue}
-              onValueChanged={handleValueChange}
-            />
+            <div className="particularDetail" style={{"margin":"0.5rem 0rem 0.5rem 0.5rem"}}>
+              <TextBox
+                // className="dx-field-value"
+                className="form-element"
+                stylingMode="outlined"
+                label={"Remark"}
+                labelMode="floating"
+                // width={160}
+                showClearButton={true}
+                onValueChanged={handleValueChange}
+                value={""}
+              >
+                        
+              </TextBox>
+               
+            </div>
             <div
               className="buttons-section"
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                paddingTop: "0.5rem",
+                paddingTop: "0.8rem",
               }}
             >
               <Button
@@ -202,6 +226,7 @@ function IncomingQrRequest({
                 width={500}
                 height={45}
                 onClick={handleCancelQrRequest}
+                className="cancelQcBtn"
               />
               <Button
                 text="Save"
@@ -210,7 +235,7 @@ function IncomingQrRequest({
                 height={45}
                 onClick={handleSave}
                 className="OkQcBtn"
-              // disabled={selectedRowKeys.length > 0 ? false : true}
+                // disabled={selectedRowKeys.length > 0 ? false : true}
               />
             </div>
           </div>

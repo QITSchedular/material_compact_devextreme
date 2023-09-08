@@ -12,6 +12,7 @@ import {
 } from "../../../components/typographyTexts/TypographyComponents";
 import DataGrid, {
     Column,
+    ColumnChooser,
     Paging,
     Scrolling,
     SearchPanel,
@@ -86,6 +87,7 @@ function InprocessQcPopUp({
                         ref={dataGridRef}
                         selectedRowKeys={selectedRowKeysNew}
                     >
+            <ColumnChooser enabled={true} />
                         <SearchPanel visible={true} />
                         <Selection mode="multiple" />
                         <Scrolling columnRenderingMode="infinite" />

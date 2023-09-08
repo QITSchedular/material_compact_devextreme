@@ -168,7 +168,7 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
                         {displayState ? (
                             <>
                                 <div className="popup-header">
-                                    <h4>{title}</h4>
+                                    <div className="popUp-header-title">{title}</div>
                                     <Button icon="close" onClick={handleClosePopUp} />
                                 </div>
 

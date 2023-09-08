@@ -64,7 +64,7 @@ export default function WarehouseMaster() {
                 <div className="content-blocks">
                     <MastersHeaderContent
                         title={"Warehouses Master"}
-                        subtitle={"You are viewing the total number of sub items groups"}
+                        subtitle={"You are viewing number of sub items groups"}
                         columns={columns}
                         handleAddClick={handleClick}
                         masterType={"Warehouses"}

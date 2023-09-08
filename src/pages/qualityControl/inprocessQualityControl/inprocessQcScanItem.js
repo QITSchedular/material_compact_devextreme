@@ -361,96 +361,95 @@ function InprocessQcScanItem() {
                     <h1>hello</h1>
                 </Popup>
             )}
-            <div className="main-section">
-                {/* {console.log(IQCList2)} */}
-                <div className="inputWrapper">
-                    <div className="date-section">
-                        <div>
-                            <DateBox
-                                className="dx-field-value"
-                                placeholder="From"
-                                stylingMode="outlined"
-                                type="date"
-                                width={230}
-                            />
-                        </div>
-                        <div>
-                            <DateBox
-                                className="dx-field-value"
-                                placeholder="To"
-                                stylingMode="outlined"
-                                type="date"
-                                width={230}
-                            />
-                        </div>
-                    </div>
-                    <div className="btnSection">
-                        <TextBox
-                            className="dx-field-value purchaseQRField"
-                            stylingMode="outlined"
-                            placeholder="Type the purchase QR code"
-                            width={230}
-                            onValueChanged={handleTextValueChange}
-                            showClearButton={true}
-                        >
-                        </TextBox>
-                        <NormalButton
-                            width={33}
-                            height={33}
-                            type="normal"
-                            stylingMode="outlined"
-                            icon="search"
-                            onClick={SearchHandler}
-                        />
+            <div className="main-section-scan-item">
+        <div className="inputWrapper-scan-item">
+          <div className="date-section">
+            <DateBox
+              className="dx-field-value"
+              placeholder="From"
+              stylingMode="outlined"
+              type="date"
+              // width={150}
+            />
+            <DateBox
+              className="dx-field-value"
+              placeholder="To"
+              stylingMode="outlined"
+              type="date"
+              // width={150}
+            />
+            
+          </div>
+          <div className="txtBtn-section">
+              <TextBox
+                className="dx-field-value purchaseQRField"
+                stylingMode="outlined"
+                placeholder="Type the purchase QR code"
+                width={230}
+                onValueChanged={handleTextValueChange}
+                showClearButton={true}
+              ></TextBox>
+              <div className="btnSection">
+                <NormalButton
+                  width={33}
+                  height={33}
+                  type="normal"
+                  stylingMode="outlined"
+                  icon="search"
+                  onClick={SearchHandler}
+                />
 
-                        <NormalButton
-                            width={33}
-                            height={33}
-                            type="normal"
-                            stylingMode="outlined"
-                            icon={GRPOScanner}
-                        />
-                    </div>
-                </div>
-                <div className="helperWrapper">
-                    <TextBox
-                        className="dx-field-value purchaseQRField"
-                        stylingMode="outlined"
-                        placeholder="Approved Wherehouse"
-                        value={
-                            selectedRowsDataApprove.length > 0
-                                ? selectedRowsDataApprove[0].whsCode
-                                : ""
-                        }
-                        width={230}
-                        onValueChanged={handleTextValueChange}
-                        showClearButton={true}
-                    >
-                        <TextBoxButton
-                            name="approve"
-                            location="after"
-                            options={approveWareHouseHandler}
-                        />
-                    </TextBox>
-                    <TextBox
-                        className="dx-field-value purchaseQRField"
-                        stylingMode="outlined"
-                        placeholder="Rejected Wherehouse"
-                        value={
-                            selectedRowsDataReject.length > 0 ? selectedRowsDataReject[0].whsCode : ""
-                        }
-                        width={230}
-                        onValueChanged={handleTextValueChange}
-                        showClearButton={true}
-                    >
-                        <TextBoxButton
-                            name="approve"
-                            location="after"
-                            options={rejectWareHouseHandler}
-                        />
-                    </TextBox>
-                </div>
+                <NormalButton
+                  width={33}
+                  height={33}
+                  type="normal"
+                  stylingMode="outlined"
+                  icon={GRPOScanner}
+                />
+              </div>
             </div>
+        </div>
+        <div className="helperWrapper">
+          <TextBox
+            className="dx-field-value purchaseQRField"
+            stylingMode="outlined"
+            placeholder="Approved Wherehouse"
+            value={
+              selectedRowsDataApprove.length > 0
+                ? selectedRowsDataApprove[0].whsCode
+                : ""
+            }
+            width={160}
+            // onValueChanged={handleTextValueChange}
+            showClearButton={true}
+          >
+            <TextBoxButton
+              name="approve"
+              location="after"
+              options={approveWareHouseHandler}
+            />
+          </TextBox>
+          <TextBox
+            className="dx-field-value purchaseQRField"
+            stylingMode="outlined"
+            placeholder="Rejected Wherehouse"
+            value={
+              selectedRowsDataReject.length > 0
+                ? selectedRowsDataReject[0].whsCode
+                : ""
+            }
+            width={160}
+            // onValueChanged={handleTextValueChange}
+            showClearButton={true}
+          >
+            <TextBoxButton
+              name="approve"
+              location="after"
+              options={rejectWareHouseHandler}
+            />
+          </TextBox>
+        </div>
+      </div>
             {isGridVisible && (
                 <div className="orderList-section">
                     {/* {console.log("IQClist",IQCList,"        ",Array.from(IQCList))} */}
