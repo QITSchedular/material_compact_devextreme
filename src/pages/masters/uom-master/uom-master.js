@@ -43,7 +43,7 @@ export default function UomMaster() {
                 <div className="content-blocks">
                     <MastersHeaderContent
                         title={"UOM Master"}
-                        subtitle={"You are viewing the total number of sub items groups"}
+                        subtitle={"You are viewing number of sub items groups"}
                         columns={columns}
                         handleAddClick={handleClick}
                         masterType={"UOMs"}

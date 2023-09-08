@@ -79,12 +79,10 @@ function IncomingQCOrderList({ IQCList2 }) {
   useEffect(() => {
     // Simulating fetching data from an API
     const fetchData = async () => {
-      console.log("IQCList2**", IQCList2);
       try {
         const newData = {};
         [...IQCList2].forEach((item) => {
           var qrCode = item["docEntry"];
-          console.log(item["docEntry"]);
           newData[qrCode] = false; // Set initial value to false
         });
         setData(newData);

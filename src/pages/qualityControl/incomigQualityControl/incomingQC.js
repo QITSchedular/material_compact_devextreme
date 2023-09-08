@@ -7,7 +7,6 @@ import { GRPOScanner, dateStartToEnd } from "../../../assets/icon";
 import { Popup } from "devextreme-react/popup";
 import PurchaseOrderList from "./purchaseOrderList";
 import { toastDisplayer } from "../../../api/qrgenerators";
-import { getPoLists } from "../../../utils/gate-in-purchase";
 import IncomingQCOrderList from "./incomingQC-OrderList";
 import { searchPoListsIQC } from "../../../utils/incoming-QC";
 
@@ -161,8 +160,8 @@ function IncomingQCComponent() {
       <div className="main-section">
         {/* {console.log(IQCList2)} */}
         <div className="inputWrapper">
-          <div className="date-section">
-            <div>
+        <div className="date-section">
+            {/* <div> */}
               <DateBox
                 className="dx-field-value"
                 placeholder="From"
@@ -170,8 +169,8 @@ function IncomingQCComponent() {
                 type="date"
                 width={230}
               />
-            </div>
-            <div>
+            {/* </div>
+            <div> */}
               <DateBox
                 className="dx-field-value"
                 placeholder="To"
@@ -179,7 +178,9 @@ function IncomingQCComponent() {
                 type="date"
                 width={230}
               />
-            </div>
+            {/* </div> */}
+          </div>
+          <div className="txtBtn-section">
             <TextBox
               className="dx-field-value purchaseQRField"
               stylingMode="outlined"
@@ -187,7 +188,7 @@ function IncomingQCComponent() {
               value={
                 selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""
               }
-              width={230}
+              width={210}
               onValueChanged={handleTextValueChange}
               showClearButton={true}
             >
@@ -197,28 +198,26 @@ function IncomingQCComponent() {
                 options={helpOptions}
               />
             </TextBox>
-          </div>
-          <div className="btnSection">
-            <NormalButton
-              width={33}
-              height={33}
-              type="normal"
-              stylingMode="outlined"
-              icon="search"
-              onClick={SearchHandler}
-            />
-
-            <NormalButton
-              width={33}
-              height={33}
-              type="normal"
-              stylingMode="outlined"
-              icon={GRPOScanner}
-            />
+            <div className="btnSection">
+              <NormalButton
+                width={33}
+                height={33}
+                type="normal"
+                stylingMode="outlined"
+                icon="search"
+                onClick={SearchHandler}
+              />
+              <NormalButton
+                width={33}
+                height={33}
+                type="normal"
+                stylingMode="outlined"
+                icon={GRPOScanner}
+              />
+            </div>
           </div>
         </div>
       </div>
-
       <div className="orderList-section">
         <IncomingQCOrderList IQCList2={IQCList2} />
       </div>

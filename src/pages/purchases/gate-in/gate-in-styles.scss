@@ -8,8 +8,6 @@
     .title-section {
         .title-name {
             color: #393939;
-            margin-top: 10px;
-            margin-bottom: 10px;
             font-feature-settings: 'clig' off, 'liga' off;
             /* H5 Semi- bold */
             font-family: Poppins;
@@ -35,14 +33,15 @@
     .actions-section {
         display: flex !important;
         justify-content: space-between;
-        align-items: center;
+        // align-items: center;
 
         .action-before-section {
             display: flex !important;
+            flex-direction: row;
             justify-content: baseline;
             // gap: 15px;
             flex-wrap: wrap;
-            margin-top: 15px;
+            // margin-top: 15px;
 
             .buttons-section {
 
@@ -74,11 +73,10 @@
         }
 
         .action-after-section {
-            margin-top: 15px;
-
+            // margin-top: 15px;
             .bp-search-details {
                 display: flex !important;
-                gap: 4px !important;
+                gap: 1rem ;
 
                 .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget {
                     border-radius: 8px !important;
@@ -195,82 +193,149 @@
     height: 350px;
 }
 
-
-
-@media (max-width:320px){
-    .transpoterGrid{
-        height: 280px;
-    }
-
-    #gate-in-main-container .navigation-header-gatein{
-        display: block !important;
-    }
-
-    .title-section {
-        .title-name {
-            font-size: 16px !important;
+@media only screen and (max-width: 770px) {
+    .main-container {
+        .actions-section {
+            flex-direction: column;
+            gap: 1.2rem;
+            .action-before-section {
+               
+                width: 100%;
+                gap: 1.2rem;
+            }
+    
+            .action-after-section {
+                width: 100%;
+            }
         }
-    }
-
-    #selectTab{
-        width: 240px !important;
-    }
-
-    // .buttons-section {
-    //     border: 2px solid black;
-    // }
-
-    .main-container .actions-section .buttons-section {
-        margin-left: 2rem !important;
-        width: inherit !important;
     }
 }
 
-@media (min-width:321px) and (max-width:390px) {
-    .transpoterGrid {
-        height: 280px;
-    }
-
-    #gate-in-main-container .navigation-header-gatein {
-        display: block !important;
-    }
-
-    .title-section {
-        .title-name {
-            font-size: 16px !important;
+@media only screen and (min-width: 770px) {
+    .main-container{
+        .actions-section {
+            flex-direction: column;
+            gap: 1.2rem;
+            .action-before-section {
+                gap: 1.2rem;
+            }
+    
+            // .action-after-section {
+            //     width: 100%;
+            // }
         }
     }
-
-    .main-container .actions-section .buttons-section {
-        margin-left: 1rem !important;
-    }
-
 }
-
-@media (min-width: 391px) and (max-width:766px) {
-    .transpoterGrid {
-        height: 280px;
-    }
-
-    #gate-in-main-container .navigation-header-gatein {
-        display: block !important;
-    }
-
-    .title-section {
-        .title-name {
-            font-size: 16px !important;
+    @media only screen and (min-width: 1140px) {
+    .main-container {
+        .actions-section {
+            flex-direction: row;
+            gap: 1.2rem;
+            .action-before-section {
+               
+                // width: 100%;
+                gap: 1.2rem;
+            }
+    
+            // .action-after-section {
+            //     width: 100%;
+            // }
         }
     }
-
-    // .actions-section .buttons-section{
-    //     border: 2px solid black;
-    //     // .dx-button {
-    //         // height: 31px;
-    //         margin-left: 15px;
-    //     // }
-    // }
-
-    .main-container .actions-section .buttons-section {
-        margin-left: 1rem !important;
-    }
 }
+
+// @media only screen and (min-width: 1024px) {
+//     .main-container {
+//         .actions-section {
+//             flex-direction: column;
+//             gap: 1.2rem;
+//             .action-before-section {
+               
+//                 // width: 100%;
+//                 gap: 1.2rem;
+//             }
+    
+//             // .action-after-section {
+//             //     width: 100%;
+//             // }
+//         }
+//     }
+// }
+
+// @media (max-width:320px){
+//     .transpoterGrid{
+//         height: 280px;
+//     }
+
+//     #gate-in-main-container .navigation-header-gatein{
+//         display: block !important;
+//     }
+
+//     .title-section {
+//         .title-name {
+//             font-size: 16px !important;
+//         }
+//     }
+
+//     #selectTab{
+//         width: 240px !important;
+//     }
+
+//     // .buttons-section {
+//     //     border: 2px solid black;
+//     // }
+
+//     .main-container .actions-section .buttons-section {
+//         margin-left: 2rem !important;
+//         width: inherit !important;
+//     }
+// }
+
+// @media (min-width:321px) and (max-width:390px) {
+//     .transpoterGrid {
+//         height: 280px;
+//     }
+
+//     #gate-in-main-container .navigation-header-gatein {
+//         display: block !important;
+//     }
+
+//     .title-section {
+//         .title-name {
+//             font-size: 16px !important;
+//         }
+//     }
+
+//     .main-container .actions-section .buttons-section {
+//         margin-left: 1rem !important;
+//     }
+
+// }
+
+// @media (min-width: 391px) and (max-width:766px) {
+//     .transpoterGrid {
+//         height: 280px;
+//     }
+
+//     #gate-in-main-container .navigation-header-gatein {
+//         display: block !important;
+//     }
+
+//     .title-section {
+//         .title-name {
+//             font-size: 16px !important;
+//         }
+//     }
+
+//     // .actions-section .buttons-section{
+//     //     border: 2px solid black;
+//     //     // .dx-button {
+//     //         // height: 31px;
+//     //         margin-left: 15px;
+//     //     // }
+//     // }
+
+//     .main-container .actions-section .buttons-section {
+//         margin-left: 1rem !important;
+//     }
+// }

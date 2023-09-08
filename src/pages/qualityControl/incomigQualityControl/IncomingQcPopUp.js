@@ -1,10 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  TextBox,
-  Button as NormalButton,
-  Button,
-  ScrollView,
-  Popup,
+  Button
 } from "devextreme-react";
 import {
   PopupHeaderText,
@@ -12,12 +8,12 @@ import {
 } from "../../../components/typographyTexts/TypographyComponents";
 import DataGrid, {
   Column,
+  ColumnChooser,
   Paging,
   Scrolling,
   SearchPanel,
   Selection,
 } from "devextreme-react/data-grid";
-import { getPoLists } from "../../../utils/gate-in-purchase";
 
 function IncomingQcPopUp({
   handleCancel,
@@ -25,25 +21,27 @@ function IncomingQcPopUp({
   apiCallFun,
   keyExpr,
   columns,
-    handleDataGridRowSelection,
-    dataGridRef,
-    selectedRowKeys,
-  outsideClickHandler,
+  handleDataGridRowSelection,
+  dataGridRef,
+  selectedRowKeys,
   title,
   caption,
+  selectedWarehouse,
 }) {
   const [dataSource, setDataSource] = useState(null);
   //   const [error, setError] = useState(false);
-    const [selectedRowKeysNew, setSelectedRowKeys] = useState([]); // State to store the selected row data
+  const [selectedRowKeysNew, setSelectedRowKeys] = useState([]); // State to store the selected row data
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
     const dataGridDataHandler = async () => {
       const allDataList = await apiCallFun;
       if (allDataList.length > 0) {
-        // console.log("It has data");
+        const newArray = allDataList.filter(
+          (obj) => obj.whsCode !== selectedWarehouse[0]
+        );
         setSelectedRowKeys(selectedRowKeys);
-        setDataSource(allDataList);
+        setDataSource(newArray);
         return setLoading(false); // Correct the state update to false
       } else {
         // const { errorText } = poListData;
@@ -86,19 +84,19 @@ function IncomingQcPopUp({
             ref={dataGridRef}
             selectedRowKeys={selectedRowKeysNew}
           >
+            <ColumnChooser enabled={true} />
             <SearchPanel visible={true} />
             <Selection mode="multiple" />
             <Scrolling columnRenderingMode="infinite" />
             <Paging enabled={false} />
             {columns &&
-            columns.map((value, key) => (
-              <Column
-                dataField={value['field']}
-                caption={value['caption']}
-                hidingPriority={6}
-              >
-              </Column>
-            ))}
+              columns.map((value, key) => (
+                <Column
+                  dataField={value["field"]}
+                  caption={value["caption"]}
+                  hidingPriority={6}
+                ></Column>
+              ))}
           </DataGrid>
         </div>
         <div
@@ -110,6 +108,7 @@ function IncomingQcPopUp({
             width={124}
             height={35}
             onClick={handleCancel}
+            className="cancelQcBtn"
           />
           <Button
             text="OK"

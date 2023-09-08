@@ -48,10 +48,10 @@ function ProductReceiptList({ handleCancel, handleSave, handleDataGridRowSelecti
   return (
     <>
       {/* <ScrollView ScrollView width="100%" height="100%"> */}
-      <div className="productReceiptList-main-containter">
-        <div className="productReceiptList-header">
+      <div className="purchaseOrderList-main-containter">
+        <div className="purchaseOrderList-header">
           <div
-            className="productReceiptList-title-section responsive-paddings"
+            className="purchaseOrderList-title-section responsive-paddings"
             style={{
               // padding: "5px 20px !important",
               display: "flex",
@@ -66,7 +66,7 @@ function ProductReceiptList({ handleCancel, handleSave, handleDataGridRowSelecti
             <Button icon="close" onClick={handleCancel} />
           </div>
         </div>
-        <div className="productReceiptList-data-section">
+        <div className="purchaseOrderList-data-section">
           <DataGrid
             height={420}
             dataSource={dataSource}
@@ -111,6 +111,7 @@ function ProductReceiptList({ handleCancel, handleSave, handleDataGridRowSelecti
             width={124}
             height={35}
             onClick={handleCancel}
+            className="cancelQcBtn"
           />
           <Button
             text="OK"

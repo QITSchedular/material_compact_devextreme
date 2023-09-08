@@ -7,10 +7,10 @@ import OldEntryComponent from "./old-entry";
 const HeaderContent = () => {
   return (
     <div className="title-section">
-      <h3 className="title-name">Gate IN - PO</h3>
-      <span className="title-description">
+      <div className="title-name">Gate IN - PO</div>
+      <div className="title-description">
         Type or scan the purchase order to make an entry
-      </span>
+      </div>
     </div>
   );
 };
@@ -32,7 +32,12 @@ const TabsContent = ({ setSelectedTab }) => {
   };
 
   return (
-    <Tabs width={300} selectedIndex={0} onItemClick={onItemClick} id="selectTab">
+    <Tabs
+      width={300}
+      selectedIndex={0}
+      onItemClick={onItemClick}
+      id="selectTab"
+    >
       <Item text="New Entry"></Item>
       <Item text="Old Entry"></Item>
     </Tabs>
@@ -53,7 +58,7 @@ const GateInMain = () => {
       <div className="tabs-selection-content">
         {selectedTab === 0 ? <GateInComponent /> : <OldEntryComponent />}
       </div>
-    </div >
+    </div>
   );
 };
 

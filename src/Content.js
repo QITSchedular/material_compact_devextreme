@@ -12,7 +12,7 @@ export default function Content() {
         {routes.map(({ path, element }) => (
           <Route key={path} path={path} element={element} />
         ))}
-        <Route path="*" element={<Navigate to="/home" />} />
+        <Route path="*" element={<Navigate to="/Notfound" />} />
         {/* <Route path="/addsubgroup" element={<Add />} /> */}
       </Routes>
       <Footer>

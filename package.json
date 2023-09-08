@@ -13,6 +13,8 @@
     "devextreme-react": "^22.2.4",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
+    "html5-qrcode": "^2.3.8",
+    "material-icons": "^1.13.10",
     "react": "^18.2.0",
     "react-app-polyfill": "^1.0.0",
     "react-dom": "^18.2.0",

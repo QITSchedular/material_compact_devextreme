@@ -7,8 +7,11 @@ import { Template } from "devextreme-react/core/template";
 import { Search, bell, setting } from "../../assets/icon";
 import { TextBox } from "devextreme-react";
 import { Link, useLocation } from "react-router-dom";
+
 import SettingDropdown from "../setting-dropdown/SettingDropdown";
 import NotificationDropdown from "../notification-dropdown/NotificationDropdown";
+import { SearchPanel } from "devextreme-react/data-grid";
+import SettingsDrawerMain from "../settings-drawer/SettingsDrawer.main";
 
 export default function Header({ menuToggleEnabled, title, toggleMenu }) {
     const location = useLocation();
