@@ -28,7 +28,16 @@ import {
   PurchasePage,
   DeliveryPage,
   DeliveryProcessPage,
-  IncomingQcScanItemsPage
+  IncomingQcScanItemsPage,
+  NotfoundPage,
+  MachineInOutPage,
+  MachineManagementPage,
+  PickPackProcess,
+  QualityControlPage,
+  ProductionPage,
+  InventoryPage,
+  MachinemasterPage,
+  EmployeemasterPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -40,6 +49,10 @@ const routes = [
   {
     path: "/home",
     element: HomePage,
+  },
+  {
+    path: "/Notfound",
+    element: NotfoundPage,
   },
   {
     path: "/masters",
@@ -73,6 +86,14 @@ const routes = [
     path: "/masters/location",
     element: LocationMasterPage,
   },
+  {
+    path: "/masters/machine",
+    element: MachinemasterPage,
+  },
+  {
+    path: "/masters/employee",
+    element: EmployeemasterPage,
+  },
   //purchases
   {
     path: "/purchases",
@@ -98,6 +119,11 @@ const routes = [
     path: "/purchases/grpo/scanItems/:qrCode",
     element: GrpoScanItemsPage,
   },
+  // qualityControl
+  {
+    path: "/qualityControl",
+    element: QualityControlPage,
+  },
   {
     path: "/qualityControl/incomingQC",
     element: IncomingQCPage,
@@ -115,6 +141,10 @@ const routes = [
     element: IncomingQcScanItemsPage,
   },
   //Production Page
+  {
+    path: "/production",
+    element: ProductionPage,
+  },
   {
     path: "/production/verify-material",
     element: VerifyMaterialPage,
@@ -135,6 +165,11 @@ const routes = [
     path: "/production/issue-material",
     element: IssueMaterialPage,
   },
+  // InventoryPage
+  {
+    path: "/inventory",
+    element: InventoryPage,
+  },
   {
     path: "/inventory/transfer",
     element: InventoryTransferMainPage,
@@ -142,6 +177,10 @@ const routes = [
   {
     path: "/inventory/pick-pack",
     element: PickPackMain,
+  },
+  {
+    path: "/inventory/pick-pack/pick-pack-Process/:qrCode/:docEntry",
+    element: PickPackProcess,
   },
   //Sales Page
   {
@@ -155,6 +194,18 @@ const routes = [
   {
     path: "/production/issue-material/verify-material/:qrCode/:docEntry",
     element: DeliveryProcessPage,
+  },
+  {
+    path: "/TrackMachines",
+    element: MachineInOutPage,
+  },
+  {
+    path: "/TrackMachines/MachineInOut",
+    element: MachineInOutPage,
+  },
+  {
+    path: "/TrackMachines/MachineManagement",
+    element: MachineManagementPage,
   },
 ];
 
