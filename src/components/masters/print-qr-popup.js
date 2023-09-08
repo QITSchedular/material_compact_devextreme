@@ -8,7 +8,6 @@ const PrintQrPopUp = ({
   showPrintPop,
   selectedRowDetails,
 }) => {
-  console.log(selectedRowDetails);
   const [loading, setLoading] = useState(false);
   const [qrString, setQrstring] = useState(false);
   const [popUpVisibility, setPopUpVisibility] = useState(showPrintPop);

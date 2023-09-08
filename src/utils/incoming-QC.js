@@ -37,7 +37,6 @@ export const searchPoListsIQC = async (QRCode) => {
 
 // Get all po list(used in incoming QC)
 export const validatePoListsIQC = async (obj) => {
-  console.log(obj);
   const requestBody = {
     "branchID": 1,
     "headerQRCodeID": obj.headerQRCodeID,
@@ -76,7 +75,6 @@ export const LockedWareHouseList = async () => {
     const returnData = await res.data;
     return returnData;
   } catch (error) {
-    console.log(error);
     const returnError = error.response.data;
     return returnError;
   }

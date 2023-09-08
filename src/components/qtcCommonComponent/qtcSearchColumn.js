@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "devextreme-react/button";
 import {
     TextBox,
-    Button as NormalButton,
     Button as TextBoxButton,
 } from "devextreme-react/text-box";
 import { DataGrid, Popup } from "devextreme-react";
@@ -62,11 +61,11 @@ const PopupContent = ({
         setLoading(true);
         const dataGridDataHandler = async () => {
             const poListData = await PopUpContent;
-            console.log(poListData);
             if (poListData.length > 0) {
                 setDataSource(poListData);
                 return setLoading(false); // Correct the state update to false
-            } else {
+            }
+            else {
                 const { errorText } = poListData;
                 return setError(errorText);
             }
@@ -170,11 +169,9 @@ const QtcSearchColumn = ({
             showPopupHandler();
         },
     };
-  
+
     const handleSaveSelectedPo = () => {
-        console.log("The save button has been clicked");
         if (selectedRowsData.length > 0) {
-            console.log("selectedData : ", selectedData);
             setSelectedData(selectedRowsData);
             return setShowPoHelp(false);
         } else {
@@ -314,4 +311,3 @@ const QtcSearchColumn = ({
 };
 
 export default QtcSearchColumn;
-

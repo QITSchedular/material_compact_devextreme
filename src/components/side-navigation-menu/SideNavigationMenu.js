@@ -16,7 +16,6 @@ export default function SideNavigationMenu(props) {
       ...item,
       expanded: isLarge,
       path: item.path && !/^\//.test(item.path) ? `/${item.path}` : item.path,
-      icon: (typeof item.icon === "object") ? item.icon['dark'] : item.icon,
     }));
   }
 
@@ -56,14 +55,21 @@ export default function SideNavigationMenu(props) {
     if (currentPath !== undefined) {
       treeView.selectItem(currentPath);
       treeView.expandItem(currentPath);
-      // console.log(treeView.getNodes());
-      // console.log(treeView.getSelectedNodes());
     }
 
     if (compactMode) {
       treeView.collapseAll();
     }
   }, [currentPath, compactMode]);
+
+  // const itemRender = (items) => {
+  //   return (
+  //     <>
+  //       <i className="dx-icon material-symbols-outlined">{items.icon}</i>
+  //       <span>{items.text}</span>
+  //     </>
+  //   );
+  // };
 
   return (
     <div
@@ -82,6 +88,7 @@ export default function SideNavigationMenu(props) {
           onItemClick={selectedItemChanged}
           onContentReady={onMenuReady}
           width={"100%"}
+        // itemRender={itemRender}
         />
       </div>
     </div>

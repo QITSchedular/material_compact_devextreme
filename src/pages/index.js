@@ -23,4 +23,4 @@ export { default as MasterPage } from "./masters/master/master";
 export { default as PurchasePage } from "./purchases/purchase/purchase";
 export { default as SalePage } from "./sales/salesIndex/sale";
 export { default as DeliveryPage } from "./sales/delivery/delivery";
-export { default as DeliveryProcessPage } from "./sales/delivery/delivery-process";
+export { default as DispatchPage } from "./sales/delivery/dispatch/dispatch";

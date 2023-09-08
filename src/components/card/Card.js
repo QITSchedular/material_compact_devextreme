@@ -1,54 +1,83 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Card.scss';
 import { Button } from 'devextreme-react';
 import { pin } from '../../assets/icon';
 import { Link } from 'react-router-dom';
+import { toastDisplayer } from '../../api/qrgenerators';
+
 
 
 export default function Card({ title, description, icon, path }) {
+    const [rotation, setRotation] = useState(0);
+
+    const rotateButton = () => {
+        setRotation(rotation + 360);
+    };
+
+    let handlePinClick = (key) => {
+        toastDisplayer("succes", `${key} pined`);
+    }
+
+    function ValueAnimator({ start, end, duration }) {
+        const [currentValue, setCurrentValue] = useState(start);
+
+        useEffect(() => {
+            let startTimestamp = null;
+
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                setCurrentValue(Math.floor(progress * (end - start) + start));
+
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+
+            window.requestAnimationFrame(step);
+        }, [start, end, duration]);
+
+        return <div id="value">{currentValue}</div>;
+    }
+
     return (
         <>
             <div className={'dx-card content'}>
-                <div className='pin' style={{ "textAlign": "right" }}>
-                    <Button icon={pin} />
+                <div className={'pin'}>
+                    {/* <span className="material-icons">push_pin</span>
+
+                    <span className="material-icons-outlined">push_pin</span> */}
+                    <span class="material-symbols-outlined" onClick={() => handlePinClick(title)}>
+                        push_pin
+                    </span>
+                    {/* <Button icon={MaterialIcon.Pin} onClick={() => handlePinClick(title)} /> */}
                 </div>
-                <div className='card-body'>
-                    <Link to={path} >
-                        <div className={'header'}>
+                <Link to={path}>
+                    <div className='card-header'>
+                        <div className={'title'}>
                             <Button icon={icon} />
                             <div className={'heading'}>{title}</div>
                         </div>
-                        <div className={'description'}>{description}</div>
-                    </Link>
-                    <div className='circle'>
-                        {Math.floor(Math.random() * 100)}
                     </div>
-                </div>
-                <div className='card-footer'>
-                    <Button icon="refresh" type='default' stylingMode="outlined" text='Refresh' />
-                    <span>
-                        3 mins ago
-                    </span>
-                </div>
-            </div>
-
-            {/* <div className={'dx-card content'}>
-                <div className='pin'>
-                    <Button icon={pin} />
-                </div>
-                <Link to={path} >
-                    <div style={{ display: "flex", justifyContent: "space-between", "flex-direction": "column" }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", "alignItems": "center" }}>
-                            <div className={'circle'}>30</div>
-                            <div className={'description'}>{description}</div>
-                        </div>
+                    <div className='card-body'>
+                        <div className={'description'}>{description}</div>
                     </div>
                 </Link>
-                <div style={{ display: "flex", justifyContent: "space-between", "margin-top": "10px", "alignItems": "center" }}>
-                    <Button icon="refresh" type='default' text='Refresh' style={{ "margin": "0px" }} />
-                    <span>3 mins ago</span>
+                <div className='card-footer'>
+                    <div className={"refresh-part"}>
+                        <span className="rfcbtn material-symbols-outlined" onClick={rotateButton}
+                            style={{ transform: `rotate(${rotation}deg)` }}>
+                            refresh
+                        </span>
+                        <span>
+                            3 mins ago
+                        </span>
+                    </div>
+                    <div className={"number-part"}>
+                        <ValueAnimator start={0} end={Math.floor(Math.random() * 10000)} duration={700} />
+                    </div>
                 </div>
-            </div> */}
+            </div >
         </>
     )
 }
