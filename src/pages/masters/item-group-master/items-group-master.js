@@ -58,7 +58,7 @@ export default function ItemGroupMaster() {
         <div cssClass="iconCss" className="content-blocks" >
           <MastersHeaderContent
             title={"Items Group Master"}
-            subtitle={"You are viewing the total number of item groups"}
+            subtitle={"You are viewing number of item groups"}
             handleAddClick={showItemGroupMaster}
             columns={columns}
             masterType={"ItemGroups"}

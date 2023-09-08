@@ -41,7 +41,7 @@ export default function LocationMasterPage() {
                 <div className="content-blocks">
                     <MastersHeaderContent
                         title={"Location Master"}
-                        subtitle={"You are viewing the total number of locations"}
+                        subtitle={"You are viewing number of locations"}
                         columns={columns}
                         handleAddClick={showLocationMasterPopup}
                         masterType={"Locations"}

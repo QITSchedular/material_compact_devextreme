@@ -123,7 +123,7 @@ function Itemsubgroupmaster() {
                 <div cssClass=".temp123" className="content-blocks">
                     <MastersHeaderContent
                         title={"Items Sub Group Master"}
-                        subtitle={"You are viewing the total number of sub item groups"}
+                        subtitle={"You are viewing number of sub item groups"}
                         handleAddClick={handleClick}
                         columns={columns}
                         masterType={"ItemSubGroups"}

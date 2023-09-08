@@ -55,7 +55,6 @@ function Template_PopUp({ isPopupVisible, handleClosePopUp,filefunction,handlesa
     link.click();
     document.body.removeChild(link);
   };
-
   const filechkfunc = ()=>{
     // alert();
     return toastDisplayer("error", "Please select a CSV or XLSX file.");
