@@ -7,10 +7,10 @@ import OldEntryComponent from "./old-entry";
 const HeaderContent = () => {
   return (
     <div className="title-section">
-      <div className="title-name">Gate IN - PO</div>
-      <div className="title-description">
+      <h3 className="title-name">Gate IN - PO</h3>
+      <span className="title-description">
         Type or scan the purchase order to make an entry
-      </div>
+      </span>
     </div>
   );
 };

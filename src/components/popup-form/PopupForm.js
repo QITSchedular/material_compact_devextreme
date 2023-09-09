@@ -8,7 +8,8 @@ import { AppContext } from "../../contexts/dataContext";
 import { RequiredRule } from "devextreme-react/form";
 
 import success from "../../assets/images/success.gif";
-import { addNewMasterItem } from "../../utils/items-master-data";
+
+import "./PopupForm.scss";
 import { PopupHeaderText } from "../typographyTexts/TypographyComponents";
 
 const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
@@ -169,7 +170,7 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
                                 <div className="popup-header">
                                     <div className="popUp-header-title">{title}</div>
                                     <Button icon="close" onClick={handleClosePopUp} />
-                                </div> */}
+                                </div> 
                 <div className="content-block-wrapper">
                   <div className="content-block-1">
                     <div className="content-text">
