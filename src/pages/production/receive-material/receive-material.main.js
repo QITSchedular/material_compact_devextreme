@@ -4,17 +4,21 @@ import {
   PopupHeaderText,
   PopupSubText,
 } from "../../../components/typographyTexts/TypographyComponents";
-import { Button, LoadPanel, TextBox } from "devextreme-react";
+import { Button, LoadPanel, Popup, TextBox } from "devextreme-react";
 import { GRPOScanner } from "../../../assets/icon";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import { testGetDetailsByProductionNumber } from "../../../api/test-apis";
 import RecievematerialListing from "./recieve-material.listing";
+import { HelpIcons } from "../../purchases/grpo/icons-exporter";
+import { Button as TextBoxButton } from "devextreme-react/text-box";
+import HelperPopUp from "./helperPopUp";
 
 const ReceiveMaterialMain = () => {
   const [isSearchButtonDisabled, setIsSearchButtonDisabled] = useState(true);
   const [inputQrValue, setInputQrValue] = useState("");
   const [listingDataSource, setListingDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showTransporterHelp, setShowTransporterHelp] = useState(false);
 
   const navigate = useNavigate();
 
@@ -75,7 +79,36 @@ const ReceiveMaterialMain = () => {
     navigate(`/recieve-material/scanitems/${headerQrId}`); // Use navigate function
   };
 
+  const showPopupHandler = () => {
+    // console.log("it is true to show");
+    return setShowTransporterHelp(true);
+  };
+
+  const helpOptions = {
+    icon: HelpIcons,
+    onClick: async () => {
+      showPopupHandler();
+    },
+  };
+
+  const handleCancel = async () => {
+    return setShowTransporterHelp(false);
+  };
+
   return (
+    <>
+    {showTransporterHelp && (
+        <Popup
+          visible={true}
+          height={window.innerHeight - 100}
+          showCloseButton={true}
+          // hideOnOutsideClick={outsideClickHandler}
+          className="purchaseOrderList"
+          contentRender={() => (
+            <HelperPopUp  handleCancel={handleCancel} />
+          )}
+        ></Popup>
+      )}
     <div className="content-block dx-card responsive-paddings default-main-conatiner receive-material-container ">
       {loading && <LoadPanel visible={true} />}
       {/*----header Section ------*/}
@@ -95,7 +128,11 @@ const ReceiveMaterialMain = () => {
           showClearButton={true}
           valueChangeEvent="keyup"
           onValueChanged={inputQrValueChangedCallback}
-        ></TextBox>
+        ><TextBoxButton
+        name="currency"
+        location="after"
+        options={helpOptions}
+      /></TextBox>
         <Button
           width={33}
           height={33}
@@ -127,6 +164,7 @@ const ReceiveMaterialMain = () => {
         ""
       )}
     </div>
+    </>
   );
 };
 

@@ -61,18 +61,23 @@ const TransporterHelpComponent = ({
   }) => {
     // var selectedRowKeyIs = "";
     // if (selectedRowKeys.length > 1) {
+    //   console.log("Length is greater than 1");
     //   // selectedRowKeyIs = await selectedRowKeys[1];
     //   selectedRowKeyIs = await dataGridRef.current.instance.selectRows(
     //     selectedRowKeys[1]
     //   );
     // } else {
+    //   console.log("Length is less than 1");
     //   selectedRowKeyIs = await dataGridRef.current.instance.selectRows(
     //     selectedRowKeys
     //   );
     // }
     // return await selectedRowSetter(selectedRowKeyIs);
+    // console.log(selectedRowKeys.length);
     const length = await selectedRowKeys.length;
     if (selectedRowKeys.length > 1) {
+      // clear selection
+      // console.log("Greater");
       const value = await dataGridRef.current.instance.selectRows(
         selectedRowKeys[length - 1]
       );
@@ -87,6 +92,7 @@ const TransporterHelpComponent = ({
 
   const selectedRowSetter = async (params) => {
     await setSelectedRowData(params);
+    console.log(params);
   };
 
   const handleCancel = async () => {
@@ -107,6 +113,7 @@ const TransporterHelpComponent = ({
       const transPortersData = await getAllTransportersList();
       if (transPortersData.length > 0) {
         setTransporterDataSource(transPortersData);
+        console.log(transPortersData);
         return setLoading(false);
       } else {
         setError(true);
@@ -220,6 +227,7 @@ const GateInComponent = () => {
     },
   };
   const showPopupHandler = () => {
+    // console.log("it is true to show");
     return setShowTransporterHelp(true);
   };
 
@@ -228,6 +236,7 @@ const GateInComponent = () => {
     const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
     setLoading(true);
     const poResponse = await getPurchaseOrder(poNumber, selectedSeries.series);
+    // console.log(poResponse);
     if (poResponse.hasError) {
       return toast.error(poResponse.errorText, {
         position: "top-right",
@@ -247,8 +256,11 @@ const GateInComponent = () => {
 
     await setDocEntry(poResponse[0].docEntry);
     await setDocNum(poResponse[0].docNum);
+    // console.log("This is the whole P.O  data for gate In", poResponse);
     await setDataLineNum(poDetArrayWithRecQty.map((item) => item.lineNum));
     await setPoData(poDetArrayWithRecQty);
+
+    // console.log(poDetArrayWithRecQty);
 
     setLoading(false);
   };
@@ -257,6 +269,7 @@ const GateInComponent = () => {
   const periodItemsClick = async (e) => {
     await setSelectedPeriodIndicator(e.itemData.indicator || e.itemData);
     const seriesData = await getSeriesPo(e.itemData.indicator, 1);
+    // console.log(seriesData);
     if (seriesData.hasError) {
       return toast.error(seriesData.errorText, {
         position: "top-right",
@@ -272,6 +285,7 @@ const GateInComponent = () => {
     // the dropdown should be series name
     await setSeriesList(seriesData);
     setSelectedValue({ periodIsSelected: true });
+    console.log("This is series data", seriesData);
   };
 
   const handleSeriesSelectionClick = async (e) => {
@@ -299,6 +313,7 @@ const GateInComponent = () => {
   };
 
   const handleGateIn = async () => {
+    console.log("Updated item from HandleGateIn", updatedItems);
     if (!vehicleName) {
       return toastDisplayer("error", "Enter vehicle number");
     }
@@ -311,6 +326,8 @@ const GateInComponent = () => {
         "Please recieve some item, to proceed with gate in.."
       );
     }
+    console.log(updatedItems.map((items) => items));
+    // console.log(vehicleName, selectedTransporterData);
     const callLoop = await callUpdatePoApi(
       updatedItems,
       docNum,
@@ -318,6 +335,7 @@ const GateInComponent = () => {
       vehicleName,
       selectedTransporterData
     );
+    console.log(callLoop);
     const allResponses = await Promise.all(
       callLoop.map(async (item) => {
         if (item.statusCode === "200") {
