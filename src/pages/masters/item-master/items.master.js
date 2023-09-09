@@ -71,7 +71,7 @@ export default function ItemsMaster() {
     };
     setDataAgain();
   }, [isItemAdded]);
-  
+
   const handleFileUploaded = async (fileData) => {
     // console.log("fileData : ", fileData.target.files[0]);
     const file = fileData.target.files[0]; // Get the first file from the array
@@ -111,26 +111,38 @@ export default function ItemsMaster() {
   };
 
   const saveImportedFileData = async () => {
-    if(importedDataArray.length!==0){
-      for(var i=0;i<importedDataArray.length;i++){
-         try {
-              const response = await addNewMasterItem(importedDataArray[i],"Items");
+    if (importedDataArray.length !== 0) {
+      for (var i = 0; i < importedDataArray.length; i++) {
+        try {
+          const response = await addNewMasterItem(importedDataArray[i], "Items");
 
-              if (response.statusCode === "200") {
-                newItemIsAdded();
-              }
+          if (response.statusCode === "200") {
+            newItemIsAdded();
+          }
 
-              // await showToastNotifications(response);
+          // await showToastNotifications(response);
 
-            } catch (error) {
-              console.log(error);
-            }
+        } catch (error) {
+          console.log(error);
+        }
         // console.log("importedDataArray " + i + " : ",importedDataArray[i])
       }
-    }else{
+    } else {
       return toastDisplayer("error", "No data found..!!");
     }
   };
+
+  const data = [{
+    ItemName: "String",
+    ItemCode: "Numeric",
+    ItemGroup: "Alphanumeric",
+    ItemSubGroup: "Alphanumeric",
+    UOM: "Alphanumeric",
+    ItemManagedBy: "String",
+    QrManagedBy: "String",
+    OnHand: "Integer",
+  }]
+
   return (
     <React.Fragment>
       <>
@@ -151,7 +163,7 @@ export default function ItemsMaster() {
           }}
         >
           <div className="content-blocks">
-            <HeaderContent handleFileUploaded={handleFileUploaded} handlesaveImportedFileData={saveImportedFileData}/>
+            <HeaderContent handleFileUploaded={handleFileUploaded} handlesaveImportedFileData={saveImportedFileData} data={data} keyExpr={"ItemCode"} heading={"File input for Items Master"} />
           </div>
           {/* <div
           id="exportContainer"

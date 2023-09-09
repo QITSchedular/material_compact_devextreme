@@ -6,7 +6,6 @@ export const getPoListsIC = async () => {
     hasError: false,
     errorText: "Something went wrong",
   };
-  // http://192.168.1.102:{{PORT}}/api/Commons/Series?Indicator=FY2223&ObjType=22&BranchID=1
   try {
     const responseBody = {
       branchID: 1,
@@ -38,13 +37,14 @@ export const getPoListsIC = async () => {
 };
 
 // Get all po list(used in incoming QC)
-export const searchPoListsIQC = async (QRCode) => {
+export const searchPoListsIQC = async (QRCode,fromDate,toDate) => {
   const requestBody = {
     branchID: 1,
-    fromDate: "",
-    toDate: "",
-    headerQRCodeID: QRCode,
+    fromDate: fromDate,
+    toDate: toDate,
+    headerQRCodeID: QRCode
   };
+  console.log(requestBody)
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -107,7 +107,6 @@ export const validatePoListsIQC = async (obj) => {
 
 // save QC Item
 export const SavePoListsIQC = async (obj) => {
-  console.log("===========", obj);
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -137,6 +136,7 @@ export const LockedWareHouseList = async () => {
     const returnData = await res.data;
     return returnData;
   } catch (error) {
+    console.log(error);
     const returnError = error.response.data;
     return returnError;
   }

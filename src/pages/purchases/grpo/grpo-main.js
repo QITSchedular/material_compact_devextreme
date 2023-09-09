@@ -344,7 +344,7 @@ const GrpoMain = () => {
       )}
       <div className="content-block dx-card responsive-paddings grpo-content-wrapper">
         <div className="title-section">
-          <h3 className="title-name">Grpo</h3>
+          <span className="title-name">Grpo</span>
           <span className="title-description">
             Type or scan the purchase order to make an entry
           </span>

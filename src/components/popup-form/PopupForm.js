@@ -1,10 +1,11 @@
+// export default PopupForm;
 import React, { useContext, useRef, useState } from "react";
+import "./PopupForm.scss";
 import { Form, Popup, ScrollView } from "devextreme-react";
 import { Button } from "devextreme-react/button";
 import { ButtonItem, GroupItem, Item } from "devextreme-react/form";
 import { AppContext } from "../../contexts/dataContext";
 import { RequiredRule } from "devextreme-react/form";
-import { addNewMasterItem } from "../../utils/items-master-data";
 
 import success from "../../assets/images/success.gif";
 
@@ -60,8 +61,50 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
     e.preventDefault();
     const form = formPopup.current.instance;
     const formData = form.option("formData");
-    var transformedData = {},i = 0;
+    var transformedData = {};
+    // if (keyArray.includes('locked')) {
+    //     for (var i = 0; i < keyArray.length - 1; i++) {
+    //         transformedData[keyArray[i]] = formData[Object.keys(formData)[i]];
+    //     }
+    //     if (keyArray.length === Object.keys(formData).length) {
+    //         if (formData["  "] === true) {
+    //             transformedData['locked'] = "Y";
+    //         }
+    //         else
+    //             transformedData['locked'] = "N";
+    //     } else {
+    //         transformedData['locked'] = "N";
+    //     }
+    // } else {
+    //     for (var i = 0; i < keyArray.length; i++) {
+    //         transformedData[keyArray[i]] = formData[Object.keys(formData)[i]];
+    //     }
+    // }
+    // const keyArray1 = [
+    //     { input: "itmsGrpCod" },
+    //     { input: "itmsSubGrpNam" },
+    //     { checkbox: "locked" }
+    // ];
 
+    // var i=0;
+    // for (const item of keyArray) {
+    //     const key = Object.keys(item)[0];
+    //     const value = item[key];
+    //     if (key==="checkbox") {
+    //         if (formData[""] === true) {
+    //             console.log("checking for checkbox")
+    //             transformedData[value] = "Y";
+    //         }
+    //         else
+    //         {
+    //             transformedData[value] = "N";
+    //         }
+    //     } else {
+    //         transformedData[value] =formData[Object.keys(formData)[i]];
+    //     }
+    //     i++;
+    // }
+    var i = 0;
     for (const item of keyArray) {
       const key = Object.keys(item)[0];
       const value = item[key];
@@ -167,6 +210,11 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
                               //editorType={"dxCheckBox"}
                               cssClass={"checkbox"}
                             >
+                              {/* {isValidate && (
+                                                                <RequiredRule
+                                                                    message={label + " is Required"}
+                                                                />
+                                                            )} */}
                             </Item>
                           );
                         } else if (key === "dxSelectBox") {

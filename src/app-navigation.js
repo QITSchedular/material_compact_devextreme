@@ -5,7 +5,7 @@ export const navigation = [
     {
         text: "Home",
         path: "/home",
-        icon: `material-icons-outlined ic-home with-stroke`,
+        icon: `material-icons-outlined ic-home`,
     },
     // {
     //   text: "Examples",
@@ -70,12 +70,12 @@ export const navigation = [
             {
                 text: "Machine ",
                 path: "/masters/machine",
-                icon: `${icon['brands']}`,
+                icon: `material-icons-outlined ic-precision_manufacturing`,
             },
             {
                 text: "Employee ",
                 path: "/masters/employee",
-                icon: `${icon['brands']}`,
+                icon: `material-icons-outlined ic-group`,
             },
         ],
     },
