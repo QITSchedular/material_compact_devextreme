@@ -6,6 +6,7 @@ const IssueMaterialListing = ({
   listingDataSource,
   onDeleteItem,
   onProceed,
+  infogridDataSource,
 }) => {
   console.log("New updated data", listingDataSource);
 
@@ -40,7 +41,7 @@ const IssueMaterialListing = ({
             </div>
 
             <div className="single-pending-name">
-              <span className="pending-name">{item[0].batchSerialNo}</span>
+              <span className="pending-name">{item[0].itemCode}</span>
               <Button
                 icon="custom-chevron-down-icon"
                 onClick={() => handleDownClick(index)}
@@ -56,7 +57,7 @@ const IssueMaterialListing = ({
           </div>
           {visibleDataGridIndexes.includes(index) && (
             <div className="data-grid-drop-down">
-              <IssueListingDatagrid dataSource={item} />
+              <IssueListingDatagrid dataSource={infogridDataSource} />
             </div>
           )}
         </div>
