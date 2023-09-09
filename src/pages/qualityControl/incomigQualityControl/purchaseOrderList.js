@@ -8,6 +8,7 @@ import {
 } from "../../../components/typographyTexts/TypographyComponents";
 import DataGrid, {
   Column,
+  ColumnChooser,
   Paging,
   Scrolling,
   SearchPanel,
@@ -70,6 +71,7 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
             selectedRowKeys={selectedRowKeysNew}
           >
             <SearchPanel visible={true} />
+            <ColumnChooser enabled={true} />
             <Selection mode="multiple" />
             <Scrolling columnRenderingMode="infinite" />
             <Paging enabled={false} />
@@ -101,6 +103,7 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
             width={124}
             height={35}
             onClick={handleCancel}
+            className="cancelQcBtn"
           />
           <Button
             text="OK"

@@ -1,6 +1,9 @@
 .grpo-content-wrapper {
-
+    margin-top: 40px !important;
     .title-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem         ;
         .title-name {
             color: #393939;
             font-feature-settings: 'clig' off, 'liga' off;
@@ -265,4 +268,31 @@
         }
     }
 
+}
+
+
+@media only screen and (max-width: 450px) {
+    .grpo-content-wrapper {
+        margin-top: 40px !important;
+        .title-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem         ;
+            .title-name {
+                font-size: 18px;
+            }
+    
+            .title-description {
+                font-size: 14px;
+            }
+        }
+
+        .actions-section {
+            .search-section {
+                .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget{
+                    width: 100% !important;
+                }
+            }
+        }
+    }
 }

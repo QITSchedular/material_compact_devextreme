@@ -424,63 +424,53 @@ function IncommingQcScanItem() {
           <h1>hello</h1>
         </Popup>
       )}
-      <div className="main-section">
-        <div className="inputWrapper">
+      <div className="main-section-scan-item">
+        <div className="inputWrapper-scan-item">
           <div className="date-section">
-            <div>
-              <DateBox
-                className="dx-field-value"
-                placeholder="From"
-                stylingMode="outlined"
-                type="date"
-                width={230}
-              />
-            </div>
-            {/* <div>
+            <DateBox
+              className="dx-field-value"
+              placeholder="From"
+              stylingMode="outlined"
+              type="date"
+              // width={150}
+            />
             <DateBox
               className="dx-field-value"
               placeholder="To"
               stylingMode="outlined"
               type="date"
-              width={230}
+              // width={150}
             />
-          </div> */}
-            <TextBox
-              className="dx-field-value purchaseQRField"
-              stylingMode="outlined"
-              placeholder="Type the purchase QR code"
-              // value={
-              //   selectedRowsDataApprove.length > 0 ? selectedRowsDataApprove[0].qrCodeID : ""
-              // }
-              width={230}
-              onValueChanged={handleTextValueChange}
-              showClearButton={true}
-            >
-              {/* <TextBoxButton
-              name="currency"
-              location="after"
-            //   options={helpOptions}
-            /> */}
-            </TextBox>
+            
           </div>
-          <div className="btnSection">
-            <NormalButton
-              width={33}
-              height={33}
-              type="normal"
-              stylingMode="outlined"
-              icon="search"
-              onClick={SearchHandler}
-            />
+          <div className="txtBtn-section">
+              <TextBox
+                className="dx-field-value purchaseQRField"
+                stylingMode="outlined"
+                placeholder="Type the purchase QR code"
+                width={230}
+                onValueChanged={handleTextValueChange}
+                showClearButton={true}
+              ></TextBox>
+              <div className="btnSection">
+                <NormalButton
+                  width={33}
+                  height={33}
+                  type="normal"
+                  stylingMode="outlined"
+                  icon="search"
+                  onClick={SearchHandler}
+                />
 
-            <NormalButton
-              width={33}
-              height={33}
-              type="normal"
-              stylingMode="outlined"
-              icon={GRPOScanner}
-            />
-          </div>
+                <NormalButton
+                  width={33}
+                  height={33}
+                  type="normal"
+                  stylingMode="outlined"
+                  icon={GRPOScanner}
+                />
+              </div>
+            </div>
         </div>
         <div className="helperWrapper">
           <TextBox
@@ -492,7 +482,7 @@ function IncommingQcScanItem() {
                 ? selectedRowsDataApprove[0].whsCode
                 : ""
             }
-            width={230}
+            width={160}
             // onValueChanged={handleTextValueChange}
             showClearButton={true}
           >
@@ -511,7 +501,7 @@ function IncommingQcScanItem() {
                 ? selectedRowsDataReject[0].whsCode
                 : ""
             }
-            width={230}
+            width={160}
             // onValueChanged={handleTextValueChange}
             showClearButton={true}
           >
@@ -555,7 +545,7 @@ function IncommingQcScanItem() {
         <Popup
           visible={true}
           height={window.innerHeight - 100}
-          width={window.innerWidth - 925}
+          width={544}
           showCloseButton={true}
           className="QrRequestPopUp"
           hideOnOutsideClick={false}
@@ -567,8 +557,7 @@ function IncommingQcScanItem() {
               rejectWareHouse={selectedRowsDataReject[0].whsCode}
             />
           )}
-        >
-        </Popup>
+        ></Popup>
       )}
       {/* {QrRequestPopUp && <incomingQrRequest isCommonPopupVisible={QrRequestPopUp} />} */}
     </>

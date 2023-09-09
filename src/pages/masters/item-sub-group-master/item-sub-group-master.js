@@ -142,7 +142,6 @@ function Itemsubgroupmaster() {
           />
         </div>
       </div>
-
       {showItemGroupMasterBox && (
         <PopupForm
           title={"Item Sub Group Master"}

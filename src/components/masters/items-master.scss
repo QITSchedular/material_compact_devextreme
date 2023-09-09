@@ -10,7 +10,6 @@
         .pop-content-container {
             box-shadow: none !important;
         }
-
     }
 }
 
@@ -18,7 +17,6 @@
     display: flex !important;
     padding: 0rem 1rem;
     justify-content: space-between;
-    padding-top: 2%;
 }
 
 .mainContainerFileUpload {
@@ -61,7 +59,6 @@
         color: rgba(0, 0, 0, 0.87);
         font-weight: 400;
         font-size: 15px;
-        margin-top: 30px !important;
     }
 
     .file-formate-box {
@@ -193,16 +190,20 @@
     padding: 10px 0px;
 }
 
-.popup__header--title {
-    color: #525252;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: Poppins;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    margin-top: 0px !important;
-    margin-bottom: 15px !important;
+.item-master-popup-container {
+    .pop-content-container {
+        .popup__header--title {
+            color: #525252;
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Poppins;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            margin-top: 0px !important;
+            margin-bottom: 15px !important;
+        }
+    }
 }
 
 .tabbed-items-group {

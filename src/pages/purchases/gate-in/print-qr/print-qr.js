@@ -247,7 +247,7 @@ const PrintQrMainComp = () => {
   };
 
   return (
-    <div className="content-block dx-card responsive-paddings main-container">
+    <div className="content-block dx-card responsive-paddings main-container-printQR">
       {showPrintPop && (
         <PrintPopup
           qrVisibilityHandler={qrVisibilityHandler}
@@ -264,47 +264,55 @@ const PrintQrMainComp = () => {
         />
       )}
       <div className="title-section">
-        <h3 className="title-name">Generate & Print QR Code</h3>
-        <span className="title-description">
+        <div className="title-name">Generate & Print QR Code</div>
+        <div className="title-description">
           Select and Enter field values to get P.O
-        </span>
+        </div>
       </div>
 
       <div className="actions-section">
         <div className="buttons-section">
-          <DropDownButton
-            text={
-              selectedPeriodIndicator
-                ? selectedPeriodIndicator
-                : "Select Period"
-            }
-            dropDownOptions={buttonDropDownOptions}
-            keyExpr="indicator"
-            displayExpr={"indicator"}
-            items={periodIndicators}
-            onItemClick={periodItemsClick}
-            className="period-indicator"
-          />
-          <DropDownButton
-            text={selectedSeries ? selectedSeries.seriesName : "Select Series"}
-            dropDownOptions={buttonDropDownOptions}
-            items={seriesList}
-            keyExpr={"series"}
-            displayExpr={"seriesName"}
-            onItemClick={handleSeriesSelectionClick}
-            className="series-indicator"
-          />
-          <DropDownButton
-            text={
-              selectedGateInNum ? `${selectedGateInNum.gateInNo}` : "Gatein Num"
-            }
-            dropDownOptions={buttonDropDownOptions}
-            items={gateInNumList}
-            keyExpr={"gateInNo"}
-            displayExpr={"gateInNo"}
-            onItemClick={handleGateInNumSelectionClick}
-            className="gatein-num-list"
-          />
+          <div className="buttons-sub-section1">
+            <DropDownButton
+              text={
+                selectedPeriodIndicator
+                  ? selectedPeriodIndicator
+                  : "Select Period"
+              }
+              dropDownOptions={buttonDropDownOptions}
+              keyExpr="indicator"
+              displayExpr={"indicator"}
+              items={periodIndicators}
+              onItemClick={periodItemsClick}
+              className="period-indicator"
+            />
+            <DropDownButton
+              text={
+                selectedSeries ? selectedSeries.seriesName : "Select Series"
+              }
+              dropDownOptions={buttonDropDownOptions}
+              items={seriesList}
+              keyExpr={"series"}
+              displayExpr={"seriesName"}
+              onItemClick={handleSeriesSelectionClick}
+              className="series-indicator"
+            />
+          </div>
+          <div>
+            <DropDownButton
+              text={
+                selectedGateInNum
+                  ? `${selectedGateInNum.gateInNo}`
+                  : "Gatein Num"
+              }
+              dropDownOptions={buttonDropDownOptions}
+              items={gateInNumList}
+              keyExpr={"gateInNo"}
+              displayExpr={"gateInNo"}
+              onItemClick={handleGateInNumSelectionClick}
+              className="gatein-num-list"
+            />
+          </div>
         </div>
         <div className="search-section">
           <TextBox

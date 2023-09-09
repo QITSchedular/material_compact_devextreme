@@ -8,6 +8,7 @@ import {
 } from "../../../components/typographyTexts/TypographyComponents";
 import DataGrid, {
   Column,
+  ColumnChooser,
   Paging,
   Scrolling,
   SearchPanel,
@@ -53,7 +54,6 @@ function IncomingQcPopUp({
 
   return (
     <>
-      {selectedWarehouse}
       <div className="purchaseOrderList-main-containter">
         <div className="purchaseOrderList-header">
           <div
@@ -84,6 +84,7 @@ function IncomingQcPopUp({
             ref={dataGridRef}
             selectedRowKeys={selectedRowKeysNew}
           >
+            <ColumnChooser enabled={true} />
             <SearchPanel visible={true} />
             <Selection mode="multiple" />
             <Scrolling columnRenderingMode="infinite" />
@@ -107,6 +108,7 @@ function IncomingQcPopUp({
             width={124}
             height={35}
             onClick={handleCancel}
+            className="cancelQcBtn"
           />
           <Button
             text="OK"
