@@ -1,19 +1,11 @@
 @import "../../themes/generated/variables.base.scss";
 @import "../../dx-styles.scss";
 
-@font-face {
-    font-family: 'Material Icons Outlined';
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: 300;
     font-style: normal;
-    font-weight: 100;
-    src: url(https://fonts.gstatic.com/s/materialiconsoutlined/v109/gok-H7zzDkdnRel8-DQ6KAXJ69wP1tGnf4ZGhUce.woff2) format('woff2');
-}
-
-.material-icons-outlined {
-    font-family: 'Material Icons Outlined';
-    color: #4371B7;
-    font-weight: lighter;
-    font-style: normal;
-    font-size: 18px;
+    font-size: 24px;
     line-height: 1;
     letter-spacing: normal;
     text-transform: none;
@@ -21,14 +13,13 @@
     white-space: nowrap;
     word-wrap: normal;
     direction: ltr;
-    -webkit-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
 }
 
 .header-component {
     flex: 0 0 auto;
     z-index: 999;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.10);
     height: 56px !important;
     background-color: #ffffff;
 
@@ -81,47 +72,63 @@
     }
 
     .nav-icons {
-        .dx-button-has-icon .dx-icon {
-            width: 20px;
-            height: 20px;
-            background-size: cover;
-            background-position: center;
-        }
+        .dx-item-content.dx-toolbar-item-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-        .bell-icon {
-            .dx-button-content {
-                .dx-icon {
-                    transition: transform 0.3s ease;
-                    font-size: 10px;
+            .bell-icon.material-symbols-outlined {
+                font-size: 22px;
+                margin-left: 20px;
+                cursor: pointer;
+                transition: transform 0.3s ease;
 
-                    &:hover {
-                        animation: shake 0.5s ease-in-out;
-                    }
+                &:hover {
+                    animation: shake 0.5s ease-in-out;
+                }
+
+            }
+
+            @keyframes shake {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                25% {
+                    transform: rotate(-10deg);
+                }
+
+                50% {
+                    transform: rotate(10deg);
+                }
+
+                75% {
+                    transform: rotate(-10deg);
+                }
+
+                100% {
+                    transform: rotate(0deg);
                 }
             }
-        }
 
-        @keyframes shake {
-            0% {
-                transform: rotate(0deg);
+            .setting-icon.material-symbols-outlined {
+                font-size: 22px;
+                margin-left: 20px;
+                margin-right: 20px;
+                cursor: pointer;
+                transition: transform 0.5s ease;
+
+                &:hover {
+                    transform: rotate(90deg);
+                }
             }
 
-            25% {
-                transform: rotate(-10deg);
-            }
-
-            50% {
-                transform: rotate(10deg);
-            }
-
-            75% {
-                transform: rotate(-10deg);
-            }
-
-            100% {
-                transform: rotate(0deg);
+            .dx-widget.dx-button.user-button.authorization {
+                margin: 0;
             }
         }
+
+
 
         .search-container {
             position: relative;
@@ -133,40 +140,12 @@
                 border-radius: 8px;
                 background: #F4F4F4;
                 transition: border-color 0.3s;
-            }
 
-            #in-search-icon {
-                background-color: transparent !important;
-
-                .dx-button-content {
-                    background: none;
-
-                    img {
-                        width: 12px !important;
-                        height: 12px !important;
-                    }
+                .material-symbols-outlined.search-icon {
+                    font-size: 20px;
+                    margin-left: 1rem;
                 }
             }
-        }
-
-        .setting-icon {
-            .dx-button-content {
-                .dx-icon {
-                    transition: transform 0.5s ease;
-
-                    &:hover {
-                        transform: rotate(90deg);
-                    }
-                }
-            }
-        }
-
-        .dx-button.dx-state-hover {
-            background: transparent;
-        }
-
-        .dx-button.dx-state-focused {
-            background: transparent;
         }
 
         .dx-buttongroup-wrapper {

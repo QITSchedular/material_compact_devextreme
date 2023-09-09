@@ -9,7 +9,6 @@ import { addNewMasterItem } from "../../utils/items-master-data";
 import success from "../../assets/images/success.gif";
 
 import "./PopupForm.scss";
-import { addNewMasterItem } from "../../utils/items-master-data";
 import { PopupHeaderText } from "../typographyTexts/TypographyComponents";
 
 const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
@@ -29,18 +28,9 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
     },
   };
 
-  const dropdownOptions = {
-    stylingMode: ["outlined"],
-    labelModes: ["static"],
-  };
   const textEditorOptions = {
     stylingMode: ["outlined"],
     cssClass: "myEditor",
-  };
-  const onHandEditorOptions = {
-    stylingMode: ["outlined"],
-    disabled: true,
-    value: 10,
   };
 
   const [displayState, setdisplayState] = useState(true);
@@ -61,7 +51,7 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
     e.preventDefault();
     const form = formPopup.current.instance;
     const formData = form.option("formData");
-    var transformedData = {},i = 0;
+    var transformedData = {}, i = 0;
 
     for (const item of keyArray) {
       const key = Object.keys(item)[0];
@@ -103,32 +93,32 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
   var checkBoxOptions = {
     text: "Locked",
   };
-    return (
-        <>
-            <Popup
-                maxWidth={850}
-                height={500}
-                visible={isCommonPopupVisible}
-                onHiding={hideInfo}
-                dragEnabled={false}
-                hideOnOutsideClick={false}
-                showCloseButton={true}
-                shading={true}
-                container=".dx-viewport"
-                className="item-master-popup-container"
-            >
-                <ScrollView ScrollView width="100%" height="100%">
-                    <div
-                        className={
-                            "dx-card content-block responsive-paddings pop-content-container"
-                        }
-                    >
-                        {displayState ?
-                            <>
-                                <div className="popup-header">
-                                    <div className="popUp-header-title">{title}</div>
-                                    <Button icon="close" onClick={handleClosePopUp} />
-                                </div> */}
+  return (
+    <>
+      <Popup
+        maxWidth={850}
+        height={500}
+        visible={isCommonPopupVisible}
+        onHiding={hideInfo}
+        dragEnabled={false}
+        hideOnOutsideClick={false}
+        showCloseButton={true}
+        shading={true}
+        container=".dx-viewport"
+        className="item-master-popup-container"
+      >
+        <ScrollView ScrollView width="100%" height="100%">
+          <div
+            className={
+              "dx-card content-block responsive-paddings pop-content-container"
+            }
+          >
+            {displayState ? (
+              <>
+                <div className="popup-header">
+                  <div className="popUp-header-title">{title}</div>
+                  <Button icon="close" onClick={handleClosePopUp} />
+                </div>
                 <div className="content-block-wrapper">
                   <div className="content-block-1">
                     <div className="content-text">
@@ -221,7 +211,7 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
                         buttonOptions={cancelButtonOptions}
                         horizontalAlignment="right"
                         cssClass={"popup-btn-cancel"}
-                        // onClick={handleClosePopUp}
+                      // onClick={handleClosePopUp}
                       />
                       <ButtonItem
                         buttonOptions={saveButtonOptions}

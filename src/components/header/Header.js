@@ -4,14 +4,14 @@ import Button from "devextreme-react/button";
 import UserPanel from "../user-panel/UserPanel";
 import "./Header.scss";
 import { Template } from "devextreme-react/core/template";
-import { Search, bell, setting } from "../../assets/icon";
 import { TextBox } from "devextreme-react";
 import { Link, useLocation } from "react-router-dom";
 
 import SettingDropdown from "../setting-dropdown/SettingDropdown";
 import NotificationDropdown from "../notification-dropdown/NotificationDropdown";
-import { SearchPanel } from "devextreme-react/data-grid";
-import SettingsDrawerMain from "../settings-drawer/SettingsDrawer.main";
+// import { SearchPanel } from "devextreme-react/data-grid";
+// import SettingsDrawerMain from "../settings-drawer/SettingsDrawer.main";
+import { CheckboxProvider } from "../../contexts/settingConfig";
 
 export default function Header({ menuToggleEnabled, title, toggleMenu }) {
     const location = useLocation();
@@ -77,6 +77,17 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
                         </nav>
                     </Item>
 
+                    {/* <Item
+                        location={"center"}
+                        locateInMenu={"auto"}
+                        menuItemTemplate={"userPanelTemplate"}
+                        cssClass={"nav-icons"}
+                    >
+
+
+
+                    </Item> */}
+
                     <Item
                         location={"after"}
                         locateInMenu={"auto"}
@@ -88,23 +99,23 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
                                 className="search-input"
                                 stylingMode="outlined"
                                 placeholder="Search the menu"
-                                // width={389}
                                 showClearButton={true}
                             />
-                            <Button icon={Search} className="search-icon" id="in-search-icon" />
+                            <span className="material-symbols-outlined search-icon">
+                                search
+                            </span>
                         </div>
 
-                        <Button icon={bell} onClick={toggleNotifyDropdown} className="bell-icon" />
+                        <span className="material-symbols-outlined bell-icon" onClick={toggleNotifyDropdown}>
+                            notifications
+                        </span>
 
-                        <Button icon={setting} onClick={toggleSettingDropdown} className="setting-icon" />
-                        {/* <span className="material-icons">home</span>
-
-                        <span class="material-icons-outlined">
+                        <span className="material-symbols-outlined setting-icon" onClick={toggleSettingDropdown}>
                             settings
-                        </span> */}
+                        </span>
                         <Button
                             className={"user-button authorization"}
-                            width={210}
+                            // width={210}
                             height={"100%"}
                             stylingMode={"text"}
                         >
@@ -118,8 +129,10 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
                 </Toolbar>
             </header >
 
-            {isSettingDropdownOpen && <SettingDropdown />}
-            {isNotifyDropdownOpen && <NotificationDropdown />}
+            <CheckboxProvider>
+                {isSettingDropdownOpen && <SettingDropdown />}
+                {isNotifyDropdownOpen && <NotificationDropdown />}
+            </CheckboxProvider>
         </>
     );
 }

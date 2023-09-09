@@ -1,33 +1,9 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import './SettingSubDropdown.scss';
 import { SelectBox } from 'devextreme-react';
-import { CheckBox } from 'devextreme-react/check-box';
+import CustomCheckBox from './CustomCheckBox';
 
 function SettingSubDropdown() {
-
-    const onValueChanged = useCallback((e) => {
-        if (e.value) {
-            // alert(e.value); 
-        }
-    }, []);
-
-    let CustomCheckBox = ({ checkboxvalue }) => {
-        return (
-            <>
-                {
-                    checkboxvalue.map((value, index) => {
-                        return (
-                            <>
-                                <div className='custom-checkbox'>
-                                    <CheckBox text={value} onValueChanged={onValueChanged} />
-                                </div>
-                            </>
-                        )
-                    })
-                }
-            </>
-        );
-    };
 
     let SettingDropDownInputBox = ({ data }) => {
         return (

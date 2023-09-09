@@ -44,18 +44,16 @@ export default function Card({ title, description, icon, path }) {
         <>
             <div className={'dx-card content'}>
                 <div className={'pin'}>
-                    {/* <span className="material-icons">push_pin</span>
-
-                    <span className="material-icons-outlined">push_pin</span> */}
-                    <span class="material-symbols-outlined" onClick={() => handlePinClick(title)}>
+                    <span class="material-symbols-outlined card-icon" onClick={() => handlePinClick(title)}>
                         push_pin
                     </span>
-                    {/* <Button icon={MaterialIcon.Pin} onClick={() => handlePinClick(title)} /> */}
                 </div>
                 <Link to={path}>
                     <div className='card-header'>
                         <div className={'title'}>
-                            <Button icon={icon} />
+                            <span className="material-symbols-outlined card-icon">
+                                {icon}
+                            </span>
                             <div className={'heading'}>{title}</div>
                         </div>
                     </div>

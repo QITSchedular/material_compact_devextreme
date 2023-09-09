@@ -1,42 +1,16 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import './SettingDropdown.scss';
 import { Accordion, SelectBox } from 'devextreme-react';
-import { CheckBox } from 'devextreme-react/check-box';
 import SettingSubDropdown from './SettingSubDropdown';
-
+import CustomCheckBox from './CustomCheckBox';
 
 
 function SettingDropdown() {
 
     const [isSubDropdownOpen, setIsSubDropdownOpen] = useState(false);
 
-
     const toggleDropdown = () => {
         setIsSubDropdownOpen(!isSubDropdownOpen);
-    };
-
-    const onValueChanged = useCallback((e) => {
-        if (e.value) {
-            // alert(e.value); 
-        }
-    }, []);
-
-    let CustomCheckBox = ({ checkboxvalue }) => {
-        return (
-            <>
-                {
-                    checkboxvalue.map((value, index) => {
-                        return (
-                            <>
-                                <div className='custom-checkbox'>
-                                    <CheckBox text={value} onValueChanged={onValueChanged} />
-                                </div>
-                            </>
-                        )
-                    })
-                }
-            </>
-        );
     };
 
     let SettingDropDownInputBox = () => {
@@ -49,15 +23,6 @@ function SettingDropdown() {
                         "SuperPlasma 50",
                         "SuperLED 50",
                         "SuperLED 42",
-                        "SuperLCD 55",
-                        "SuperLCD 42",
-                        "SuperPlasma 65",
-                        "SuperLCD 70",
-                        "Projector Plus",
-                        "Projector PlusHT",
-                        "ExcelRemote IR",
-                        "ExcelRemote BT",
-                        "ExcelRemote IP"
                     ]}
                         stylingMode='outlined' />
                 }
@@ -68,19 +33,19 @@ function SettingDropdown() {
     const itemsarr = [
         {
             title: 'Batch / Serial No Generation Method',
-            html: <CustomCheckBox checkboxvalue={["Auto", "Manual"]} />
+            html: <CustomCheckBox checkboxvalue={["Auto", "Manual"]} checkboxgroup={'Batch / Serial No Generation Method'} />
         },
         {
             title: 'QR Managed by',
-            html: <CustomCheckBox checkboxvalue={["None", "Manual", "Serial Numbar"]} />
+            html: <CustomCheckBox checkboxvalue={["None", "Manual", "Serial Numbar"]} checkboxgroup={'QR Managed by'} />
         },
         {
             title: 'QR Generation Method',
-            html: <CustomCheckBox checkboxvalue={["Transaction Wise QR", "Master Wise QR"]} />
+            html: <CustomCheckBox checkboxvalue={["Transaction Wise QR", "Master Wise QR"]} checkboxgroup={'QR Generation Method'} />
         },
         {
             title: 'Batch Type',
-            html: <CustomCheckBox checkboxvalue={["Batch", "Batch + Project"]} />
+            html: <CustomCheckBox checkboxvalue={["Batch", "Batch + Project"]} checkboxgroup={'Batch Type'} />
         },
         {
             title: 'Default Period Indicator',
@@ -100,7 +65,7 @@ function SettingDropdown() {
                         animationDuration={450}
                         dataSource={itemsarr}
                         itemRender={(data) => data.html}
-                        collapsible={true}
+                        // collapsible={true}
                         className="batch-serial-acrdn"
                         onItemTitleClick={() => {
                             if (isSubDropdownOpen) {

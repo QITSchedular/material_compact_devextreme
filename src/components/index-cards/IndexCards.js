@@ -23,7 +23,7 @@ export default function IndexCards({ path }) {
                             <Card
                                 title={value['text']}
                                 description={"Here is the description for the particular"}
-                                icon={(typeof value['icon'] === "object") ? value['icon'].dark : value['icon']}
+                                icon={value['icon']}
                                 path={value['path']}
                             />
                         </>
