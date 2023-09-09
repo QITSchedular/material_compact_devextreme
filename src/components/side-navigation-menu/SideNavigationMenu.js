@@ -12,6 +12,14 @@ export default function SideNavigationMenu(props) {
   const { children, selectedItemChanged, openMenu, compactMode, onMenuReady } = props;
 
   const { isLarge } = useScreenSize();
+  const [isExpanded, setIsExpanded] = useState(false); // State variable to track expansion
+
+  useEffect(() => {
+    // Check if any item is expanded when the component is mounted
+    const hasExpandedItem = items.some(item => item.expanded);
+    setIsExpanded(hasExpandedItem);
+  }, []);
+
 
   function normalizePath() {
     return navigation.map((item) => ({
@@ -20,6 +28,7 @@ export default function SideNavigationMenu(props) {
       path: item.path && !/^\//.test(item.path) ? `/${item.path}` : item.path,
     }));
   }
+
 
   const items = useMemo(
     normalizePath,
@@ -49,43 +58,45 @@ export default function SideNavigationMenu(props) {
   );
 
   const [expandedPath, setExpandedPath] = useState("");
+  const [selectedPath, setSelectedPath] = useState("");
 
   const handleTreeViewItemClick = (e) => {
     const clickedPath = e.itemData.path;
-       
+
     if (expandedPath === clickedPath) {
       setExpandedPath(expandedPath);
-    }else{
+    } else {
       setExpandedPath(clickedPath);
     }
+    setSelectedPath(clickedPath); // Update selectedPath
     selectedItemChanged(e);
-    
   };
 
   useEffect(() => {
     const treeView = treeViewRef.current.instance;
-  
+
     if (!treeView) {
       treeView.collapseAll();
       return;
     }
-    
-    if (expandedPath === currentPath) {
-      treeView.collapseAll(expandedPath);
-      treeView.selectItem(expandedPath);
-      treeView.expandItem(expandedPath);
+
+    if (isExpanded && expandedPath !== currentPath) {
+      treeView.collapseAll();
+      treeView.selectItem(selectedPath);
+      treeView.expandItem(selectedPath);
     }
     else {
       treeView.collapseAll(currentPath);
       treeView.selectItem(currentPath);
       treeView.expandItem(currentPath);
     }
-  }, [currentPath, expandedPath]);
+  }, [currentPath, expandedPath, isExpanded, selectedPath]); // Include selectedPath in the dependencies
+
 
   return (
     <div className={"dx-swatch-additional side-navigation-menu"} ref={getWrapperRef}>
       {children}
-      <div className={"menu-container"}>
+      <div className={`menu-container ${isExpanded ? "scrollable" : ""}`}>
         <TreeView
           ref={treeViewRef}
           items={items}
@@ -97,6 +108,7 @@ export default function SideNavigationMenu(props) {
           onItemClick={handleTreeViewItemClick}
           onContentReady={onMenuReady}
           width={"100%"}
+          selectedItemKeys={[selectedPath]}
         />
       </div>
     </div>

@@ -87,7 +87,7 @@ function Employeemaster() {
     },
     { feildType: "dxTextBox", label: "Password", isValidate: true },
     { feildType: "dxTextBox", label: "Confirm Password", isValidate: true },
-    
+
   ];
   const dataArray3 = [
     // [{ feildType: "dxTextBox", label: "Machine Name", isValidate: true },{ feildType: "dxTextBox", label: "Machine Name", isValidate: true }],
@@ -102,6 +102,12 @@ function Employeemaster() {
     { input: "itmsSubGrpNam" },
     { checkbox: "Locked" },
   ];
+
+  const data = [{
+    FullName: "String",
+    EmailId: "Alphanumeric",
+    Shift: "String",
+  }]
 
   const handleFileUploaded = async (fileData) => {
     // console.log("fileData : ", fileData.target.files[0]);
@@ -167,7 +173,7 @@ function Employeemaster() {
       <div className="content-block dx-card responsive-paddings">
         <div cssClass=".temp123" className="content-blocks">
           <MastersHeaderContent
-            title={"Employees"}
+            title={"Employee"}
             subtitle={"You are viewing the total number of employees"}
             handleAddClick={handleClick}
             columns={columns}
@@ -177,6 +183,9 @@ function Employeemaster() {
             // keyExpr={"itmsSubGrpCod"}
             handleFileUploaded={handleFileUploaded}
             handlesaveImportedFileData={saveImportedFileData}
+            data={data}
+            key={""}
+            heading={"File input for Employee"}
           />
         </div>
       </div>

@@ -14,9 +14,15 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
   .menu-container {
-    min-height: 100%;
     display: flex;
     flex: 1;
+    overflow-y: hidden;
+    scrollbar-width: none;
+
+    .menu-container.scrollable {
+      overflow-y: auto;
+      /* Enable scrolling when items are expanded */
+    }
 
     .dx-treeview {
       // ## Long text positioning
@@ -170,6 +176,26 @@
   background: none !important;
   //color: white !important;
 }
+
+.menu-container::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Hide the horizontal scrollbar (optional) */
+.menu-container::-webkit-scrollbar-horizontal {
+  display: none;
+}
+
+/* Hide the scrollbar track */
+.menu-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Hide the scrollbar thumb */
+.menu-container::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
 
 .dx-drawer-overlap.pre-init-blink-fix {
   @import "../../utils/patches.scss";
