@@ -35,17 +35,25 @@ export default function LocationMasterPage() {
         { input: 'gstin' },
     ];
 
+    const data = [{
+        Location: "Alphanumeric",
+        GSTIN: "Alphanumeric",
+    }]
+
     return (
         <React.Fragment>
             <div className="content-block dx-card responsive-paddings">
                 <div className="content-blocks">
                     <MastersHeaderContent
-                        title={"Location Master"}
-                        subtitle={"You are viewing number of locations"}
+                        title={"Location"}
+                        subtitle={"You are viewing the total number of locations"}
                         columns={columns}
                         handleAddClick={showLocationMasterPopup}
                         masterType={"Locations"}
                         keyExpr={"code"}
+                        data={data}
+                        key={"code"}
+                        heading={"File input for Location"}
                     />
                 </div>
             </div>

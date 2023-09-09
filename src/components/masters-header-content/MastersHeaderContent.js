@@ -35,7 +35,7 @@ import MasterGrid from "../master-grid/MasterGrid";
 import { AppContext } from "../../contexts/dataContext";
 import Template_PopUp from "../masters/Template_PopUp";
 
-const MastersHeaderContent = ({ title, subtitle, handleAddClick, columns, masterType, keyExpr,handleFileUploaded,handlesaveImportedFileData }) => {
+const MastersHeaderContent = ({ title, subtitle, handleAddClick, columns, masterType, keyExpr, handleFileUploaded, handlesaveImportedFileData, data, key, heading }) => {
   const { isPopupVisible, openPopup, closePopUp } = useContext(AppContext);
   const [showItemMasterBox, setShowItemMasterBox] = useState(false);
   const [TemplatePopupBox, setTemplatePopupBox] = useState(false);
@@ -59,7 +59,7 @@ const MastersHeaderContent = ({ title, subtitle, handleAddClick, columns, master
           </div>
           <div className="button-groups">
             {/* <Button text="Export Data" icon="chevrondown" height={32} /> */}
-            <Button text="Template" icon="chevrondown" height={32} onClick={showTemplatePopup}/>
+            <Button text="Template" icon="chevrondown" height={32} onClick={showTemplatePopup} />
             <Button
               text="New Item"
               type="default"
@@ -78,6 +78,9 @@ const MastersHeaderContent = ({ title, subtitle, handleAddClick, columns, master
           handleClosePopUp={handleClosePopUp}
           filefunction={handleFileUploaded}
           handlesaveImportedFileData={handlesaveImportedFileData}
+          dataSource={data}
+          keyExpr={key}
+          heading={heading}
         />
       )}
     </div>

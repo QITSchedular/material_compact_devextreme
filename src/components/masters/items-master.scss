@@ -26,7 +26,7 @@
 }
 
 .fileuploader-container {
-    // border: 1px solid #d3d3d3;
+    //border: 1px solid #d3d3d3;
     margin: 20px 20px -20px 20px;
 
 
@@ -47,7 +47,7 @@
 
     .file-upload-box {
         border: 1px dashed #b6bed1;
-        background-color: #f0f2f7;
+        background-color: #f4f4f4;
         border-radius: 4px;
         min-height: 150px;
         position: relative;
@@ -56,7 +56,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #8194aa;
+        color: rgba(0, 0, 0, 0.87);
         font-weight: 400;
         font-size: 15px;
     }
@@ -82,10 +82,10 @@
     }
 
     .file-link {
-        color: #475f7b;
+        color: #4371B7;
         text-decoration: underline;
         margin-left: 3px;
-        font-size: large;
+        font-size: 15px;
     }
 
     .file-upload-box .file-link:hover {
@@ -180,6 +180,14 @@
     .file-atc-box:last-child {
         margin-bottom: 0;
     }
+}
+
+.filedatagrid {
+    padding: 30px 20px 8px;
+}
+
+.filepopuptagline {
+    padding: 10px 0px;
 }
 
 .item-master-popup-container {
@@ -379,7 +387,7 @@
     }
 }
 
-//  making the left blue colr in the popup
+//  making the left blue color in the popup
 .dx-overlay-content.dx-popup-normal.dx-resizable {
     background: linear-gradient(to right, #4371B7 16px, #FFF 16px);
 }

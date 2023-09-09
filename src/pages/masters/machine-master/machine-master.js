@@ -102,7 +102,7 @@ function Machinemaster() {
       vExpr: "",
     },
     { feildType: "dxDateBox", label: "If, not date", isValidate: false },
-    
+
   ];
   const dataArray3 = [
     // [{ feildType: "dxTextBox", label: "Machine Name", isValidate: true },{ feildType: "dxTextBox", label: "Machine Name", isValidate: true }],
@@ -117,6 +117,14 @@ function Machinemaster() {
     { input: "itmsSubGrpNam" },
     { checkbox: "Locked" },
   ];
+
+  const data = [{
+    MachineName: "String",
+    Warehouse: "Alphanumeric",
+    Status: "String",
+    Date: "Date",
+    Description: "Alphanumeric",
+  }]
 
   const handleFileUploaded = async (fileData) => {
     // console.log("fileData : ", fileData.target.files[0]);
@@ -182,7 +190,7 @@ function Machinemaster() {
       <div className="content-block dx-card responsive-paddings">
         <div cssClass=".temp123" className="content-blocks">
           <MastersHeaderContent
-            title={"Machine "}
+            title={"Machine"}
             subtitle={"You are viewing the total number of machines"}
             handleAddClick={handleClick}
             columns={columns}
@@ -192,6 +200,9 @@ function Machinemaster() {
             // keyExpr={"itmsSubGrpCod"}
             handleFileUploaded={handleFileUploaded}
             handlesaveImportedFileData={saveImportedFileData}
+            data={data}
+            key={""}
+            heading={"File input for Machine"}
           />
         </div>
       </div>
