@@ -39,4 +39,3 @@ export { default as DeliveryPage } from "./sales/delivery/delivery";
 export { default as DispatchPage } from "./sales/delivery/dispatch/dispatch";
 export { default as MachineInOutPage } from "./Track Machines/MachineInOut";
 export { default as MachineManagementPage } from "./Track Machines/MachineManagement";
-export { default as DeliveryProcessPage } from "./sales/delivery/delivery-process";
