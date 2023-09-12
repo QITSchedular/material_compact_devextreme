@@ -120,7 +120,7 @@ const IssueMaterialMain = () => {
   };
 
   const handleProceed = (headerQrId) => {
-    navigate(`/recieve-material/scanitems/${headerQrId}`); // Use navigate function
+    navigate(`/issue-material/scanitems/${headerQrId}`); // Use navigate function
   };
   useEffect(() => {
     async function selectedInputValueSetter() {

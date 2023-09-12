@@ -21,6 +21,7 @@ import {
   ReceiveMaterialPage,
   ReceiveMaterialScanItemsPage,
   IssueMaterialPage,
+  IssueMaterialScanItemsPage,
   InventoryTransferMainPage,
   PickPackMain,
   InprocessQcScanItemsPage,
@@ -28,7 +29,7 @@ import {
   PurchasePage,
   DeliveryPage,
   DeliveryProcessPage,
-  IncomingQcScanItemsPage
+  IncomingQcScanItemsPage,
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -134,6 +135,10 @@ const routes = [
   {
     path: "/production/issue-material",
     element: IssueMaterialPage,
+  },
+  {
+    path: "/issue-material/scanitems/:id",
+    element: IssueMaterialScanItemsPage,
   },
   {
     path: "/inventory/transfer",

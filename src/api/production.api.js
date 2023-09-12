@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_URL } from "../utils/items-master-data";
 
+/*------------Production Issue ---------------------------------*/
 export const getProductionOrderList = async () => {
   const responseBody = {
     responseData: null,
@@ -53,3 +54,36 @@ export const getProductionOrderItemList = async (docEntry) => {
     return responseBody;
   }
 };
+
+export const productionValidateItemQr = async (proDocEntry, detailQRCodeID) => {
+  // console.log("From APi", proDocEntry, detailQRCodeID);
+  const responseBody = {
+    responseData: null,
+    hasError: false,
+    errorMessage: null,
+  };
+  const requestBody = {
+    proDocEntry,
+    detailQRCodeID,
+  };
+  try {
+    const response = await axios.post(
+      `${API_URL}/Production/ValidateItemQR`,
+      requestBody
+    );
+    responseBody.responseData = response.data;
+    // console.log("The api res is: ", responseBody);
+    return responseBody;
+  } catch (error) {
+    console.log("Error while fetching the data, from controller", error);
+    responseBody.hasError = true;
+    responseBody.errorMessage = responseBody.errorMessage =
+      error.response?.data?.statusMsg || error.response?.data?.errors;
+    return responseBody;
+  }
+};
+
+export const productionIssueSaveItems = async (payload, proOrdDocEntry) => {
+  console.log("From Api Handler", payload, proOrdDocEntry);
+};
+/*------------Production Issue ---------------------------------*/

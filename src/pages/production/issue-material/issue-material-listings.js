@@ -8,7 +8,7 @@ const IssueMaterialListing = ({
   onProceed,
   infogridDataSource,
 }) => {
-  console.log("New updated data", listingDataSource);
+  console.log(listingDataSource, "New updated data");
 
   const [visibleDataGridIndexes, setVisibleDataGridIndexes] = useState([]);
 
@@ -41,7 +41,8 @@ const IssueMaterialListing = ({
             </div>
 
             <div className="single-pending-name">
-              <span className="pending-name">{item[0].itemCode}</span>
+              <span className="pending-name">ItemCode: {item[0].itemCode}</span>
+              <span className="pending-name">DocEntry: {item[0].docEntry}</span>
               <Button
                 icon="custom-chevron-down-icon"
                 onClick={() => handleDownClick(index)}
@@ -51,13 +52,13 @@ const IssueMaterialListing = ({
             <div className="single-pending-proceed">
               <Button
                 text="Proceed"
-                onClick={() => proceedHandler(item[0].headerQRCodeID)}
+                onClick={() => proceedHandler(item[0].docEntry)}
               ></Button>
             </div>
           </div>
           {visibleDataGridIndexes.includes(index) && (
             <div className="data-grid-drop-down">
-              <IssueListingDatagrid dataSource={infogridDataSource} />
+              <IssueListingDatagrid dataSource={item} />
             </div>
           )}
         </div>

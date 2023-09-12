@@ -1,5 +1,3 @@
-
-
 export { default as HomePage } from "./home/home";
 export { default as ProfilePage } from "./profile/profile";
 // export { default as TasksPage } from "./tasks/tasks";
@@ -26,6 +24,7 @@ export { default as VerifyMaterialScanItemsPage } from "./production/verify-mate
 export { default as ReceiveMaterialPage } from "./production/receive-material/receive-material.main";
 export { default as ReceiveMaterialScanItemsPage } from "./production/receive-material/receive-material-scan-items";
 export { default as IssueMaterialPage } from "./production/issue-material/issue-material-main";
+export { default as IssueMaterialScanItemsPage } from "./production/issue-material/issue-material-scan-items";
 export { default as InventoryTransferMainPage } from "./inventory/inventory-transfer/inventory-transfer-main";
 export { default as PickPackMain } from "./inventory/pick-pack/Pick-pack-main";
 export { default as PurchasePage } from "./purchases/purchase/purchase";
