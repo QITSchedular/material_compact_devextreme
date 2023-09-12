@@ -84,6 +84,83 @@ export const productionValidateItemQr = async (proDocEntry, detailQRCodeID) => {
 };
 
 export const productionIssueSaveItems = async (payload, proOrdDocEntry) => {
-  console.log("From Api Handler", payload, proOrdDocEntry);
+  const constructedPayload = await productionIssuePayloadConstructor(payload);
+  const responseBody = {
+    responseData: null,
+    hasError: false,
+    errorMessage: null,
+  };
+  try {
+    const response = await axios.post(
+      `${API_URL}/Production/ProductionIssue`,
+      constructedPayload
+    );
+    responseBody.responseData = response.data;
+    console.log("The api res is: ", responseBody);
+
+    return responseBody;
+  } catch (error) {
+    console.log("Error while fetching the data, from controller", error);
+    responseBody.hasError = true;
+    responseBody.errorMessage = responseBody.errorMessage =
+      error.response?.data?.statusMsg || error.response?.data?.errors;
+    return responseBody;
+  }
+};
+
+const productionIssuePayloadConstructor = (payload) => {
+  // PART1: Static values
+  const BranchID = 1;
+  const PART1 = {
+    BranchID,
+    proOrdDocEntry: payload[0].docEntry,
+    Comment: "Production issue  test",
+  };
+
+  // PART2: Process piItems and piBatchSerial
+  const piItems = [];
+  const itemCodeMap = {}; // To group items by itemCode
+
+  payload.forEach((entry) => {
+    const { itemCode, lineNum, itemMngBy, whsCode, issQty, batchSerialNo } =
+      entry;
+
+    if (!itemCodeMap[itemCode]) {
+      // Create a new item object if it doesn't exist
+      const newItem = {
+        itemCode,
+        lineNum,
+        itemMngBy,
+        toWhs: whsCode,
+        qty: 0, // Initialize qty to 0
+        piBatchSerial: [],
+      };
+
+      itemCodeMap[itemCode] = newItem;
+      piItems.push(newItem);
+    }
+
+    // Update the qty by adding issQty
+    // itemCodeMap[itemCode].qty += parseFloat(issQty);
+    const cummulativeQty = itemCodeMap[itemCode].qty + parseFloat(issQty);
+    itemCodeMap[itemCode].qty = `${cummulativeQty}`;
+
+    // Add data to piBatchSerial
+    itemCodeMap[itemCode].piBatchSerial.push({
+      gateInNo: entry.gateInNo,
+      itemCode,
+      detailQRCodeID: entry.detailQRCodeID,
+      batchSerialNo,
+      qty: `${issQty}`,
+    });
+  });
+
+  // Construct the final API response
+  const apiResponse = {
+    ...PART1,
+    piItems,
+  };
+
+  return apiResponse;
 };
 /*------------Production Issue ---------------------------------*/

@@ -18,10 +18,10 @@ const IssueMaterialScanItems = () => {
   let { id } = useParams();
   const navigate = useNavigate();
 
+  // const [showListDataGrid, setShowListDataGrid] = useState(false);
   const [showListDataGrid, setShowListDataGrid] = useState(false);
   const [scannedQrString, setScannedQrString] = useState("");
   const [scannedItemsData, setScannedItemsData] = useState([]);
-  const [proDocEntry, setProDocEntry] = useState(null);
 
   const inputQrValueChangedCallback = (data) => {
     // console.log(data.value);
@@ -81,19 +81,22 @@ const IssueMaterialScanItems = () => {
     SwalDisplayer("success", "Operation Successful");
   };
 
-  const productionIssueSaver = (dataToSave, proDocEntry) => {
-    console.log(proDocEntry);
-    const apiRes = productionIssueSaveItems(dataToSave, proDocEntry);
+  const productionIssueSaver = async (dataToSave) => {
     /*Hit the api to save this*/
+    const apiRes = await productionIssueSaveItems(dataToSave);
+    if (apiRes.hasError && apiRes.errorMessage.includes("Error code:")) {
+      return toastDisplayer(
+        "error",
+        "Something went wrong, Please try again later"
+      );
+    }
   };
 
   useEffect(() => {
-    if (id) {
-      setProDocEntry(id);
-    } else {
-      navigate("/production/issue-material");
+    if (!id) {
+      return navigate("/production/issue-material");
     }
-  }, [id, navigate]);
+  }, []);
 
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner issue-material-scanItems-container ">
