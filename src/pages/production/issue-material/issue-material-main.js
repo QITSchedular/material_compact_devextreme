@@ -80,11 +80,10 @@ const IssueMaterialMain = () => {
     /* ----------- validator --------- */
 
     /* ----------- hit api --------- */
-    // const listData = await testGetDetailsByProductionNumber(inputQrValue);
-    console.log(inputPoValue, "from handle search");
+    // console.log(inputQrValue, "from handle search");
+
     const listData = await getProductionOrderItemList(inputPoValue[0].docEntry);
 
-    // console.log(listData);
     if (listData.hasError) {
       setInputQrValue("");
       setLoading(false);
@@ -94,22 +93,20 @@ const IssueMaterialMain = () => {
       );
     }
     // Check if the item already exists in the listingDataSource
-    const existingIndex = listingDataSource.findIndex(
-      (item) => item[0].docEntry === inputPoValue.docEntry
+    const isDuplicate = listingDataSource.some(
+      (item) => item[0].docEntry === inputPoValue[0].docEntry
     );
-    if (existingIndex === -1) {
-      // Item doesn't exist, add it to the listingDataSource
-      setLoading(false);
-      setListingDataSource([...listingDataSource, inputPoValue]);
-    } else {
+
+    if (isDuplicate) {
       // Item already exists, show a message or handle as needed
       setLoading(false);
       return toastDisplayer("error", "Duplicate Production order Entry");
+    } else {
+      // Item doesn't exist, add it to the listingDataSource
+      setLoading(false);
+      setListingDataSource([...listingDataSource, inputPoValue]);
     }
-    // setListingDataSource([...listingDataSource, listData.data]);
-    // console.log("This is listing data", listData.data);
-    //setInputQrValue(""); // Clear input after search
-    /* ----------- hit api --------- */
+
     await setInfogridDataSource(listData.responseData);
     setLoading(false);
   };
@@ -147,12 +144,12 @@ const IssueMaterialMain = () => {
           <TextBox
             className="dx-field-value"
             stylingMode="outlined"
-            placeholder="Type the production number"
+            placeholder="Click help icon to choose.."
             width={250}
             showClearButton={true}
             valueChangeEvent="keyup"
             onValueChanged={inputQrValueChangedCallback}
-            value={inputPoValue.length > 0 ? inputPoValue[0].itemCode : "null"}
+            value={inputPoValue.length > 0 ? inputPoValue[0].itemCode : ""}
           >
             <TextBoxButton
               name="currency"

@@ -83,8 +83,11 @@ export const productionValidateItemQr = async (proDocEntry, detailQRCodeID) => {
   }
 };
 
-export const productionIssueSaveItems = async (payload, proOrdDocEntry) => {
-  const constructedPayload = await productionIssuePayloadConstructor(payload);
+export const productionIssueSaveItems = async (payload, comments) => {
+  const constructedPayload = await productionIssuePayloadConstructor(
+    payload,
+    comments
+  );
   const responseBody = {
     responseData: null,
     hasError: false,
@@ -96,7 +99,7 @@ export const productionIssueSaveItems = async (payload, proOrdDocEntry) => {
       constructedPayload
     );
     responseBody.responseData = response.data;
-    console.log("The api res is: ", responseBody);
+    // console.log("The api res is: ", responseBody);
 
     return responseBody;
   } catch (error) {
@@ -108,13 +111,13 @@ export const productionIssueSaveItems = async (payload, proOrdDocEntry) => {
   }
 };
 
-const productionIssuePayloadConstructor = (payload) => {
+const productionIssuePayloadConstructor = (payload, comments) => {
   // PART1: Static values
   const BranchID = 1;
   const PART1 = {
     BranchID,
     proOrdDocEntry: payload[0].docEntry,
-    Comment: "Production issue  test",
+    Comment: comments ? comments : "",
   };
 
   // PART2: Process piItems and piBatchSerial
@@ -122,7 +125,7 @@ const productionIssuePayloadConstructor = (payload) => {
   const itemCodeMap = {}; // To group items by itemCode
 
   payload.forEach((entry) => {
-    const { itemCode, lineNum, itemMngBy, whsCode, issQty, batchSerialNo } =
+    const { itemCode, lineNum, itemMngBy, proWhsCode, issQty, batchSerialNo } =
       entry;
 
     if (!itemCodeMap[itemCode]) {
@@ -131,7 +134,7 @@ const productionIssuePayloadConstructor = (payload) => {
         itemCode,
         lineNum,
         itemMngBy,
-        toWhs: whsCode,
+        WhsCode: proWhsCode,
         qty: 0, // Initialize qty to 0
         piBatchSerial: [],
       };

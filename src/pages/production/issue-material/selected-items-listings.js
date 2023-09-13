@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataGrid, {
   AsyncRule,
   Column,
@@ -9,7 +9,7 @@ import DataGrid, {
   Scrolling,
   Selection,
 } from "devextreme-react/data-grid";
-import { Button } from "devextreme-react";
+import { Button, TextArea, TextBox } from "devextreme-react";
 
 const allowedPageSizes = [10, 20, "all"];
 const SelectedItemsListings = ({ scannedItemsData, productionIssueSaver }) => {
@@ -18,6 +18,7 @@ const SelectedItemsListings = ({ scannedItemsData, productionIssueSaver }) => {
   const [showPageSizeSelector, setShowPageSizeSelector] = useState(true);
   const [showInfo, setShowInfo] = useState(true);
   const [showNavButtons, setShowNavButtons] = useState(true);
+  const [comments, setComments] = useState("");
 
   const calculateOpenQtyValue = (data) => {
     const { plannedQty, issuedQty } = data;
@@ -47,6 +48,9 @@ const SelectedItemsListings = ({ scannedItemsData, productionIssueSaver }) => {
         return resolve(value);
       }
     });
+  };
+  const commentsHandler = (comments) => {
+    return setComments(comments.value);
   };
   return (
     <>
@@ -120,7 +124,7 @@ const SelectedItemsListings = ({ scannedItemsData, productionIssueSaver }) => {
         </Column>
         <Column
           caption="Warehouse Code"
-          dataField={"whsCode"}
+          dataField={"proWhsCode"}
           allowEditing={false}
         />
         <Column type="buttons" width={110} caption={"Actions"}>
@@ -137,13 +141,20 @@ const SelectedItemsListings = ({ scannedItemsData, productionIssueSaver }) => {
           bottom: "0px !important",
         }}
       >
+        <TextArea
+          placeholder="Add  Comments:(OPTIONAL)"
+          maxHeight={41}
+          width={"100%"}
+          stylingMode="outlined"
+          onValueChanged={commentsHandler}
+        />
         <Button
           type="default"
           text="Issue"
           width={124}
           height={35}
           className="default-button"
-          onClick={() => productionIssueSaver(scannedItemsData)}
+          onClick={() => productionIssueSaver(scannedItemsData, comments)}
         />
       </div>
     </>

@@ -1,5 +1,5 @@
 import { Button, Popup, TextBox } from "devextreme-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   PopupHeaderText,
   PopupSubText,
@@ -19,6 +19,8 @@ const PopUpContent = ({
   popUpOutsideClickHandler,
   inputPoValue,
   setInputPoValue,
+  isOKButtonDisabled,
+  setOKButtonDisabled,
 }) => {
   const dataGridRef = useRef();
   const [selectedRowData, setSelectedRowData] = useState("");
@@ -29,21 +31,40 @@ const PopUpContent = ({
     await setSelectedRowData(params);
   };
   const handleGridItemSelection = ({ selectedRowKeys }) => {
+    console.log(selectedRowKeys);
     if (selectedRowKeys.length > 1) {
       const value = dataGridRef.current.instance.selectRows(
         selectedRowKeys[selectedRowKeys.length - 1]
       );
-      return selectedRowSetter(value);
+
+      selectedRowSetter(value);
     } else {
       const value = dataGridRef.current.instance.selectRows(selectedRowKeys[0]);
-      return selectedRowSetter(value);
+      selectedRowSetter(value);
     }
+    setOKButtonDisabled(selectedRowKeys.length === 0);
   };
 
   const handleSaveSelection = async () => {
     await setInputPoValue(selectedRowData);
     return popUpOutsideClickHandler();
   };
+  // select the row if input po value is already selected
+  useEffect(() => {
+    if (inputPoValue && inputPoValue.length > 0) {
+      // Set the initially selected rows based on the inputPoValue prop
+      const selectedRowKeys = poHelpDataSource
+        .filter((item) => item.docEntry === inputPoValue[0].docEntry)
+        .map((item) => item.docEntry);
+
+      if (selectedRowKeys.length > 0) {
+        dataGridRef.current.instance.selectRows(selectedRowKeys);
+      }
+    }
+  }, [inputPoValue, poHelpDataSource]);
+
+  // ... Rest of the code ...
+
   return (
     <>
       <div
@@ -71,7 +92,7 @@ const PopUpContent = ({
           showBorders={false}
           columnAutoWidth={true}
           hoverStateEnabled={true}
-          className="transporter-data-grid testGrid"
+          className="transporter-data-grid issuefrompro__prohelp--data-grid"
           onSelectionChanged={handleGridItemSelection}
           // selectedRowKeys={selectedRowKeys}
           ref={dataGridRef}
@@ -104,7 +125,8 @@ const PopUpContent = ({
           height={35}
           className="default-button"
           onClick={handleSaveSelection}
-          // disabled={selectedRowKeys.length > 0 ? false : true}
+          // disabled={selectedRowKeys.length > 1 ? false : true}
+          disabled={isOKButtonDisabled}
         />
       </div>
     </>
@@ -116,9 +138,11 @@ const IssueMaterialPoHelpPopup = ({
   inputPoValue,
   setInputPoValue,
 }) => {
+  const [isOKButtonDisabled, setOKButtonDisabled] = useState(true);
   const popUpOutsideClickHandler = () => {
     setShowPoHelpPopup(false);
   };
+
   return (
     <>
       <Popup
@@ -133,6 +157,8 @@ const IssueMaterialPoHelpPopup = ({
             popUpOutsideClickHandler={popUpOutsideClickHandler}
             inputPoValue={inputPoValue}
             setInputPoValue={setInputPoValue}
+            isOKButtonDisabled={isOKButtonDisabled}
+            setOKButtonDisabled={setOKButtonDisabled}
           />
         )}
       ></Popup>

@@ -9,6 +9,8 @@ import { GRPOScanner } from "../../../assets/icon";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import { testGetDetailsByProductionNumber } from "../../../api/test-apis";
 import RecievematerialListing from "./recieve-material.listing";
+import { Button as TextBoxButton } from "devextreme-react/text-box";
+import { HelpIcons } from "../../purchases/grpo/icons-exporter";
 
 const ReceiveMaterialMain = () => {
   const [isSearchButtonDisabled, setIsSearchButtonDisabled] = useState(true);
@@ -17,6 +19,13 @@ const ReceiveMaterialMain = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  const helpOptions = {
+    icon: HelpIcons,
+    onClick: () => {
+      console.log("hello");
+    },
+  };
 
   const inputQrValueChangedCallback = ({ value }) => {
     if (value) {
@@ -95,7 +104,13 @@ const ReceiveMaterialMain = () => {
           showClearButton={true}
           valueChangeEvent="keyup"
           onValueChanged={inputQrValueChangedCallback}
-        ></TextBox>
+        >
+          <TextBoxButton
+            name="currency"
+            location="after"
+            options={helpOptions}
+          />
+        </TextBox>
         <Button
           width={33}
           height={33}

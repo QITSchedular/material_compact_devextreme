@@ -42,13 +42,14 @@ const IssueMaterialScanItems = () => {
       id,
       scannedQrString
     );
+    console.log(fetchValidatedItemsQrData);
     // if error display toast
     if (fetchValidatedItemsQrData.hasError) {
       return toastDisplayer(
         "error",
-        fetchValidatedItemsQrData.responseData
-          ? fetchValidatedItemsQrData.responseData
-          : "Invalid Item Qr Scanned"
+        fetchValidatedItemsQrData.errorMessage
+          ? fetchValidatedItemsQrData.errorMessage
+          : "Something went wrong, please try again later."
       );
     }
     // if no error check for duplicate entry in scannedItemsData
@@ -77,19 +78,20 @@ const IssueMaterialScanItems = () => {
     }
   };
 
-  const handleIssue = () => {
-    SwalDisplayer("success", "Operation Successful");
-  };
-
-  const productionIssueSaver = async (dataToSave) => {
+  const productionIssueSaver = async (dataToSave, comments) => {
     /*Hit the api to save this*/
-    const apiRes = await productionIssueSaveItems(dataToSave);
+    const apiRes = await productionIssueSaveItems(dataToSave, comments);
     if (apiRes.hasError && apiRes.errorMessage.includes("Error code:")) {
       return toastDisplayer(
         "error",
         "Something went wrong, Please try again later"
       );
     }
+    if (apiRes.hasError) {
+      return toastDisplayer("error", apiRes.errorMessage);
+    }
+    SwalDisplayer("success", "Operation Successful");
+    return navigate("/production/issue-material");
   };
 
   useEffect(() => {

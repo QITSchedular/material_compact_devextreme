@@ -41,8 +41,18 @@ const IssueMaterialListing = ({
             </div>
 
             <div className="single-pending-name">
-              <span className="pending-name">ItemCode: {item[0].itemCode}</span>
-              <span className="pending-name">DocEntry: {item[0].docEntry}</span>
+              <span
+                className="pending-name"
+                id="production-issuematerial-listing-itemCode"
+              >
+                ItemCode: {item[0].itemCode}
+              </span>
+              <span
+                className="pending-name"
+                id="production-issuematerial-listing-docNum"
+              >
+                DocNum: {item[0].docNum}
+              </span>
               <Button
                 icon="custom-chevron-down-icon"
                 onClick={() => handleDownClick(index)}
