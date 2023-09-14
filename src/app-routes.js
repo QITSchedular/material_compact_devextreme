@@ -27,7 +27,6 @@ import {
   SalePage,
   PurchasePage,
   DeliveryPage,
-  DeliveryProcessPage,
   IncomingQcScanItemsPage,
   NotfoundPage,
   MachineInOutPage,
@@ -190,10 +189,6 @@ const routes = [
   {
     path: "/sales/delivery",
     element: DeliveryPage,
-  },
-  {
-    path: "/production/issue-material/verify-material/:qrCode/:docEntry",
-    element: DeliveryProcessPage,
   },
   {
     path: "/TrackMachines",
