@@ -63,14 +63,6 @@
 
 // new header css
 .header-toolbar {
-    .search-icon {
-        position: absolute;
-        top: 50%;
-        left: -10px;
-        transform: translateY(-50%);
-        color: #777;
-    }
-
     .nav-icons {
         .dx-item-content.dx-toolbar-item-content {
             display: flex;
@@ -146,6 +138,22 @@
                     margin-left: 1rem;
                 }
             }
+
+            .search-icon {
+                position: absolute;
+                top: 55%;
+                left: 10px;
+                transform: translateY(-50%);
+                color: #777;
+            }
+
+            .search-icon.material-symbols-outlined {
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
         }
 
         .dx-buttongroup-wrapper {
