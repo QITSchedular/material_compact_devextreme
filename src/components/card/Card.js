@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './Card.scss';
-import { Button } from 'devextreme-react';
-import { pin } from '../../assets/icon';
 import { Link } from 'react-router-dom';
 import { toastDisplayer } from '../../api/qrgenerators';
 
