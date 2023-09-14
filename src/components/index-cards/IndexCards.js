@@ -20,11 +20,10 @@ export default function IndexCards({ path }) {
                 {
                     navobj[path].map((value, key) => (
                         <>
-                            {(typeof value['icon'] === "object") ? console.log(value['icon'].dark) : console.log(value['icon'])}
                             <Card
                                 title={value['text']}
-                                description={"Here is the description for the particular card"}
-                                icon={(typeof value['icon'] === "object") ? value['icon'].dark : value['icon']}
+                                description={"Here is the description for the particular"}
+                                icon={value['icon']}
                                 path={value['path']}
                             />
                         </>
