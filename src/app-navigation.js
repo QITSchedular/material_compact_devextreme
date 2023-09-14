@@ -1,4 +1,3 @@
-import * as icon from './assets/icon';
 import 'material-icons/iconfont/material-icons.css'
 
 export const navigation = [

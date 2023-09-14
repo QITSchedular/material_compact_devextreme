@@ -6,7 +6,6 @@ import DataGrid, {
   Paging,
   Scrolling,
   Selection,
-  Editing,
   AsyncRule,
   Button,
   ColumnFixing,
@@ -26,13 +25,13 @@ import {
 import PrintPopup from "./print-popup";
 import { AppContext } from "../../../../contexts/dataContext";
 import ItemsQrDisplayer from "./qr-displayer";
-import { fetchItemQrCode } from "../../../../utils/qr-generation";
+import { fetchItemQrCode, fetchItemQrCode1 } from "../../../../utils/qr-generation";
+import { toastDisplayer } from "../../../../api/qrgenerators";
 
 const buttonDropDownOptions = { width: 230, maxHeight: 450 };
 
 const PrintQrMainComp = () => {
-  const { isQrPopupVisible, openQrPopUp, closeQrPopUp } =
-    useContext(AppContext);
+ 
 
   const [poDetailsfull, setPoDetailsFull] = React.useState("");
   const [scrollingMode, setScrollingMode] = React.useState("standard");
@@ -58,7 +57,18 @@ const PrintQrMainComp = () => {
   const [itemQrCode, setItemQrCode] = useState([]);
 
   const handleSearchPurchasedOrder = async () => {
+    try{
+
     const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
+    if(poNumber==""){
+      return toastDisplayer('error', "Please enter purchase order no.");
+    }
+    if(periodIsSelected){
+      return toastDisplayer('error', "Please select period.");
+    }
+    // if(!seriesIsSelected){
+    //   return toastDisplayer('error', "Please select series.");
+    // }
     const flag = "Y";
     // here set the gate in , give a drop down to select the gate in;
     const gateInNo = "";
@@ -82,25 +92,40 @@ const PrintQrMainComp = () => {
         theme: "light",
       });
     }
-    /* also get the list of the gateIn number for that Po;*/
+    await setPoDetailsFull(poResponse);
     const listOfGateInNumber = await getGateInNumberList(
       poNumber,
       selectedSeries.series
     );
-    /* also get the list of the gateIn number for that Po;*/
-
     const poDetArrayWithRecQty = await poResponse[0].poDet.map((item) => ({
       ...item,
       recQty: 0,
     }));
-    // console.log("This is the data", poDetArrayWithRecQty);
-    await setPoData(poDetArrayWithRecQty);
+    const updatedDataArray = await Promise.all(poDetArrayWithRecQty.map(async (item) => {
+      // Add your conditions here to determine  when to set 'additionalData'
+      var additionalItem = await shouldDisableButtonForRow1(item.docEntry,
+        poResponse[0].docNum,
+        seriesList[0].series,
+        poResponse[0].objType,
+        item.itemCode,
+        item.gateInNo);
+      if (additionalItem) {
+        return { ...item, disablebtn: false };
+      } else {
+        return { ...item, disablebtn: true };
+      }
+    }));    
+    await setPoData(updatedDataArray); 
     await setPoDetailsFull(poResponse);
     setLoading(false);
+  }catch(err){
+    return toastDisplayer('error', err.message);
+  }
   };
 
   // handle dropdown items click
   const periodItemsClick = async (e) => {
+    try{
     await setSelectedPeriodIndicator(e.itemData.indicator || e.itemData);
     const seriesData = await getSeriesPo(e.itemData.indicator, 1);
     // console.log(seriesData);
@@ -119,22 +144,23 @@ const PrintQrMainComp = () => {
     // the dropdown should be series name
     setSeriesList(seriesData);
     setSelectedValue({ periodIsSelected: true });
-    console.log("This is series data", seriesData);
+    // console.log("This is series data", seriesData);
+  }catch(err){
+    return toastDisplayer('error', err.message);
+  }
   };
 
   const handleSeriesSelectionClick = async (e) => {
     await setSelectedSeries(e.itemData);
-    // await setSelectedSeries(e.itemData.seriesNum);
     setSelectedValue({ seriesIsSelected: true });
   };
   const handleGateInNumSelectionClick = async (e) => {
     await setSelectedGateInNum(e.itemData);
-    console.log(e.itemData);
-    // await setSelectedSeries(e.itemData.seriesNum);
     setSelectedValue({ gateInIsIsSelected: true });
   };
 
   const handlePurchaseOrderEntry = async (enteredPoNum) => {
+    try{
     await setPoNumber(enteredPoNum.value);
     setSelectedValue({ poIsEntered: true });
     if (enteredPoNum.value) {
@@ -145,6 +171,9 @@ const PrintQrMainComp = () => {
       );
       await setGetInNumList(listOfGateInNumber);
     }
+  }catch(err){
+    return toastDisplayer('error', err.message);
+  }
   };
 
   // Handle the editing of the cell recieved qty
@@ -158,7 +187,7 @@ const PrintQrMainComp = () => {
       }
     });
   };
-
+ 
   const handleGateIn = async () => {
     const callLoop = callUpdatePoApi(updatedItems);
   };
@@ -175,18 +204,20 @@ const PrintQrMainComp = () => {
 
   //fetch the searches data
   const getSeriesData = async () => {
-    const data = await getPeriodIndicator();
-    // console.log(data);
-    await setPeriodIndicators(data);
+    try{
+      const data = await getPeriodIndicator();
+      await setPeriodIndicators(data);
+    }catch(err){
+      return toastDisplayer("error",err.message);
+    }
   };
   useEffect(() => {
-    console.log("object");
+    // console.log("object");
     getSeriesData();
   }, []);
 
   // qr Visible handlers
   const handleClone = async (e) => {
-    // console.log("This is the selected row data", e.row.data);
     await setSelectedQrRowData(e.row.data);
     if (e.row.data) {
       const iqstr = await fetchItemQrCode(
@@ -194,9 +225,8 @@ const PrintQrMainComp = () => {
         poDetailsfull,
         seriesList
       );
-      // console.log("Ye le bahi", iqstr);
       if (!iqstr.length > 0) {
-        console.log("in if");
+        // console.log("in if");
         toast.error("No Qr Data Found", {
           position: "top-right",
           autoClose: 5000,
@@ -218,12 +248,12 @@ const PrintQrMainComp = () => {
           theme: "light",
         });
       } else {
-        console.log("nested else");
+        // console.log("nested else");
         setViewQr(true);
         setItemQrCode(iqstr);
       }
     } else {
-      return alert("Row data not exist");
+      return toastDisplayer("error","Row data not exist");
     }
   };
 
@@ -237,7 +267,7 @@ const PrintQrMainComp = () => {
   const [printQrVisibility, setPrintQrVisibility] = useState(false);
   const [selectedQrRowData, setSelectedQrRowData] = useState("");
   const handleQrGenerate = async (e) => {
-    console.log(e.row.data, poDetailsfull);
+    // console.log(e.row.data,"new ", poDetailsfull);
     setSelectedQrRowData(e.row.data);
     setShowPrintPop(true);
   };
@@ -246,8 +276,33 @@ const PrintQrMainComp = () => {
     return await setShowPrintPop(data);
   };
 
+  const shouldDisableButtonForRow1 = async ( docEntry,
+    docNum,
+    series,
+    objType,
+    itemCode,
+    gateInNo,) => {
+      try{
+    const iqstr = await fetchItemQrCode1(
+      docEntry,
+      docNum,
+      series,
+      objType,
+      itemCode,
+      gateInNo,
+    );
+    if (!iqstr.length > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }catch(err){
+    return toastDisplayer('error', err.message);
+  }
+  }
+
   return (
-    <div className="content-block dx-card responsive-paddings main-container">
+    <div className="content-block dx-card responsive-paddings main-container-printQR">
       {showPrintPop && (
         <PrintPopup
           qrVisibilityHandler={qrVisibilityHandler}
@@ -264,47 +319,56 @@ const PrintQrMainComp = () => {
         />
       )}
       <div className="title-section">
+
         <div className="title-name">Generate & Print QR Code</div>
         <div className="title-description">
-        Select and Enter field values to get P.O
+          Select and Enter field values to get P.O
         </div>
       </div>
 
       <div className="actions-section">
         <div className="buttons-section">
-          <DropDownButton
-            text={
-              selectedPeriodIndicator
-                ? selectedPeriodIndicator
-                : "Select Period"
-            }
-            dropDownOptions={buttonDropDownOptions}
-            keyExpr="indicator"
-            displayExpr={"indicator"}
-            items={periodIndicators}
-            onItemClick={periodItemsClick}
-            className="period-indicator"
-          />
-          <DropDownButton
-            text={selectedSeries ? selectedSeries.seriesName : "Select Series"}
-            dropDownOptions={buttonDropDownOptions}
-            items={seriesList}
-            keyExpr={"series"}
-            displayExpr={"seriesName"}
-            onItemClick={handleSeriesSelectionClick}
-            className="series-indicator"
-          />
-          <DropDownButton
-            text={
-              selectedGateInNum ? `${selectedGateInNum.gateInNo}` : "Gatein Num"
-            }
-            dropDownOptions={buttonDropDownOptions}
-            items={gateInNumList}
-            keyExpr={"gateInNo"}
-            displayExpr={"gateInNo"}
-            onItemClick={handleGateInNumSelectionClick}
-            className="gatein-num-list"
-          />
+          <div className="buttons-sub-section1">
+            <DropDownButton
+              text={
+                selectedPeriodIndicator
+                  ? selectedPeriodIndicator
+                  : "Select Period"
+              }
+              dropDownOptions={buttonDropDownOptions}
+              keyExpr="indicator"
+              displayExpr={"indicator"}
+              items={periodIndicators}
+              onItemClick={periodItemsClick}
+              className="period-indicator"
+            />
+            <DropDownButton
+              text={
+                selectedSeries ? selectedSeries.seriesName : "Select Series"
+              }
+              dropDownOptions={buttonDropDownOptions}
+              items={seriesList}
+              keyExpr={"series"}
+              displayExpr={"seriesName"}
+              onItemClick={handleSeriesSelectionClick}
+              className="series-indicator"
+            />
+          </div>
+          <div>
+            <DropDownButton
+              text={
+                selectedGateInNum
+                  ? `${selectedGateInNum.gateInNo}`
+                  : "Gatein Num"
+              }
+              dropDownOptions={buttonDropDownOptions}
+              items={gateInNumList}
+              keyExpr={"gateInNo"}
+              displayExpr={"gateInNo"}
+              onItemClick={handleGateInNumSelectionClick}
+              className="gatein-num-list"
+            />
+          </div>
         </div>
         <div className="search-section">
           <TextBox
@@ -330,99 +394,98 @@ const PrintQrMainComp = () => {
         {loading && <LoadPanel />}
         {poData ? (
           <>
-            <DataGrid
-              id="data-grid-container-local"
-              dataSource={poData}
-              keyExpr={"itemCode"}
-              showBorders={false}
-              focusedRowEnabled={true}
-              defaultFocusedRowIndex={0}
-              columnAutoWidth={true}
-              columnHidingEnabled={false}
-              remoteOperations={true}
-              onSaving={handleGridSaving}
-            >
-              <Scrolling mode={scrollingMode} />
-              <Paging defaultPageSize={10} />
-              <Selection mode="multiple" />
-              <ColumnFixing enabled={true} />
-              <Column
-                dataField={"itemCode"}
-                caption={"Item Code"}
-                allowEditing={false}
-              />
-              <Column
-                dataField={"itemName"}
-                caption={"Item Name"}
-                allowEditing={false}
-              />
-              <Column
-                caption={"Project Name"}
-                dataField={"project"}
-                allowEditing={false}
-              />
-              <Column
-                caption={"UOM"}
-                dataField={"uomCode"}
-                allowEditing={false}
-              />
-              <Column
-                caption={"Wharehouse"}
-                dataField={"whsCode"}
-                allowEditing={false}
-              />
-              {/* Bind this to any respective values */}
-              <Column
-                caption={"Qr Managed By"}
-                dataField={"qrMngBy"}
-                allowEditing={false}
-              />
+              <DataGrid
+                id="data-grid-container-local"
+                dataSource={poData}
+                keyExpr={"gateInNo"}
+                showBorders={false}
+                focusedRowEnabled={true}
+                defaultFocusedRowIndex={0}
+                columnAutoWidth={true}
+                columnHidingEnabled={false}
+                remoteOperations={true}
+                onSaving={handleGridSaving}
+              >
+                <Scrolling mode={scrollingMode} />
+                <Paging defaultPageSize={10} />
+                <Selection mode="multiple" />
+                <ColumnFixing enabled={true} />
+                <Column
+                  dataField={"itemCode"}
+                  caption={"Item Code"}
+                  allowEditing={false}
+                />
+                <Column
+                  dataField={"itemName"}
+                  caption={"Item Name"}
+                  allowEditing={false}
+                />
+                <Column
+                  caption={"Project Name"}
+                  dataField={"project"}
+                  allowEditing={false}
+                />
+                <Column
+                  caption={"UOM"}
+                  dataField={"uomCode"}
+                  allowEditing={false}
+                />
+                <Column
+                  caption={"Wharehouse"}
+                  dataField={"whsCode"}
+                  allowEditing={false}
+                />
+                {/* Bind this to any respective values */}
+                <Column
+                  caption={"Qr Managed By"}
+                  dataField={"qrMngBy"}
+                  allowEditing={false}
+                />
 
-              <Column
-                dataField={"qty"}
-                caption={"Ordered Qty."}
-                allowEditing={false}
-              />
-              <Column
-                dataField={"openQty"}
-                type={"number"}
-                caption={"Received Qty"}
-                // allowEditing={
-                //   poData && parseInt(poData.openQty) > 0 ? true : false
-                // }
-                allowEditing={true}
-              >
-                <AsyncRule
-                  message="Email address is not unique"
-                  validationCallback={asyncValidation}
+                <Column
+                  dataField={"qty"}
+                  caption={"Ordered Qty."}
+                  allowEditing={false}
                 />
-              </Column>
-              <Column
-                dataField={"recDate"}
-                caption={"Rec. Date"}
-                allowEditing={false}
-              />
-              <Column
-                type="buttons"
-                width={110}
-                caption={"Actions"}
-                fixed={true}
-                fixedPosition={"right"}
-              >
-                <Button
-                  hint="Generate QrCode..."
-                  icon="fa-solid fa-qrcode"
-                  visible={true}
-                  onClick={handleQrGenerate}
+                <Column
+                  dataField={"openQty"}
+                  type={"number"}
+                  caption={"Received Qty"}
+                  allowEditing={true}
+                >
+                  <AsyncRule
+                    message="Email address is not unique"
+                    validationCallback={asyncValidation}
+                  />
+                </Column>
+                <Column
+                  dataField={"recDate"}
+                  caption={"Rec. Date"}
+                  allowEditing={false}
                 />
-                <Button
-                  hint="Clone"
-                  icon="fa-solid fa-print"
-                  visible={true}
-                  onClick={handleClone}
-                />
-              </Column>
-            </DataGrid>
+                <Column
+                  type="buttons"
+                  width={110}
+                  caption={"Actions"}
+                  fixed={true}
+                  fixedPosition={"right"}
+                >
+                  <Button
+                    hint="Generate QrCode..."
+                    icon="fa-solid fa-qrcode"
+                    visible={true}
+                    onClick={handleQrGenerate}
+                    disabled={data => !data.row.data.disablebtn}
+                  />
+                  <Button
+                    hint="Clone"
+                    icon="fa-solid fa-print"
+                    visible={true}
+                    onClick={handleClone}
+                    disabled={data => data.row.data.disablebtn}
+                  />
+                </Column>
+              </DataGrid>
           </>
         ) : (
           <div className="no-po-section">

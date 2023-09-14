@@ -36,20 +36,51 @@ export const verifyProdcutionQrInput = async (
   }
 };
 
-export const inventoryTransferSaver = async (payload) => {
-  const requestBody = await inventoryTransferPayloadConstructor(payload);
-  console.log(JSON.stringify(requestBody));
+export const inventoryTransferSaver = async (
+  payload,
+  selectedFromWarehouse,
+  selectedToWarehouse
+) => {
+  const requestBody = await inventoryTransferPayloadConstructor(
+    payload,
+    selectedFromWarehouse,
+    selectedToWarehouse
+  );
+  // console.log(JSON.stringify(requestBody));
+  const PayloadData = JSON.stringify(requestBody);
+  console.log("PayloadData: " + PayloadData);
   try {
+    // const response = await axios.post(
+    //   `${API_URL}/InventoryTransfer/InventoryTransfer`,
+    //   PayloadData
+    // );
+
+    // Set the 'Content-Type' header to 'application/json'
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    // Send the POST request with the JSON payload and the config object
     const response = await axios.post(
       `${API_URL}/InventoryTransfer/InventoryTransfer`,
-      requestBody
+      PayloadData,
+      config
     );
+
     console.log(response.data);
+    return response.data;
   } catch (error) {
     console.log(error);
   }
 };
-const inventoryTransferPayloadConstructor = (payload) => {
+const inventoryTransferPayloadConstructor = (
+  payload,
+  selectedFromWarehouse,
+  selectedToWarehouse
+) => {
+  console.log("The payload is: " + JSON.stringify(payload));
   const itDetailsMap = {};
 
   payload.forEach((item) => {
@@ -96,8 +127,8 @@ const inventoryTransferPayloadConstructor = (payload) => {
   const result = {
     branchID: 1,
     cardCode: payload[0].cardCode, // Use the cardCode from the first item
-    fromWhsCode: payload[0].whs, // Use the whs from the first item
-    toWhsCode: "LS1", // Use the whs from the first item
+    fromWhsCode: selectedFromWarehouse[0].whsCode, // Use the whs from the first item
+    toWhsCode: selectedToWarehouse[0].whsCode, // Use the whs from the first item
     comments: "", // Set as needed
     itDetails,
   };

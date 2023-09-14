@@ -7,7 +7,7 @@ function IncomingQCPage() {
 
     return (
         <>
-            <div className="content-block dx-card responsive-paddings">
+            <div className="content-block dx-card responsive-paddings" id="mainContainer-iQC">
                 <div className="content-blocks qcCSS">
                     <IncomingQc_Header header_title="Incoming Quality Control" header_content="Ckeck the quality and make the decision" />
                 </div>

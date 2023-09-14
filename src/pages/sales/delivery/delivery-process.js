@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import {
     PopupHeaderText,
     PopupSubText
-} from '../../../../components/typographyTexts/TypographyComponents'
+} from '../../../components/typographyTexts/TypographyComponents'
 import { useParams } from 'react-router-dom'
-import QtcSearchColumn from '../../../../components/qtcCommonComponent/qtcSearchColumn'
-import { getPoLists } from '../../../../utils/gate-in-purchase'
-import { GRPOScanner } from '../../../../assets/icon'
-import { ValidateItemQR1 } from '../../../../utils/grpo-saver'
-import { toastDisplayer } from '../../../../api/qrgenerators'
+import QtcSearchColumn from '../../../components/qtcCommonComponent/qtcSearchColumn'
+import { getPoLists } from '../../../utils/gate-in-purchase'
+import { GRPOScanner } from '../../../assets/icon'
+import { ValidateItemQR1 } from '../../../utils/grpo-saver'
+import { toastDisplayer } from '../../../api/qrgenerators'
 import { Button } from 'devextreme-react'
-import QtcDataGrid from '../../../../components/qtcCommonComponent/qtcDataGrid'
+import QtcDataGrid from '../../../components/qtcCommonComponent/qtcDataGrid'
 
 const DeliveryProcess = () => {
     const { qrCode, docEntry } = useParams()
@@ -37,6 +37,7 @@ const DeliveryProcess = () => {
                 selectedItemQr,
                 docEntry
             )
+            console.log('doItemExists : ', doItemExists)
             if (doItemExists === 'No data found') {
                 return toastDisplayer(
                     'error',
@@ -53,6 +54,7 @@ const DeliveryProcess = () => {
     }
 
     const handleGrpoSaving = async () => {
+        console.log('gridDataSource : ', gridDataSource)
     }
 
     const handleScanner = () => {

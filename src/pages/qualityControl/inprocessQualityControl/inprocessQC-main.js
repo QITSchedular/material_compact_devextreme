@@ -8,7 +8,7 @@ function InprocessQCPage() {
 
     return (
         <>
-            <div className="content-block dx-card responsive-paddings">
+            <div className="content-block dx-card responsive-paddings" id="mainContainer-iQC">
                 <div className="content-blocks qcCSS">
                     <InprocessQc_Header header_title="In-process Quality Control" header_content="Ckeck the quality and make the decision" />
                 </div>

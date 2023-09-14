@@ -4,7 +4,8 @@ import "./headerContent.scss";
 import { AppContext } from "../../../contexts/dataContext";
 import ItemMasterForm from "../../../components/masters/item-master";
 import Template_PopUp from "../../../components/masters/Template_PopUp";
-const HeaderContent = ({handleFileUploaded,handlesaveImportedFileData}) => {
+
+const HeaderContent = ({ handleFileUploaded, handlesaveImportedFileData, data, key, heading }) => {
   const { isPopupVisible, openPopup, closePopUp } = useContext(AppContext);
   const [showItemMasterBox, setShowItemMasterBox] = useState(false);
   const [TemplatePopupBox, setTemplatePopupBox] = useState(false);
@@ -56,6 +57,9 @@ const HeaderContent = ({handleFileUploaded,handlesaveImportedFileData}) => {
           handleClosePopUp={handleClosePopUp}
           filefunction={handleFileUploaded}
           handlesaveImportedFileData={handlesaveImportedFileData}
+          dataSource={data}
+          keyExpr={key}
+          heading={heading}
         />
       )}
     </>

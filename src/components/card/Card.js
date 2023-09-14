@@ -5,8 +5,6 @@ import { pin } from '../../assets/icon';
 import { Link } from 'react-router-dom';
 import { toastDisplayer } from '../../api/qrgenerators';
 
-
-
 export default function Card({ title, description, icon, path }) {
     const [rotation, setRotation] = useState(0);
 
