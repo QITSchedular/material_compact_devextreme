@@ -21,17 +21,7 @@
           font-weight: 400;
         }
       }
-      .header---closer{
-        .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-icon{
-            .dx-button-content{
-
-                .dx-icon.dx-icon-close{
-                    font-size: 24px;
-                    color:#c6c6c6 !important;
-                }
-            }
-        }
-      }
+      
     }
     .qr__displayer {
       display: flex;
@@ -62,10 +52,25 @@
     .dx-multiview-item-content {
       background-color: #fff !important;
       padding: 0px !important;
-      .content-wrapper .content__header .header---closer .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-icon .dx-button-content .dx-icon.dx-icon-close {
+      .content-wrapper .content__header .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-icon .dx-button-content .dx-icon.dx-icon-close {
         float: left !important;
         font-size: 20px;
         color: #c6c6c6 !important;
     }
+    }
+  }
+  .dx-popup-content{
+    .header---closer{
+      display: flex;
+      justify-content: flex-end;
+      .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-icon{
+          .dx-button-content{
+
+              .dx-icon.dx-icon-close{
+                  font-size: 24px;
+                  color:#c6c6c6 !important;
+              }
+          }
+      }
     }
   }

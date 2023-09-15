@@ -23,6 +23,7 @@ export { default as VerifyMaterialPage } from "./production/verify-material/veri
 export { default as VerifyMaterialScanItemsPage } from "./production/verify-material/tabs-content/VerifyScanItems";
 export { default as ReceiveMaterialPage } from "./production/receive-material/receive-material.main";
 export { default as ReceiveMaterialScanItemsPage } from "./production/receive-material/receive-material-scan-items";
+export { default as ReceiveMaterialGenerateQrPage } from "./production/receive-material/generateReceipt-qr/generate-receipt.main";
 export { default as IssueMaterialPage } from "./production/issue-material/issue-material-main";
 export { default as IssueMaterialScanItemsPage } from "./production/issue-material/issue-material-scan-items";
 export { default as InventoryTransferMainPage } from "./inventory/inventory-transfer/inventory-transfer-main";

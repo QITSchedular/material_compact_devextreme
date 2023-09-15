@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   PopupHeaderText,
@@ -11,11 +11,29 @@ import { testGetDetailsByProductionNumber } from "../../../api/test-apis";
 import RecievematerialListing from "./recieve-material.listing";
 import { Button as TextBoxButton } from "devextreme-react/text-box";
 import { HelpIcons } from "../../purchases/grpo/icons-exporter";
-
+import DraftReceiptHelpPopup from "./draft-receipt-help-popup";
+import {
+  getDraftReceiptProList,
+  saveProductionDraftReceipt,
+} from "../../../api/production.draft.receipt.api";
+import SelectedItemsListings from "./selected-items-listings";
+import { SwalDisplayer } from "../../../utils/showToastsNotifications";
+import "./receive-material.styles.scss";
 const ReceiveMaterialMain = () => {
+  const [showDraftReceiptPoHelpPopup, setShowDraftReceiptPoHelpPopup] =
+    useState(false);
+  const [poHelpDataSource, setPoHelpDataSource] = useState("");
   const [isSearchButtonDisabled, setIsSearchButtonDisabled] = useState(true);
   const [inputQrValue, setInputQrValue] = useState("");
+
   const [listingDataSource, setListingDataSource] = useState([]);
+  const [selectedPoToReceive, setSelectedPoToReceive] = useState([]);
+  const [searchTextInputValue, setSearchTextInputValue] = useState("");
+
+  const [showReceiverDataGrid, setShowReceiverDataGrid] = useState(false);
+  const [receiverDataGridDataSource, setReceiverDataGridDataSource] =
+    useState("");
+
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -23,15 +41,32 @@ const ReceiveMaterialMain = () => {
   const helpOptions = {
     icon: HelpIcons,
     onClick: () => {
-      console.log("hello");
+      showPopupHandler();
     },
+  };
+
+  const showPopupHandler = async () => {
+    setLoading(true);
+    const apiRes = await getDraftReceiptProList();
+    if (apiRes.hasError) {
+      loading(false);
+      return toastDisplayer(
+        "error",
+        apiRes.errorMessage
+          ? apiRes.errorMessage
+          : "Something went wrong, please try again later"
+      );
+    }
+    await setPoHelpDataSource(apiRes.responseData);
+    await setShowDraftReceiptPoHelpPopup(!showDraftReceiptPoHelpPopup);
+    setLoading(false);
   };
 
   const inputQrValueChangedCallback = ({ value }) => {
     if (value) {
       setIsSearchButtonDisabled(false);
       setInputQrValue(value);
-      console.log(value);
+      console.log(selectedPoToReceive);
     } else if (!value) {
       setInputQrValue("");
       setIsSearchButtonDisabled(false);
@@ -83,15 +118,33 @@ const ReceiveMaterialMain = () => {
   const handleProceed = (headerQrId) => {
     navigate(`/recieve-material/scanitems/${headerQrId}`); // Use navigate function
   };
-
+  useEffect(() => {
+    if (selectedPoToReceive.length > 0) {
+      setReceiverDataGridDataSource(selectedPoToReceive);
+      setShowReceiverDataGrid(true);
+      setSearchTextInputValue(selectedPoToReceive[0].docNum);
+    }
+  }, [selectedPoToReceive]);
+  const draftReceiptSaver = async (gridData, comments) => {
+    const apiRes = await saveProductionDraftReceipt(gridData, comments);
+    if (apiRes.hasError) {
+      return toastDisplayer(
+        "error",
+        apiRes.errorMessage
+          ? apiRes.errorMessage
+          : "Something went wrong, please try again later"
+      );
+    }
+    return SwalDisplayer("success", apiRes.responseData.statusMsg);
+  };
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner receive-material-container ">
       {loading && <LoadPanel visible={true} />}
       {/*----header Section ------*/}
 
       <div className="header-section">
-        <PopupHeaderText text={"Receive Material"} />
-        <PopupSubText text={"Create the qr code of receive "} />
+        <PopupHeaderText text={"Draft Receipt-PRO"} />
+        <PopupSubText text={"Choose a Production Order to proceed.."} />
       </div>
 
       {/*----Input Textbox search/ scan section ------*/}
@@ -99,11 +152,12 @@ const ReceiveMaterialMain = () => {
         <TextBox
           className="dx-field-value"
           stylingMode="outlined"
-          placeholder="Type the production number"
+          placeholder="Click the Icon to Choose..."
           width={250}
           showClearButton={true}
           valueChangeEvent="keyup"
           onValueChanged={inputQrValueChangedCallback}
+          value={searchTextInputValue ? `${searchTextInputValue}` : ""}
         >
           <TextBoxButton
             name="currency"
@@ -111,7 +165,7 @@ const ReceiveMaterialMain = () => {
             options={helpOptions}
           />
         </TextBox>
-        <Button
+        {/* <Button
           width={33}
           height={33}
           type="normal"
@@ -120,15 +174,15 @@ const ReceiveMaterialMain = () => {
           onClick={handleSearch}
           disabled={isSearchButtonDisabled}
           value={inputQrValue}
-        />
-        <Button
+        /> */}
+        {/* <Button
           width={33}
           height={33}
           type="normal"
           stylingMode="outlined"
           icon={GRPOScanner}
           onClick={() => console.log("You have cliced the scanner")}
-        />
+        /> */}
       </div>
 
       {/*------- LISTING SECTION -----*/}
@@ -140,6 +194,19 @@ const ReceiveMaterialMain = () => {
         />
       ) : (
         ""
+      )}
+      {showDraftReceiptPoHelpPopup && (
+        <DraftReceiptHelpPopup
+          poHelpDataSource={poHelpDataSource}
+          setShowDraftReceiptPoHelpPopup={setShowDraftReceiptPoHelpPopup}
+          setSelectedPoToReceive={setSelectedPoToReceive}
+        />
+      )}
+      {showReceiverDataGrid && (
+        <SelectedItemsListings
+          receiverDataGridDataSource={receiverDataGridDataSource}
+          draftReceiptSaver={draftReceiptSaver}
+        />
       )}
     </div>
   );

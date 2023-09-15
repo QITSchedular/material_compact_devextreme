@@ -30,6 +30,7 @@ import {
   DeliveryPage,
   DeliveryProcessPage,
   IncomingQcScanItemsPage,
+  ReceiveMaterialGenerateQrPage,
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -131,6 +132,10 @@ const routes = [
   {
     path: "/recieve-material/scanitems/:id",
     element: ReceiveMaterialScanItemsPage,
+  },
+  {
+    path: "/production/receive-material/generateqr",
+    element: ReceiveMaterialGenerateQrPage,
   },
   {
     path: "/production/issue-material",

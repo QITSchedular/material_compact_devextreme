@@ -307,7 +307,7 @@ export const SaveDetailQR = async (
 };
 // date and QrString Handlers --------------------------------
 const mapDateToChars = async (incrementalNum, docDate, flag) => {
-  console.log(docDate);
+  console.log("The doc date is", docDate);
 
   const searializedDate = docDate.split(" ")[0];
   const date = new Date(searializedDate); // Parse the docDate string
@@ -608,6 +608,7 @@ export const qrGenerationHandler = async (
   // if the header exists
   if (data.isExist === "Y") {
     // THE HEADER QR EXISTS
+    console.log("The Doc Date is: ", poDetailsfull[0].docDate);
     console.log("Header Qr Exists, and it is: ", data.qrCode);
     console.log("I will check for items qr Now");
     const { qrCode } = data;

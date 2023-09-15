@@ -194,6 +194,7 @@ const PrintQrMainComp = () => {
         poDetailsfull,
         seriesList
       );
+      console.log("The data for iqrstr", iqstr);
       // console.log("Ye le bahi", iqstr);
       if (!iqstr.length > 0) {
         console.log("in if");
@@ -416,7 +417,7 @@ const PrintQrMainComp = () => {
                   onClick={handleQrGenerate}
                 />
                 <Button
-                  hint="Clone"
+                  hint="Print QR Code"
                   icon="fa-solid fa-print"
                   visible={true}
                   onClick={handleClone}
