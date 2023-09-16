@@ -58,17 +58,28 @@ export default function WarehouseMaster() {
         { checkbox: "binActivat" },
     ];
 
+    const data = [{
+        WarehouseCode: "Alphanumeric",
+        WarehouseName: "Alphanumeric",
+        Location: "Alphanumeric",
+        Locked: "Y/N",
+        BinActivat: "Y/N",
+    }]
+
     return (
         <React.Fragment>
             <div className="content-block dx-card responsive-paddings">
                 <div className="content-blocks">
                     <MastersHeaderContent
-                        title={"Warehouses Master"}
+                        title={"Warehouse"}
                         subtitle={"You are viewing the total number of sub items groups"}
                         columns={columns}
                         handleAddClick={handleClick}
                         masterType={"Warehouses"}
                         keyExpr={"whsCode"}
+                        data={data}
+                        key={"whsCode"}
+                        heading={"File input for Warehouse"}
                     />
                 </div>
             </div>

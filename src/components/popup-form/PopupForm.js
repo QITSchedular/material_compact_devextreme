@@ -8,8 +8,10 @@ import { AppContext } from "../../contexts/dataContext";
 import { RequiredRule } from "devextreme-react/form";
 
 import success from "../../assets/images/success.gif";
-import { addNewMasterItem } from "../../utils/items-master-data";
 
+import "./PopupForm.scss";
+import { PopupHeaderText } from "../typographyTexts/TypographyComponents";
+import { addNewMasterItem } from "../../utils/items-master-data";
 const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
     const formPopup = useRef(null);
     const { newItemIsAdded } = useContext(AppContext);
@@ -86,7 +88,7 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
 
         // var i=0;
         // for (const item of keyArray) {
-        //     const key = Object.keys(item)[0]; 
+        //     const key = Object.keys(item)[0];
         //     const value = item[key];
         //     if (key==="checkbox") {
         //         if (formData[""] === true) {
@@ -107,11 +109,10 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
             const key = Object.keys(item)[0];
             const value = item[key];
             if (key === "checkbox") {
-                console.log(value)
+                console.log(value);
                 if (formData[value] === true) {
                     transformedData[value] = "Y";
-                }
-                else {
+                } else {
                     transformedData[value] = "N";
                 }
             } else {
@@ -144,7 +145,6 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
     var checkBoxOptions = {
         text: "Locked",
     };
-
     return (
         <>
             <Popup
@@ -168,8 +168,18 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
                         {displayState ? (
                             <>
                                 <div className="popup-header">
-                                    <h4>{title}</h4>
+                                    <div className="popUp-header-title">{title}</div>
                                     <Button icon="close" onClick={handleClosePopUp} />
+                                </div>
+                                <div className="content-block-wrapper">
+                                    <div className="content-block-1">
+                                        <div className="content-text">
+                                            <PopupHeaderText text={title} />
+                                        </div>
+                                        <div className="button-groups">
+                                            <Button icon="close" onClick={handleClosePopUp} />
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <form id="popupform" onSubmit={handleSubmit}>
@@ -283,4 +293,4 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
     );
 };
 
-export default PopupForm;   
+export default PopupForm;

@@ -1,5 +1,11 @@
 @import "./themes/generated/variables.base.scss";
 
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v136/kJEhBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oFsI.woff2) format('woff2');
+}
+
 .app {
   background-color: darken($base-bg, 5.00);
   display: flex;
@@ -51,6 +57,7 @@
     padding: 40px;
   }
 }
+
 .responsive-paddings-sm {
   padding: 10px 20px 20px 20px;
 
@@ -64,11 +71,10 @@
   border-left: 0;
 }
 
-.with-footer > .dx-scrollable-wrapper >
-.dx-scrollable-container > .dx-scrollable-content {
+.with-footer>.dx-scrollable-wrapper>.dx-scrollable-container>.dx-scrollable-content {
   height: 100%;
 
-  & > .dx-scrollview-content {
+  &>.dx-scrollview-content {
     display: flex;
     flex-direction: column;
     min-height: 100%;
@@ -77,7 +83,8 @@
 
 $side-panel-min-width: 60px;
 
-html, body {
+html,
+body {
   margin: 0px;
   min-height: 100%;
   height: 100%;
@@ -99,31 +106,33 @@ html, body {
 }
 
 // the color for blue button text
-.default-button{
-  .dx-button-content{
-    .dx-button-text{
+.default-button {
+  .dx-button-content {
+    .dx-button-text {
       color: #fff;
     }
   }
 }
 
 /*------------------------- pages default wrapper container ------------------------------------*/
-  .default-main-conatiner{
-    min-height: 80vh !important;
+.default-main-conatiner {
+  min-height: 80vh !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: 1.5rem !important;
+
+  .header-section {
     display: flex !important;
     flex-direction: column;
-    gap: 1.5rem !important;
-    .header-section{
-      display: flex !important;
-      flex-direction: column;
-      gap: 5px !important;
-    }
-
-    .search-section{}
+    gap: 5px !important;
   }
+
+  .search-section {}
+}
+
 /*------------------------- pages default wrapper container ------------------------------------*/
-@media only screen and (max-width:568px){
-  .default-button{
+@media only screen and (max-width:568px) {
+  .default-button {
     width: 100px !important;
     height: 30px !important;
   }

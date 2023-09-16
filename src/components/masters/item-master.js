@@ -236,7 +236,7 @@ const ItemMasterForm = () => {
               }
             >
               <div className="popup-header">
-                <h4 className="popup__header--title">Add New Item</h4>
+                <div className="popUp-header-title">Add New Item</div>
                 <Button icon="close" onClick={handleClosePopUp} />
               </div>
 

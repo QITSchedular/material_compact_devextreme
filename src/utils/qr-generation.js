@@ -542,8 +542,6 @@ const itemsQrGeneratorAndSaver = async (
 // display qr apis
 
 export const fetchItemQrCode = async (data, poDetailsfull, seriesData) => {
-  console.log("From fetch api", poDetailsfull, data);
-  // return null;
   const { objType, docNum } = poDetailsfull[0];
   const { series } = seriesData[0];
   const { docEntry, gateInNo, itemCode } = data;
@@ -556,19 +554,42 @@ export const fetchItemQrCode = async (data, poDetailsfull, seriesData) => {
     itemCode,
     gateInNo,
   };
-  // console.log("Payload: ", requestBody);
   try {
     const response = await axios.post(
       `${API_URL}/Commons/GetDetailDataQR`,
       requestBody
     );
     const data = await response.data;
-    console.log("The detailed response is ", response.data);
     // console.log("The Qr String for this item is ", detailQRCodeID);
     return data;
   } catch (error) {
     // const { statusMsg } = error.response.data;
-    console.log(error);
+    // console.log(error);
+    return error.response.data;
+  }
+};
+export const fetchItemQrCode1 = async (docEntry,docNum,series,objType,itemCode,gateInNo) => {
+  const requestBody = {
+    branchID: "1",
+    docEntry,
+    docNum,
+    series,
+    objType,
+    itemCode,
+    gateInNo,
+  };
+  try {
+    const response = await axios.post(
+      `${API_URL}/Commons/GetDetailDataQR`,
+      requestBody
+    );
+    const data = await response.data;
+    // console.log("The detailed response is ", response.data);
+    // console.log("The Qr String for this item is ", detailQRCodeID);
+    return data;
+  } catch (error) {
+    // const { statusMsg } = error.response.data;
+    // console.log(error);
     return error.response.data;
   }
 };

@@ -37,17 +37,26 @@ export default function UomMaster() {
         { checkbox: "locked" }
     ];
 
+    const data = [{
+        UOMCode: "Alphanumeric",
+        UOMName: "Alphanumeric",
+        Locked: "Y/N",
+    }]
+
     return (
         <React.Fragment>
             <div className="content-block dx-card responsive-paddings">
                 <div className="content-blocks">
                     <MastersHeaderContent
-                        title={"UOM Master"}
+                        title={"UOM"}
                         subtitle={"You are viewing the total number of sub items groups"}
                         columns={columns}
                         handleAddClick={handleClick}
                         masterType={"UOMs"}
                         keyExpr={"uomEntry"}
+                        data={data}
+                        key={"uomEntry"}
+                        heading={"File input for UOM"}
                     />
                 </div>
             </div>

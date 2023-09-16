@@ -15,24 +15,22 @@ export default function IndexCards({ path }) {
     });
   });
 
-  return (
-    <React.Fragment>
-      <div className="grid-container">
-        {navobj[path].map((value, key) => (
-          <>
-            <Card
-              title={value["text"]}
-              description={"Here is the description for the particular card"}
-              icon={
-                typeof value["icon"] === "object"
-                  ? value["icon"].dark
-                  : value["icon"]
-              }
-              path={value["path"]}
-            />
-          </>
-        ))}
-      </div>
-    </React.Fragment>
-  );
+    return (
+        <React.Fragment>
+            <div className="grid-container">
+                {
+                    navobj[path].map((value, key) => (
+                        <>
+                            <Card
+                                title={value['text']}
+                                description={"Here is the description for the particular"}
+                                icon={value['icon']}
+                                path={value['path']}
+                            />
+                        </>
+                    ))}
+            </div>
+        </React.Fragment>
+    );
+
 }

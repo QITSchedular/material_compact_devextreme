@@ -1,0 +1,94 @@
+.subdropdown {
+    position: absolute;
+    z-index: 999;
+    right: 310px;
+    top: 0px;
+    width: 300px;
+    height: 90vh;
+    border-radius: 13.841px;
+    border-bottom: 4px solid #4371B7;
+    background: #FFF;
+    box-shadow: 0px 3px 9px 0px rgba(0, 0, 0, 0.50);
+    animation: dropdownanimation 0.3s both ease-in-out;
+
+    @keyframes dropdownanimation {
+        0% {
+            opacity: 0;
+            height: 0;
+        }
+
+        100% {
+            opacity: 1;
+            height: 90vh;
+        }
+    }
+
+    .subdropdown-header {
+        border-radius: 8px 8px 0px 0px;
+        background-color: #4371B7;
+        padding: .8rem 1rem;
+        color: #FFF;
+
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 28px;
+
+        .heading {
+            font-size: 16px;
+        }
+
+        .sub-heading {
+            color: var(--default-gray-20, #E0E0E0);
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Roboto;
+            font-size: 11px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+    }
+
+    .subdropdown-body {
+        .quality-control-dropdown {
+            cursor: pointer;
+            padding: 5px 15px;
+            margin-bottom: 20px;
+            color: #525252;
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Roboto;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            margin: 0.8rem 0px;
+            line-height: normal;
+
+            .custom-checkbox {
+                margin: 1rem 1rem;
+
+                .dx-widget {
+                    .dx-checkbox-container {
+                        gap: 0.6rem;
+                        color: #8D8D8D;
+                        font-family: Roboto;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+                }
+            }
+
+            .dx-selectbox {
+                margin: 15px 10px;
+                border-radius: 8px;
+                box-shadow: none;
+                background-color: transparent;
+                border-radius: 8px;
+                border: 1px solid #E0E0E0;
+                color: #E0E0E0;
+            }
+        }
+    }
+}

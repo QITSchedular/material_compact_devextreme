@@ -18,6 +18,8 @@ function IncomingQCComponent() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]); // State to store the selected row data
   const [selectedRowData, setSelectedRowData] = useState("");
   const [txtValueOfTypePOL, settxtValueOfTypePOL] = useState(""); // State to store the selection indicator
+  const [fromDate, setFromDate] = useState(""); // State to store the selection indicator
+  const [toDate, setToDate] = useState(""); // State to store the selection indicator
   const [IQCList, setIQCList] = useState(new Set()); // State to store the selected row data
   const [IQCList2, setIQCList2] = useState(new Set()); // State to store the selected row data
   const dataGridRef = useRef();
@@ -90,16 +92,33 @@ function IncomingQCComponent() {
     },
   };
 
-  const dateOptions = {
-    icon: dateStartToEnd,
-    onClick: async () => {
-      //   showPopupHandler();
-    },
+  function convertData(dateString){
+    const originalDate = new Date(dateString);
+
+    // Extract the year, month, and day components
+    const year = originalDate.getFullYear();
+    const month = String(originalDate.getMonth() + 1).padStart(2, "0"); // Add 1 to month because months are zero-based
+    const day = String(originalDate.getDate()).padStart(2, "0");
+
+    // Create the formatted date string in the "YYYY-MM-DD" format
+    const formattedDateStr = `${year}-${month}-${day}`;
+
+    return formattedDateStr;
+  }
+
+  const fromDateOptions = (e) => {
+    console.log(convertData(e.value));
+    setFromDate(convertData(e.value));
+  };
+
+  const toDateOptions = (e) => {
+    console.log(convertData(e.value));
+    setToDate(convertData(e.value));
   };
 
   const SearchHandler = async () => {
     if (txtValueOfTypePOL) {
-      const prodResponse = await searchPoListsIQC(txtValueOfTypePOL);
+      const prodResponse = await searchPoListsIQC(txtValueOfTypePOL,fromDate,toDate);
       var doProuctExist;
 
       if (IQCList2.size > 0) {
@@ -161,24 +180,28 @@ function IncomingQCComponent() {
         {/* {console.log(IQCList2)} */}
         <div className="inputWrapper">
           <div className="date-section">
-            <div>
-              <DateBox
-                className="dx-field-value"
-                placeholder="From"
-                stylingMode="outlined"
-                type="date"
-                width={230}
-              />
-            </div>
-            <div>
-              <DateBox
-                className="dx-field-value"
-                placeholder="To"
-                stylingMode="outlined"
-                type="date"
-                width={230}
-              />
-            </div>
+            {/* <div> */}
+            <DateBox
+              className="dx-field-value"
+              placeholder="From"
+              stylingMode="outlined"
+              type="date"
+              width={230}
+              onValueChanged={fromDateOptions}
+            />
+            {/* </div>
+            <div> */}
+            <DateBox
+              className="dx-field-value"
+              placeholder="To"
+              stylingMode="outlined"
+              type="date"
+              width={230}
+              onValueChanged={toDateOptions}
+            />
+            {/* </div> */}
+          </div>
+          <div className="txtBtn-section">
             <TextBox
               className="dx-field-value purchaseQRField"
               stylingMode="outlined"
@@ -186,7 +209,7 @@ function IncomingQCComponent() {
               value={
                 selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""
               }
-              width={230}
+              width={210}
               onValueChanged={handleTextValueChange}
               showClearButton={true}
             >
@@ -196,23 +219,23 @@ function IncomingQCComponent() {
                 options={helpOptions}
               />
             </TextBox>
-          </div>
-          <div className="btnSection">
-            <NormalButton
-              width={33}
-              height={33}
-              type="normal"
-              stylingMode="outlined"
-              icon="search"
-              onClick={SearchHandler}
-            />
-            <NormalButton
-              width={33}
-              height={33}
-              type="normal"
-              stylingMode="outlined"
-              icon={GRPOScanner}
-            />
+            <div className="btnSection">
+              <NormalButton
+                width={33}
+                height={33}
+                type="normal"
+                stylingMode="outlined"
+                icon="search"
+                onClick={SearchHandler}
+              />
+              <NormalButton
+                width={33}
+                height={33}
+                type="normal"
+                stylingMode="outlined"
+                icon={GRPOScanner}
+              />
+            </div>
           </div>
         </div>
       </div>
