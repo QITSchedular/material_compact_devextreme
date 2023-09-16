@@ -1,0 +1,16 @@
+.receive-material-container{
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+  .receive-materials-selected-listings {
+    /* Remove the fixed height and use flex-grow to occupy remaining space */
+    flex-grow: 1 !important;
+    display: flex;
+  flex-direction: column;
+  .action-button {
+    /* Push the .action-button div to the bottom */
+    width: 100%;
+    margin-top: auto;
+  }
+  }
+}

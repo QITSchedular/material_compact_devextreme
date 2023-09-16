@@ -6,22 +6,6 @@ export const navigation = [
         path: "/home",
         icon: `home`,
     },
-    // {
-    //   text: "Examples",
-    //   icon: "folder",
-    //   items: [
-    //     {
-    //       text: "Profile",
-    //       path: "/profile",
-    //       icon: "user",
-    //     },
-    //     {
-    //       text: "Tasks",
-    //       path: "/tasks",
-    //       icon: "datafield",
-    //     },
-    //   ],
-    // },
     {
         text: "Masters List",
         path: "/masters",
@@ -133,10 +117,15 @@ export const navigation = [
                 icon: `rule`,
             },
             {
-                text: "Receive Material",
+                text: "Draft Receipt PRO",
                 path: "/production/receive-material",
                 icon: `call_received`,
             },
+            {
+                text: "Generate Receipt Qr",
+                path: "/production/receive-material/generateqr",
+                icon: "login",
+             },
         ],
     },
     {

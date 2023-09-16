@@ -107,7 +107,7 @@ const PopupContent = ({ onSelectRow, onSave }) => {
             <PopupSubText text={"Search the purchase order"} />
           </div>
           <DataGrid
-            height={420}
+            height={"70vh"}
             dataSource={dataSource}
             keyExpr="docEntry"
             showBorders={true}
