@@ -97,73 +97,73 @@ const ReceiveMaterialMain = () => {
 
   return (
     <>
-    {showTransporterHelp && (
+      {showTransporterHelp && (
         <Popup
           visible={true}
           height={window.innerHeight - 100}
           showCloseButton={true}
           // hideOnOutsideClick={outsideClickHandler}
           className="purchaseOrderList"
-          contentRender={() => (
-            <HelperPopUp  handleCancel={handleCancel} />
-          )}
+          contentRender={() => <HelperPopUp handleCancel={handleCancel} />}
         ></Popup>
       )}
-    <div className="content-block dx-card responsive-paddings default-main-conatiner receive-material-container ">
-      {loading && <LoadPanel visible={true} />}
-      {/*----header Section ------*/}
+      <div className="content-block dx-card responsive-paddings default-main-conatiner receive-material-container ">
+        {loading && <LoadPanel visible={true} />}
+        {/*----header Section ------*/}
 
-      <div className="header-section">
-        <PopupHeaderText text={"Receive Material"} />
-        <PopupSubText text={"Create the qr code of receive "} />
+        <div className="header-section">
+          <PopupHeaderText text={"Receive Material"} />
+          <PopupSubText text={"Create the qr code of receive "} />
+        </div>
+
+        {/*----Input Textbox search/ scan section ------*/}
+        <div className="search-section">
+          <TextBox
+            className="dx-field-value"
+            stylingMode="outlined"
+            placeholder="Type the production number"
+            width={250}
+            showClearButton={true}
+            valueChangeEvent="keyup"
+            onValueChanged={inputQrValueChangedCallback}
+          >
+            <TextBoxButton
+              name="currency"
+              location="after"
+              options={helpOptions}
+            />
+          </TextBox>
+          <Button
+            width={33}
+            height={33}
+            type="normal"
+            stylingMode="outlined"
+            icon="search"
+            onClick={handleSearch}
+            disabled={isSearchButtonDisabled}
+            value={inputQrValue}
+          />
+          <Button
+            width={33}
+            height={33}
+            type="normal"
+            stylingMode="outlined"
+            icon={GRPOScanner}
+            onClick={() => console.log("You have cliced the scanner")}
+          />
+        </div>
+
+        {/*------- LISTING SECTION -----*/}
+        {listingDataSource.length > 0 ? (
+          <RecievematerialListing
+            listingDataSource={listingDataSource}
+            onDeleteItem={handleDeleteItem}
+            onProceed={handleProceed}
+          />
+        ) : (
+          ""
+        )}
       </div>
-
-      {/*----Input Textbox search/ scan section ------*/}
-      <div className="search-section">
-        <TextBox
-          className="dx-field-value"
-          stylingMode="outlined"
-          placeholder="Type the production number"
-          width={250}
-          showClearButton={true}
-          valueChangeEvent="keyup"
-          onValueChanged={inputQrValueChangedCallback}
-        ><TextBoxButton
-        name="currency"
-        location="after"
-        options={helpOptions}
-      /></TextBox>
-        <Button
-          width={33}
-          height={33}
-          type="normal"
-          stylingMode="outlined"
-          icon="search"
-          onClick={handleSearch}
-          disabled={isSearchButtonDisabled}
-          value={inputQrValue}
-        />
-        <Button
-          width={33}
-          height={33}
-          type="normal"
-          stylingMode="outlined"
-          icon={GRPOScanner}
-          onClick={() => console.log("You have cliced the scanner")}
-        />
-      </div>
-
-      {/*------- LISTING SECTION -----*/}
-      {listingDataSource.length > 0 ? (
-        <RecievematerialListing
-          listingDataSource={listingDataSource}
-          onDeleteItem={handleDeleteItem}
-          onProceed={handleProceed}
-        />
-      ) : (
-        ""
-      )}
-    </div>
     </>
   );
 };

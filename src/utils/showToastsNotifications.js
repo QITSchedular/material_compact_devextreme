@@ -115,6 +115,7 @@ export const SwalDisplayer = (type, title, text) => {
       imageWidth: 200,
       imageHeight: 200,
       imageAlt: "operation successful",
+      timer: 3000,
     });
   }
   if (type === "error") {

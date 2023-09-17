@@ -37,7 +37,8 @@ import {
   ProductionPage,
   InventoryPage,
   MachinemasterPage,
-  EmployeemasterPage
+  EmployeemasterPage,
+  VarifyMaterialScanItemPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -154,6 +155,10 @@ const routes = [
     element: VerifyMaterialScanItemsPage,
   },
   {
+    path: "/production/verify-material/varify-material-scanItemPage/:itemCode/:docEntry",
+    element: VarifyMaterialScanItemPage,
+  },
+  {
     path: "/production/receive-material",
     element: ReceiveMaterialPage,
   },
@@ -187,14 +192,14 @@ const routes = [
     path: "/sales",
     element: SalePage,
   },
-  {
-    path: "/sales/delivery",
-    element: DeliveryPage,
-  },
-  {
-    path: "/production/issue-material/verify-material/:qrCode/:docEntry",
-    element: DeliveryProcessPage,
-  },
+  // {
+  //   path: "/sales/delivery",
+  //   element: DeliveryPage,
+  // },
+  // {
+  //   path: "/production/issue-material/verify-material/:qrCode/:docEntry",
+  //   element: DeliveryProcessPage,
+  // },
   {
     path: "/TrackMachines",
     element: MachineInOutPage,
