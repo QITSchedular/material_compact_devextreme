@@ -167,10 +167,10 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
                     >
                         {displayState ? (
                             <>
-                                <div className="popup-header">
+                                {/* <div className="popup-header">
                                     <div className="popUp-header-title">{title}</div>
                                     <Button icon="close" onClick={handleClosePopUp} />
-                                </div>
+                                </div> */}
                                 <div className="content-block-wrapper">
                                     <div className="content-block-1">
                                         <div className="content-text">

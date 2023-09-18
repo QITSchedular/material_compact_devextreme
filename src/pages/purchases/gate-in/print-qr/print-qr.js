@@ -206,6 +206,18 @@ const PrintQrMainComp = () => {
   const getSeriesData = async () => {
     try{
       const data = await getPeriodIndicator();
+      if (data.hasError) {
+        return toast.error(data.errorText, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
       await setPeriodIndicators(data);
     }catch(err){
       return toastDisplayer("error",err.message);
