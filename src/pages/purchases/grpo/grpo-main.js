@@ -28,6 +28,7 @@ import { GRPOScanner } from "../../../assets/icon";
 import Html5QrcodePlugin from "./scanner/scanner-component";
 import QtcDataGrid from "../../../components/qtcCommonComponent/qtcDataGrid";
 import CustomQrCodeScannerWithButton1 from "./scanner/scanner-component";
+import TransparentPopup from "../../../components/qrScanner/transparentPopup";
 
 const PopupContent = ({ onSelectRow, onSave }) => {
   const [dataSource, setDataSource] = useState(null);
@@ -378,8 +379,8 @@ const GrpoMain = () => {
         //   disableFlip={false} 
         //   qrCodeSuccessCallback  ={onNewScanResult}
         // />
-        <CustomQrCodeScannerWithButton1 qrCodeSuccessCallback={onNewScanResult}/> 
-        // <TransparentPopup visible={true} onHidden={true} />
+        // <CustomQrCodeScannerWithButton1 qrCodeSuccessCallback={onNewScanResult}/> 
+        <TransparentPopup visible={true} mountNodeId="grpo-scanner"/>
         // <QRCodeScanner/>
       )}
       <div className="content-block dx-card responsive-paddings grpo-content-wrapper">
