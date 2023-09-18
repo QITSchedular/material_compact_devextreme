@@ -52,20 +52,9 @@
             line-height: normal;
         }
 
-        .dx-button {
-            background-color: transparent;
-
-            .dx-button-content {
-                .dx-icon {
-                    color: #FFF;
-                    font-size: 25px;
-                }
-            }
-        }
-
         .rfcbtn {
             transition: transform .3s ease-in-out;
-
+            cursor: pointer;
         }
 
         .dx-button.dx-state-active {

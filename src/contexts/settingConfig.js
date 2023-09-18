@@ -1,42 +1,71 @@
 import React, { createContext, useContext, useState } from 'react';
 
-const CheckboxContext = createContext();
+const SettingContext = createContext();
 
-export function CheckboxProvider({ children }) {
-    const [checkboxValues, setCheckboxValues] = useState({
+
+
+export function SettingProvider({ children }) {
+    const settingObject = {
         'Batch / Serial No Generation Method': {
-            "Auto": false,
-            "Manual": false
+            "Auto": true,
+            "Manual": false,
         },
         'QR Managed by': {
-            "None": false,
+            "None": true,
             "Manual": false,
-            "Serial Numbar": false
+            "Serial Numbar": false,
         },
         'QR Generation Method': {
-            "Transaction Wise QR": false,
-            "Master Wise QR": false
+            "Transaction Wise QR": true,
+            "Master Wise QR": false,
         },
         'Batch Type': {
-            "Batch": false,
-            "Batch + Project": false
-        }
-    });
+            "Batch": true,
+            "Batch + Project": false,
+        },
+        'Quality Control': {
+            "Yes": true,
+            "No": false,
+        },
+        'Default Period Indicator': ""
+    }
+    const [SettingValues, setSettingValues] = useState(settingObject);
 
-    const toggleCheckbox = (name, value) => {
-        setCheckboxValues(prevValues => ({
-            ...prevValues,
-            [name]: value,
-        }));
+    const toggleCheckbox = (group, value, state) => {
+        setSettingValues(prevValues => {
+            const updatedValues = { ...prevValues };
+
+            if (!updatedValues[group][value]) {
+                updatedValues[group][value] = state;
+
+                for (const key in updatedValues[group]) {
+                    if (key !== value) {
+                        updatedValues[group][key] = !state;
+                    }
+                }
+            }
+
+            return updatedValues;
+        });
+    };
+
+    const Dropdownchanged = (group, value) => {
+        setSettingValues(prevValues => {
+            const updatedValues = { ...prevValues };
+
+            updatedValues[group] = value;
+
+            return updatedValues;
+        });
     };
 
     return (
-        <CheckboxContext.Provider value={{ checkboxValues, toggleCheckbox }}>
+        <SettingContext.Provider value={{ SettingValues, toggleCheckbox, Dropdownchanged }}>
             {children}
-        </CheckboxContext.Provider>
+        </SettingContext.Provider>
     );
 }
 
-export function useCheckbox() {
-    return useContext(CheckboxContext);
+export function UseSettingContext() {
+    return useContext(SettingContext);
 }

@@ -1,7 +1,7 @@
 .dropdown {
     position: absolute;
     z-index: 999;
-    right: 35px;
+    right: 40px;
     top: 60px;
     width: 300px;
     height: 90vh;
@@ -51,6 +51,8 @@
     }
 
     .dropdown-body {
+        position: relative;
+
         ::-webkit-scrollbar {
             width: 6px;
             /* Width of the scrollbar track */
@@ -76,11 +78,9 @@
             /* Color of the track on hover */
         }
 
-
-        padding: 5px 5px;
-
         .batch-serial-acrdn {
             margin: 0;
+            position: relative;
 
             .dx-accordion-wrapper {
                 .dx-item {
@@ -96,6 +96,7 @@
                     line-height: normal;
 
                     .dx-item-content.dx-accordion-item-title {
+                        margin-left: 10px;
 
                         .dx-accordion-item-title-caption {
                             font-size: 14px;
@@ -128,7 +129,7 @@
                         }
 
                         .dx-selectbox {
-                            margin: 15px 10px;
+                            margin: 15px 20px;
                             border-radius: 8px;
                             box-shadow: none;
                             background-color: transparent;
@@ -152,19 +153,36 @@
                 }
 
                 .dx-accordion-item-opened {
+                    position: relative;
+
                     .dx-item-content.dx-accordion-item-title {
                         .dx-accordion-item-title-caption {
-                            color: #4371B7;
-                            font-weight: bolder;
+                            color: #525252;
+                            font-weight: 400;
                         }
                     }
                 }
             }
         }
 
+        .batch-serial-acrdn {
+            .dx-accordion-item-opened:after {
+                content: " ";
+                position: absolute;
+                left: 0;
+                top: 6px;
+                transform: rotate(90deg);
+
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 10px solid #4371B7;
+                border-top: 10px solid transparent;
+            }
+        }
+
         .quality-control-dropdown {
             cursor: pointer;
-            padding: 5px 11px;
+            padding: 5px 21px;
             margin-bottom: 20px;
             color: #525252;
             font-feature-settings: 'clig' off, 'liga' off;
@@ -179,6 +197,20 @@
         .subdropdown-open {
             color: #4371B7;
             font-weight: bold;
+            position: relative;
+        }
+
+        .subdropdown-open:after {
+            content: " ";
+            position: absolute;
+            left: 0;
+            top: 4px;
+            transform: rotate(90deg);
+
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #4371B7;
+            border-top: 10px solid transparent;
         }
     }
 }

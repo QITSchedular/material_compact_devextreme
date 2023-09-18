@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SettingDropdown.scss';
 import { Accordion, SelectBox } from 'devextreme-react';
 import SettingSubDropdown from './SettingSubDropdown';
 import CustomCheckBox from './CustomCheckBox';
-
+import { getPeriodIndicator } from '../../utils/gate-in-purchase';
+import { UseSettingContext } from '../../contexts/settingConfig';
 
 function SettingDropdown() {
+
+    const { SettingValues, Dropdownchanged } = UseSettingContext();
+
+    const [selectedSeries, setSelectedSeries] = useState(SettingValues["Default Period Indicator"]);
 
     const [isSubDropdownOpen, setIsSubDropdownOpen] = useState(false);
 
@@ -13,20 +18,48 @@ function SettingDropdown() {
         setIsSubDropdownOpen(!isSubDropdownOpen);
     };
 
-    let SettingDropDownInputBox = () => {
+    async function getPeriodIndicatorData() {
+        try {
+            return Promise.resolve((await getPeriodIndicator()).map(value => value.indicator));
+        } catch (error) {
+            return Promise.reject(error.message);
+        }
+    }
+
+    const SettingDropDownInputBox = (selectBoxGroup) => {
+        const [dataSource, setDataSource] = useState([]);
+        const [error, setError] = useState(null);
+
+        useEffect(() => {
+            getPeriodIndicatorData()
+                .then((result) => {
+                    setDataSource(result);
+                })
+                .catch((error) => {
+                    setError(error);
+                });
+        }, []);
+
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        }
+
         return (
-            <>
-                {
-                    <SelectBox dataSource={[
-                        "HD Video Player",
-                        "SuperHD Video Player",
-                        "SuperPlasma 50",
-                        "SuperLED 50",
-                        "SuperLED 42",
-                    ]}
-                        stylingMode='outlined' />
+            <SelectBox
+                dataSource={dataSource}
+                stylingMode='outlined'
+                searchEnabled={true}
+                selectedItem={dataSource[0]}
+                onItemClick={
+                    (value) => {
+                        setSelectedSeries(value.itemData);
+                        Dropdownchanged(selectBoxGroup, value.itemData)
+                    }
                 }
-            </>
+                value={selectedSeries}
+                placeholder={"Select Series"}
+                useItemTextAsTitle={true}
+            />
         );
     };
 
@@ -49,8 +82,12 @@ function SettingDropdown() {
         },
         {
             title: 'Default Period Indicator',
-            html: <SettingDropDownInputBox />,
+            html: <SettingDropDownInputBox selectBoxGroup={"Default Period Indicator"} />,
         },
+        // {
+        //     title: 'QC',
+        //     html: '',
+        // }
     ];
 
     return (
@@ -65,11 +102,16 @@ function SettingDropdown() {
                         animationDuration={450}
                         dataSource={itemsarr}
                         itemRender={(data) => data.html}
-                        // collapsible={true}
+                        collapsible={true}
                         className="batch-serial-acrdn"
-                        onItemTitleClick={() => {
+                        onItemTitleClick={(e) => {
+                            // if (e.itemIndex === 5) {
+                            //     setIsSubDropdownOpen(!isSubDropdownOpen);
+                            // }
+                            // else {
+                            // }
                             if (isSubDropdownOpen) {
-                                setIsSubDropdownOpen(false);
+                                return setIsSubDropdownOpen(!isSubDropdownOpen);
                             }
                         }}
                     />

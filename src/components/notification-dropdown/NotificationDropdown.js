@@ -1,8 +1,7 @@
-import { Button } from 'devextreme-react';
 import './NotificationDropdown.scss';
 import { useState } from 'react';
 
-function NotificationDropdown() {
+function NotificationDropdown(props) {
     const notificationWords = [
         "New message received!",
         "You have a notification.",
@@ -21,43 +20,42 @@ function NotificationDropdown() {
             title: `${notificationWords[Math.floor(Math.random() * notificationWords.length)]}`,
             time: `${Math.floor(Math.random() * 59) + 1} min ago`,
             unread: `${Boolean(Math.round(Math.random()))}`
-            // unread: false
         },
         {
             title: `${notificationWords[Math.floor(Math.random() * notificationWords.length)]}`,
             time: `${Math.floor(Math.random() * 59) + 1} min ago`,
             unread: `${Boolean(Math.round(Math.random()))}`
-            // unread: true
         },
         {
             title: `${notificationWords[Math.floor(Math.random() * notificationWords.length)]}`,
             time: `${Math.floor(Math.random() * 59) + 1} min ago`,
             unread: `${Boolean(Math.round(Math.random()))}`
-            // unread: false
         },
         {
             title: `${notificationWords[Math.floor(Math.random() * notificationWords.length)]}`,
             time: `${Math.floor(Math.random() * 59) + 1} min ago`,
             unread: `${Boolean(Math.round(Math.random()))}`
-            // unread: true
         },
     ];
 
     const [rotation, setRotation] = useState(0);
 
     const rotateButton = () => {
-        setRotation(rotation + 180);
+        setRotation(rotation + 360);
     };
 
     return (
-        <div className='dropdown-background'>
+        <div div className='dropdown-background'>
             <div className="notifydropdown">
                 <div className="notifydropdown-header">
                     <div>
                         <div className="heading">Notifcations</div>
                         <div className="sub-heading">All the notifications at one place!</div>
                     </div>
-                    <Button icon={"refresh"} onClick={rotateButton} style={{ transform: `rotate(-${rotation}deg)` }} className='rfcbtn' />
+                    <span className="rfcbtn material-symbols-outlined" onClick={rotateButton}
+                        style={{ transform: `rotate(${rotation}deg)` }} title='Refresh'>
+                        cached
+                    </span>
                 </div>
                 <div className="notifydropdown-body">
                     {

@@ -11,9 +11,8 @@ import SettingDropdown from "../setting-dropdown/SettingDropdown";
 import NotificationDropdown from "../notification-dropdown/NotificationDropdown";
 // import { SearchPanel } from "devextreme-react/data-grid";
 // import SettingsDrawerMain from "../settings-drawer/SettingsDrawer.main";
-import { CheckboxProvider } from "../../contexts/settingConfig";
 
-export default function Header({ menuToggleEnabled, title, toggleMenu }) {
+export default function Header({ menuToggleEnabled, toggleMenu }) {
     const location = useLocation();
     let path = location.pathname.split('/');
 
@@ -106,13 +105,19 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
                             </span>
                         </div>
 
-                        <span className="material-symbols-outlined bell-icon" onClick={toggleNotifyDropdown}>
-                            notifications
-                        </span>
+                        <div className="notification">
+                            <span className="material-symbols-outlined bell-icon" onClick={toggleNotifyDropdown}>
+                                notifications
+                            </span>
+                            <span className="notify-badge">
+                                6
+                            </span>
+                        </div>
 
                         <span className="material-symbols-outlined setting-icon" onClick={toggleSettingDropdown}>
                             settings
                         </span>
+
                         <Button
                             className={"user-button authorization"}
                             // width={210}
@@ -129,10 +134,8 @@ export default function Header({ menuToggleEnabled, title, toggleMenu }) {
                 </Toolbar>
             </header >
 
-            <CheckboxProvider>
-                {isSettingDropdownOpen && <SettingDropdown />}
-                {isNotifyDropdownOpen && <NotificationDropdown />}
-            </CheckboxProvider>
+            {isSettingDropdownOpen && <SettingDropdown />}
+            {isNotifyDropdownOpen && <NotificationDropdown />}
         </>
     );
 }

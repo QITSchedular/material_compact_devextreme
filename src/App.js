@@ -15,36 +15,39 @@ import { AppContextProvider } from "./contexts/dataContext";
 import { ToastContainer } from "react-toastify";
 import "animate.css/source/animate.css";
 import "react-toastify/dist/ReactToastify.css";
-import { CheckboxProvider, SettingConfigProvider } from "./contexts/settingConfig";
+import { SettingProvider } from "./contexts/settingConfig";
+
 function App() {
-  const { user, loading } = useAuth();
+    const { user, loading } = useAuth();
 
-  if (loading) {
-    return <LoadPanel visible={true} />;
-  }
+    if (loading) {
+        return <LoadPanel visible={true} />;
+    }
 
-  if (user) {
-    return <Content />;
-  }
+    if (user) {
+        return <Content />;
+    }
 
-  return <UnauthenticatedContent />;
+    return <UnauthenticatedContent />;
 }
 
 export default function Root() {
-  const screenSizeClass = useScreenSizeClass();
+    const screenSizeClass = useScreenSizeClass();
 
-  return (
-    <Router>
-      <ToastContainer />
-      <AuthProvider>
-        <NavigationProvider>
-          <AppContextProvider>
-            <div className={`app ${screenSizeClass}`}>
-              <App />
-            </div>
-          </AppContextProvider>
-        </NavigationProvider>
-      </AuthProvider>
-    </Router>
-  );
+    return (
+        <Router>
+            <ToastContainer />
+            <AuthProvider>
+                <NavigationProvider>
+                    <AppContextProvider>
+                        <SettingProvider>
+                            <div className={`app ${screenSizeClass}`}>
+                                <App />
+                            </div>
+                        </SettingProvider>
+                    </AppContextProvider>
+                </NavigationProvider>
+            </AuthProvider>
+        </Router>
+    );
 }

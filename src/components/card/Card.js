@@ -71,7 +71,7 @@ export default function Card({ title, description, icon, path }) {
                         <ValueAnimator start={0} end={Math.floor(Math.random() * 10000)} duration={700} />
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     )
 }

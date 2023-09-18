@@ -66,7 +66,6 @@ export default function SideNavOuterToolbar({ title, children }) {
       <Header
         menuToggleEnabled
         toggleMenu={toggleMenu}
-        title={title}
       />
       <Drawer
         className={['drawer', patchCssClass].join(' ')}

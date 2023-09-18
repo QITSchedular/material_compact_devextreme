@@ -22,7 +22,7 @@ function SettingSubDropdown() {
             <div className="subdropdown-body">
                 <div className={`quality-control-dropdown`}>
                     Quality Control
-                    <CustomCheckBox checkboxvalue={["Yes", "No"]} />
+                    <CustomCheckBox checkboxvalue={["Yes", "No"]} checkboxgroup={'Quality Control'} />
                     Incoming QC Warehouse
                     <SettingDropDownInputBox data={[
                         "Incoming Warehouse",

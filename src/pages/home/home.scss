@@ -1,64 +1,69 @@
 .logos-container {
-  margin: 20px 0 40px 0;
-  text-align: center;
+    margin: 20px 0 40px 0;
+    text-align: center;
 
-  svg {
-    display: inline-block;
-  }
+    svg {
+        display: inline-block;
+    }
 }
 
 .devextreme-logo {
-  width: 200px;
-  height: 34px;
-  margin-bottom: 19px;
+    width: 200px;
+    height: 34px;
+    margin-bottom: 19px;
 }
 
 .react-logo {
-  width: 184px;
-  height: 68px;
+    width: 184px;
+    height: 68px;
 }
 
 .plus {
-  margin: 23px 10px;
-  width: 22px;
-  height: 22px;
+    margin: 23px 10px;
+    width: 22px;
+    height: 22px;
 }
 
 .screen-x-small .logos-container {
-  svg {
-    width: 100%;
-    display: block;
+    svg {
+        width: 100%;
+        display: block;
 
-    &.plus {
-      margin: 0;
+        &.plus {
+            margin: 0;
+        }
     }
-  }
 }
 
 .index-card-container {
-  padding: 1rem;
-  margin-bottom: 1.5rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
 
-  .index-card-heading {
-    margin-top: 1rem;
-    font-size: 20px;
-    margin: 0px 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    color: rgba(0, 0, 0, 0.5);
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 12.606px;
-    letter-spacing: 0.567px;
-    text-decoration: none;
+    .index-card-heading {
+        font-size: 20px;
+        margin: 2.5rem 1rem .6rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        color: rgba(0, 0, 0, 0.5);
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 12.606px;
+        letter-spacing: 0.567px;
+        white-space: nowrap;
 
-    .line {
-      border-top: 1px solid rgba(0, 0, 0, 0.2);
-      width: 100%;
+        .line {
+            border-top: 1px solid rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        .index-card-title {
+            &:hover {
+                color: aqua;
+            }
+        }
     }
-  }
 
 }
