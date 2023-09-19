@@ -8,11 +8,10 @@ import { AppContext } from "../../contexts/dataContext";
 import { RequiredRule } from "devextreme-react/form";
 
 import success from "../../assets/images/success.gif";
-
 import "./PopupForm.scss";
 import { PopupHeaderText } from "../typographyTexts/TypographyComponents";
 import { addNewMasterItem } from "../../utils/items-master-data";
-const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
+const PopupForm = ({ title, field, clientMasterType, keyArray, customId }) => {
     const formPopup = useRef(null);
     const { newItemIsAdded } = useContext(AppContext);
     // Button - input options
@@ -148,29 +147,25 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
     return (
         <>
             <Popup
-                maxWidth={850}
-                height={500}
+
                 visible={isCommonPopupVisible}
                 onHiding={hideInfo}
                 dragEnabled={false}
                 hideOnOutsideClick={false}
                 showCloseButton={true}
                 shading={true}
-                container=".dx-viewport"
                 className="item-master-popup-container"
             >
-                <ScrollView ScrollView width="100%" height="100%">
+
+                <ScrollView width="100%">
+                    {/* height="100%" */}
                     <div
                         className={
                             "dx-card content-block responsive-paddings pop-content-container"
-                        }
+                        } id={customId ? customId : null}
                     >
                         {displayState ? (
                             <>
-                                {/* <div className="popup-header">
-                                    <div className="popUp-header-title">{title}</div>
-                                    <Button icon="close" onClick={handleClosePopUp} />
-                                </div> */}
                                 <div className="content-block-wrapper">
                                     <div className="content-block-1">
                                         <div className="content-text">
@@ -288,9 +283,11 @@ const PopupForm = ({ title, field, clientMasterType, keyArray }) => {
                         )}
                     </div>
                 </ScrollView>
-            </Popup>
+
+            </Popup >
         </>
     );
 };
 
 export default PopupForm;
+

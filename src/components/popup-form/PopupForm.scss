@@ -16,6 +16,10 @@
     margin-bottom: 1.5rem !important;
 }
 
+.form-element {
+    margin-top: 40px;
+}
+
 .title {
     font-size: 30px;
 }
@@ -39,6 +43,16 @@
         height: 200px;
         width: 200px;
     }
+}
+
+/* Update PopupForm.scss */
+.dx-scrollview-content {
+    height: 100%;
+}
+
+/* Add this to remove unnecessary margins */
+.popup-content-container {
+    margin: 0;
 }
 
 @media only screen and (max-width: 600px) {
