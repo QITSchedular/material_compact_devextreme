@@ -197,7 +197,7 @@ const GrpoMain = () => {
         console.log("filteredData : ", filteredData);
         console.log("poListData : ", poListData);
         console.log("qrCodeIds : ", qrCodeIds);
-        
+
         setGrpoList1((prevGrpoList) => {
           const updatedSet = new Set(prevGrpoList);
           filteredData.forEach((response) => {
@@ -205,7 +205,7 @@ const GrpoMain = () => {
           });
           return updatedSet;
         });
-        
+
         // const qrCodeIds = poListData.map((item) => item.qrCodeID);
         const doPoExists = qrCodeIds.includes(qrCode);
         console.log("doPoExists : ", doPoExists);
@@ -338,7 +338,7 @@ const GrpoMain = () => {
     fetchAllPo();
   }, []);
   const [decodedResults, setDecodedResults] = useState([]);
-  
+
   const onNewScanResult = (decodedText) => {
     alert("decodedText : ", decodedText);
     // console.log("App [result]", decodedResult);
@@ -358,7 +358,7 @@ const GrpoMain = () => {
           visible={true}
           showCloseButton={true}
           contentRender={() => <PopupContent onSave={handleGrpoPoSelection} />}
-                  >
+        >
           <ToolbarItem
             widget="dxButton"
             toolbar="bottom"
