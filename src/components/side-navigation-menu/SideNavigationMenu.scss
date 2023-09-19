@@ -1,6 +1,8 @@
 @import "../../dx-styles.scss";
 @import "../../themes/generated/variables.additional.scss";
 
+
+
 .side-navigation-menu {
   display: flex;
   flex-direction: column;
@@ -8,44 +10,46 @@
   height: 100%;
   width: 250px !important;
   background-color: $base-accent;
+  color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
   .menu-container {
-    min-height: 100%;
     display: flex;
     flex: 1;
+    overflow-y: hidden;
+    scrollbar-width: none;
+
+    .menu-container.scrollable {
+      overflow-y: auto;
+      /* Enable scrolling when items are expanded */
+    }
 
     .dx-treeview {
       // ## Long text positioning
       white-space: nowrap;
+      // ##
+      // added
       margin-top: 1rem !important;
 
       // ## Icon width customization
       .dx-treeview-item {
-        padding: 0px;
+        padding-left: 0;
+        padding-right: 0;
         color: white;
-        transition: 0.3 ease-in;
+
+        //transition: 0.3 ease-in;
 
         .dx-icon {
           width: $side-panel-min-width !important;
           margin: 0 !important;
-          color: white;
-        }
 
-        .dx-icon.material-symbols-outlined {
-          font-family: 'Material Symbols Outlined';
-          font-weight: 300;
-          font-style: normal;
-          font-size: 20px;
-          letter-spacing: normal;
-          text-transform: none;
-          display: inline-block;
-          white-space: nowrap;
-          word-wrap: normal;
-          direction: ltr;
-          -webkit-font-smoothing: antialiased;
+          .dx-icon-menu {
+            color: white !important;
+          }
         }
       }
+
+      // ##
 
       // ## Arrow customization
       .dx-treeview-node {
@@ -53,10 +57,9 @@
       }
 
       .dx-treeview-toggle-item-visibility {
-        right: .7rem;
+        right: 10px;
         left: auto;
         color: #f5f5f5;
-        height: 20px;
       }
 
       .dx-rtl .dx-treeview-toggle-item-visibility {
@@ -64,10 +67,14 @@
         right: auto;
       }
 
-      .dx-treeview-node {
-        margin-bottom: 5px;
+      // ##
 
+      // ## Item levels customization
+      .dx-treeview-node {
         &[aria-level='1'] {
+          // border-bottom: 1px solid $base-border-color;
+          //added
+          // margin-bottom: 4px;
           font-family: Poppins;
           font-size: 14px;
           font-style: normal;
@@ -77,20 +84,14 @@
         }
 
         &[aria-level='2'] .dx-item {
+          // background-color: red;
+          // border: 1px solid;
           font-size: 12px;
+          // margin-top: 4px;
+
         }
 
         &[aria-level='2'] .dx-treeview-item-content {
-          .dx-icon {
-            width: 40px !important;
-            margin-left: 1rem !important;
-            color: white;
-          }
-
-          .dx-icon.material-symbols-outlined {
-            width: auto;
-          }
-
           font-weight: normal;
           font-size: 13px;
           padding: 4px;
@@ -99,8 +100,16 @@
           //margin-left: 2.5rem;
           margin-left: 3.8rem;
           color: white;
+
+          //  .dx-icon {
+          //    width: 30px !important;
+          //    color: #ffffff !important;
+          //  }
+
         }
       }
+
+      // ##
     }
 
     // ## Selected & Focuced items customization
@@ -109,34 +118,46 @@
         .dx-state-selected {
           .dx-treeview-item {
             .dx-treeview-item-content {
-              padding: 10px 0px;
+              padding-top: 8px;
+              padding-bottom: 8px;
+
+              /**/
+              // .dx-icon {
+              //   &.material-icons-outlined {
+              //     color: #161616 !important;
+              //   }
+              // }
+
+              /**/
 
             }
           }
         }
 
         .dx-treeview-node {
-
           &.dx-state-selected:not(.dx-state-focused)>.dx-treeview-item {
-            margin-bottom: 10px;
             background: transparent;
+
+            .dx-icon {
+              &.material-icons-outlined {
+                color: #161616 !important;
+              }
+            }
+
           }
 
           &.dx-state-selected>.dx-treeview-item * {
-            transition: all 0.3s ease-in-out;
+            // color: $base-accent;
+            //transition: all 0.3s ease-in-out;
             background-color: white !important;
+            //  color: #4371B7;
             color: #161616;
             border-radius: 8px;
           }
 
-          &.dx-state-selected>.dx-treeview-toggle-item-visibility {
-            color: #161616;
-            height: 35px;
-            right: .7rem;
-            left: auto;
+          &:not(.dx-state-focused)>.dx-treeview-item.dx-state-hover {
+            transition: all 0.5s ease-in-out !important;
           }
-
-          // &:not(.dx-state-focused)>.dx-treeview-item.dx-state-hover {}
 
         }
       }
@@ -148,13 +169,35 @@
         color: #ffffff
       }
     }
+
+    // ##
   }
 }
 
 .dx-treeview-item.dx-treeview-item.dx-state-hover {
   background: none !important;
-  color: white !important;
+  //color: white !important;
 }
+
+.menu-container::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Hide the horizontal scrollbar (optional) */
+.menu-container::-webkit-scrollbar-horizontal {
+  display: none;
+}
+
+/* Hide the scrollbar track */
+.menu-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Hide the scrollbar thumb */
+.menu-container::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
 
 .dx-drawer-overlap.pre-init-blink-fix {
   @import "../../utils/patches.scss";

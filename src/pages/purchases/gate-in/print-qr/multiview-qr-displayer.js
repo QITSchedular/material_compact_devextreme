@@ -26,6 +26,14 @@ const QrViewBox = ({ data, handleClose }) => {
             Place the scanner on qr code to detect{" "}
           </span>
         </div>
+        <div className="header---closer">
+          <Button
+            icon="close"
+            width={35}
+            height={35}
+            onClick={handlePopupClose}
+          />
+        </div>
       </div>
 
       <div className="qr__displayer">
@@ -77,39 +85,30 @@ const Multiviewdisplayer = ({ handleClose, multipleQrCodes }) => {
     console.log("You are at multividimensional");
   }, []);
   return (
-    <>
-      <div className="header---closer">
-        <Button icon="close" width={35} height={35} onClick={handleClose} />
-      </div>
-      <div className="my-multiviewer" style={{ display: "flex" }}>
-        <Button
-          type="default"
-          stylingMode="outlined"
-          icon="chevronprev"
-          style={{ marginTop: "25%" }}
-          onClick={handlePrevView}
-          disabled={selectedIndex === 0}
-        />
+    <div className="my-multiviewer" style={{ display: "flex" }}>
+      <Button
+        icon="chevronprev"
+        style={{ marginTop: "25%" }}
+        onClick={handlePrevView}
+        disabled={selectedIndex === 0}
+      />
 
-        <MultiView
-          dataSource={multipleQrCodes}
-          selectedIndex={selectedIndex}
-          onOptionChanged={onSelectionChanged}
-          loop={true}
-          itemComponent={(data) => (
-            <QrViewBox data={data} handleClose={handleClose} /> // Pass the function as a prop to QrViewBox
-          )}
-          animationEnabled={true}
-        />
-        <Button
-          icon="chevronnext"
-          type="default"
-          stylingMode="outlined"
-          onClick={handleNextView}
-          disabled={selectedIndex === multipleQrCodes.length - 1}
-        />
-      </div>
-    </>
+      <MultiView
+        dataSource={multipleQrCodes}
+        selectedIndex={selectedIndex}
+        onOptionChanged={onSelectionChanged}
+        loop={true}
+        itemComponent={(data) => (
+          <QrViewBox data={data} handleClose={handleClose} /> // Pass the function as a prop to QrViewBox
+        )}
+        animationEnabled={true}
+      />
+      <Button
+        icon="chevronnext"
+        onClick={handleNextView}
+        disabled={selectedIndex === multipleQrCodes.length - 1}
+      />
+    </div>
   );
 };
 

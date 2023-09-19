@@ -61,8 +61,6 @@
 
             }
 
-           
-
             .search-section {
                 display: flex !important;
 
@@ -97,30 +95,9 @@
 
     .data-grid-section {
         margin-top: 1rem !important;
-    }
 
-    
-}
-
-.buttons-section-save{
-    .dx-saveBtn{
-    .dx-button-content{
-        .dx-button-text{
-            color: white;
-        }
-    }
     }
 }
-
-
-    .gateIn-header {
-        display: flex;
-        justify-content: space-between;
-
-        .close-btn-section {
-            padding-top: 2%;
-        }
-    }
 
 .data-grid-container-local {
     max-height: 500px !important;

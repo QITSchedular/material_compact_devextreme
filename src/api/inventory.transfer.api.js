@@ -12,7 +12,7 @@ export const verifyProdcutionQrInput = async (
   };
   console.log("Entered api caller");
   console.log("Scanned item qr is: ", productionNumberInput);
-  console.log("Selected from warehouse data is: ", selectedFromWarehouse);
+  console.log("Selected warehouse data is: ", selectedFromWarehouse);
   const requestBody = {
     branchID: 1,
     fromWhs: `${selectedFromWarehouse[0].whsCode}`,

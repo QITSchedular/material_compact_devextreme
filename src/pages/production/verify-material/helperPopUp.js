@@ -1,33 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { PopupHeaderText, PopupSubText } from "../../../components/typographyTexts/TypographyComponents";
+import {
+  PopupHeaderText,
+  PopupSubText,
+} from "../../../components/typographyTexts/TypographyComponents";
 import { Button, DataGrid } from "devextreme-react";
 import { getProductionOrder } from "../../../utils/production-verify-material";
-import { Column, Paging, Scrolling, SearchPanel, Selection } from "devextreme-react/data-grid";
+import {
+  Column,
+  Paging,
+  Scrolling,
+  SearchPanel,
+  Selection,
+} from "devextreme-react/data-grid";
 
-function HelperPopUp({handleCancel}) {
-
-    const [dataSource, setDataSource] = useState(null);
-    const [error, setError] = useState(false);
-    // const [selectedRowKeysNew, setSelectedRowKeys] = useState([]); // State to store the selected row data
-    const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        const dataGridDataHandler = async () => {
-          const poListData = await getProductionOrder();
-          if (poListData.length > 0) {
-            console.log("It has data");
-            // setSelectedRowKeys(selectedRowKeys);
-            setDataSource(poListData);
-            return setLoading(false); // Correct the state update to false
-          } else {
-            const { errorText } = poListData;
-            return setError(errorText);
-          }
-        };
-        dataGridDataHandler();
-      }, []);
+function HelperPopUp({
+  handleSave,
+  handleCancel,
+  handleDataGridRowSelection,
+  dataGridRef,
+  selectedRowKeys,
+}) {
+  const [dataSource, setDataSource] = useState(null);
+  const [error, setError] = useState(false);
+  const [selectedRowKeysNew, setSelectedRowKeys] = useState([]); // State to store the selected row data
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const dataGridDataHandler = async () => {
+      const poListData = await getProductionOrder();
+      if (poListData.length > 0) {
+        console.log("It has data");
+        setSelectedRowKeys(selectedRowKeys);
+        setDataSource(poListData);
+        return setLoading(false); // Correct the state update to false
+      } else {
+        const { errorText } = poListData;
+        return setError(errorText);
+      }
+    };
+    dataGridDataHandler();
+  }, []);
   return (
     <>
-      <div className="purchaseOrderList-main-containter">
+      <div className="purchaseOrderList-main-containter ">
         <div className="purchaseOrderList-header">
           <div
             className="purchaseOrderList-title-section responsive-paddings"
@@ -44,7 +58,7 @@ function HelperPopUp({handleCancel}) {
             <Button icon="close" onClick={handleCancel} />
           </div>
         </div>
-        <div className="purchaseOrderList-data-section">
+        <div className="varify-popup">
           <DataGrid
             height={420}
             dataSource={dataSource}
@@ -52,14 +66,20 @@ function HelperPopUp({handleCancel}) {
             showBorders={true}
             columnAutoWidth={true}
             hoverStateEnabled={true}
-            // onSelectionChanged={handleDataGridRowSelection}
-            // ref={dataGridRef}
-            // selectedRowKeys={selectedRowKeysNew}
+            onSelectionChanged={handleDataGridRowSelection}
+            ref={dataGridRef}
+            selectedRowKeys={selectedRowKeysNew}
           >
             <SearchPanel visible={true} />
             <Selection mode="multiple" />
             <Scrolling columnRenderingMode="infinite" />
             <Paging enabled={false} />
+            <Column
+              dataField="itemCode"
+              alignment="left"
+              caption={"Item Code"}
+              // dataType={"date"}
+            />
             <Column
               dataField="seriesName"
               alignment="left"
@@ -71,10 +91,10 @@ function HelperPopUp({handleCancel}) {
               caption={"Product Name"}
             />
             <Column
-              dataField="warehouse"
+              dataField="startDate"
               alignment="left"
-              caption={"Warehouse"}
-              // dataType={"date"}
+              caption={"Start Date"}
+              dataType={"date"}
             />
             <Column
               dataField="dueDate"
@@ -83,7 +103,6 @@ function HelperPopUp({handleCancel}) {
               dataType={"date"}
             />
           </DataGrid>
-          
         </div>
         <div
           className="buttons-section"
@@ -101,7 +120,7 @@ function HelperPopUp({handleCancel}) {
             type="default"
             width={124}
             height={35}
-            // onClick={handleSave}
+            onClick={handleSave}
             className="OkQcBtn"
           />
         </div>

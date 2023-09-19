@@ -1,245 +1,205 @@
 @import "../../themes/generated/variables.base.scss";
 
-// 450 | 600 | 768 | 840 | 992 | 1024
-
-.material-symbols-outlined {
-    font-family: 'Material Symbols Outlined';
-    font-weight: 300;
-    font-style: normal;
-    font-size: 24px;
-    line-height: 1;
-    letter-spacing: normal;
-    text-transform: none;
-    display: inline-block;
-    white-space: nowrap;
-    word-wrap: normal;
-    direction: ltr;
-    -webkit-font-smoothing: antialiased;
-}
-
 .grid-container {
     display: grid;
-    gap: 30px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    padding: 20px;
+    gap: 20px 10px;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 30px 10px;
 
     a {
         text-decoration: none;
     }
 
     .dx-card {
-        width: 100%;
+        width: 350px;
+        // height: 200px;
         margin: auto auto;
         padding: 15px;
         border-radius: 13.841px;
         border-bottom: 4px solid #4371B7;
         background: #FFF;
         box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.10);
-        position: relative;
-
-
-        .card-header {
-            .title {
-                display: flex;
-                padding: 0;
-                gap: .6rem;
-                color: #161616;
-                font-family: Poppins;
-                font-size: 16px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: normal;
-                align-items: center;
-
-                .card-icon.material-symbols-outlined {
-                    font-size: 20px;
-                    font-weight: 400;
-                }
-            }
-        }
-
 
         .pin {
-            position: absolute;
             text-align: right;
-            top: 15px;
-            right: 15px;
-            z-index: 100;
-            transform: rotate(50deg);
-            cursor: pointer;
-
-            .card-icon.material-symbols-outlined {
-                font-size: 20px;
-                font-weight: 400;
-            }
         }
-
 
         .card-body {
-            .description {
-                color: #525252;
-                font-family: Roboto;
-                font-size: 14px;
-                font-style: normal;
-                font-weight: 300;
-                line-height: normal;
-                padding: 10px 2px 24px 2px;
-                width: 85%;
-            }
-        }
-
-        .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #525252;
+            gap: 15px;
+        }
 
-            .refresh-part {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: .4rem;
+        .circle {
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+            font-size: 30px;
+            border-radius: 8px;
+            background-color: #4371b7;
+            text-align: center;
+            color: #FFF;
+            text-shadow: 3px 3px 1px #525252;
+        }
 
-                .rfcbtn {
-                    transition: transform .9s ease;
-                    cursor: pointer;
-                }
+        .header {
+            display: flex;
+            padding: 0;
+            color: #4371B7;
 
-                .dx-button {
-                    margin: 0px !important;
-                    background: transparent !important;
-                }
-
-                .dx-button.dx-state-hover {
-                    background: transparent !important;
-                }
-
-                .dx-button.dx-state-focused {
-                    background: transparent !important;
-                }
+            .dx-button {
+                margin-left: 0;
+                background: transparent;
+                cursor: default;
             }
 
-            .number-part {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 50px;
-                height: 50px;
+            .dx-button-has-icon .dx-icon {
+                width: 22px;
+                height: 22px;
                 color: #525252;
-                font-family: Roboto;
-                font-size: 20px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: normal;
-                border-radius: 8px;
+            }
+
+            .heading {
+                margin-left: 2px;
+                color: $base-text-color;
+                line-height: 28px;
+                font-weight: 500;
+                font-size: 16px;
+                text-decoration: none;
             }
         }
 
-        transition: transform 0.2s ease;
+        .description {
+            color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+            line-height: 18px;
+            margin-top: 10px;
+        }
 
-        &:hover {
-            transform: scale(1.01);
-            box-shadow: 0px 1px 9px 3px rgba(0, 0, 0, 0.10);
+        .card-footer {
+            .dx-button {
+                margin: 0px !important;
+            }
+
+            .dx-button-has-text .dx-button-content .dx-button-text {
+                color: #4371B7;
+            }
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            justify-self: end;
+            margin-top: 20px;
         }
     }
 }
 
+// 450 | 600 | 768 | 840 | 992 | 1024
+
 @media only screen and (max-width: 450px) {
     .grid-container {
+        gap: 30px;
         grid-template-columns: 1fr;
 
         .dx-card {
             width: 320px;
+
+            .circle {
+                width: 60px;
+                height: 50px;
+                line-height: 50px;
+                font-size: 20px;
+            }
         }
     }
 }
 
 @media only screen and (min-width: 450px) {
     .grid-container {
+        gap: 30px;
         grid-template-columns: 1fr;
 
         .dx-card {
             width: 350px;
+
+            .circle {
+                width: 60px;
+                height: 45px;
+                line-height: 45px;
+                font-size: 20px;
+            }
         }
     }
 }
 
 @media only screen and (min-width: 600px) {
     .grid-container {
-        grid-template-columns: 1fr;
+        gap: 20px;
+        grid-template-columns: 1fr 1fr;
 
         .dx-card {
-            width: 350px;
+            width: 280px;
+
+            .circle {
+                width: 60px;
+                height: 50px;
+                line-height: 50px;
+                font-size: 20px;
+            }
         }
     }
 }
 
 @media only screen and (min-width: 768px) {
     .grid-container {
+        gap: 20px;
         grid-template-columns: 1fr 1fr;
 
         .dx-card {
-            width: 320px;
+            width: 310px;
+
+            .circle {
+                width: 75px;
+                height: 50px;
+                line-height: 50px;
+                font-size: 20px;
+            }
         }
     }
 }
 
 @media only screen and (min-width: 840px) {
     .grid-container {
-        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        grid-template-columns: 1fr 1fr 1fr;
 
         .dx-card {
-            width: 320px;
-        }
-    }
-}
+            width: 290px;
 
-@media only screen and (min-width: 920px) {
-    .grid-container {
-        grid-template-columns: 1fr 1fr;
-
-        .dx-card {
-            width: 320px;
+            .circle {
+                width: 70px;
+                height: 50px;
+                line-height: 50px;
+                font-size: 25px;
+            }
         }
     }
 }
 
 @media only screen and (min-width: 1024px) {
     .grid-container {
-        grid-template-columns: 1fr 1fr 1fr;
-
-        .dx-card {
-            width: 280px;
-        }
-    }
-}
-
-@media only screen and (min-width: 1120px) {
-    .grid-container {
-        grid-template-columns: 1fr 1fr 1fr;
-
-        .dx-card {
-            width: 330px;
-        }
-    }
-}
-
-@media only screen and (min-width: 1400px) {
-    .grid-container {
+        gap: 20px;
         grid-template-columns: 1fr 1fr 1fr;
 
         .dx-card {
             width: 350px;
-        }
-    }
-}
 
-@media only screen and (min-width: 1600px) {
-    .grid-container {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-
-        .dx-card {
-            width: 300px;
+            .circle {
+                width: 70px;
+                height: 60px;
+                line-height: 60px;
+                font-size: 25px;
+            }
         }
     }
 }

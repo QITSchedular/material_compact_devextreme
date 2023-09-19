@@ -1,6 +1,5 @@
 import axios from "axios";
 import { API_URL } from "./items-master-data";
-import { toastDisplayer } from "../api/qrgenerators";
 
 export const getPoListsIC = async () => {
   const errors = {
@@ -27,15 +26,13 @@ export const getPoListsIC = async () => {
       return errors;
     }
   } catch (error) {
-    // const { statusMsg } = error.response.data;
-    // console.log(error);
-    // if (statusMsg) {
-    //   errors.hasError = true;
-    //   errors.errorText = statusMsg;
-    //   return errors;
-    // }
-    // return errors;
-    return toastDisplayer("error", error.message);
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
   }
 };
 
@@ -64,14 +61,13 @@ export const searchPoListsIQC = async (QRCode,fromDate,toDate) => {
       return errors;
     }
   } catch (error) {
-    // const { statusMsg } = error.response.data;
-    // if (statusMsg) {
-    //   errors.hasError = true;
-    //   errors.errorText = statusMsg;
-    //   return errors;
-    // }
-    // return errors;
-    return toastDisplayer("error", error.message);
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
   }
 };
 
@@ -99,14 +95,13 @@ export const validatePoListsIQC = async (obj) => {
       return errors;
     }
   } catch (error) {
-    // const { statusMsg } = error.response.data;
-    // if (statusMsg) {
-    //   errors.hasError = true;
-    //   errors.errorText = statusMsg;
-    //   return errors;
-    // }
-    // return errors;
-    return toastDisplayer("error", error.message);
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
   }
 };
 
@@ -125,14 +120,13 @@ export const SavePoListsIQC = async (obj) => {
       return errors;
     }
   } catch (error) {
-    // const { statusMsg } = error.response.data;
-    // if (statusMsg) {
-    //   errors.hasError = true;
-    //   errors.errorText = statusMsg;
-    //   return errors;
-    // }
-    // return errors;
-    return toastDisplayer("error", error.message);
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
   }
 };
 
@@ -142,10 +136,9 @@ export const LockedWareHouseList = async () => {
     const returnData = await res.data;
     return returnData;
   } catch (error) {
-    // console.log(error);
-    // const returnError = error.response.data;
-    // return returnError;
-    return toastDisplayer("error", error.message);
+    console.log(error);
+    const returnError = error.response.data;
+    return returnError;
   }
 
 };
