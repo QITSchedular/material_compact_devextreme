@@ -4,6 +4,7 @@ import {
   PopupHeaderText,
   PopupSubText,
 } from "../../../components/typographyTexts/TypographyComponents";
+import "./receive-material.styles.scss";
 import {
   Column,
   Paging,
@@ -15,6 +16,8 @@ const PopUpContent = ({
   poHelpDataSource,
   popUpOutsideClickHandler,
   setSelectedPoToReceive,
+  isOKButtonDisabled,
+  setOKButtonDisabled,
 }) => {
   const dataGridRef = useRef();
   const [selectedRowData, setSelectedRowData] = useState("");
@@ -34,6 +37,7 @@ const PopUpContent = ({
       const value = dataGridRef.current.instance.selectRows(selectedRowKeys[0]);
       selectedRowSetter(value);
     }
+    setOKButtonDisabled(selectedRowKeys.length === 0);
   };
 
   const handleSaveSelection = async () => {
@@ -57,6 +61,9 @@ const PopUpContent = ({
         <PopupSubText
           text={"Scroll through the list or type in the search box.."}
         />
+        <div className="close-btn">
+          <Button icon="close" onClick={popUpOutsideClickHandler} />
+        </div>
         <div
           className="responsive-paddings draft-receipt-po-datagrid-container"
           style={{
@@ -80,7 +87,6 @@ const PopUpContent = ({
           >
             <SearchPanel
               visible={true}
-              width={190}
               highlightCaseSensitive={true}
               className={"search-panel"}
             />
@@ -153,7 +159,7 @@ const PopUpContent = ({
             className="default-button"
             onClick={handleSaveSelection}
             // disabled={selectedRowKeys.length > 1 ? false : true}
-            // disabled={isOKButtonDisabled}
+            disabled={isOKButtonDisabled}
           />
         </div>
       </div>
@@ -167,6 +173,7 @@ const DraftReceiptHelpPopup = ({
   poHelpDataSource,
   setSelectedPoToReceive,
 }) => {
+  const [isOKButtonDisabled, setOKButtonDisabled] = useState(true);
   const popUpOutsideClickHandler = () => {
     setShowDraftReceiptPoHelpPopup(false);
   };
@@ -184,8 +191,8 @@ const DraftReceiptHelpPopup = ({
             popUpOutsideClickHandler={popUpOutsideClickHandler}
             // inputPoValue={inputPoValue}
             // setInputPoValue={setInputPoValue}
-            // isOKButtonDisabled={isOKButtonDisabled}
-            // setOKButtonDisabled={setOKButtonDisabled}
+            isOKButtonDisabled={isOKButtonDisabled}
+            setOKButtonDisabled={setOKButtonDisabled}
             poHelpDataSource={poHelpDataSource}
             setSelectedPoToReceive={setSelectedPoToReceive}
           />

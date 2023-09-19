@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DataGrid, {
   Column,
   ColumnFixing,
@@ -7,6 +7,7 @@ import DataGrid, {
   Selection,
   Button,
   AsyncRule,
+  Disabled
 } from "devextreme-react/data-grid";
 import { TextArea } from "devextreme-react";
 import { Button as SaveButton } from "devextreme-react";
@@ -16,6 +17,15 @@ const SelectedItemsListings = ({
   draftReceiptSaver,
 }) => {
   const [comments, setComments] = useState("");
+  const [isReceiveButtonDisabled, setIsReceiveButtonDisabled] = useState(true); // State to manage button disable/enable
+
+  useEffect(() => {
+    // Update the disable state based on some condition (replace with your logic)
+    // For example, you can enable the button if some condition is met.
+    // Here, we're just disabling it by default.
+    setIsReceiveButtonDisabled(true);
+  }, []); // Empty dependency array to run this effect only once on component mount
+
   const asyncValidation = (params) => {
     const { value } = params;
     const { quantity } = params.data;
@@ -23,12 +33,15 @@ const SelectedItemsListings = ({
     return new Promise((resolve, reject) => {
       if (value > quantity) {
         console.log("Greated received");
+        setIsReceiveButtonDisabled(true);
         return reject(`Receivable Quantity exceeded`);
       }
       if (value === 0) {
+        setIsReceiveButtonDisabled(true);
         return reject(`Quantity must be greater than zero`);
       } else {
-        console.log("The else block", value);
+        console.log("Valid quantity", value);
+        setIsReceiveButtonDisabled(false); // Enable the button when quantity is valid
         return resolve(value);
       }
     });
@@ -36,6 +49,7 @@ const SelectedItemsListings = ({
   const commentsHandler = (comments) => {
     return setComments(comments.value);
   };
+
   return (
     <div className="receive-materials-selected-listings">
       <DataGrid
@@ -138,9 +152,8 @@ const SelectedItemsListings = ({
           width={124}
           height={35}
           className="default-button"
-          onClick={() =>
-            draftReceiptSaver(receiverDataGridDataSource, comments)
-          }
+          disabled={isReceiveButtonDisabled} // Disable the button based on the state
+          onClick={() => draftReceiptSaver(receiverDataGridDataSource, comments)}
         />
       </div>
     </div>

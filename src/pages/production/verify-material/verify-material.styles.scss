@@ -1,14 +1,15 @@
-.issue-material-container {
+.verify-material-container {
+
     min-height: 80vh !important;
 
     .header-section {}
 
     .search-section,
-    .issue-material-main-section {
+    .verify-material-main-section {
         margin-top: 1rem;
     }
 
-    .issue-material-main-section {
+    .verify-material-main-section {
         #selectTab {
             .dx-tabs-wrapper {
 

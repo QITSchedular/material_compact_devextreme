@@ -227,7 +227,6 @@ const VerifyMaterialMain = () => {
           )}
         ></Popup>
       )}
-     
     </>
   );
 };

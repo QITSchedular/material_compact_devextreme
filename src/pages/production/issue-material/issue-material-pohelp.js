@@ -45,6 +45,12 @@ const PopUpContent = ({
     setOKButtonDisabled(selectedRowKeys.length === 0);
   };
 
+  const handleClosePopUp = async () => {
+    // const form = formPopup.current.instance;
+    // form.resetValues();
+    //return await closeCommonPopup();
+  };
+
   const handleSaveSelection = async () => {
     await setInputPoValue(selectedRowData);
     return popUpOutsideClickHandler();
@@ -81,15 +87,18 @@ const PopUpContent = ({
           text={"Scroll through the list or type in the search box.."}
         />
       </div>
+      <div className="close-btn">
+        <Button icon="close" onClick={popUpOutsideClickHandler} />
+      </div>
       <div
-        className="dx-card responsive-paddings production-content-datagrid-container"
+        className="responsive-paddings production-content-datagrid-container"
         style={{ margin: "8px 24px", height: "100% !important" }}
       >
         <DataGrid
           height={window.innerHeight - 250}
           dataSource={poHelpDataSource}
           keyExpr={"docEntry"}
-          showBorders={false}
+          showBorders={true}
           columnAutoWidth={true}
           hoverStateEnabled={true}
           className="transporter-data-grid issuefrompro__prohelp--data-grid"
