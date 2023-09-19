@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextBox } from "devextreme-react";
 import { Button as TextBoxButton } from "devextreme-react/text-box";
 import { HelpIcons } from "../../../purchases/grpo/icons-exporter";
@@ -12,8 +12,17 @@ const PopupInputs = ({
   gridDataSourceList,
   selectedValue,
   setSelectedValue,
+txtRef,
+  countRef,
+  setCountRef
 }) => {
   const [textBoxValue, setTextBoxValue] = useState("");
+useEffect(() => {
+    if (countRef) {
+      setTextBoxValue("");
+      setCountRef(false);
+    }
+  }, [countRef])
   const helpOptions = {
     icon: HelpIcons,
     onClick: async () => {
@@ -54,6 +63,7 @@ const PopupInputs = ({
         showClearButton={true}
         value={textBoxValue || ""}
         disabled={textBoxValue ? true : false}
+ref={txtRef}
       >
         <TextBoxButton name="currency" location="after" options={helpOptions} />
       </TextBox>
