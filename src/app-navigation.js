@@ -1,62 +1,45 @@
-import * as icon from './assets/icon';
 import 'material-icons/iconfont/material-icons.css'
 
 export const navigation = [
     {
         text: "Home",
         path: "/home",
-        icon: `material-icons-outlined ic-home`,
+        icon: `home`,
     },
-    // {
-    //   text: "Examples",
-    //   icon: "folder",
-    //   items: [
-    //     {
-    //       text: "Profile",
-    //       path: "/profile",
-    //       icon: "user",
-    //     },
-    //     {
-    //       text: "Tasks",
-    //       path: "/tasks",
-    //       icon: "datafield",
-    //     },
-    //   ],
-    // },
     {
         text: "Masters List",
         path: "/masters",
-        icon: `material-icons-outlined ic-view_list`,
+        icon: `key`,
         items: [
             {
                 text: "Item Master",
                 path: "/masters/items",
-                icon: `material-icons-outlined ic-category`,
+                icon: `category`,
             },
             {
                 text: "Item Group",
                 path: "/masters/itemsgroup",
-                icon: `material-icons-outlined ic-change_history`,
+                icon: `change_history`,
             },
             {
                 text: "Item Sub Group",
                 path: "/masters/itemssubgroup",
-                icon: `material-icons-outlined ic-fiber_manual_record`,
+                icon: `fiber_manual_record`,
             },
             {
                 text: "Uom",
                 path: "/masters/uom",
-                icon: `material-icons-outlined ic-scale`,
+                icon: `scale`,
             },
             {
                 text: "Location",
                 path: "/masters/location",
-                icon: `material-icons-outlined ic-location_on`,
+                icon: `location_on`,
             },
             {
                 text: "Warehouse",
                 path: "/masters/warehouse",
-                icon: `material-icons-outlined ic-warehouse`,
+                icon: `warehouse`,
             },
             // {
             //   text: "Bin Loaction",
@@ -65,12 +48,12 @@ export const navigation = [
             {
                 text: "Brand",
                 path: "/masters/brand",
-                icon: `material-icons-outlined ic-real_estate_agent`,
+                icon: `real_estate_agent`,
             },
             {
                 text: "Machine ",
                 path: "/masters/machine",
-                icon: `material-icons-outlined ic-precision_manufacturing`,
+                icon: `precision_manufacturing`,
             },
             {
                 text: "Department",
@@ -80,114 +63,119 @@ export const navigation = [
             {
                 text: "Employee ",
                 path: "/masters/employee",
-                icon: `material-icons-outlined ic-group`,
+                icon: `Group`,
             },
         ],
     },
     {
         text: "Purchases",
         path: "/purchases",
-        icon: "material-icons-outlined ic-shopping_cart",
+        icon: "shopping_cart",
         items: [
             {
                 text: "Gate Inward",
                 path: "/purchases/gateinmain",
-                icon: `material-icons-outlined ic-arrow_downward`     //system_update_alt
+                icon: `arrow_downward`     //system_update_alt
             },
             {
                 text: "Generate & Print",
                 path: "/purchases/gatein-printqr",
-                icon: `material-icons-outlined ic-qr_code_scanner`
+                icon: `qr_code_scanner`
             },
             {
                 text: "GRPO",
                 path: "/purchases/grpo",
-                icon: `material-icons-outlined ic-description`
+                icon: `description`
             },
         ],
     },
     {
         text: "Quality Control",
         path: "/qualityControl",
-        icon: `material-icons-outlined ic-fact_check`,
+        icon: `fact_check`,
         items: [
             {
                 text: "Incoming QC",
                 path: "/qualityControl/incomingQC",
-                icon: `material-icons-outlined ic-troubleshoot`,
+                icon: `troubleshoot`,
             },
             {
                 text: "Inprocess QC",
                 path: "/qualityControl/inprocessQC",
-                icon: `material-icons-outlined ic-youtube_searched_for`,
+                icon: `youtube_searched_for`,
             },
         ],
     },
     {
         text: "Production",
         path: "/production",
-        icon: `material-icons-outlined ic-details`,
+        icon: `details`,
         items: [
             {
                 text: "Issue Material",
                 path: "/production/issue-material",
-                icon: `material-icons-outlined ic-logout`,
+                icon: `logout`,
             },
             {
                 text: "Verify Material",
                 path: "/production/verify-material",
-                icon: `material-icons-outlined ic-rule`,
+                icon: `rule`,
             },
             {
-                text: "Receive Material",
+                text: "Draft Receipt PRO",
                 path: "/production/receive-material",
-                icon: `material-icons-outlined ic-call_received`,
+                icon: `call_received`,
             },
+            {
+                text: "Generate Receipt Qr",
+                path: "/production/receive-material/generateqr",
+                icon: "login",
+             },
         ],
     },
     {
         text: "Inventory",
         path: "/inventory",
-        icon: `material-icons-outlined ic-inventory_2`,
+        icon: `inventory_2`,
         items: [
             {
                 text: "Inventory Transfer",
                 path: "/inventory/transfer",
-                icon: `material-icons-outlined ic-move_up`,
+                icon: `move_up`,
             },
             {
                 text: "Pick & Pack",
                 path: "/inventory/pick-pack",
-                icon: `material-icons-outlined ic-local_shipping`,
+                icon: `local_shipping`,
             },
         ],
     },
     {
         text: "Sales",
         path: "/sales",
-        icon: `material-icons-outlined ic-webhook`,
+        icon: `webhook`,
         items: [
             {
                 text: "Delivery",
                 path: "/sales/delivery",
-                icon: `material-icons-outlined ic-local_shipping`,
+                icon: `local_shipping`,
             },
         ],
     },
     {
         text: "Track Machines",
         path: "/TrackMachines",
-        icon: `material-icons-outlined ic-query_stats`,
+        icon: `query_stats`,
         items: [
             {
                 text: "Machine In & Out",
                 path: "/TrackMachines/MachineInOut",
-                icon: `material-icons-outlined ic-show_chart`,
+                icon: `show_chart`,
             },
             {
                 text: "Machine Mgmt.",
                 path: "/TrackMachines/MachineManagement",
-                icon: `material-icons-outlined ic-find_in_page`,
+                icon: `find_in_page`,
             },
         ],
     },

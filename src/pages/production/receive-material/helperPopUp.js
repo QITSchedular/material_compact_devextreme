@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PopupHeaderText, PopupSubText } from "../../../components/typographyTexts/TypographyComponents";
 import { Button, DataGrid } from "devextreme-react";
-import { getProductionOrder } from "../../../utils/production-verify-material";
+import { getProductionOrder } from "../../../utils/purchase-receipt";
 import { Column, Paging, Scrolling, SearchPanel, Selection } from "devextreme-react/data-grid";
 
 function HelperPopUp({handleCancel}) {
