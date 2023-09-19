@@ -118,7 +118,6 @@ const TransporterHelpComponent = ({
       } else {
         setError(true);
         setLoading(false);
-        return toastDisplayer("error","Network Error");
       }
       setLoading(false);
     };
@@ -132,25 +131,10 @@ const TransporterHelpComponent = ({
       ) : (
         <>
           {/* <ScrollView width="100%" height="100%"> */}
-          {/* <div
-            className="purchaseOrderList-title-section responsive-paddings"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "5px",
-            }}
-          >
-            <PopupHeaderText text={"Purchase Order List"} />
-            <PopupSubText text={"Search the purchase order"} />
-          </div>
-          <div className="close-btn-section">
-            <Button icon="close" onClick={handleCancel} />
-          </div> */}
-          <div className="gateIn-header">
           <div
             className="title-section responsive-paddings"
             style={{
-              // padding: "5px 20px !important",
+              padding: "5px 20px !important",
               display: "flex",
               flexDirection: "column",
               gap: "5px",
@@ -161,12 +145,8 @@ const TransporterHelpComponent = ({
               text={"Scroll through the list or type in the search box.."}
             />
           </div>
-          <div className="close-btn-section">
-            <Button icon="close" onClick={handleCancel} />
-          </div>
-          </div>
           <div
-            className="dx-card responsive-paddings transporter-content-datagrid-container dx-saveBtn"
+            className="dx-card responsive-paddings transporter-content-datagrid-container"
             style={{ margin: "8px 24px", height: "100% !important" }}
           >
             <DataGrid
@@ -193,7 +173,7 @@ const TransporterHelpComponent = ({
             </DataGrid>
           </div>
           <div
-            className="buttons-section-save responsive-paddings "
+            className="buttons-section responsive-paddings"
             style={{ display: "flex", justifyContent: "flex-end" }}
           >
             <Button
@@ -205,7 +185,6 @@ const TransporterHelpComponent = ({
             <Button
               text="OK"
               type="default"
-              className="dx-saveBtn"
               width={124}
               height={35}
               onClick={handleSave}
@@ -257,22 +236,19 @@ const GateInComponent = () => {
     const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
     setLoading(true);
     const poResponse = await getPurchaseOrder(poNumber, selectedSeries.series);
-    console.log("poResponse : ",poResponse.hasError);
+    // console.log(poResponse);
     if (poResponse.hasError) {
-      // alert();
-      return toastDisplayer("error", poResponse.errorText);
-      // return toast.error(poResponse.errorText, {
-      //   position: "top-right",
-      //   autoClose: 5000,
-      //   hideProgressBar: false, 
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      //   theme: "light",
-      // });
+      return toast.error(poResponse.errorText, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
-    // alert();
     const poDetArrayWithRecQty = await poResponse[0].poDet.map((item) => ({
       ...item,
       recQty: 0,
@@ -483,18 +459,6 @@ const GateInComponent = () => {
   const getSeriesData = async () => {
     const data = await getPeriodIndicator();
     // console.log(data);
-    if (data.hasError) {
-      return toast.error(data.errorText, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      }); 
-    }
     await setPeriodIndicators(data);
   };
   // Transporter handlers

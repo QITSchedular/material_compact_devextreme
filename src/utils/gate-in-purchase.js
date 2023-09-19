@@ -7,10 +7,6 @@ import { AppContext } from "../contexts/dataContext";
 import { toastDisplayer } from "../api/qrgenerators";
 
 export const getPeriodIndicator = async () => {
-  const errors = {
-    hasError: false,
-    errorText: "Something went wrong",
-  };
   try {
     const response = await axios.get(`${API_URL}/Commons/Period Indicator`);
     const data = response.data;
@@ -18,15 +14,7 @@ export const getPeriodIndicator = async () => {
 
     return data;
   } catch (error) {
-    // return error;
-    
-    const statusMsg  = error.message;
-    if (statusMsg) {
-      errors.hasError = true;
-      errors.errorText = statusMsg;
-      return errors;
-    }
-    return errors;
+    return error;
   }
 };
 export const getSeriesPo = async (series, branchid) => {
@@ -47,7 +35,7 @@ export const getSeriesPo = async (series, branchid) => {
       return errors;
     }
   } catch (error) {
-    const { statusMsg } = error.data;
+    const { statusMsg } = error.response.data;
     if (statusMsg) {
       errors.hasError = true;
       errors.errorText = statusMsg;
@@ -82,6 +70,7 @@ export const getPurchaseOrder = async (
       requestBody
     );
     // handle the error here
+    console.log(response.data);
     const data = response.data;
     if (data) {
       return data;
@@ -90,7 +79,8 @@ export const getPurchaseOrder = async (
     }
   } catch (error) {
     // Handle any errors that occurred during the A.seriesData
-    const statusMsg  = error.message;
+    // console.error("Error:", error.response.data);
+    const { statusMsg } = error.response.data;
     if (statusMsg) {
       errors.hasError = true;
       errors.errorText = statusMsg;
@@ -135,7 +125,7 @@ export const gateInAndUpdatePo = async (
     return response.data;
   } catch (error) {
     // Handle any errors that occurred during the A.seriesData
-    console.error("Error:", error.data);
+    console.error("Error:", error.response.data);
     return "Error";
   }
 };

@@ -6,6 +6,7 @@ const HeaderSection = ({
   productionNumberInputHandler,
   productionNumberInput,
   productionNumberInputSearchHandler,
+  txtBoxRef
 }) => {
   return (
     <div className="inventrory-transfer-inner-header-wrapper">
@@ -18,6 +19,7 @@ const HeaderSection = ({
           showClearButton={true}
           valueChangeEvent="keyup"
           onValueChanged={(data) => productionNumberInputHandler(data)}
+          ref={txtBoxRef}
         ></TextBox>
         <Button
           width={33}

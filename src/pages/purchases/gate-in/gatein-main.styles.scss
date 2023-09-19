@@ -43,27 +43,19 @@
             align-self: flex-start !important;
 
             .dx-tabs-wrapper {
+
                 .dx-item.dx-tab.dx-tab-selected {
                     .dx-item-content.dx-tab-content {
                         text-transform: none !important;
 
                         .dx-tab-text {
+
                             color: #161616;
                             font-family: Poppins;
                             font-style: normal;
                             line-height: normal;
                         }
                     }
-                }
-            }
-        }
-    }
-
-    .dx-saveBtn {
-        .dx-button {
-            .dx-button-content {
-                .dx-button-text {
-                    color: white !important;
                 }
             }
         }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   PopupHeaderText,
   PopupSubText,
@@ -32,21 +32,21 @@ const InventorytransferMain = () => {
   const [dataGridDataSource, setDataGridDataSource] = useState([]);
 
   const toWarehouseChooser = async () => {
-    console.log("ToWarehouseChooser");
+    // console.log("ToWarehouseChooser");
     const allwarehouses = await getWareHouseList();
     setToWarehouseList(allwarehouses);
     setShowToWarehousePopup(true);
   };
 
   const fromWarehouseChooser = async () => {
-    console.log("FromWarehouseChooser");
+    // console.log("FromWarehouseChooser");
     const allwarehouses = await getWareHouseList();
     setFromWarehouseList(allwarehouses);
     setShowFromWarehousePopup(true);
   };
 
   const bpDetailsChooser = async () => {
-    console.log("BPDetailsChooser");
+    // console.log("BPDetailsChooser");
     const allbpdetails = await getBPDetailsList();
     setBpDetailList(allbpdetails);
     setShowBPPopup(true);
@@ -108,12 +108,12 @@ const InventorytransferMain = () => {
         toastDisplayer("error", errorMessage);
         return toastDisplayer("error", "Invalid item scan");
       } else {
-        console.log("The api fetch success", apiRes);
+        // console.log("The api fetch success", apiRes);
         return setDataGridDataSource([...dataGridDataSource, responseData]);
       }
     } catch (error) {
-      console.log(error);
-      console.log(dataGridDataSource);
+      // console.log(error);
+      // console.log(dataGridDataSource);
       return toastDisplayer(
         "error",
         "Something went wrong, please try again later.."
@@ -121,10 +121,32 @@ const InventorytransferMain = () => {
     }
   };
 
+  const fromWarehouseRef = useRef("");
+  const toWarehouseRef = useRef("");
+  const getBPref = useRef("");
+  const txtBoxRef = useRef("");
+  const [countRef, setCountRef] = useState(false);
+
+  const handleRefresh = () => {
+    setCountRef(true);
+    if (fromWarehouseRef.current) {
+      fromWarehouseRef.current.instance.reset();
+    }
+    if (toWarehouseRef.current) {
+      toWarehouseRef.current.instance.reset();
+    }
+    if (getBPref.current) {
+      getBPref.current.instance.reset();
+    }
+    if (txtBoxRef.current) {
+      txtBoxRef.current.instance.reset();
+    }
+  }
+
   useEffect(() => {
     const selectedToWarehouseResolver = async () => {
       const data = await selectedToWarehouse;
-      console.log("Choosen To Warehouse", data);
+      // console.log("Choosen To Warehouse", data);
       setSelectedToWarehouse(data);
     };
     selectedToWarehouseResolver();
@@ -133,7 +155,7 @@ const InventorytransferMain = () => {
   useEffect(() => {
     const selectedFromWarehouseResolver = async () => {
       const data = await selectedFromWarehouse;
-      console.log("Choosen From Warehouse", data);
+      // console.log("Choosen From Warehouse", data);
       setSelectedFromWarehouse(data);
     };
     selectedFromWarehouseResolver();
@@ -142,8 +164,20 @@ const InventorytransferMain = () => {
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner inventory-transfer-main-container ">
       <div className="header-section">
-        <PopupHeaderText text={"Inventory Transfer"} />
-        <PopupSubText text={"You can transfer the inventories here "} />
+        <div>
+          <PopupHeaderText text={"Inventory Transfer"} />
+          <PopupSubText text={"You can transfer the inventories here "} />
+        </div>
+        <div className="refreshBtnDiv">
+          <Button
+            text="New"
+            width={124}
+            height={35}
+            icon="refresh"
+            onClick={handleRefresh}
+            className="refreshBtnIT"
+          />
+        </div>
       </div>
 
       <div className="main-content-section">
@@ -158,6 +192,9 @@ const InventorytransferMain = () => {
                 gridDataSourceList={fromWarehouseList}
                 selectedValue={selectedFromWarehouse}
                 setSelectedValue={setSelectedFromWarehouse}
+                txtRef={fromWarehouseRef}
+                countRef={countRef}
+                setCountRef={setCountRef}
               />
               <PopupInputs
                 placeholder={"To Warehouse"}
@@ -167,6 +204,9 @@ const InventorytransferMain = () => {
                 gridDataSourceList={toWarehouseList}
                 selectedValue={selectedToWarehouse}
                 setSelectedValue={setSelectedToWarehouse}
+                txtRef={toWarehouseRef}
+                countRef={countRef}
+                setCountRef={setCountRef}
               />
             </div>
 
@@ -177,6 +217,7 @@ const InventorytransferMain = () => {
                 productionNumberInputSearchHandler={
                   productionNumberInputSearchHandler
                 }
+                txtBoxRef={txtBoxRef}
               />
             </div>
           </div>
@@ -190,6 +231,9 @@ const InventorytransferMain = () => {
               gridDataSourceList={bpDetailList}
               selectedValue={selectedBPDetail}
               setSelectedValue={setSelectedBPDetail}
+              txtRef={getBPref}
+              countRef={countRef}
+              setCountRef={setCountRef}
             />
           </div>
         </div>
