@@ -161,10 +161,6 @@ const routes = [
     element: VerifyMaterialScanItemsPage,
   },
   {
-    path: "/production/verify-material/varify-material-scanItemPage/:itemCode/:docEntry",
-    element: VarifyMaterialScanItemPage,
-  },
-  {
     path: "/production/receive-material",
     element: ReceiveMaterialPage,
   },
