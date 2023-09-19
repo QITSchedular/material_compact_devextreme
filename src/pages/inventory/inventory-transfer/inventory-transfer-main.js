@@ -142,8 +142,20 @@ const InventorytransferMain = () => {
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner inventory-transfer-main-container ">
       <div className="header-section">
+<div>
         <PopupHeaderText text={"Inventory Transfer"} />
         <PopupSubText text={"You can transfer the inventories here "} />
+      </div>
+<div className="refreshBtnDiv">
+          <Button
+            text="New"
+            width={124}
+            height={35}
+            icon="refresh"
+            onClick={handleRefresh}
+            className="refreshBtnIT"
+          />
+        </div>
       </div>
 
       <div className="main-content-section">
@@ -158,6 +170,9 @@ const InventorytransferMain = () => {
                 gridDataSourceList={fromWarehouseList}
                 selectedValue={selectedFromWarehouse}
                 setSelectedValue={setSelectedFromWarehouse}
+txtRef={fromWarehouseRef}
+                countRef={countRef}
+                setCountRef={setCountRef}
               />
               <PopupInputs
                 placeholder={"To Warehouse"}
@@ -167,6 +182,9 @@ const InventorytransferMain = () => {
                 gridDataSourceList={toWarehouseList}
                 selectedValue={selectedToWarehouse}
                 setSelectedValue={setSelectedToWarehouse}
+txtRef={toWarehouseRef}
+                countRef={countRef}
+                setCountRef={setCountRef}
               />
             </div>
 
@@ -177,6 +195,7 @@ const InventorytransferMain = () => {
                 productionNumberInputSearchHandler={
                   productionNumberInputSearchHandler
                 }
+txtBoxRef={txtBoxRef}
               />
             </div>
           </div>
@@ -190,6 +209,9 @@ const InventorytransferMain = () => {
               gridDataSourceList={bpDetailList}
               selectedValue={selectedBPDetail}
               setSelectedValue={setSelectedBPDetail}
+txtRef={getBPref}
+              countRef={countRef}
+              setCountRef={setCountRef}
             />
           </div>
         </div>

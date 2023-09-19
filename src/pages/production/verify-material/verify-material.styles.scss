@@ -2,9 +2,12 @@
     min-height: 80vh !important;
     .header-section{
 
-    }
-    .search-section,.issue-material-main-section{
-        margin-top: 1rem;
+    .header-section {}
+
+    .search-section-verify,
+    .issue-material-main-section {
+        display: flex;
+        margin-top: 1rem !important; 
     }
     
     .issue-material-main-section{
