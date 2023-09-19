@@ -72,6 +72,11 @@ export const navigation = [
                 icon: `precision_manufacturing`,
             },
             {
+                text: "Department",
+                path: "/masters/Department",
+                icon: `roofing`,
+            },
+            {
                 text: "Employee ",
                 path: "/masters/employee",
                 icon: `Group`,

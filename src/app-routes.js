@@ -36,7 +36,8 @@ import {
   ProductionPage,
   InventoryPage,
   MachinemasterPage,
-  EmployeemasterPage
+  EmployeemasterPage,
+  DepartmentMasterPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -88,6 +89,10 @@ const routes = [
   {
     path: "/masters/machine",
     element: MachinemasterPage,
+  },
+  {
+    path: "/masters/Department",
+    element: DepartmentMasterPage,
   },
   {
     path: "/masters/employee",
