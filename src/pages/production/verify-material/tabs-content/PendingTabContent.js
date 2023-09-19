@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "devextreme-react";
 import "./styles.scss";
 import PendingTabGrid from "./PendingTabGrid";
+import VerifyMaterialOrderList from "../varifyMaterial-OrderList";
 
-const PendingTabContent = () => {
+const PendingTabContent = ({VerifyMaterialList,deleteItem}) => {
   const navigate = useNavigate();
   const [isDataGridVisible, setIsDataGridVisible] = useState(false);
 
@@ -17,7 +18,7 @@ const PendingTabContent = () => {
   };
   return (
     <div className="pending-list-section">
-      <div className="single-pending">
+      {/* <div className="single-pending">
         <div className="single-pending-delete">
           <Button icon="trash"></Button>
         </div>
@@ -38,7 +39,10 @@ const PendingTabContent = () => {
         <div className="data-grid-drop-down">
           <PendingTabGrid />
         </div>
-      )}
+      )} */}
+       <div className="orderList-section">
+        <VerifyMaterialOrderList IQCList2={VerifyMaterialList} deleteItem={deleteItem}/>
+      </div>
     </div>
   );
 };
