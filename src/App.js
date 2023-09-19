@@ -15,6 +15,7 @@ import { AppContextProvider } from "./contexts/dataContext";
 import { ToastContainer } from "react-toastify";
 import "animate.css/source/animate.css";
 import "react-toastify/dist/ReactToastify.css";
+import { CheckboxProvider, SettingConfigProvider } from "./contexts/settingConfig";
 function App() {
   const { user, loading } = useAuth();
 

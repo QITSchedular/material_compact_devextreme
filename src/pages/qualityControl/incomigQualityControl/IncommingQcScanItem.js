@@ -441,35 +441,36 @@ function IncommingQcScanItem() {
               type="date"
               // width={150}
             />
+            
           </div>
           <div className="txtBtn-section">
-            <TextBox
-              className="dx-field-value purchaseQRField"
-              stylingMode="outlined"
-              placeholder="Type the purchase QR code"
-              width={230}
-              onValueChanged={handleTextValueChange}
-              showClearButton={true}
-            ></TextBox>
-            <div className="btnSection">
-              <NormalButton
-                width={33}
-                height={33}
-                type="normal"
+              <TextBox
+                className="dx-field-value purchaseQRField"
                 stylingMode="outlined"
-                icon="search"
-                onClick={SearchHandler}
-              />
+                placeholder="Type the purchase QR code"
+                width={230}
+                onValueChanged={handleTextValueChange}
+                showClearButton={true}
+              ></TextBox>
+              <div className="btnSection">
+                <NormalButton
+                  width={33}
+                  height={33}
+                  type="normal"
+                  stylingMode="outlined"
+                  icon="search"
+                  onClick={SearchHandler}
+                />
 
-              <NormalButton
-                width={33}
-                height={33}
-                type="normal"
-                stylingMode="outlined"
-                icon={GRPOScanner}
-              />
+                <NormalButton
+                  width={33}
+                  height={33}
+                  type="normal"
+                  stylingMode="outlined"
+                  icon={GRPOScanner}
+                />
+              </div>
             </div>
-          </div>
         </div>
         <div className="helperWrapper">
           <TextBox
