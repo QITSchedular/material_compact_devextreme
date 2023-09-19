@@ -39,8 +39,7 @@ import {
   InventoryPage,
   MachinemasterPage,
   EmployeemasterPage,
-  DepartmentMasterPage,
-  VarifyMaterialScanItemPage,
+  DepartmentMasterPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 

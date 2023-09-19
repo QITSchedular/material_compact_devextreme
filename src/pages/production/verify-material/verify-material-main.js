@@ -33,49 +33,11 @@ const VerifyMaterialMain = () => {
   };
 
   return (
-    <>
-      <div className="content-block dx-card responsive-paddings issue-material-container">
-        <div className="header-section">
-          <PopupHeaderText text={"Verify Material"} />
-          <PopupSubText text={"Search the production number to verify"} />
-        </div>
-
-        <div className="search-section-verify">
-          <TextBox
-            className="dx-field-value"
-            stylingMode="outlined"
-            placeholder="Type the production number"
-            width={250}
-            showClearButton={true}
-            valueChangeEvent="keyup"
-            value={
-              selectedRowsData.length > 0 ? selectedRowsData[0].itemCode : ""
-            }
-            onValueChanged={handleTextValueChange}
-          >
-            <TextBoxButton
-              name="currency"
-              location="after"
-              options={helpOptions}
-            />
-          </TextBox>
-          <Button
-            width={33}
-            height={33}
-            type="normal"
-            stylingMode="outlined"
-            icon="search"
-            onClick={SearchHandler}
-          />
-          <Button
-            width={33}
-            height={33}
-            type="normal"
-            stylingMode="outlined"
-            icon={GRPOScanner}
-            onClick={() => console.log("first")}
-          />
-        </div>
+    <div className="content-block dx-card responsive-paddings issue-material-container">
+      <div className="header-section">
+        <PopupHeaderText text={"Verify Material"} />
+        <PopupSubText text={"Search the production number to verify"} />
+      </div>
 
       <div className="search-section">
         <TextBox
