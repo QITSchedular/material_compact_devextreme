@@ -4,7 +4,7 @@ import { Item } from "devextreme-react/accordion";
 import { DataGrid } from "devextreme-react";
 import { employee } from "./data";
 import Attachmentlogo from "../../assets/images/add-img.svg";
-import { getAllWarehouseData } from "../../utils/items-master-data";
+import { getAllWarehouseData, getAllWarehouseData_new } from "../../utils/items-master-data";
 import { Selection } from "devextreme-react/data-grid";
 const TabbedItemComponent = () => {
   //states
@@ -38,7 +38,7 @@ const TabbedItemComponent = () => {
   //api calls for initial Fields
   useEffect(() => {
     const fetchData = async () => {
-      const responseData = await getAllWarehouseData();
+      const responseData = await getAllWarehouseData_new();
       await setWarehouses(responseData);
     };
     fetchData();

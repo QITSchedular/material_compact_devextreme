@@ -164,11 +164,11 @@ const InventorytransferMain = () => {
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner inventory-transfer-main-container ">
       <div className="header-section">
-        <div>
-          <PopupHeaderText text={"Inventory Transfer"} />
-          <PopupSubText text={"You can transfer the inventories here "} />
-        </div>
-        <div className="refreshBtnDiv">
+<div>
+        <PopupHeaderText text={"Inventory Transfer"} />
+        <PopupSubText text={"You can transfer the inventories here "} />
+      </div>
+<div className="refreshBtnDiv">
           <Button
             text="New"
             width={124}
@@ -192,7 +192,7 @@ const InventorytransferMain = () => {
                 gridDataSourceList={fromWarehouseList}
                 selectedValue={selectedFromWarehouse}
                 setSelectedValue={setSelectedFromWarehouse}
-                txtRef={fromWarehouseRef}
+txtRef={fromWarehouseRef}
                 countRef={countRef}
                 setCountRef={setCountRef}
               />
@@ -204,7 +204,7 @@ const InventorytransferMain = () => {
                 gridDataSourceList={toWarehouseList}
                 selectedValue={selectedToWarehouse}
                 setSelectedValue={setSelectedToWarehouse}
-                txtRef={toWarehouseRef}
+txtRef={toWarehouseRef}
                 countRef={countRef}
                 setCountRef={setCountRef}
               />
@@ -217,7 +217,7 @@ const InventorytransferMain = () => {
                 productionNumberInputSearchHandler={
                   productionNumberInputSearchHandler
                 }
-                txtBoxRef={txtBoxRef}
+txtBoxRef={txtBoxRef}
               />
             </div>
           </div>
@@ -231,7 +231,7 @@ const InventorytransferMain = () => {
               gridDataSourceList={bpDetailList}
               selectedValue={selectedBPDetail}
               setSelectedValue={setSelectedBPDetail}
-              txtRef={getBPref}
+txtRef={getBPref}
               countRef={countRef}
               setCountRef={setCountRef}
             />

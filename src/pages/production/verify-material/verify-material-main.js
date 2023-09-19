@@ -158,7 +158,7 @@ const VerifyMaterialMain = () => {
           <PopupSubText text={"Search the production number to verify"} />
         </div>
 
-        <div className="search-section">
+        <div className="search-section-verify">
           <TextBox
             className="dx-field-value"
             stylingMode="outlined"

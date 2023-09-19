@@ -28,118 +28,118 @@ const PopupForm = ({ title, field, clientMasterType, keyArray, customId }) => {
         },
     };
 
-  const dropdownOptions = {
-    stylingMode: ["outlined"],
-    labelModes: ["static"],
-  };
-  const textEditorOptions = {
-    stylingMode: ["outlined"],
-    cssClass: "myEditor",
-  };
-  const onHandEditorOptions = {
-    stylingMode: ["outlined"],
-    disabled: true,
-    value: 10,
-  };
+    const dropdownOptions = {
+        stylingMode: ["outlined"],
+        labelModes: ["static"],
+    };
+    const textEditorOptions = {
+        stylingMode: ["outlined"],
+        cssClass: "myEditor",
+    };
+    const onHandEditorOptions = {
+        stylingMode: ["outlined"],
+        disabled: true,
+        value: 10,
+    };
 
-  const [displayState, setdisplayState] = useState(true);
+    const [displayState, setdisplayState] = useState(true);
 
-  const { isCommonPopupVisible, closeCommonPopup } = useContext(AppContext);
-  const [popupVisible, setCommonPopupVisible] = useState(true);
-  const hideInfo = () => {
-    setCommonPopupVisible(false);
-  };
+    const { isCommonPopupVisible, closeCommonPopup } = useContext(AppContext);
+    const [popupVisible, setCommonPopupVisible] = useState(true);
+    const hideInfo = () => {
+        setCommonPopupVisible(false);
+    };
 
-  const handleClosePopUp = async () => {
-    const form = formPopup.current.instance;
-    form.resetValues();
-    return await closeCommonPopup();
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const form = formPopup.current.instance;
-    const formData = form.option("formData");
-    var transformedData = {};
-    // if (keyArray.includes('locked')) {
-    //     for (var i = 0; i < keyArray.length - 1; i++) {
-    //         transformedData[keyArray[i]] = formData[Object.keys(formData)[i]];
-    //     }
-    //     if (keyArray.length === Object.keys(formData).length) {
-    //         if (formData["  "] === true) {
-    //             transformedData['locked'] = "Y";
-    //         }
-    //         else
-    //             transformedData['locked'] = "N";
-    //     } else {
-    //         transformedData['locked'] = "N";
-    //     }
-    // } else {
-    //     for (var i = 0; i < keyArray.length; i++) {
-    //         transformedData[keyArray[i]] = formData[Object.keys(formData)[i]];
-    //     }
-    // }
-    // const keyArray1 = [
-    //     { input: "itmsGrpCod" },
-    //     { input: "itmsSubGrpNam" },
-    //     { checkbox: "locked" }
-    // ];
-
-    // var i=0;
-    // for (const item of keyArray) {
-    //     const key = Object.keys(item)[0];
-    //     const value = item[key];
-    //     if (key==="checkbox") {
-    //         if (formData[""] === true) {
-    //             console.log("checking for checkbox")
-    //             transformedData[value] = "Y";
-    //         }
-    //         else
-    //         {
-    //             transformedData[value] = "N";
-    //         }
-    //     } else {
-    //         transformedData[value] =formData[Object.keys(formData)[i]];
-    //     }
-    //     i++;
-    // }
-    var i = 0;
-    for (const item of keyArray) {
-      const key = Object.keys(item)[0];
-      const value = item[key];
-      if (key === "checkbox") {
-        console.log(value);
-        if (formData[value] === true) {
-          transformedData[value] = "Y";
-        } else {
-          transformedData[value] = "N";
-        }
-      } else {
-        transformedData[value] = formData[Object.keys(formData)[i]];
-      }
-      i++;
-    }
-
-    try {
-      const response = await addNewMasterItem(
-        transformedData,
-        clientMasterType
-      );
-
-      if (response.statusCode === "200") {
-        newItemIsAdded();
+    const handleClosePopUp = async () => {
+        const form = formPopup.current.instance;
         form.resetValues();
-      }
-      setdisplayState(false);
-    } catch (error) {
-      console.log(error);
-    }
-    setdisplayState(false);
+        return await closeCommonPopup();
+    };
 
-    setInterval(() => {
-      setdisplayState(true);
-    }, 1800);
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const form = formPopup.current.instance;
+        const formData = form.option("formData");
+        var transformedData = {};
+        // if (keyArray.includes('locked')) {
+        //     for (var i = 0; i < keyArray.length - 1; i++) {
+        //         transformedData[keyArray[i]] = formData[Object.keys(formData)[i]];
+        //     }
+        //     if (keyArray.length === Object.keys(formData).length) {
+        //         if (formData["  "] === true) {
+        //             transformedData['locked'] = "Y";
+        //         }
+        //         else
+        //             transformedData['locked'] = "N";
+        //     } else {
+        //         transformedData['locked'] = "N";
+        //     }
+        // } else {
+        //     for (var i = 0; i < keyArray.length; i++) {
+        //         transformedData[keyArray[i]] = formData[Object.keys(formData)[i]];
+        //     }
+        // }
+        // const keyArray1 = [
+        //     { input: "itmsGrpCod" },
+        //     { input: "itmsSubGrpNam" },
+        //     { checkbox: "locked" }
+        // ];
+
+        // var i=0;
+        // for (const item of keyArray) {
+        //     const key = Object.keys(item)[0];
+        //     const value = item[key];
+        //     if (key==="checkbox") {
+        //         if (formData[""] === true) {
+        //             console.log("checking for checkbox")
+        //             transformedData[value] = "Y";
+        //         }
+        //         else
+        //         {
+        //             transformedData[value] = "N";
+        //         }
+        //     } else {
+        //         transformedData[value] =formData[Object.keys(formData)[i]];
+        //     }
+        //     i++;
+        // }
+        var i = 0;
+        for (const item of keyArray) {
+            const key = Object.keys(item)[0];
+            const value = item[key];
+            if (key === "checkbox") {
+                console.log(value);
+                if (formData[value] === true) {
+                    transformedData[value] = "Y";
+                } else {
+                    transformedData[value] = "N";
+                }
+            } else {
+                transformedData[value] = formData[Object.keys(formData)[i]];
+            }
+            i++;
+        }
+
+        try {
+            const response = await addNewMasterItem(
+                transformedData,
+                clientMasterType
+            );
+
+            if (response.statusCode === "200") {
+                newItemIsAdded();
+                form.resetValues();
+            }
+            setdisplayState(false);
+        } catch (error) {
+            console.log(error);
+        }
+        setdisplayState(false);
+
+        setInterval(() => {
+            setdisplayState(true);
+        }, 1800);
+    };
 
     var checkBoxOptions = {
         text: "Locked",
@@ -177,35 +177,35 @@ const PopupForm = ({ title, field, clientMasterType, keyArray, customId }) => {
                                     </div>
                                 </div>
 
-                <form id="popupform" onSubmit={handleSubmit}>
-                  <Form
-                    ref={formPopup}
-                    labelLocation={"top"}
-                    id="form"
-                    labelMode="floating"
-                    style={{ boxShadow: "none" }}
-                    className="form-element"
-                  >
-                    <GroupItem>
-                      {field.map((item, index) => {
-                        checkBoxOptions = {
-                          text: item.label,
-                        };
-                        const key = item.feildType;
-                        const isValidate = item.isValidate;
-                        const label = item.label;
+                                <form id="popupform" onSubmit={handleSubmit}>
+                                    <Form
+                                        ref={formPopup}
+                                        labelLocation={"top"}
+                                        id="form"
+                                        labelMode="floating"
+                                        style={{ boxShadow: "none" }}
+                                        className="form-element"
+                                    >
+                                        <GroupItem>
+                                            {field.map((item, index) => {
+                                                checkBoxOptions = {
+                                                    text: item.label,
+                                                };
+                                                const key = item.feildType;
+                                                const isValidate = item.isValidate;
+                                                const label = item.label;
 
-                        if (key === "dxCheckBox") {
-                          return (
-                            <Item
-                              dataField={label}
-                              //visible="Hide Field"
-                              editorOptions={checkBoxOptions}
-                              editorType={key}
-                              //editorType={"dxCheckBox"}
-                              cssClass={"checkbox"}
-                            >
-                              {/* {isValidate && (
+                                                if (key === "dxCheckBox") {
+                                                    return (
+                                                        <Item
+                                                            dataField={label}
+                                                            //visible="Hide Field"
+                                                            editorOptions={checkBoxOptions}
+                                                            editorType={key}
+                                                            //editorType={"dxCheckBox"}
+                                                            cssClass={"checkbox"}
+                                                        >
+                                                            {/* {isValidate && (
                                                                 <RequiredRule
                                                                     message={label + " is Required"}
                                                                 />
@@ -290,3 +290,4 @@ const PopupForm = ({ title, field, clientMasterType, keyArray, customId }) => {
 };
 
 export default PopupForm;
+

@@ -20,14 +20,15 @@ import {
   VerifyMaterialScanItemsPage,
   ReceiveMaterialPage,
   ReceiveMaterialScanItemsPage,
+  ReceiveMaterialGenerateQrPage,
   IssueMaterialPage,
+  IssueMaterialScanItemsPage,
   InventoryTransferMainPage,
   PickPackMain,
   InprocessQcScanItemsPage,
   SalePage,
   PurchasePage,
   DeliveryPage,
-  DeliveryProcessPage,
   IncomingQcScanItemsPage,
   NotfoundPage,
   MachineInOutPage,
@@ -38,8 +39,8 @@ import {
   InventoryPage,
   MachinemasterPage,
   EmployeemasterPage,
+  DepartmentMasterPage,
   VarifyMaterialScanItemPage,
-  DepartmentMasterPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -172,6 +173,10 @@ const routes = [
     element: ReceiveMaterialScanItemsPage,
   },
   {
+    path: "/production/receive-material/generateqr",
+    element: ReceiveMaterialGenerateQrPage,
+  },
+  {
     path: "/production/issue-material",
     element: IssueMaterialPage,
   },
@@ -179,6 +184,10 @@ const routes = [
   {
     path: "/inventory",
     element: InventoryPage,
+  },
+  {
+    path: "/issue-material/scanitems/:id",
+    element: IssueMaterialScanItemsPage,
   },
   {
     path: "/inventory/transfer",
@@ -197,14 +206,10 @@ const routes = [
     path: "/sales",
     element: SalePage,
   },
-  // {
-  //   path: "/sales/delivery",
-  //   element: DeliveryPage,
-  // },
-  // {
-  //   path: "/production/issue-material/verify-material/:qrCode/:docEntry",
-  //   element: DeliveryProcessPage,
-  // },
+  {
+    path: "/sales/delivery",
+    element: DeliveryPage,
+  },
   {
     path: "/TrackMachines",
     element: MachineInOutPage,

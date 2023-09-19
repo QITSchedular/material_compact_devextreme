@@ -3,9 +3,10 @@
 
     .header-section {}
 
-    .search-section,
+    .search-section-verify,
     .issue-material-main-section {
-        margin-top: 1rem;
+        display: flex;
+        margin-top: 1rem !important; 
     }
 
     .issue-material-main-section {
