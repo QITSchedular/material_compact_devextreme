@@ -14,8 +14,8 @@ import NotificationDropdown from "../notification-dropdown/NotificationDropdown"
 import { CheckboxProvider } from "../../contexts/settingConfig";
 
 export default function Header({ menuToggleEnabled, title, toggleMenu }) {
-    const location = useLocation();
-    let path = location.pathname.split('/');
+  const location = useLocation();
+  let path = location.pathname.split("/");
 
     const [isSettingDropdownOpen, setisSettingDropdownOpen] = useState(false);
     const [isNotifyDropdownOpen, setisNotifyDropdownOpen] = useState(false);

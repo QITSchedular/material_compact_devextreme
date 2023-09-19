@@ -7,15 +7,15 @@ const IssueListingDatagrid = ({ dataSource }) => {
     <div>
       <DataGrid
         dataSource={dataSource}
-        keyExpr="detailQRCodeID"
+        keyExpr="docEntry"
         showBorders={true}
         className="pending-tab-data-grid"
       >
-        <Selection mode={"multiple"} />
+        {/* <Selection mode={"multiple"} />
         <Column dataField="cardCode" alignment="right" />
         <Column dataField="docNum" alignment="right" />
         <Column dataField="itemCode" alignment="right" />
-        <Column dataField="whsCode" alignment="right" />
+        <Column dataField="whsCode" alignment="right" /> */}
       </DataGrid>
     </div>
   );

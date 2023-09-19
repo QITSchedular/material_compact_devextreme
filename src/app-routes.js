@@ -20,7 +20,9 @@ import {
   VerifyMaterialScanItemsPage,
   ReceiveMaterialPage,
   ReceiveMaterialScanItemsPage,
+  ReceiveMaterialGenerateQrPage,
   IssueMaterialPage,
+  IssueMaterialScanItemsPage,
   InventoryTransferMainPage,
   PickPackMain,
   InprocessQcScanItemsPage,
@@ -166,6 +168,10 @@ const routes = [
     element: ReceiveMaterialScanItemsPage,
   },
   {
+    path: "/production/receive-material/generateqr",
+    element: ReceiveMaterialGenerateQrPage,
+  },
+  {
     path: "/production/issue-material",
     element: IssueMaterialPage,
   },
@@ -173,6 +179,10 @@ const routes = [
   {
     path: "/inventory",
     element: InventoryPage,
+  },
+  {
+    path: "/issue-material/scanitems/:id",
+    element: IssueMaterialScanItemsPage,
   },
   {
     path: "/inventory/transfer",

@@ -26,6 +26,8 @@ import {
 } from "../../../components/typographyTexts/TypographyComponents";
 import { GRPOScanner } from "../../../assets/icon";
 import Html5QrcodePlugin from "./scanner/scanner-component";
+import QtcDataGrid from "../../../components/qtcCommonComponent/qtcDataGrid";
+import CustomQrCodeScannerWithButton1 from "./scanner/scanner-component";
 
 const PopupContent = ({ onSelectRow, onSave }) => {
   const [dataSource, setDataSource] = useState(null);
@@ -107,7 +109,7 @@ const PopupContent = ({ onSelectRow, onSave }) => {
             <PopupSubText text={"Search the purchase order"} />
           </div>
           <DataGrid
-            height={420}
+            height={"70vh"}
             dataSource={dataSource}
             keyExpr="docEntry"
             showBorders={true}
@@ -150,6 +152,7 @@ const PopupContent = ({ onSelectRow, onSave }) => {
 
 const GrpoMain = () => {
   const [grpoList, setGrpoList] = useState(new Set()); // State to store the selected row data
+  const [grpoList1, setGrpoList1] = useState(new Set()); // State to store the selected row data
   const [showPoHelp, setShowPoHelp] = useState(false);
   const [selectedRowsData, setSelectedRowsData] = useState([]); // State to store the selected row data
   const [selectedPo, setSelectedPo] = useState(""); // State to store the selection indicator
@@ -187,7 +190,25 @@ const GrpoMain = () => {
       const poListData = await getPoLists();
       if (poListData.length > 0) {
         const qrCodeIds = poListData.map((item) => item.qrCodeID);
+        const filteredData = poListData.filter(
+          (item) => item.qrCodeID == qrCode
+        );
+
+        console.log("filteredData : ", filteredData);
+        console.log("poListData : ", poListData);
+        console.log("qrCodeIds : ", qrCodeIds);
+        
+        setGrpoList1(prevGrpoList => {
+          const updatedSet = new Set(prevGrpoList)
+          filteredData.forEach(response => {
+            updatedSet.add(response)
+          })
+          return updatedSet
+        })
+        
+        // const qrCodeIds = poListData.map((item) => item.qrCodeID);
         const doPoExists = qrCodeIds.includes(qrCode);
+        console.log("doPoExists : ",doPoExists);
         setLoading(false);
 
         return doPoExists;
@@ -234,6 +255,7 @@ const GrpoMain = () => {
   const handlePoVerification = async (e) => {
     if (selectedPo) {
       const doPoExists = await dataGridDataHandler(selectedPo);
+      // console.log("selectedPo : ",grpoList1);
       if (doPoExists && grpoList.has(selectedPo)) {
         // Show an alert or a message to inform the user about the duplicate value
         return toastDisplayer("error", "QR Code already exists in the list!");
@@ -252,8 +274,19 @@ const GrpoMain = () => {
       return toastDisplayer("error", "Please type/scan P.O");
     }
   };
-  const handleShowPoDropDetails = async (e) => {
-    console.log("Show Po Drop Details");
+  const [data, setData] = useState([]);
+  // const handleShowRealtiveDataGrid = qrCode => {
+  //   setData(prevData => ({
+  //     ...prevData,
+  //     [qrCode]: !prevData[qrCode]
+  //   }))
+  // }
+  const handleShowPoDropDetails = (qrCode) => {
+    // console.log("qrcode : ",qrCode);
+    setData((prevData) => ({
+      ...prevData,
+      [qrCode]: !prevData[qrCode],
+    }));
   };
 
   const navigate = useNavigate();
@@ -305,9 +338,13 @@ const GrpoMain = () => {
     fetchAllPo();
   }, []);
   const [decodedResults, setDecodedResults] = useState([]);
-  const onNewScanResult = (decodedText, decodedResult) => {
-    console.log("App [result]", decodedResult);
-    setDecodedResults((prev) => [...prev, decodedResult]);
+  
+  const onNewScanResult = (decodedText) => {
+    alert("decodedText : ",decodedText);
+    // console.log("App [result]", decodedResult);
+    // setDecodedResults((prev) => [...prev, decodedResult]);
+    console.log("decodedText : ",decodedText);
+    setSelectedPo(decodedText)
   };
   return (
     <>
@@ -335,12 +372,15 @@ const GrpoMain = () => {
         </Popup>
       )}
       {showScanner && (
-        <Html5QrcodePlugin
-          fps={10}
-          qrbox={250}
-          disableFlip={false}
-          qrCodeSuccessCallback={onNewScanResult}
-        />
+        // <Html5QrcodePlugin
+        //   fps={10}
+        //   qrbox={250}
+        //   disableFlip={false} 
+        //   qrCodeSuccessCallback  ={onNewScanResult}
+        // />
+        <CustomQrCodeScannerWithButton1 qrCodeSuccessCallback={onNewScanResult}/> 
+        // <TransparentPopup visible={true} onHidden={true} />
+        // <QRCodeScanner/>
       )}
       <div className="content-block dx-card responsive-paddings grpo-content-wrapper">
         <div className="title-section">
@@ -393,25 +433,39 @@ const GrpoMain = () => {
         </div>
 
         {/* Tabs section */}
-        {grpoList.size > 0 && (
+        {grpoList1.size > 0 && (
           <div className="po-list-section">
-            {[...grpoList].map((qrCode, index) => (
+            {[...grpoList1].map((qrCode, index) => (
               <div key={index} className="single-po">
-                <div className="single-po-delete">
-                  <Button icon="trash"></Button>
+                <div className="single-po1">
+                  <div className="single-po-delete">
+                    <Button icon="trash"></Button>
+                  </div>
+                  <div className="single-po-name">
+                    <span className="po-name">{qrCode["qrCodeID"]}</span>
+                    <Button
+                      icon="custom-chevron-down-icon"
+                      onClick={() =>
+                        handleShowPoDropDetails(qrCode["docEntry"])
+                      }
+                    ></Button>
+                  </div>
+                  <div className="single-po-proceed">
+                    <Button
+                      text="Proceed"
+                      onClick={() => handleProceed(qrCode["qrCodeID"])}
+                    ></Button>
+                  </div>
                 </div>
-                <div className="single-po-name">
-                  <span className="po-name">{qrCode}</span>
-                  <Button
-                    icon="custom-chevron-down-icon"
-                    onClick={handleShowPoDropDetails}
-                  ></Button>
-                </div>
-                <div className="single-po-proceed">
-                  <Button
-                    text="Proceed"
-                    onClick={() => handleProceed(qrCode)}
-                  ></Button>
+                <div className="single-po2">
+                  {data[qrCode["docEntry"]] && (
+                    <div className="data-grid-drop-down">
+                      <QtcDataGrid
+                        Data={[qrCode]}
+                        keyExpr="docEntry"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

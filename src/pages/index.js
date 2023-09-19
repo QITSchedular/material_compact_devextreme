@@ -30,12 +30,15 @@ export { default as VerifyMaterialPage } from "./production/verify-material/veri
 export { default as VerifyMaterialScanItemsPage } from "./production/verify-material/tabs-content/VerifyScanItems";
 export { default as ReceiveMaterialPage } from "./production/receive-material/receive-material.main";
 export { default as ReceiveMaterialScanItemsPage } from "./production/receive-material/receive-material-scan-items";
+export { default as ReceiveMaterialGenerateQrPage } from "./production/receive-material/generateReceipt-qr/generate-receipt.main";
 export { default as IssueMaterialPage } from "./production/issue-material/issue-material-main";
+export { default as IssueMaterialScanItemsPage } from "./production/issue-material/issue-material-scan-items";
 export { default as InventoryTransferMainPage } from "./inventory/inventory-transfer/inventory-transfer-main";
 export { default as PickPackMain } from "./inventory/pick-pack/Pick-pack-main";
 export { default as PickPackProcess } from "./inventory/pick-pack/Pick-pack-process";
 export { default as PurchasePage } from "./purchases/purchase/purchase";
 export { default as SalePage } from "./sales/salesIndex/sale";
 export { default as DeliveryPage } from "./sales/delivery/delivery";
+
 export { default as MachineInOutPage } from "./Track Machines/MachineInOut";
 export { default as MachineManagementPage } from "./Track Machines/MachineManagement";

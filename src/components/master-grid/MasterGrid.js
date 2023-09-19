@@ -12,6 +12,7 @@ import {
 } from "devextreme-react/data-grid";
 import { getMasterData } from "../../utils/items-master-data";
 import { AppContext } from "../../contexts/dataContext";
+import { toastDisplayer } from "../../api/qrgenerators";
 const allowedPageSizes = [10, 20, 30];
 
 function MasterGrid({ columns, masterType, keyExpr }) {
@@ -42,6 +43,10 @@ function MasterGrid({ columns, masterType, keyExpr }) {
     useEffect(() => {
         const getData = async () => {
             const allItemsData = await getMasterData(masterType);
+            if (allItemsData.hasError) {
+                // alert();
+                return toastDisplayer("error", allItemsData.errorText);
+            }
             if(allItemsData){
                 return setItemsData(allItemsData.reverse());
             }
