@@ -5,8 +5,31 @@ import SettingSubDropdown from './SettingSubDropdown';
 import CustomCheckBox from './CustomCheckBox';
 import { getPeriodIndicator } from '../../utils/gate-in-purchase';
 import { UseSettingContext } from '../../contexts/settingConfig';
+import { UseHeaderContext } from '../../contexts/headerContext';
 
 function SettingDropdown() {
+
+    const { settingDropdownRef, setisSettingDropdownOpen } = UseHeaderContext();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (settingDropdownRef.current && !settingDropdownRef.current.contains(event.target)) {
+                const isIconClicked = event.target.classList.contains('setting-icon'); // Adjust the class name accordingly
+                if (!isIconClicked || settingDropdownRef.current.contains(event.target)) {
+                    setisSettingDropdownOpen((prev) => {
+                        return !prev;
+                    });
+                }
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [settingDropdownRef, setisSettingDropdownOpen]);
+
 
     const { SettingValues, Dropdownchanged } = UseSettingContext();
 
@@ -28,7 +51,6 @@ function SettingDropdown() {
 
     const SettingDropDownInputBox = (selectBoxGroup) => {
         const [dataSource, setDataSource] = useState([]);
-        const [error, setError] = useState(null);
 
         useEffect(() => {
             getPeriodIndicatorData()
@@ -36,13 +58,9 @@ function SettingDropdown() {
                     setDataSource(result);
                 })
                 .catch((error) => {
-                    setError(error);
+                    console.log(error);
                 });
         }, []);
-
-        if (error) {
-            return <div>Error: {error.message}</div>;
-        }
 
         return (
             <SelectBox
@@ -84,15 +102,11 @@ function SettingDropdown() {
             title: 'Default Period Indicator',
             html: <SettingDropDownInputBox selectBoxGroup={"Default Period Indicator"} />,
         },
-        // {
-        //     title: 'QC',
-        //     html: '',
-        // }
     ];
 
     return (
         <div className='dropdown-background'>
-            <div className="dropdown">
+            <div className="dropdown" ref={settingDropdownRef}>
                 <div className="dropdown-header">
                     <div className="heading">Setting</div>
                     <div className="sub-heading">Every Setting is available here</div>
@@ -102,16 +116,10 @@ function SettingDropdown() {
                         animationDuration={450}
                         dataSource={itemsarr}
                         itemRender={(data) => data.html}
-                        collapsible={true}
                         className="batch-serial-acrdn"
-                        onItemTitleClick={(e) => {
-                            // if (e.itemIndex === 5) {
-                            //     setIsSubDropdownOpen(!isSubDropdownOpen);
-                            // }
-                            // else {
-                            // }
+                        onItemTitleClick={() => {
                             if (isSubDropdownOpen) {
-                                return setIsSubDropdownOpen(!isSubDropdownOpen);
+                                setIsSubDropdownOpen(!isSubDropdownOpen);
                             }
                         }}
                     />

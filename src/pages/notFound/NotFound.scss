@@ -3,6 +3,24 @@
     justify-content: center;
     margin-top: 60px;
 
+    .image404 {
+        animation: zoomimage 2s forwards ease-in-out;
+    }
+
+    @keyframes zoomimage {
+        0% {
+            transform: scale(1.1) rotate(0deg);
+        }
+
+        50% {
+            transform: scale(0.9) rotate(360deg);
+        }
+
+        100% {
+            transform: scale(1.1) rotate(0deg);
+        }
+    }
+
     .line1 {
         color: #525252;
         font-family: Poppins;
@@ -20,6 +38,5 @@
         font-style: normal;
         font-weight: 400;
         line-height: normal;
-        padding-top: 2px;
     }
 }

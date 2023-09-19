@@ -16,6 +16,7 @@ import { ToastContainer } from "react-toastify";
 import "animate.css/source/animate.css";
 import "react-toastify/dist/ReactToastify.css";
 import { SettingProvider } from "./contexts/settingConfig";
+import { HeaderProvider } from "./contexts/headerContext";
 
 function App() {
     const { user, loading } = useAuth();
@@ -42,7 +43,9 @@ export default function Root() {
                     <AppContextProvider>
                         <SettingProvider>
                             <div className={`app ${screenSizeClass}`}>
-                                <App />
+                                <HeaderProvider>
+                                    <App />
+                                </HeaderProvider>
                             </div>
                         </SettingProvider>
                     </AppContextProvider>

@@ -1,9 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './SettingSubDropdown.scss';
 import { SelectBox } from 'devextreme-react';
 import CustomCheckBox from './CustomCheckBox';
+import { UseHeaderContext } from '../../contexts/headerContext';
 
 function SettingSubDropdown() {
+
+    const { settingSubDropdownRef, setisSettingDropdownOpen, settingDropdownRef } = UseHeaderContext();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (settingSubDropdownRef.current && !settingSubDropdownRef.current.contains(event.target)) {
+                const isIconClicked = event.target.classList.contains('quality-control-dropdown');
+                if (settingDropdownRef.current.contains(event.target)) {
+                }
+                else {
+                    if (!isIconClicked) {
+                        setisSettingDropdownOpen((prev) => {
+                            return !prev;
+                        });
+                    }
+                }
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [settingSubDropdownRef, setisSettingDropdownOpen]);
+
 
     let SettingDropDownInputBox = ({ data }) => {
         return (
@@ -14,7 +41,7 @@ function SettingSubDropdown() {
     };
 
     return (
-        <div className={`subdropdown`}>
+        <div className={`subdropdown`} ref={settingSubDropdownRef}>
             <div className="subdropdown-header">
                 <div className="heading">Quality Control</div>
                 <div className="sub-heading">Quality control Setting</div>

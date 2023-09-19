@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Toolbar, { Item } from "devextreme-react/toolbar";
 import Button from "devextreme-react/button";
 import UserPanel from "../user-panel/UserPanel";
@@ -9,26 +9,14 @@ import { Link, useLocation } from "react-router-dom";
 
 import SettingDropdown from "../setting-dropdown/SettingDropdown";
 import NotificationDropdown from "../notification-dropdown/NotificationDropdown";
+import { UseHeaderContext } from "../../contexts/headerContext";
 // import { SearchPanel } from "devextreme-react/data-grid";
 // import SettingsDrawerMain from "../settings-drawer/SettingsDrawer.main";
 
 export default function Header({ menuToggleEnabled, toggleMenu }) {
     const location = useLocation();
     let path = location.pathname.split('/');
-
-    const [isSettingDropdownOpen, setisSettingDropdownOpen] = useState(false);
-    const [isNotifyDropdownOpen, setisNotifyDropdownOpen] = useState(false);
-
-
-    const toggleSettingDropdown = () => {
-        setisNotifyDropdownOpen(false);
-        setisSettingDropdownOpen(!isSettingDropdownOpen);
-    };
-
-    const toggleNotifyDropdown = () => {
-        setisSettingDropdownOpen(false);
-        setisNotifyDropdownOpen(!isNotifyDropdownOpen);
-    };
+    const { isSettingDropdownOpen, toggleSettingDropdown, isNotifyDropdownOpen, toggleNotifyDropdown } = UseHeaderContext();
 
     return (
         <>
@@ -132,10 +120,15 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                         <UserPanel menuMode={"list"} />
                     </Template>
                 </Toolbar>
-            </header >
-
-            {isSettingDropdownOpen && <SettingDropdown />}
-            {isNotifyDropdownOpen && <NotificationDropdown />}
+            </header>
+            {
+                isSettingDropdownOpen &&
+                <SettingDropdown />
+            }
+            {
+                isNotifyDropdownOpen &&
+                <NotificationDropdown />
+            }
         </>
     );
 }

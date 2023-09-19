@@ -1,7 +1,8 @@
+import { UseHeaderContext } from '../../contexts/headerContext';
 import './NotificationDropdown.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function NotificationDropdown(props) {
+function NotificationDropdown() {
     const notificationWords = [
         "New message received!",
         "You have a notification.",
@@ -44,9 +45,30 @@ function NotificationDropdown(props) {
         setRotation(rotation + 360);
     };
 
+    const { notifyDropdownRef, setisNotifyDropdownOpen } = UseHeaderContext();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (notifyDropdownRef.current && !notifyDropdownRef.current.contains(event.target)) {
+                const isIconClicked = event.target.classList.contains('bell-icon'); // Adjust the class name accordingly
+                if (!isIconClicked || notifyDropdownRef.current.contains(event.target)) {
+                    setisNotifyDropdownOpen((prev) => {
+                        return !prev;
+                    });
+                }
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [notifyDropdownRef, setisNotifyDropdownOpen]);
+
     return (
-        <div div className='dropdown-background'>
-            <div className="notifydropdown">
+        <div className='dropdown-background'>
+            <div className="notifydropdown" ref={notifyDropdownRef}>
                 <div className="notifydropdown-header">
                     <div>
                         <div className="heading">Notifcations</div>
@@ -59,7 +81,7 @@ function NotificationDropdown(props) {
                 </div>
                 <div className="notifydropdown-body">
                     {
-                        notificationData.map((values, index) => (
+                        notificationData.map((values) => (
                             <>
                                 <div className={`notification ${values.unread ? 'unread' : ''}`}>
                                     <div>
