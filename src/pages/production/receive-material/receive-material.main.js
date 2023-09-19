@@ -71,6 +71,7 @@ const ReceiveMaterialMain = () => {
       setInputQrValue("");
       setIsSearchButtonDisabled(false);
     }
+
   };
 
   const handleSearch = async () => {

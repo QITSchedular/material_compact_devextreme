@@ -178,10 +178,10 @@ const PopUpCommonForm = ({
                 <div className="content-block-wrapper">
                   <div className="content-block-1">
                     <div className="content-text">
-                    <PopupHeaderText text={title} />
+                      <PopupHeaderText text={title} />
                     </div>
                     <div className="button-groups">
-                    <Button icon="close" onClick={handleClosePopUp} />
+                      <Button icon="close" onClick={handleClosePopUp} />
                     </div>
                   </div>
                 </div>
@@ -678,7 +678,7 @@ const PopUpCommonForm = ({
                         buttonOptions={cancelButtonOptions}
                         horizontalAlignment="right"
                         cssClass={"popup-btn-cancel"}
-                        // onClick={handleClosePopUp}
+                      // onClick={handleClosePopUp}
                       />
                       <ButtonItem
                         buttonOptions={saveButtonOptions}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, TextBox } from "devextreme-react";
 import {
   PopupHeaderText,
@@ -14,6 +14,9 @@ import { useNavigate } from "react-router-dom";
 
 const ReceiveMaterialScanItems = () => {
   const [showListDataGrid, setShowListDataGrid] = useState(false);
+  const [isDataEdited, setIsDataEdited] = useState(false);
+
+
   const searchItemsClickHandler = async () => {
     console.log("searchItemsClickHandler");
     await setShowListDataGrid(true);
@@ -22,6 +25,12 @@ const ReceiveMaterialScanItems = () => {
   const handleIssue = () => {
     SwalDisplayer("success", "Operation Successful");
   };
+
+  const handleDataGridChange = (data) => {
+    // Enable the Issue button if there's data in the data grid
+    setIsDataEdited(data.length > 0);
+  };
+
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner receive-material-scanItems-container ">
       <div className="header-section">
@@ -37,7 +46,7 @@ const ReceiveMaterialScanItems = () => {
           width={250}
           showClearButton={true}
           valueChangeEvent="keyup"
-          // onValueChanged={inputQrValueChangedCallback}
+        // onValueChanged={inputQrValueChangedCallback}
         ></TextBox>
         <Button
           width={33}
@@ -46,8 +55,8 @@ const ReceiveMaterialScanItems = () => {
           stylingMode="outlined"
           icon="search"
           onClick={searchItemsClickHandler}
-          // disabled={isSearchButtonDisabled}
-          // value={inputQrValue}
+        // disabled={isSearchButtonDisabled}
+        // value={inputQrValue}
         />
         <Button
           width={33}
@@ -61,7 +70,7 @@ const ReceiveMaterialScanItems = () => {
       {showListDataGrid && (
         <>
           <div className="scanned-items-grid-section">
-            <SelectedItemsListings />
+            <SelectedItemsListings onDataChange={handleDataGridChange} />
           </div>
           <div
             className="action-button"
@@ -79,6 +88,7 @@ const ReceiveMaterialScanItems = () => {
               height={35}
               className="default-button"
               onClick={handleIssue}
+              disabled={!isDataEdited} // Disable the button if no data is edited
             />
           </div>
         </>

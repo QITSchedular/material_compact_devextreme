@@ -33,7 +33,7 @@ const VerifyMaterialMain = () => {
   };
 
   return (
-    <div className="content-block dx-card responsive-paddings issue-material-container">
+    <div className="content-block dx-card responsive-paddings verify-material-container">
       <div className="header-section">
         <PopupHeaderText text={"Verify Material"} />
         <PopupSubText text={"Search the production number to verify"} />
@@ -47,7 +47,7 @@ const VerifyMaterialMain = () => {
           width={250}
           showClearButton={true}
           valueChangeEvent="keyup"
-          onValueChanged={() => {}}
+          onValueChanged={() => { }}
         ></TextBox>
         <Button
           width={33}
@@ -67,7 +67,7 @@ const VerifyMaterialMain = () => {
         />
       </div>
 
-      <div className="issue-material-main-section issue-materials-tabs">
+      <div className="verify-material-main-section verify-materials-tabs">
         <Tabs
           width={300}
           selectedIndex={0}
@@ -79,7 +79,7 @@ const VerifyMaterialMain = () => {
         </Tabs>
       </div>
 
-      <div className="issue-material-tabs-content">{renderTabContent()}</div>
+      <div className="verify-material-tabs-content">{renderTabContent()}</div>
     </div>
   );
 };
