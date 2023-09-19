@@ -94,9 +94,11 @@
         &[aria-level='2'] .dx-treeview-item-content {
           font-weight: normal;
           font-size: 13px;
-          padding: 4px 24px 0px 0px;
-          max-width: 210px;
-          margin-left: 30px;
+          padding: 4px;
+          //max-width: 190px;
+          max-width:180px;
+          //margin-left: 2.5rem;
+          margin-left: 3.8rem;
           color: white;
 
           //  .dx-icon {
