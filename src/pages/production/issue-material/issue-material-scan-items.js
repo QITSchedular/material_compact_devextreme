@@ -13,6 +13,8 @@ import {
   productionIssueSaveItems,
   productionValidateItemQr,
 } from "../../../api/production.api";
+import { BackBtn } from "../../../components";
+import './issue-material-main.styles.scss';
 
 const IssueMaterialScanItems = () => {
   let { id } = useParams();
@@ -102,9 +104,14 @@ const IssueMaterialScanItems = () => {
 
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner issue-material-scanItems-container ">
-      <div className="header-section">
-        <PopupHeaderText text={"Issue Material"} />
-        <PopupSubText text={"Type or scan the item code to make an entry"} />
+      <div className="topbar">
+        <div className="header-section">
+          <PopupHeaderText text={"Issue Material"} />
+          <PopupSubText text={"Type or scan the item code to make an entry"} />
+        </div>
+        <div className="btn-section">
+          <BackBtn />
+        </div>
       </div>
 
       <div className="search-section">
@@ -125,8 +132,8 @@ const IssueMaterialScanItems = () => {
           stylingMode="outlined"
           icon="search"
           onClick={searchItemsClickHandler}
-          // disabled={isSearchButtonDisabled}
-          // value={inputQrValue}
+        // disabled={isSearchButtonDisabled}
+        // value={inputQrValue}
         />
         <Button
           width={33}

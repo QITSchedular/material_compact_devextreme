@@ -2,6 +2,8 @@ import React from "react";
 import "./home.scss";
 // import CreateAccountForm from "../../components/create-account-form/CreateAccountForm";
 import { IndexCards } from "../../components";
+import { BackBtn } from "../../components";
+
 export default function Home() {
   return (
     <React.Fragment>

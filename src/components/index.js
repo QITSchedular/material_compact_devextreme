@@ -1,5 +1,6 @@
 export { default as Header } from './header/Header';
 export { default as Footer } from './footer/Footer';
+export { default as BackBtn } from './back-btn/BackBtn';
 export { default as LoginForm } from './login-form/LoginForm';
 export { default as ResetPasswordForm } from './reset-password-form/ResetPasswordForm';
 export { default as CreateAccountForm } from './create-account-form/CreateAccountForm';
