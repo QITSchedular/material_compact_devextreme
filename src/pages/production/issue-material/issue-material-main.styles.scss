@@ -36,6 +36,21 @@
     }
 }
 
+// .btn-section {
+//     display: flex;
+//     justify-content: flex-end;
+//     margin-top: -70px;
+// }
+
+.topbar {
+
+    .btn-section {
+        display: flex;
+        margin-top: -50px;
+        justify-content: flex-end;
+    }
+}
+
 @media screen and (max-width: 768px) {
     #production-issuematerial-listing-itemCode {
         font-size: 14px !important;
@@ -51,4 +66,12 @@
         width: 140px !important;
     }
 
+    .topbar {
+        display: flex;
+
+        .btn-section {
+            margin-top: 0px;
+            justify-content: flex-end;
+        }
+    }
 }

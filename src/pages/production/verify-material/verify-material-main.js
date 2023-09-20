@@ -26,7 +26,7 @@ const VerifyMaterialMain = () => {
   const [selectedRowsData, setSelectedRowsData] = useState([]); // State to store the selected row data (prev + current)
   const [txtValueOfTypeVerifyMaterial, settxtValueOfTypeVerifyMaterial] =
     useState(""); // State to store the selection indicator
-    const [selectedRowKeys, setSelectedRowKeys] = useState([]); // State to store the selected row data
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]); // State to store the selected row data
   const [VerifyMaterialList, setVerifyMaterialList] = useState(new Set()); // State to store the selected row data
   const dataGridRef = useRef();
 
@@ -52,7 +52,7 @@ const VerifyMaterialMain = () => {
     }
   };
 
-  
+
 
   /* ---------------- Data Grid issue handler ----------------------*/
   const helpOptions = {
@@ -115,7 +115,7 @@ const VerifyMaterialMain = () => {
           updatedSet.add(selectedRowsData[0]); // Add each object 
           return updatedSet; // Return the updated Set
         });
-      }else{
+      } else {
         return toastDisplayer("error", "Product alredy exist..!!");
       }
     } else {
@@ -129,7 +129,7 @@ const VerifyMaterialMain = () => {
   };
 
   /* ---------------- Remove item from list ----------------------*/
-  const deleteItem=(id)=>{
+  const deleteItem = (id) => {
     console.log(id);
     // setVerifyMaterialList((prevData) => {
     //   console.log(prevData)
@@ -152,7 +152,7 @@ const VerifyMaterialMain = () => {
 
   return (
     <>
-      <div className="content-block dx-card responsive-paddings issue-material-container">
+      <div className="content-block dx-card responsive-paddings verify-material-container">
         <div className="header-section">
           <PopupHeaderText text={"Verify Material"} />
           <PopupSubText text={"Search the production number to verify"} />
@@ -195,7 +195,7 @@ const VerifyMaterialMain = () => {
           />
         </div>
 
-        <div className="issue-material-main-section issue-materials-tabs">
+        <div className="verify-material-main-section issue-materials-tabs">
           <Tabs
             width={300}
             selectedIndex={0}
@@ -207,7 +207,7 @@ const VerifyMaterialMain = () => {
           </Tabs>
         </div>
 
-        <div className="issue-material-tabs-content">{renderTabContent()}</div>
+        <div className="verify-material-tabs-content">{renderTabContent()}</div>
       </div>
       {showTransporterHelp && (
         <Popup
