@@ -8,6 +8,8 @@ const TransparentContainer = ({
   mountNodeId,
   showScanner,
   HandleCloseQrScanner1,
+  HandleDecodedData,
+  HandleSaveDecodedData
 }) => {
   const { startQrCode, stopQrCode, decodedQRData } = useQRCodeScan({
     qrcodeMountNodeID: mountNodeId,
@@ -24,6 +26,14 @@ const TransparentContainer = ({
     return HandleCloseQrScanner1();
   };
 
+  useEffect(()=>{
+    const HandleDecodedData1 = (data)=>{
+      return HandleDecodedData(data);
+    }
+    if(decodedQRData.data!=null){
+      HandleDecodedData1(decodedQRData.data);
+    }
+  },[decodedQRData])
   return (
     <div className={`expanded-div ${showScanner ? "expanded" : ""}`}>
       {mountNodeId && (
@@ -44,7 +54,8 @@ const TransparentContainer = ({
               icon="refresh"
               text="Save"
               width={100}
-              onClick={() => debouncedStartQrCode()}
+              // onClick={() => debouncedStartQrCode()}
+              onClick={HandleSaveDecodedData}
             ></Button>
           </div>
         </>
