@@ -209,9 +209,8 @@ function IncomingQrRequest({
                 onValueChanged={handleValueChange}
                 value={""}
               >
-                        
               </TextBox>
-               
+
             </div>
             <div
               className="buttons-section"

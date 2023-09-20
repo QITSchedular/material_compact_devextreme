@@ -39,7 +39,8 @@ import {
   InventoryPage,
   MachinemasterPage,
   EmployeemasterPage,
-  DepartmentMasterPage
+  DepartmentMasterPage,
+  VarifyMaterialScanItemPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -158,6 +159,10 @@ const routes = [
   {
     path: "/production/verify-material/verify-items:prodid",
     element: VerifyMaterialScanItemsPage,
+  },
+  {
+    path: "/production/verify-material/varify-material-scanItemPage/:itemCode/:docEntry",
+    element: VarifyMaterialScanItemPage,
   },
   {
     path: "/production/receive-material",
