@@ -1,13 +1,14 @@
 @import "./themes/generated/variables.base.scss";
 
 @font-face {
-  font-family: 'Material Symbols Outlined';
+  font-family: "Material Symbols Outlined";
   font-style: normal;
-  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v136/kJEhBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oFsI.woff2) format('woff2');
+  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v136/kJEhBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oFsI.woff2)
+    format("woff2");
 }
 
 .app {
-  background-color: darken($base-bg, 5.00);
+  background-color: darken($base-bg, 5);
   display: flex;
   height: 100%;
   width: 100%;
@@ -42,7 +43,7 @@
 }
 
 .side-nav-outer-toolbar .dx-drawer {
-  height: calc(100% - 56px)
+  height: calc(100% - 56px);
 }
 
 .screen-x-small .content-block {
@@ -60,7 +61,6 @@
 
 .responsive-paddings-sm {
   padding: 10px 20px 20px 20px;
-
 }
 
 .dx-card.wide-card {
@@ -71,10 +71,13 @@
   border-left: 0;
 }
 
-.with-footer>.dx-scrollable-wrapper>.dx-scrollable-container>.dx-scrollable-content {
+.with-footer
+  > .dx-scrollable-wrapper
+  > .dx-scrollable-container
+  > .dx-scrollable-content {
   height: 100%;
 
-  &>.dx-scrollview-content {
+  & > .dx-scrollview-content {
     display: flex;
     flex-direction: column;
     min-height: 100%;
@@ -98,10 +101,9 @@ body {
   box-sizing: border-box;
 }
 
-
 .dx-overlay-wrapper.dx-popup-wrapper.dx-dropdownmenu-popup-wrapper.dx-dropdownmenu-popup {
   .dx-overlay-content.dx-popup-normal.dx-resizable {
-    background: linear-gradient(to right, #fff 16px, #FFF 16px)
+    background: linear-gradient(to right, #fff 16px, #fff 16px);
   }
 }
 
@@ -127,11 +129,12 @@ body {
     gap: 5px !important;
   }
 
-  .search-section {}
+  .search-section {
+  }
 }
 
 /*------------------------- pages default wrapper container ------------------------------------*/
-@media only screen and (max-width:568px) {
+@media only screen and (max-width: 568px) {
   .default-button {
     width: 100px !important;
     height: 30px !important;
