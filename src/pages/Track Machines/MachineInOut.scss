@@ -54,6 +54,15 @@
         }
     }
 
+    .close-btn-section{
+        .dx-button{
+            .dx-button-content{
+                display: flex;
+                justify-content: end;
+            }
+        }
+    }
+
     .qrCodeSection-main{
         display: flex;
         justify-content: center;
@@ -248,6 +257,7 @@
 
     .dx-button-text {
         color: #FFF;
+
     }
 }
 
@@ -315,9 +325,5 @@
       gap:1rem;
   }
   
-  .content {
-    // background-color: #fff;
-    padding: 10px;
-    border: 1px solid #000;
-  }
+
   

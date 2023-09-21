@@ -95,62 +95,85 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
   const doHeaderExists = await checkHeaderProductionQrExistence(
     selectedRowData
   );
-  console.log("====", doHeaderExists);
   /*-------------The Header Qr Does Not Exists ------------------*/
   if (doHeaderExists.hasError) {
-    const reqBody = {
-      "branchID": branchID,
-      "docEntry": proOrdDocEntry,
-      "docNum": proOrdDocNum,
-      "series": series,
-      "objType": objType
+    /* try getting the header Incremental Number*/
+    console.log("Header Qr Doesnot exists, get incremental number");
+
+    const apiResHeaderIncrementalNumber = await getHeaderIncNum();
+    const headerIncrementalNumber = apiResHeaderIncrementalNumber.responseData;
+
+    console.log("Got the incremental number: " + headerIncrementalNumber);
+    console.log("Generate qr for incremental number: ");
+
+    /*-------------------- Generate the Qr Initial String--------------------*/
+    console.log("Map date to Chars for the header qr code id: ");
+    const headerQrCodeID = await mapDateToChars(
+      headerIncrementalNumber,
+      selectedRowData.proOrdDocDate,
+      "headerIncNum"
+    );
+    console.log("The header qr has been generated: " + headerQrCodeID);
+    /*Save the newly generated QrCode*/
+    console.log("Save the newly generated HeaderQrCode");
+    const headerSaverPayload = {
+      branchID,
+      qrCodeID: headerQrCodeID,
+      docEntry: proOrdDocEntry,
+      docNum: proOrdDocNum,
+      series,
+      docDate: "2023-09-07",
+      objType,
+      incNo: `${headerIncrementalNumber}`,
+    };
+    const saveGeneratedHeaderQr = await SaveHeaderQR(headerSaverPayload);
+    if (!saveGeneratedHeaderQr.hasError) {
+      /***Check for details qr existence**/
+      console.log(
+        "The Generated Header Code has been saved:",
+        saveGeneratedHeaderQr.responseData
+      );
+
+      // /*-------------------------- Check for the detail Qr Code existence ---------------------------------------*/
+      // const doDetailsQrExists = await checkProductionDetailsQrExistence(
+      //   proOrdDocEntry,
+      //   proOrdDocNum,
+      //   series,
+      //   itemCode,
+      //   recNo
+      // );
+      // console.log("doDetailsQrExists Status");
+      // console.log(doDetailsQrExists);
     }
-    const getHeaderQr = await getHeaderQR(reqBody);
-    if (!getHeaderQr.hasError) {
-      const headerSaverPayload = {
-        "branchID": branchID,
-        "qrCodeID": getHeaderQr.responseData.qrCode,
-        "docEntry": proOrdDocEntry,
-        "docNum": proOrdDocNum,
-        "series": series,
-        "docDate": proOrdDocDate,
-        "objType": objType,
-        "incNo": getHeaderQr.responseData.incNo
-      }
-      const saveGeneratedHeaderQr = await SaveHeaderQR(headerSaverPayload);
-      console.log(saveGeneratedHeaderQr);
-      if (!saveGeneratedHeaderQr.hasError) {
-        /***Check for details qr existence**/
-        console.log(
-          "The Generated Header Code has been saved:",
-          saveGeneratedHeaderQr.responseData
-        );
-        const doDetailsQrExists = await checkProductionDetailsQrExistence(
-          proOrdDocEntry,
-          proOrdDocNum,
-          series,
-          itemCode,
-          recNo
-        );
-        if (doDetailsQrExists.hasError) {
-          console.log("Header Exists but the details does not exist");
-          console.log(
-            "Will find the items' inc number and then generate the Items QR Code"
-          );
-          console.log("Extract header from the Header Existence", doHeaderExists);
-          const { qrCode } = doHeaderExists.responseData;
-          const itemQrGenerationResult = await productionItemsQrGeneratorAndSaver(
-            qrCode,
-            itemCode,
-            qrMngBy,
-            recNo,
-            receiptQty,
-            addedBatches
-          );
-          console.log("The Final Generation result is: ", itemQrGenerationResult);
-        }
-      }
+    /*-------------The Header is Saved Now Check and generate the Items Qr AND sAVE ------------------*/
+    const doDetailsQrExists = await checkProductionDetailsQrExistence(
+      proOrdDocEntry,
+      proOrdDocNum,
+      series,
+      itemCode,
+      recNo
+    );
+    if (doDetailsQrExists.hasError) {
+      console.log("Header Exists but the details does not exist");
+      console.log(
+        "Will find the items' inc number and then generate the Items QR Code"
+      );
+      console.log("Extract header from the Header Existence", doHeaderExists);
+      const { qrCode } = doHeaderExists.responseData;
+      const itemQrGenerationResult = await productionItemsQrGeneratorAndSaver(
+        qrCode,
+        itemCode,
+        qrMngBy,
+        recNo,
+        receiptQty,
+        addedBatches
+      );
+      console.log("The Final Generation result is: ", itemQrGenerationResult);
     }
+  } else {
+    /*-------------The Header Exists & Search For Item and save------------------*/
+    console.log("The Header Exists, item qr doesnot exist");
+    // Check fro the items Existence
   }
 };
 
@@ -233,28 +256,74 @@ export const checkProductionDetailsQrExistence = async (
   }
 };
 
-export const getHeaderQR = async (reqBody) => {
+export const getHeaderIncNum = async () => {
   const responseBody = {
     responseData: null,
     hasError: false,
     errorMessage: null,
   };
-
   try {
-    const QrGeneResponse = await axios.post(
-      `${API_URL}/Commons/GetProductionHeaderQR`,
-      reqBody
+    const response = await axios.post(
+      `${API_URL}/Commons/HeaderProductionIncNo`
     );
-    responseBody.responseData = QrGeneResponse.data;
-    if (responseBody.responseData) {
-      console.log("qr id generated");
-    }
+
+    responseBody.responseData = response.data;
     return responseBody;
   } catch (error) {
+    console.log("Error while fetching the data, from controller", error);
     responseBody.hasError = true;
     responseBody.errorMessage = responseBody.errorMessage =
       error.response?.data?.statusMsg || error.response?.data?.errors;
+    if (error.response.data) {
+      responseBody.responseData = error.response.data;
+    }
     return responseBody;
+  }
+};
+
+export const mapDateToChars = async (incrementalNum, docDate, flag) => {
+  console.log(docDate);
+
+  const searializedDate = docDate.split(" ")[0];
+  const date = new Date(searializedDate); // Parse the docDate string
+  const year = date.getFullYear().toString();
+  let month = (date.getMonth() + 1).toString();
+  let day = date.getDate().toString();
+
+  // Pad single-digit month and day with a leading zero if needed
+  month = month.padStart(2, "0");
+  day = day.padStart(2, "0");
+
+  const map1 = new Map([
+    [0, "A"],
+    [1, "B"],
+    [2, "C"],
+    [3, "D"],
+    [4, "E"],
+    [5, "F"],
+    [6, "G"],
+    [7, "H"],
+    [8, "I"],
+    [9, "J"],
+  ]);
+
+  // Map the year, month, and day according to the provided map
+  const yyyy =
+    map1.get(parseInt(year[0])) +
+    map1.get(parseInt(year[1])) +
+    map1.get(parseInt(year[2])) +
+    map1.get(parseInt(year[3]));
+  const MM = map1.get(parseInt(month[0])) + map1.get(parseInt(month[1]));
+  const DD = map1.get(parseInt(day[0])) + map1.get(parseInt(day[1]));
+
+  const response = await seriesAppender(yyyy, MM, DD, incrementalNum, flag);
+  return response;
+};
+
+export const seriesAppender = async (yyyy, MM, DD, incrementalNum, flag) => {
+  if (flag === "headerIncNum") {
+    const finalString = yyyy + MM + DD + " " + MM + " " + incrementalNum;
+    return finalString;
   }
 };
 
@@ -448,8 +517,6 @@ export const productionItemsQrGeneratorAndSaver = async (
     }
   }
 };
-
-
 export const saveProductionDetailsQr = async (
   headerQRCodeID,
   detailQRCodeID,
