@@ -71,11 +71,41 @@ const GrpoItems = () => {
   //     return toastDisplayer("error", "Scan the Item Qr first");
   //   }
   // }; 
-  const handleItemQrVerification = async (e) => {
+  const handleItemQrVerification = async (dataScanFromScanner) => {
     console.log("At handleItemQrVerification");
     console.log("The selectedItemQr is:", selectedItemQr);
-    
-    if (selectedItemQr) {
+    if (dataScanFromScanner) {
+      console.log("Ola ama tale tale ooooo")
+      const doItemExists = await ValidateItemQR(qrCode, dataScanFromScanner);
+  
+      if (doItemExists === "No data found") {
+        // console.log("the scanned item does not exist");
+        return toastDisplayer(
+          "error",
+          "The scanned item does not belong to this P.O"
+        );
+      } else {
+        // Filter out duplicate detailQRCodeID values
+        const newItems = doItemExists.filter((item) => {
+          if (uniqueIds.has(item.detailQRCodeID)) {
+            console.log(`Duplicate data arrived: ${item.detailQRCodeID}`);
+            toastDisplayer("error", `${item.detailQRCodeID} Item already available`);
+            return false; // Filter out duplicates
+          }
+          return true; // Keep unique items
+        });
+  
+        setDisplayGrid(true);
+  
+        // Update uniqueIds with the new item IDs
+        newItems.forEach((item) => {
+          uniqueIds.add(item.detailQRCodeID);
+        });
+  
+        setGridDataSource((previous) => [...previous, ...newItems]);
+      }
+    }
+    else if (selectedItemQr) {
       const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
   
       if (doItemExists === "No data found") {
@@ -240,7 +270,6 @@ const GrpoItems = () => {
     if (scannedData.includes(data1)) {
       console.log(`${data1} is already available.`);
     } else {
-      // Use the spread operator (...) to create a new array with the existing data and the new item
       setScannedData([...scannedData, data1]);
     }
     // setShowScanner(false);
@@ -251,18 +280,11 @@ const GrpoItems = () => {
   const HandleSaveDecodedScannedData = async()=>{
     console.log("From HandleSaveDecodedScannedData",scannedData)
     setShowScanner(false);
-    scannedData.forEach((scannedItem)=>{
-      setSelectedItemQR(scannedItem);
+    scannedData.forEach(async(scannedItem)=>{
+      await handleItemQrVerification(scannedItem);
     })
-    // setSelectedItemQR(scannedData[0]);
-    // await scanAndSearchFromScanner();
   }
-  useEffect(() => {
-    if (selectedItemQr) {
-      console.log("Inside the use effect")
-      handleItemQrVerification();
-    }
-  }, [selectedItemQr]);
+  
   
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">

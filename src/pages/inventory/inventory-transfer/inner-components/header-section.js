@@ -6,7 +6,9 @@ const HeaderSection = ({
   productionNumberInputHandler,
   productionNumberInput,
   productionNumberInputSearchHandler,
-txtBoxRef
+txtBoxRef,
+handleScan,
+scannedData
 }) => {
   return (
     <div className="inventrory-transfer-inner-header-wrapper">
@@ -20,6 +22,7 @@ txtBoxRef
           valueChangeEvent="keyup"
           onValueChanged={(data) => productionNumberInputHandler(data)}
 ref={txtBoxRef}
+value={scannedData}
         ></TextBox>
         <Button
           width={33}
@@ -37,7 +40,7 @@ ref={txtBoxRef}
           type="normal"
           stylingMode="outlined"
           icon={GRPOScanner}
-          //   onClick={() => console.log("You have cliced the scanner")}
+          onClick={handleScan}
         />
       </div>
     </div>

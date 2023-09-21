@@ -160,6 +160,7 @@ const GrpoMain = () => {
   const [gridDataSourceForPopup, setGridDataSourceForPopup] = useState([]); // State to store the
   const [isSelectedFromPopup, setIsSelectedFromPopup] = useState(false); // State to store the
   const [showScanner, setShowScanner] = useState(false);
+  const [showPO, setShowPO] = useState();
   const helpOptions = {
     icon: HelpIcons,
     onClick: async () => {
@@ -191,26 +192,30 @@ const GrpoMain = () => {
       if (poListData.length > 0) {
         const qrCodeIds = poListData.map((item) => item.qrCodeID);
         const filteredData = poListData.filter(
-          (item) => item.qrCodeID == qrCode
+          (item) => item.qrCodeID === qrCode
         );
 
-        console.log("filteredData : ", filteredData);
-        console.log("poListData : ", poListData);
-        console.log("qrCodeIds : ", qrCodeIds);
-        
         setGrpoList1((prevGrpoList) => {
+          console.log("prevGrpoList: ", prevGrpoList);
+
           const updatedSet = new Set(prevGrpoList);
+
           filteredData.forEach((response) => {
-            updatedSet.add(response);
+            const exists = Array.from(updatedSet).some(
+              (item) => item.qrCodeID === response.qrCodeID
+            );
+            if (!exists) {
+              updatedSet.add(response);
+            }
           });
+
           return updatedSet;
         });
-        
+
         // const qrCodeIds = poListData.map((item) => item.qrCodeID);
         const doPoExists = qrCodeIds.includes(qrCode);
         console.log("doPoExists : ", doPoExists);
         setLoading(false);
-
         return doPoExists;
       } else {
         // setError("No data found");
@@ -248,31 +253,37 @@ const GrpoMain = () => {
   const handleTextValueChange = (e) => {
     // console.log(e.previousValue);
     console.log(e.value);
+    setShowPO(true);
     return setSelectedPo(e.value);
   };
 
   // handle the hit search event
   const handlePoVerification = async (e) => {
-    if (selectedPo) {
-      const doPoExists = await dataGridDataHandler(selectedPo);
-      // console.log("selectedPo : ",grpoList1);
-      if (doPoExists && grpoList.has(selectedPo)) {
-        // Show an alert or a message to inform the user about the duplicate value
-        return toastDisplayer("error", "QR Code already exists in the list!");
-      } else if (doPoExists && !grpoList.has(selectedPo)) {
-        // Add the selectedPo to the grpoList using the Set's add method
-        return setGrpoList((prevGrpoList) =>
-          new Set(prevGrpoList).add(selectedPo)
-        );
-      } else if (!doPoExists) {
-        return toastDisplayer(
-          "error",
-          "Invalid Grpo, please select a valid Grpo"
-        );
-      }
-    } else {
+    // console.log("selectedRowsData : ",selectedRowsData[0].qrCodeID)
+    // await setSelectedPo(selectedRowsData[0].qrCodeID)
+
+    if (!selectedPo) {
       return toastDisplayer("error", "Please type/scan P.O");
     }
+    // if (selectedPo) {
+    const doPoExists = await dataGridDataHandler(selectedPo);
+    // console.log("selectedPo : ",grpoList1);
+    if (doPoExists && grpoList.has(selectedPo)) {
+      return toastDisplayer("error", "QR Code already exists in the list!");
+    } else if (doPoExists && !grpoList.has(selectedPo)) {
+      return setGrpoList((prevGrpoList) =>
+        new Set(prevGrpoList).add(selectedPo)
+      );
+    } else if (!doPoExists) {
+      alert();
+      return toastDisplayer(
+        "error",
+        "Invalid Grpo, please select a valid Grpo"
+      );
+    }
+    // } else {
+    //   return toastDisplayer("error", "Please type/scan P.O");
+    // }
   };
   const [data, setData] = useState([]);
   // const handleShowRealtiveDataGrid = qrCode => {
@@ -296,8 +307,12 @@ const GrpoMain = () => {
   };
 
   const handleGrpoPoSelection = (params) => {
-    console.log("from the handleGrpoPoSelection", params);
+    console.log(
+      "from the handleGrpoPoSelection =================================",
+      params
+    );
     if (params.length > 0) {
+      setShowPO(false);
       return setSelectedRowsData(params);
     }
   };
@@ -306,7 +321,6 @@ const GrpoMain = () => {
     if (selectedRowsData.length > 0) {
       console.log("Current selected row data", selectedRowsData);
       console.log("Close the popup window");
-      // setSelectedPo("");
       setIsSelectedFromPopup(false);
       return setShowPoHelp(false);
     } else {
@@ -330,7 +344,6 @@ const GrpoMain = () => {
       const poListData = await getPoLists();
       if (poListData.length > 0) {
         await setGridDataSourceForPopup(poListData);
-        // console.log(poListData);
       } else {
         toastDisplayer("error", "Something went wrong please tyr again later.");
       }
@@ -341,11 +354,12 @@ const GrpoMain = () => {
   const HandleCloseQrScanner = () => {
     setShowScanner(false);
   };
-  const HandleDecodedData1 = (data)=>{
+  const HandleDecodedData1 = (data) => {
     setSelectedPo(data);
+    setShowPO(true);
     setShowScanner(false);
-  }
-  
+  };
+
   return (
     <>
       {loading && <LoadPanel visible={true} />}
@@ -354,7 +368,7 @@ const GrpoMain = () => {
           visible={true}
           showCloseButton={true}
           contentRender={() => <PopupContent onSave={handleGrpoPoSelection} />}
-                  >
+        >
           <ToolbarItem
             widget="dxButton"
             toolbar="bottom"
@@ -398,10 +412,12 @@ const GrpoMain = () => {
               showClearButton={true}
               onValueChanged={handleTextValueChange}
               value={
-                selectedPo ? selectedPo :
-                selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""
+                showPO
+                  ? selectedPo
+                  : selectedRowsData.length > 0
+                  ? selectedRowsData[0].qrCodeID
+                  : ""
               }
-              // value={selectedPo}
               // disabled={selectedRowsData.length > 0 ? false : true}
             >
               <TextBoxButton
