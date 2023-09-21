@@ -1,45 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import './SettingDropdown.scss';
-import { Accordion, SelectBox } from 'devextreme-react';
+import { Accordion, Button, SelectBox } from 'devextreme-react';
 import SettingSubDropdown from './SettingSubDropdown';
 import CustomCheckBox from './CustomCheckBox';
-import { getPeriodIndicator } from '../../utils/gate-in-purchase';
+import { getPeriodIndicator, setSettingConfig } from '../../utils/settingConfigAPI';
 import { UseSettingContext } from '../../contexts/settingConfig';
 import { UseHeaderContext } from '../../contexts/headerContext';
+import { toastDisplayer } from "../../api/qrgenerators";
+
+
 
 function SettingDropdown() {
-
-    const { settingDropdownRef, setisSettingDropdownOpen } = UseHeaderContext();
+    const { settingDropdownRef, setisSettingDropdownOpen, isSettingSubDropdownOpen, toggleSettingSubDropdown, setisSettingSubDropdownOpen } = UseHeaderContext();
+    const { SettingValues, Dropdownchanged } = UseSettingContext();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (settingDropdownRef.current && !settingDropdownRef.current.contains(event.target)) {
-                const isIconClicked = event.target.classList.contains('setting-icon'); // Adjust the class name accordingly
-                if (!isIconClicked || settingDropdownRef.current.contains(event.target)) {
-                    setisSettingDropdownOpen((prev) => {
-                        return !prev;
-                    });
+            if (!isSettingSubDropdownOpen) {
+                if (settingDropdownRef.current && !settingDropdownRef.current.contains(event.target)) {
+                    const isItemClicked = event.target.classList.contains('dx-list-item-content') ||
+                        event.target.classList.contains('setting-icon') ||
+                        event.target.classList.contains('quality-control-dropdown') ||
+                        event.target.classList.contains('dx-checkbox-text') ||
+                        event.target.classList.contains('dx-checkbox-icon') ||
+                        event.target.classList.contains('dx-checkbox-container') ||
+                        event.target.classList.contains('dropdown-body') ||
+                        event.target.classList.contains('dx-accordion-item-title-caption') ||
+                        event.target.classList.contains('subdropdown');
+                    if (!isItemClicked) {
+                        setisSettingDropdownOpen((prev) => {
+                            return !prev;
+                        });
+                    }
                 }
             }
         };
-
         document.addEventListener('click', handleClickOutside);
 
         return () => {
             document.removeEventListener('click', handleClickOutside);
         };
-    }, [settingDropdownRef, setisSettingDropdownOpen]);
-
-
-    const { SettingValues, Dropdownchanged } = UseSettingContext();
+    }, [settingDropdownRef, setisSettingDropdownOpen, isSettingSubDropdownOpen]);
 
     const [selectedSeries, setSelectedSeries] = useState(SettingValues["Default Period Indicator"]);
-
-    const [isSubDropdownOpen, setIsSubDropdownOpen] = useState(false);
-
-    const toggleDropdown = () => {
-        setIsSubDropdownOpen(!isSubDropdownOpen);
-    };
 
     async function getPeriodIndicatorData() {
         try {
@@ -48,6 +51,17 @@ function SettingDropdown() {
             return Promise.reject(error.message);
         }
     }
+
+    const handleSaveClick = async () => {
+        try {
+            // const response = await setSettingConfig(SettingValues);
+            // console.log('Settings saved:', response);
+            console.log('Settings saved:', SettingValues);
+        } catch (error) {
+            console.error('API Error:', error);
+            return toastDisplayer('error', error.message);
+        }
+    };
 
     const SettingDropDownInputBox = (selectBoxGroup) => {
         const [dataSource, setDataSource] = useState([]);
@@ -59,6 +73,7 @@ function SettingDropdown() {
                 })
                 .catch((error) => {
                     console.log(error);
+                    return toastDisplayer('error', error.message);
                 });
         }, []);
 
@@ -115,21 +130,44 @@ function SettingDropdown() {
                     <Accordion
                         animationDuration={450}
                         dataSource={itemsarr}
+                        collapsible={isSettingSubDropdownOpen}
                         itemRender={(data) => data.html}
                         className="batch-serial-acrdn"
                         onItemTitleClick={() => {
-                            if (isSubDropdownOpen) {
-                                setIsSubDropdownOpen(!isSubDropdownOpen);
+                            if (isSettingSubDropdownOpen) {
+                                setisSettingSubDropdownOpen(!isSettingSubDropdownOpen);
                             }
                         }}
                     />
-                    <div className={`quality-control-dropdown ${isSubDropdownOpen ? 'subdropdown-open' : ''}`} onClick={toggleDropdown}>
+                    <div className={`quality-control-dropdown ${isSettingSubDropdownOpen ? 'subdropdown-open' : ''}`} onClick={toggleSettingSubDropdown}>
                         Quality Control
                     </div>
+                </div>
+                <div className="dropdown-footer">
+                    <div className='btn-group'>
+                        <Button
+                            className='my-button cancel-button'
+                            text={'Cancel'}
+                            stylingMode='outlined'
+                            type='default'
+                            onClick={() => {
+                                setisSettingDropdownOpen(false);
+                                setisSettingSubDropdownOpen(false);
+                            }}
+                        />
+                        <Button
+                            text={'Save'}
+                            stylingMode='contained'
+                            type='default'
+                            className='my-button save-button'
+                            onClick={handleSaveClick}
+                            disabled={false}
+                        />
+                    </div>
 
-                    {isSubDropdownOpen && <SettingSubDropdown />}
                 </div>
             </div>
+            {isSettingSubDropdownOpen && <SettingSubDropdown />}
         </div>
     );
 }

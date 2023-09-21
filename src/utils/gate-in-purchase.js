@@ -6,6 +6,18 @@ import { toast as RToast } from "react-toastify";
 import { AppContext } from "../contexts/dataContext";
 import { toastDisplayer } from "../api/qrgenerators";
 
+export const getWarehouse = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/Commons/Warehouse`);
+    const data = response.data;
+    // console.log(data);
+
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getPeriodIndicator = async () => {
   try {
     const response = await axios.get(`${API_URL}/Commons/Period Indicator`);
@@ -17,6 +29,7 @@ export const getPeriodIndicator = async () => {
     return error;
   }
 };
+
 export const getSeriesPo = async (series, branchid) => {
   const errors = {
     hasError: false,

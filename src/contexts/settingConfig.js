@@ -1,35 +1,56 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { getSettingConfig } from '../utils/settingConfigAPI';
+
 
 const SettingContext = createContext();
 
-
-
 export function SettingProvider({ children }) {
-    const settingObject = {
-        'Batch / Serial No Generation Method': {
-            "Auto": true,
-            "Manual": false,
-        },
-        'QR Managed by': {
-            "None": true,
-            "Manual": false,
-            "Serial Numbar": false,
-        },
-        'QR Generation Method': {
-            "Transaction Wise QR": true,
-            "Master Wise QR": false,
-        },
-        'Batch Type': {
-            "Batch": true,
-            "Batch + Project": false,
-        },
-        'Quality Control': {
-            "Yes": true,
-            "No": false,
-        },
-        'Default Period Indicator': ""
-    }
-    const [SettingValues, setSettingValues] = useState(settingObject);
+
+    const [SettingValues, setSettingValues] = useState();
+
+    useEffect(() => {
+        getSettingConfig()
+            .then((result) => {
+                console.log("Setting Data", result);
+
+                const resultObject = {
+                    'Batch / Serial No Generation Method': {
+                        "Auto": result[0].genMethod === "A",
+                        "Manual": result[0].genMethod === "M",
+                    },
+                    'QR Managed by': {
+                        "None": result[0].qrMngBy === "N",
+                        "Manual": result[0].qrMngBy === "M",
+                        "Serial Numbar": result[0].qrMngBy === "S",
+                    },
+                    'QR Generation Method': {
+                        "Transaction Wise QR": result[0].qrGenMethod === "T",
+                        "Master Wise QR": result[0].qrGenMethod === "M",
+                    },
+                    'Batch Type': {
+                        "Batch": result[0].batchType === "B",
+                        "Batch + Project": result[0].batchType === "BP",
+                    },
+                    'Quality Control': {
+                        "Yes": result[0].qcRequired === "Y",
+                        "No": result[0].qcRequired === "N",
+                    },
+                    'Default Period Indicator': result[0].indicator || "",
+                    'Warehouse': [
+                        result[0].incomingQCWhs || "",
+                        result[0].inProcessQCWhs || "",
+                        result[0].approvedWhs || "",
+                        result[0].rejectedWhs || ""
+                    ]
+                };
+
+                setSettingValues(resultObject);
+                console.log("api Data object", resultObject);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
     const toggleCheckbox = (group, value, state) => {
         setSettingValues(prevValues => {

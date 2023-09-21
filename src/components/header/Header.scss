@@ -19,7 +19,7 @@
 
 .header-component {
     flex: 0 0 auto;
-    z-index: 999;
+    // z-index: 999;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.10);
     height: 56px !important;
     background-color: #ffffff;
@@ -111,7 +111,7 @@
                 transition: transform .5s ease;
 
                 &:hover {
-                    transform: scale(1.1) rotate(180deg);
+                    transform: rotate(180deg);
                 }
             }
 
@@ -161,8 +161,8 @@
 
             .notify-badge {
                 border-radius: 20px;
-                width: 10px;
-                height: 10px;
+                width: 12px;
+                height: 12px;
                 background-color: #4371b7;
                 // background-color: #ff0000;
                 position: absolute;

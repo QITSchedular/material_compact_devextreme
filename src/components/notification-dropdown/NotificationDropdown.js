@@ -50,7 +50,7 @@ function NotificationDropdown() {
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (notifyDropdownRef.current && !notifyDropdownRef.current.contains(event.target)) {
-                const isIconClicked = event.target.classList.contains('bell-icon'); // Adjust the class name accordingly
+                const isIconClicked = event.target.classList.contains('bell-icon');
                 if (!isIconClicked || notifyDropdownRef.current.contains(event.target)) {
                     setisNotifyDropdownOpen((prev) => {
                         return !prev;

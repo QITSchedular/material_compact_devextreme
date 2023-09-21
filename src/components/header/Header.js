@@ -102,7 +102,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                             </span>
                         </div>
 
-                        <span className="material-symbols-outlined setting-icon" onClick={toggleSettingDropdown}>
+                        <span className="material-symbols-outlined setting-icon" style={{ "zIndex": "9999999" }} onClick={toggleSettingDropdown}>
                             settings
                         </span>
 
