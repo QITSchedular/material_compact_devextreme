@@ -22,6 +22,7 @@ import DataGrid, {
   Scrolling,
 } from "devextreme-react/data-grid";
 import IncomingQrRequest from "./incomingQrRequest";
+import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
 function IncommingQcScanItem() {
   const columns = [
@@ -108,6 +109,12 @@ function IncommingQcScanItem() {
   const [selectedRowData, setSelectedRowData] = useState("");
   const dataGridRef = useRef();
   const dataGridRefList = useRef();
+
+  //scanner open and close
+  const [showScanner, setShowScanner] = useState(false);
+  //for Data
+  const [scannedData, setScannedData] = useState([]);
+
 
   //pop up cancel handler QR request
   const handleCancelQrRequest = async () => {
@@ -213,6 +220,7 @@ function IncommingQcScanItem() {
       return toastDisplayer("error", "Please type/scan Item");
     }
   };
+
 
   const handleTextValueChange = (e) => {
     return setdetailQRCodeID(e.value);
@@ -369,6 +377,33 @@ function IncommingQcScanItem() {
     }
   };
 
+  //close and open scanner
+  const HandleCloseQrScanner = () => {
+    setShowScanner(false);
+  };
+  const HandleDecodedData1 = (data1) => {
+    // console.log("Scanned Data : ",data1);
+    if (scannedData.includes(data1)) {
+      console.log(`${data1} is already available.`);
+    } else {
+      setScannedData([...scannedData, data1]);
+    }
+    // setShowScanner(false);
+  }
+  const HandleSaveDecodedScannedData = async () => {
+    console.log("From HandleSaveDecodedScannedData", scannedData)
+    setShowScanner(false);
+    // scannedData.forEach(async (scannedItem) => {
+    //   // await handleItemQrVerification(scannedItem);
+    // })
+  }
+
+  const handleScan = () => {
+    setShowScanner(true);
+    console.log("Handle Scan");
+  };
+
+
   return (
     <>
       {ApproveWareHouse && (
@@ -432,45 +467,57 @@ function IncommingQcScanItem() {
               placeholder="From"
               stylingMode="outlined"
               type="date"
-              // width={150}
+            // width={150}
             />
             <DateBox
               className="dx-field-value"
               placeholder="To"
               stylingMode="outlined"
               type="date"
-              // width={150}
+            // width={150}
             />
-            
+
           </div>
           <div className="txtBtn-section">
-              <TextBox
-                className="dx-field-value purchaseQRField"
+            <TextBox
+              className="dx-field-value purchaseQRField"
+              stylingMode="outlined"
+              placeholder="Type the purchase QR code"
+              width={230}
+              onValueChanged={handleTextValueChange}
+              showClearButton={true}
+            ></TextBox>
+            <div className="btnSection">
+              <NormalButton
+                width={33}
+                height={33}
+                type="normal"
                 stylingMode="outlined"
-                placeholder="Type the purchase QR code"
-                width={230}
-                onValueChanged={handleTextValueChange}
-                showClearButton={true}
-              ></TextBox>
-              <div className="btnSection">
-                <NormalButton
-                  width={33}
-                  height={33}
-                  type="normal"
-                  stylingMode="outlined"
-                  icon="search"
-                  onClick={SearchHandler}
-                />
+                icon="search"
+                onClick={SearchHandler}
+              />
 
-                <NormalButton
-                  width={33}
-                  height={33}
-                  type="normal"
-                  stylingMode="outlined"
-                  icon={GRPOScanner}
-                />
-              </div>
+              <NormalButton
+                width={33}
+                height={33}
+                type="normal"
+                stylingMode="outlined"
+                icon={GRPOScanner}
+                onClick={handleScan}
+              />
+              {showScanner && (
+                <div>
+                  <TransparentContainer
+                    mountNodeId="container"
+                    showScan={showScanner}
+                    HandleCloseQrScanner1={HandleCloseQrScanner}
+                    HandleDecodedData={HandleDecodedData1}
+                    HandleSaveDecodedData={HandleSaveDecodedScannedData}
+                  ></TransparentContainer>
+                </div>
+              )}
             </div>
+          </div>
         </div>
         <div className="helperWrapper">
           <TextBox
@@ -524,7 +571,7 @@ function IncommingQcScanItem() {
             hoverStateEnabled={true}
             onSelectionChanged={handleDataGridRowSelection}
             ref={dataGridRefList}
-            // selectedRowKeys={selectedRowKeysNew}
+          // selectedRowKeys={selectedRowKeysNew}
           >
             {/* <SearchPanel visible={true} /> */}
             <Selection mode="multiple" />
