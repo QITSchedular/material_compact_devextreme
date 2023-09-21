@@ -306,6 +306,7 @@ const GrpoMain = () => {
     if (selectedRowsData.length > 0) {
       console.log("Current selected row data", selectedRowsData);
       console.log("Close the popup window");
+      // setSelectedPo("");
       setIsSelectedFromPopup(false);
       return setShowPoHelp(false);
     } else {
@@ -329,7 +330,7 @@ const GrpoMain = () => {
       const poListData = await getPoLists();
       if (poListData.length > 0) {
         await setGridDataSourceForPopup(poListData);
-        console.log(poListData);
+        // console.log(poListData);
       } else {
         toastDisplayer("error", "Something went wrong please tyr again later.");
       }
@@ -337,19 +338,14 @@ const GrpoMain = () => {
     };
     fetchAllPo();
   }, []);
-  const [decodedResults, setDecodedResults] = useState([]);
-  
-  const onNewScanResult = (decodedText) => {
-    alert("decodedText : ", decodedText);
-    // console.log("App [result]", decodedResult);
-    // setDecodedResults((prev) => [...prev, decodedResult]);
-    console.log("decodedText : ", decodedText);
-    setSelectedPo(decodedText);
-  };
-
   const HandleCloseQrScanner = () => {
     setShowScanner(false);
   };
+  const HandleDecodedData1 = (data)=>{
+    setSelectedPo(data);
+    setShowScanner(false);
+  }
+  
   return (
     <>
       {loading && <LoadPanel visible={true} />}
@@ -380,6 +376,7 @@ const GrpoMain = () => {
             mountNodeId="container"
             showScan={showScanner}
             HandleCloseQrScanner1={HandleCloseQrScanner}
+            HandleDecodedData={HandleDecodedData1}
           ></TransparentContainer>
         </div>
       )}
@@ -401,8 +398,10 @@ const GrpoMain = () => {
               showClearButton={true}
               onValueChanged={handleTextValueChange}
               value={
+                selectedPo ? selectedPo :
                 selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""
               }
+              // value={selectedPo}
               // disabled={selectedRowsData.length > 0 ? false : true}
             >
               <TextBoxButton
