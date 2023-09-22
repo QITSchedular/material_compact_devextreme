@@ -45,9 +45,10 @@ function SettingSubDropdown() {
         };
     }, [settingSubDropdownRef, setisSettingDropdownOpen, settingDropdownRef, setisSettingSubDropdownOpen, isSettingDropdownOpen]);
 
-    async function getPeriodIndicatorData() {
+    async function getwarehouseData() {
         try {
-            return Promise.resolve((await getWarehouse()).map(value => value.whsName));
+            return Promise.resolve((await getWarehouse()));
+            // return Promise.resolve((await getWarehouse()).map(value => value.whsName));
         } catch (error) {
             return Promise.reject(error.message);
         }
@@ -56,7 +57,7 @@ function SettingSubDropdown() {
     const [dataSource, setDataSource] = useState([]);
 
     useEffect(() => {
-        getPeriodIndicatorData()
+        getwarehouseData()
             .then((result) => {
                 setDataSource(result);
             })
@@ -72,15 +73,39 @@ function SettingSubDropdown() {
             prevSelectedItems[dropdownIndex] = itemData;
             return [...prevSelectedItems];
         });
+
+        console.log("SettingValues", selectedItems);
         Dropdownchanged("Warehouse", selectedItems);
+        // Dropdownchanged("Warehouse", selectedItems.map(item => {
+        //     // return item.whsCode
+        //     if (!item || !item.whsCode) {
+        //         return null;
+        //     }
+        //     return item.whsCode;
+        // }));
+
     };
+
+    // const filterDataSource = (index) => {
+    //     return dataSource.filter(item => !selectedItems.map(item => item.whsCode).includes(item.whsCode));
+    // };
 
     const filterDataSource = (index) => {
-        return dataSource.filter(item => !selectedItems.includes(item));
+        try {
+            return dataSource.filter(item => {
+                if (!item || !item.whsCode) {
+                    return true;
+                }
+                return !selectedItems.some(selectedItem => selectedItem && selectedItem.whsCode === item.whsCode);
+            });
+        } catch (error) {
+            return dataSource;
+        }
     };
 
-    const labels = ["Incoming QC", "Inprocess QC", "Approved", "Rejeted"];
+    console.log("data", filterDataSource(0));
 
+    const labels = ["Incoming QC", "Inprocess QC", "Approved", "Rejeted"];
 
     return (
         <div className={`subdropdown`} ref={settingSubDropdownRef}>
@@ -95,25 +120,41 @@ function SettingSubDropdown() {
 
                     <fieldset>
                         <legend>Warehouse</legend>
-                        {Array.from({ length: 4 }).map((_, index) => (
-                            <div className='warehouseselectionBox'>
-                                <label>{`${labels[index]}`}</label>
-                                <SelectBox
-                                    key={index}
-                                    // selectBoxGroup={"Default Period Indicator"}
-                                    className='warehouseDropdown'
-                                    dataSource={filterDataSource(index)}
-                                    stylingMode='outlined'
-                                    searchEnabled={true}
-                                    selectedItem={SettingValues['Warehouse'][index]}
-                                    onItemClick={(e) => {
-                                        handleDropdownSelect(e.itemData, index);
-                                    }}
-                                    placeholder={selectedItems[index] ? selectedItems[index] : "Select Warehouse"}
-                                    useItemTextAsTitle={true}
-                                />
-                            </div>
-                        ))}
+                        {Array.from({ length: 4 }).map((_, index) => {
+                            // const getSelectedItem = (index) => () => {
+                            //     console.log("abc", selectedItems, dataSource);
+                            //     console.log("data", dataSource.find(item => item.whsCode === SettingValues['Warehouse'][index]));
+                            //     return dataSource.find(item => item.whsCode === SettingValues['Warehouse'][index]);
+                            // };
+                            console.log(SettingValues);
+                            return (
+                                <div className='warehouseselectionBox'>
+                                    <label>{`${labels[index]}`}</label>
+                                    <SelectBox
+                                        key={index}
+                                        // selectBoxGroup={"Default Period Indicator"}
+                                        className='warehouseDropdown'
+                                        dataSource={filterDataSource(index)}
+                                        stylingMode='outlined'
+                                        searchEnabled={true}
+                                        valueExpr={"whsCode"}
+                                        displayExpr={"whsName"}
+                                        selectedItem={SettingValues['Warehouse'][index]}
+                                        // selectedItem={dataSource.find(item => item.whsCode === SettingValues['Warehouse'][index])}
+                                        // selectedItem={() => {
+                                        //     console.log("abc", selectedItems, dataSource);
+                                        //     console.log("data", dataSource.find(item => item.whsCode === SettingValues['Warehouse'][index]));
+                                        //     return dataSource.find(item => item.whsCode === SettingValues['Warehouse'][index]);
+                                        // }}
+                                        onItemClick={(e) => {
+                                            handleDropdownSelect(e.itemData, index);
+                                        }}
+                                        placeholder={selectedItems[index] ? selectedItems[index]["whsName"] : "Select Warehouse"}
+                                        useItemTextAsTitle={true}
+                                    />
+                                </div>
+                            )
+                        })}
                     </fieldset>
                 </div>
             </div>

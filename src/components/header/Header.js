@@ -64,7 +64,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                         </nav>
                     </Item>
 
-                    {/* <Item
+                    <Item
                         location={"center"}
                         locateInMenu={"auto"}
                         menuItemTemplate={"userPanelTemplate"}
@@ -72,8 +72,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                     >
 
 
-
-                    </Item> */}
+                    </Item>
 
                     <Item
                         location={"after"}
@@ -102,7 +101,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                             </span>
                         </div>
 
-                        <span className="material-symbols-outlined setting-icon" style={{ "zIndex": "9999999" }} onClick={toggleSettingDropdown}>
+                        <span className="material-symbols-outlined setting-icon" onClick={toggleSettingDropdown}>
                             settings
                         </span>
 

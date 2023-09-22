@@ -11,7 +11,7 @@ export function SettingProvider({ children }) {
     useEffect(() => {
         getSettingConfig()
             .then((result) => {
-                console.log("Setting Data", result);
+                // console.log("Setting Data", result);
 
                 const resultObject = {
                     'Batch / Serial No Generation Method': {
@@ -36,6 +36,10 @@ export function SettingProvider({ children }) {
                         "No": result[0].qcRequired === "N",
                     },
                     'Default Period Indicator': result[0].indicator || "",
+                    // "Incoming QC":result[0].incomingQCWhs || "",
+                    // "Inprocess QC":result[0].inProcessQCWhs || "",
+                    // "Approved":result[0].approvedWhs || "",
+                    // "Rejeted":result[0].rejectedWhs || "",
                     'Warehouse': [
                         result[0].incomingQCWhs || "",
                         result[0].inProcessQCWhs || "",
@@ -45,10 +49,11 @@ export function SettingProvider({ children }) {
                 };
 
                 setSettingValues(resultObject);
-                console.log("api Data object", resultObject);
+                // alert("data received");
+                // console.log("api Data object", resultObject);
             })
             .catch((error) => {
-                console.log(error);
+                console.log("Error", error);
             });
     }, []);
 
@@ -74,8 +79,10 @@ export function SettingProvider({ children }) {
         setSettingValues(prevValues => {
             const updatedValues = { ...prevValues };
 
+            console.log(group, value);
             updatedValues[group] = value;
 
+            console.log(updatedValues);
             return updatedValues;
         });
     };

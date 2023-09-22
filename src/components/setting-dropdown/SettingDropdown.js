@@ -82,7 +82,7 @@ function SettingDropdown() {
                 dataSource={dataSource}
                 stylingMode='outlined'
                 searchEnabled={true}
-                selectedItem={dataSource[0]}
+                // selectedItem={dataSource[0]}
                 onItemClick={
                     (value) => {
                         setSelectedSeries(value.itemData);
