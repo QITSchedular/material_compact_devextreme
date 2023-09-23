@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_URL } from "./items-master-data";
 import { toastDisplayer } from "../api/qrgenerators";
 
-export const getPoListsIC = async () => {
+export const getPoListsIC = async (fromDate, toDate) => {
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -10,8 +10,8 @@ export const getPoListsIC = async () => {
   try {
     const responseBody = {
       branchID: 1,
-      fromDate: "",
-      toDate: "",
+      fromDate: fromDate,
+      toDate: toDate,
       headerQRCodeID: "",
       getAll: "Y",
     };

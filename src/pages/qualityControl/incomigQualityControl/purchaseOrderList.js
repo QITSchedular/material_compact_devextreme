@@ -16,7 +16,7 @@ import DataGrid, {
 } from "devextreme-react/data-grid";
 import { getPoListsIC } from "../../../utils/incoming-QC";
 
-function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelection, dataGridRef,selectedRowKeys }) {
+function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelection, dataGridRef,selectedRowKeys,fromDate,toDate }) {
   const [dataSource, setDataSource] = useState(null);
   const [error, setError] = useState(false);
   const [selectedRowKeysNew, setSelectedRowKeys] = useState([]); // State to store the selected row data
