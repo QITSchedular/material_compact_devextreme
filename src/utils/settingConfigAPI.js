@@ -12,17 +12,6 @@ export const getWarehouse = async () => {
     }
 };
 
-export const getPeriodIndicator = async () => {
-    try {
-        const response = await axios.get(`${API_URL}/Commons/Period Indicator`);
-        const data = response.data;
-
-        return data;
-    } catch (error) {
-        return error;
-    }
-};
-
 export const getSettingConfig = async () => {
     try {
         const response = await axios.get(`${API_URL}/Configs/Get?BranchID=1`);

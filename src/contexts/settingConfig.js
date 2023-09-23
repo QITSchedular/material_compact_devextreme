@@ -7,11 +7,13 @@ const SettingContext = createContext();
 export function SettingProvider({ children }) {
 
     const [SettingValues, setSettingValues] = useState();
+    const [OriginalSettingValues, setOriginalSettingValues] = useState();
+    const [isValueUpdated, setisValueUpdated] = useState(false);
 
     useEffect(() => {
-        getSettingConfig()
-            .then((result) => {
-                // console.log("Setting Data", result);
+        const fetchData = async () => {
+            try {
+                const result = await getSettingConfig();
 
                 const resultObject = {
                     'Batch / Serial No Generation Method': {
@@ -36,10 +38,6 @@ export function SettingProvider({ children }) {
                         "No": result[0].qcRequired === "N",
                     },
                     'Default Period Indicator': result[0].indicator || "",
-                    // "Incoming QC":result[0].incomingQCWhs || "",
-                    // "Inprocess QC":result[0].inProcessQCWhs || "",
-                    // "Approved":result[0].approvedWhs || "",
-                    // "Rejeted":result[0].rejectedWhs || "",
                     'Warehouse': [
                         result[0].incomingQCWhs || "",
                         result[0].inProcessQCWhs || "",
@@ -49,13 +47,21 @@ export function SettingProvider({ children }) {
                 };
 
                 setSettingValues(resultObject);
-                // alert("data received");
-                // console.log("api Data object", resultObject);
-            })
-            .catch((error) => {
-                console.log("Error", error);
-            });
+                setOriginalSettingValues(resultObject);
+                Object.freeze(OriginalSettingValues);
+
+                // console.log("SettingValues", SettingValues);
+                // console.log("OriginalSettingValues", OriginalSettingValues);
+                // console.log("resultObject", resultObject);
+            } catch (error) {
+                console.error("Error", error);
+            }
+        };
+
+        fetchData(); // Call the async function
     }, []);
+
+
 
     const toggleCheckbox = (group, value, state) => {
         setSettingValues(prevValues => {
@@ -70,7 +76,9 @@ export function SettingProvider({ children }) {
                     }
                 }
             }
-
+            if (!isValueUpdated) {
+                setisValueUpdated(true);
+            }
             return updatedValues;
         });
     };
@@ -79,16 +87,17 @@ export function SettingProvider({ children }) {
         setSettingValues(prevValues => {
             const updatedValues = { ...prevValues };
 
-            console.log(group, value);
             updatedValues[group] = value;
 
-            console.log(updatedValues);
+            if (!isValueUpdated) {
+                setisValueUpdated(true);
+            }
             return updatedValues;
         });
     };
 
     return (
-        <SettingContext.Provider value={{ SettingValues, toggleCheckbox, Dropdownchanged }}>
+        <SettingContext.Provider value={{ SettingValues, setSettingValues, OriginalSettingValues, toggleCheckbox, Dropdownchanged, isValueUpdated, setisValueUpdated }}>
             {children}
         </SettingContext.Provider>
     );

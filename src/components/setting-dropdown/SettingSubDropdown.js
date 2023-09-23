@@ -3,15 +3,12 @@ import './SettingSubDropdown.scss';
 import { SelectBox } from 'devextreme-react';
 import CustomCheckBox from './CustomCheckBox';
 import { UseHeaderContext } from '../../contexts/headerContext';
-import { getWarehouse } from '../../utils/gate-in-purchase';
+import { getWarehouse } from '../../utils/settingConfigAPI';
 import { UseSettingContext } from '../../contexts/settingConfig';
 
-
 function SettingSubDropdown() {
-    const {
-        settingSubDropdownRef, setisSettingDropdownOpen,
-        settingDropdownRef, isSettingDropdownOpen, setisSettingSubDropdownOpen } = UseHeaderContext();
-    const { SettingValues, Dropdownchanged } = UseSettingContext();
+    const { settingSubDropdownRef, setisSettingDropdownOpen, settingDropdownRef, isSettingDropdownOpen, setisSettingSubDropdownOpen } = UseHeaderContext();
+    const { SettingValues, Dropdownchanged, setisValueUpdated } = UseSettingContext();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -26,6 +23,7 @@ function SettingSubDropdown() {
                         event.target.classList.contains('dx-texteditor-input') ||
                         event.target.classList.contains('dropdown-body');
                     if (!isItemClicked) {
+                        setisValueUpdated(false);
                         setisSettingDropdownOpen((prev) => {
                             return !prev;
                         });
@@ -43,12 +41,11 @@ function SettingSubDropdown() {
         return () => {
             document.removeEventListener('click', handleClickOutside);
         };
-    }, [settingSubDropdownRef, setisSettingDropdownOpen, settingDropdownRef, setisSettingSubDropdownOpen, isSettingDropdownOpen]);
+    }, [settingSubDropdownRef, setisSettingDropdownOpen, settingDropdownRef, setisSettingSubDropdownOpen, isSettingDropdownOpen, setisValueUpdated]);
 
     async function getwarehouseData() {
         try {
             return Promise.resolve((await getWarehouse()));
-            // return Promise.resolve((await getWarehouse()).map(value => value.whsName));
         } catch (error) {
             return Promise.reject(error.message);
         }
@@ -74,21 +71,8 @@ function SettingSubDropdown() {
             return [...prevSelectedItems];
         });
 
-        console.log("SettingValues", selectedItems);
         Dropdownchanged("Warehouse", selectedItems);
-        // Dropdownchanged("Warehouse", selectedItems.map(item => {
-        //     // return item.whsCode
-        //     if (!item || !item.whsCode) {
-        //         return null;
-        //     }
-        //     return item.whsCode;
-        // }));
-
     };
-
-    // const filterDataSource = (index) => {
-    //     return dataSource.filter(item => !selectedItems.map(item => item.whsCode).includes(item.whsCode));
-    // };
 
     const filterDataSource = (index) => {
         try {
@@ -121,12 +105,6 @@ function SettingSubDropdown() {
                     <fieldset>
                         <legend>Warehouse</legend>
                         {Array.from({ length: 4 }).map((_, index) => {
-                            // const getSelectedItem = (index) => () => {
-                            //     console.log("abc", selectedItems, dataSource);
-                            //     console.log("data", dataSource.find(item => item.whsCode === SettingValues['Warehouse'][index]));
-                            //     return dataSource.find(item => item.whsCode === SettingValues['Warehouse'][index]);
-                            // };
-                            console.log(SettingValues);
                             return (
                                 <div className='warehouseselectionBox'>
                                     <label>{`${labels[index]}`}</label>
@@ -139,13 +117,7 @@ function SettingSubDropdown() {
                                         searchEnabled={true}
                                         valueExpr={"whsCode"}
                                         displayExpr={"whsName"}
-                                        selectedItem={SettingValues['Warehouse'][index]}
-                                        // selectedItem={dataSource.find(item => item.whsCode === SettingValues['Warehouse'][index])}
-                                        // selectedItem={() => {
-                                        //     console.log("abc", selectedItems, dataSource);
-                                        //     console.log("data", dataSource.find(item => item.whsCode === SettingValues['Warehouse'][index]));
-                                        //     return dataSource.find(item => item.whsCode === SettingValues['Warehouse'][index]);
-                                        // }}
+                                        value={SettingValues['Warehouse'][index]}
                                         onItemClick={(e) => {
                                             handleDropdownSelect(e.itemData, index);
                                         }}

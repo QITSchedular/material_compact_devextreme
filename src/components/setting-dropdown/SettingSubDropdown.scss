@@ -1,10 +1,10 @@
 .subdropdown {
+    height: 100% !important;
     position: absolute;
     z-index: 999;
-    right: 350px;
-    top: 3.7rem;
+    right: 340px;
+    top: 0rem;
     width: 300px;
-    height: 100vh;
     border-radius: 13.841px;
     border-bottom: 4px solid #4371B7;
     background: #FFF;
@@ -14,12 +14,10 @@
     @keyframes dropdownanimation {
         0% {
             opacity: 0;
-            height: 0;
         }
 
         100% {
             opacity: 1;
-            height: 90vh;
         }
     }
 

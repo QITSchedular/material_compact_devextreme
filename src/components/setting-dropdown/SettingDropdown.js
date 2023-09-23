@@ -3,17 +3,25 @@ import './SettingDropdown.scss';
 import { Accordion, Button, SelectBox } from 'devextreme-react';
 import SettingSubDropdown from './SettingSubDropdown';
 import CustomCheckBox from './CustomCheckBox';
-import { getPeriodIndicator, setSettingConfig } from '../../utils/settingConfigAPI';
+import { getPeriodIndicator } from '../../utils/gate-in-purchase';
+import { setSettingConfig } from '../../utils/settingConfigAPI';
 import { UseSettingContext } from '../../contexts/settingConfig';
 import { UseHeaderContext } from '../../contexts/headerContext';
 import { toastDisplayer } from "../../api/qrgenerators";
 
 
-
 function SettingDropdown() {
     const { settingDropdownRef, setisSettingDropdownOpen, isSettingSubDropdownOpen, toggleSettingSubDropdown, setisSettingSubDropdownOpen } = UseHeaderContext();
-    const { SettingValues, Dropdownchanged } = UseSettingContext();
+    const { SettingValues, Dropdownchanged, isValueUpdated, setisValueUpdated, setSettingValues, OriginalSettingValues } = UseSettingContext();
 
+    const handleCancel = async () => {
+        setisValueUpdated(false);
+        setisSettingDropdownOpen(false);
+        setisSettingSubDropdownOpen(false);
+        console.log("OriginalSettingValues", OriginalSettingValues);
+        console.log("SettingValues", SettingValues);
+        setSettingValues(OriginalSettingValues);
+    };
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (!isSettingSubDropdownOpen) {
@@ -29,6 +37,7 @@ function SettingDropdown() {
                         event.target.classList.contains('subdropdown');
                     if (!isItemClicked) {
                         setisSettingDropdownOpen((prev) => {
+                            setisValueUpdated(false);
                             return !prev;
                         });
                     }
@@ -40,7 +49,7 @@ function SettingDropdown() {
         return () => {
             document.removeEventListener('click', handleClickOutside);
         };
-    }, [settingDropdownRef, setisSettingDropdownOpen, isSettingSubDropdownOpen]);
+    }, [settingDropdownRef, setisSettingDropdownOpen, isSettingSubDropdownOpen, setisValueUpdated]);
 
     const [selectedSeries, setSelectedSeries] = useState(SettingValues["Default Period Indicator"]);
 
@@ -52,6 +61,8 @@ function SettingDropdown() {
         }
     }
 
+    console.log("OriginalSettingValues", OriginalSettingValues);
+    console.log("SettingValues", SettingValues);
     const handleSaveClick = async () => {
         try {
             // const response = await setSettingConfig(SettingValues);
@@ -150,10 +161,7 @@ function SettingDropdown() {
                             text={'Cancel'}
                             stylingMode='outlined'
                             type='default'
-                            onClick={() => {
-                                setisSettingDropdownOpen(false);
-                                setisSettingSubDropdownOpen(false);
-                            }}
+                            onClick={handleCancel}
                         />
                         <Button
                             text={'Save'}
@@ -161,10 +169,9 @@ function SettingDropdown() {
                             type='default'
                             className='my-button save-button'
                             onClick={handleSaveClick}
-                            disabled={false}
+                            disabled={!isValueUpdated}
                         />
                     </div>
-
                 </div>
             </div>
             {isSettingSubDropdownOpen && <SettingSubDropdown />}
