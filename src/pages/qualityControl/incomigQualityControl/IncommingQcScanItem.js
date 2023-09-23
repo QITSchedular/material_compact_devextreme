@@ -174,6 +174,7 @@ function IncommingQcScanItem() {
   };
 
   const SearchHandler = async () => {
+    alert("hello");
     if (detailQRCodeID) {
       var reqBody = {
         headerQRCodeID: headerQRCodeID,
@@ -181,6 +182,7 @@ function IncommingQcScanItem() {
         detailQRCodeID: detailQRCodeID,
       };
       var response = await validatePoListsIQC(reqBody);
+      console.log("=====",response)
       var doProuctExist;
       if (IQCList.size > 0) {
         doProuctExist = false;
@@ -194,7 +196,7 @@ function IncommingQcScanItem() {
         doProuctExist = false;
       }
 
-      if (response["errorText"] == "No data found") {
+      if (response["errorText"]) {
         return toastDisplayer("error", "Please enter valid item code");
       } else if (doProuctExist && response) {
         return toastDisplayer("error", "Product already added..!!");
@@ -208,6 +210,8 @@ function IncommingQcScanItem() {
           setIsGridVisible(true);
           return updatedSet; // Return the updated Set
         });
+      }else{
+        return toastDisplayer("error", response["errorText"]);
       }
     } else {
       return toastDisplayer("error", "Please type/scan Item");

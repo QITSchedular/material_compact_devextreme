@@ -132,6 +132,7 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
           itemCode,
           recNo
         );
+        console.log(doDetailsQrExists)
         if (doDetailsQrExists.hasError) {
           console.log("Header Exists but the details does not exist");
           console.log(
@@ -150,6 +151,34 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
           console.log("The Final Generation result is: ", itemQrGenerationResult);
         }
       }
+    }
+  } else {
+    const doDetailsQrExists = await checkProductionDetailsQrExistence(
+      proOrdDocEntry,
+      proOrdDocNum,
+      series,
+      itemCode,
+      recNo
+    );
+    console.log(doDetailsQrExists)
+    if (doDetailsQrExists.hasError) {
+      console.log("Header Exists but the details does not exist");
+      console.log(
+        "Will find the items' inc number and then generate the Items QR Code"
+      );
+      console.log("Extract header from the Header Existence", doHeaderExists);
+      const { qrCode } = doHeaderExists.responseData;
+      const itemQrGenerationResult = await productionItemsQrGeneratorAndSaver(
+        qrCode,
+        itemCode,
+        qrMngBy,
+        recNo,
+        receiptQty,
+        addedBatches
+      );
+      console.log("The Final Generation result is: ", itemQrGenerationResult);
+    } else {
+      console.log("header and detail qr both exists");
     }
   }
 };
@@ -290,7 +319,7 @@ export const getProductionItemsMaxIncNumber = async (qrCode) => {
   };
   try {
     const response = await axios.post(
-      `${API_URL}/Commons/DetailProductionIncNo?HeaderQR=${qrCode}`
+      `${API_URL}/Commons/GetProductionDetailQR?HeaderQR=${qrCode}`
     );
 
     responseBody.responseData = response.data;
@@ -315,47 +344,54 @@ export const productionItemsQrGeneratorAndSaver = async (
   addedBatches
 ) => {
   console.log("This is productionItemsQrGeneratorAndSaver");
-  if (qrMngBy === "S") {
-    console.log(`Since the qr is managed by Serial Numbers: 
-    The quantity for each Qr will be one  `);
-    const loopLength = receiptQty;
-    const counterArray = [];
-    const qty = "1";
-    for (let i = 0; i < loopLength; i++) {
-      const itemIncNumApiRes = await getProductionItemsMaxIncNumber(
-        headerQRCodeID
-      );
-      const itemIncNumber = itemIncNumApiRes.responseData;
-      const generateItemQr = headerQRCodeID + " " + itemIncNumber;
-      const itemsGeneratedQr = generateItemQr;
-      const isSavedItemQr = await saveProductionDetailsQr(
+  // function for generate item detail Qr and save 
+  const counterArray = [];
+  const item_detail_qr_common = async (qty) => {
+    const itemIncNumApiRes = await getProductionItemsMaxIncNumber(
+      headerQRCodeID
+    );
+    const itemIncNumber = itemIncNumApiRes.responseData;
+    const generateItemQr = headerQRCodeID + " " + itemIncNumber;
+    const itemsGeneratedQr = generateItemQr;
+    const isSavedItemQr = await saveProductionDetailsQr(
+      headerQRCodeID,
+      itemsGeneratedQr,
+      itemIncNumber,
+      itemCode,
+      qrMngBy,
+      qty,
+      recNo
+    );
+
+    if (!isSavedItemQr.hasError) {
+      console.log("Qr Generated and saved", c + 1, itemsGeneratedQr);
+      counterArray.push(1);
+    } else {
+      console.log("Qr Generation for Serial" + ++c + "failed");
+      console.log(
+        "Failed details",
         headerQRCodeID,
         itemsGeneratedQr,
         itemIncNumber,
         itemCode,
         qrMngBy,
-        qty,
+        receiptQty,
         recNo
       );
-
-      if (!isSavedItemQr.hasError) {
-        console.log("Qr Generated and saved", i + 1, itemsGeneratedQr);
-        counterArray.push(1);
-        continue;
-      } else {
-        console.log("Qr Generation for Serial" + ++i + "failed");
-        console.log(
-          "Failed details",
-          headerQRCodeID,
-          itemsGeneratedQr,
-          itemIncNumber,
-          itemCode,
-          qrMngBy,
-          receiptQty,
-          recNo
-        );
-      }
       counterArray.push(0);
+    }
+  }
+
+  // check for serial
+  if (qrMngBy === "S") {
+    var c = 0;
+    console.log(`Since the qr is managed by Serial Numbers: 
+    The quantity for each Qr will be one  `);
+    const loopLength = receiptQty;
+    counterArray = [];
+    const qty = "1";
+    for (let i = 0; i < loopLength; i++) {
+      item_detail_qr_common(qty);
     }
     if (!counterArray.includes(0)) {
       return "Qr Generated";
@@ -363,7 +399,8 @@ export const productionItemsQrGeneratorAndSaver = async (
       return "Error: Failed to generate";
     }
   }
-  if (qrMngBy === "B") {
+  // check for batch
+  else if (qrMngBy === "B") {
     // To generate you need receipt qty
     // You need how may batches should be made
     // const loopLength = addedBatchNum;
@@ -375,44 +412,10 @@ export const productionItemsQrGeneratorAndSaver = async (
 
     const eachBatchQty = receiptQty / addedBatches;
     console.log("No of Qty In Each Batch is: " + eachBatchQty);
-    const counterArray = [];
+    counterArray = [];
 
     for (let i = 0; i < loopLength; i++) {
-      const itemIncNumApiRes = await getProductionItemsMaxIncNumber(
-        headerQRCodeID
-      );
-      const itemIncNumber = itemIncNumApiRes.responseData;
-      console.log("The max inc num for this item is: ", itemIncNumber);
-      const generateItemQr = headerQRCodeID + " " + itemIncNumber;
-      const itemsGeneratedQr = generateItemQr;
-      const isSavedItemQr = await saveProductionDetailsQr(
-        headerQRCodeID,
-        itemsGeneratedQr,
-        itemIncNumber,
-        itemCode,
-        qrMngBy,
-        eachBatchQty,
-        recNo
-      );
-      /*  If the items qr has been saved successfully */
-      if (!isSavedItemQr.hasError) {
-        console.log("Qr Generated and saved", i + 1, itemsGeneratedQr);
-        counterArray.push(1);
-        continue;
-      } else {
-        console.log("Qr Generation for Serial" + ++i + "failed");
-        console.log(
-          "Failed details",
-          headerQRCodeID,
-          itemsGeneratedQr,
-          itemIncNumber,
-          itemCode,
-          qrMngBy,
-          eachBatchQty,
-          recNo
-        );
-      }
-      counterArray.push(0);
+      item_detail_qr_common(eachBatchQty);
     }
     if (!counterArray.includes(0)) {
       return "Qr Generated";
@@ -422,31 +425,16 @@ export const productionItemsQrGeneratorAndSaver = async (
   }
   //------------------------ Qr Is Managed By None----------------------------------------//
   else {
-    const itemIncNumApiRes = await getProductionItemsMaxIncNumber(
-      headerQRCodeID
-    );
-    console.log("The Header QRCode is " + headerQRCodeID);
-    const itemIncNumber = itemIncNumApiRes.responseData;
-    const generateItemQr = headerQRCodeID + " " + itemIncNumber;
-    const itemsGeneratedQr = generateItemQr;
-    const isSavedItemQr = await saveProductionDetailsQr(
-      headerQRCodeID,
-      itemsGeneratedQr,
-      itemIncNumber,
-      itemCode,
-      qrMngBy,
-      receiptQty,
-      recNo
-    );
-    // if the qr Has been generated successfully and saved successfully
-    if (!isSavedItemQr.hasError) {
-      console.log("Qr Generation and Saving Successful");
+    item_detail_qr_common(receiptQty);
+    counterArray = [];
+    if (!counterArray.includes(0)) {
       return "Qr Generated";
     } else {
-      console.log("Qr Generated, but Saving Failed");
-      return "Error: Failed to generate, Qr Code";
+      return "Error: Failed to generate";
     }
   }
+
+
 };
 
 

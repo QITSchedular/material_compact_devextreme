@@ -93,20 +93,14 @@ export const validatePoListsIQC = async (obj) => {
       requestBody
     );
     const data = response.data;
+    console.log("***",data);
     if (data) {
       return data;
     } else {
       return errors;
     }
   } catch (error) {
-    // const { statusMsg } = error.response.data;
-    // if (statusMsg) {
-    //   errors.hasError = true;
-    //   errors.errorText = statusMsg;
-    //   return errors;
-    // }
-    // return errors;
-    return toastDisplayer("error", error.message);
+    return errors;
   }
 };
 
