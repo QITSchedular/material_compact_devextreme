@@ -92,7 +92,7 @@ function IncomingQCComponent() {
     },
   };
 
-  function convertData(dateString){
+  function convertData(dateString) {
     const originalDate = new Date(dateString);
 
     // Extract the year, month, and day components
@@ -107,20 +107,23 @@ function IncomingQCComponent() {
   }
 
   const fromDateOptions = (e) => {
-    console.log(convertData(e.value));
     setFromDate(convertData(e.value));
+    setSelectedRowsData([]);
   };
 
   const toDateOptions = (e) => {
-    console.log(convertData(e.value));
     setToDate(convertData(e.value));
+    setSelectedRowsData([]);
   };
 
   const SearchHandler = async () => {
     if (txtValueOfTypePOL) {
-      const prodResponse = await searchPoListsIQC(txtValueOfTypePOL,fromDate,toDate);
+      const prodResponse = await searchPoListsIQC(
+        txtValueOfTypePOL,
+        fromDate,
+        toDate
+      );
       var doProuctExist;
-
       if (IQCList2.size > 0) {
         doProuctExist = false;
         IQCList2.forEach((value) => {
@@ -132,7 +135,7 @@ function IncomingQCComponent() {
       } else {
         doProuctExist = false;
       }
-      if (prodResponse["errorText"] == "No data found") {
+      if (prodResponse["errorText"]) {
         return toastDisplayer(
           "error",
           "Invalid Incoming QC, please select a valid Incoming QC"
@@ -171,6 +174,8 @@ function IncomingQCComponent() {
               handleDataGridRowSelection={handleDataGridRowSelection}
               dataGridRef={dataGridRef}
               selectedRowKeys={selectedRowKeys}
+              fromDate={fromDate}
+              toDate={toDate}
             />
           )}
         ></Popup>

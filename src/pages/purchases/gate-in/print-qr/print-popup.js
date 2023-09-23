@@ -14,6 +14,8 @@ import Lottie from "../../../../assets/images/success-lottiie-2.gif";
 import { RequiredRule } from "devextreme-react/validator";
 import { toastDisplayer } from "../../../../api/qrgenerators";
 
+import { qrGenerationController2 } from "../../../../api/purchases.generateandprint.api";
+
 const renderSuccessContent = ({ qrVisibilityHandler, onQrGenerated }) => {
   const handleCancel = async () => {
     await onQrGenerated(false);
@@ -54,7 +56,6 @@ const renderContent = ({
   seriesList,
   onQrGenerated,
 }) => {
-
   var addedRemarks = "";
   var addedBatchNum = "";
   var addedProjectCode = "";
@@ -62,39 +63,6 @@ const renderContent = ({
   const handleCancel = async () => {
     await qrVisibilityHandler(false);
   };
-
-  const handleGenerateQr = async () => {
-    const { docEntry, docNum, objType } = poDetailsfull[0];
-    const { series } = seriesList[0];
-    const { gateInNo, itemCode, qrMngBy, qty, openQty } = selectedQrRowData;
-    const branchID = "1";
-    // manaual branch id, it should be dynamically generated
-    const resp = await qrGenerationHandler(
-      docEntry,
-      docNum,
-      objType,
-      series,
-      branchID,
-      itemCode,
-      gateInNo,
-      poDetailsfull,
-      qrMngBy,
-      openQty,
-      addedRemarks,
-      addedBatchNum
-    );
-    // const { qrCode } = resp;x
-    if (resp === "Qr Generated") {
-      return onQrGenerated(true);
-    }
-    if (resp === "Detail Qr already-generated") {
-      return handleCancel();
-    }
-    if (resp === "Error: Failed to generate") {
-      await toastDisplayer("error", "Error: Failed to generate the QrCode");
-    }
-  };
-
   const handleRemarksValueChanged = async (data) => {
     console.log(data);
     addedRemarks = data;
@@ -114,6 +82,55 @@ const renderContent = ({
   const addBatchNumber = async (totalBatches) => {
     const newBatchNum = totalBatches;
     return newBatchNum;
+  };
+  const handleGenerateQr = async () => {
+    const { docEntry, docNum, objType } = poDetailsfull[0];
+    const { series } = seriesList[0];
+    const { gateInNo, itemCode, qrMngBy, qty, openQty } = selectedQrRowData;
+    console.log("This is selected row data", selectedQrRowData);
+    const branchID = "1";
+    // manaual branch id, it should be dynamically generated
+    const testNewApi = await qrGenerationController2(
+      docEntry,
+      docNum,
+      objType,
+      series,
+      branchID,
+      itemCode,
+      gateInNo,
+      poDetailsfull,
+      qrMngBy,
+      openQty,
+      addedRemarks,
+      addedBatchNum
+    );
+    console.log(testNewApi);
+    // if (resp === "Qr Generated") {
+    //   return onQrGenerated(true);
+    // }
+    // if (resp === "Detail Qr already-generated") {
+    //   return handleCancel();
+    // }
+    // if (resp === "Error: Failed to generate") {
+    //   await toastDisplayer("error", "Error: Failed to generate the QrCode");
+    // }
+
+    // const resp = await qrGenerationHandler(
+    //   docEntry,
+    //   docNum,
+    //   objType,
+    //   series,
+    //   branchID,
+    //   itemCode,
+    //   gateInNo,
+    //   poDetailsfull,
+    //   qrMngBy,
+    //   openQty,
+    //   addedRemarks,
+    //   addedBatchNum
+    // );
+
+    // // const { qrCode } = resp;x
   };
 
   return (

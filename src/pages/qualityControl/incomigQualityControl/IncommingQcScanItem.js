@@ -426,57 +426,40 @@ function IncommingQcScanItem() {
       )}
       <div className="main-section-scan-item">
         <div className="inputWrapper-scan-item">
-          <div className="date-section">
-            <DateBox
-              className="dx-field-value"
-              placeholder="From"
-              stylingMode="outlined"
-              type="date"
-              // width={150}
-            />
-            <DateBox
-              className="dx-field-value"
-              placeholder="To"
-              stylingMode="outlined"
-              type="date"
-              // width={150}
-            />
-            
-          </div>
           <div className="txtBtn-section">
-              <TextBox
-                className="dx-field-value purchaseQRField"
+            <TextBox
+              className="dx-field-value purchaseQRField"
+              stylingMode="outlined"
+              placeholder="Type or Scan the QR Code"
+              width={230}
+              onValueChanged={handleTextValueChange}
+              showClearButton={true}
+            ></TextBox>
+            <div className="btnSection">
+              <NormalButton
+                width={33}
+                height={33}
+                type="normal"
                 stylingMode="outlined"
-                placeholder="Type the purchase QR code"
-                width={230}
-                onValueChanged={handleTextValueChange}
-                showClearButton={true}
-              ></TextBox>
-              <div className="btnSection">
-                <NormalButton
-                  width={33}
-                  height={33}
-                  type="normal"
-                  stylingMode="outlined"
-                  icon="search"
-                  onClick={SearchHandler}
-                />
+                icon="search"
+                onClick={SearchHandler}
+              />
 
-                <NormalButton
-                  width={33}
-                  height={33}
-                  type="normal"
-                  stylingMode="outlined"
-                  icon={GRPOScanner}
-                />
-              </div>
+              <NormalButton
+                width={33}
+                height={33}
+                type="normal"
+                stylingMode="outlined"
+                icon={GRPOScanner}
+              />
             </div>
+          </div>
         </div>
         <div className="helperWrapper">
           <TextBox
             className="dx-field-value purchaseQRField"
             stylingMode="outlined"
-            placeholder="Approved Wherehouse"
+            placeholder="Approved Warehouse"
             value={
               selectedRowsDataApprove.length > 0
                 ? selectedRowsDataApprove[0].whsCode
@@ -495,7 +478,7 @@ function IncommingQcScanItem() {
           <TextBox
             className="dx-field-value purchaseQRField"
             stylingMode="outlined"
-            placeholder="Rejected Wherehouse"
+            placeholder="Rejected Warehouse"
             value={
               selectedRowsDataReject.length > 0
                 ? selectedRowsDataReject[0].whsCode
