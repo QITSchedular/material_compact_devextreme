@@ -41,7 +41,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                                     (value !== "") ? (
                                         (key !== array.length - 1) ? (
                                             <>
-                                                <Link to={value} className={"breadcrumb-item active"}>
+                                                <Link className={"breadcrumb-item active"}>
                                                     {value}
                                                 </Link>
                                             </>
@@ -64,7 +64,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                         </nav>
                     </Item>
 
-                    <Item
+                    {/* <Item
                         location={"center"}
                         locateInMenu={"auto"}
                         menuItemTemplate={"userPanelTemplate"}
@@ -72,7 +72,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                     >
 
 
-                    </Item>
+                    </Item> */}
 
                     <Item
                         location={"after"}
@@ -97,7 +97,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                                 notifications
                             </span>
                             <span className="notify-badge">
-                                6
+                                {Math.floor(Math.random() * 10)}
                             </span>
                         </div>
 

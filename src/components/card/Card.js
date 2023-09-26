@@ -64,11 +64,11 @@ export default function Card({ title, description, icon, path }) {
                             refresh
                         </span>
                         <span>
-                            3 mins ago
+                            {Math.floor(Math.random() * 10)} mins ago
                         </span>
                     </div>
                     <div className={"number-part"}>
-                        <ValueAnimator start={0} end={Math.floor(Math.random() * 10000)} duration={700} />
+                        <ValueAnimator start={0} end={Math.floor(Math.random() * 10000)} duration={500} />
                     </div>
                 </div>
             </div>

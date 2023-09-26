@@ -18,10 +18,9 @@ function SettingDropdown() {
         setisValueUpdated(false);
         setisSettingDropdownOpen(false);
         setisSettingSubDropdownOpen(false);
-        console.log("OriginalSettingValues", OriginalSettingValues);
-        console.log("SettingValues", SettingValues);
-        setSettingValues(OriginalSettingValues);
+        setSettingValues({ ...OriginalSettingValues });
     };
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (!isSettingSubDropdownOpen) {
@@ -61,8 +60,6 @@ function SettingDropdown() {
         }
     }
 
-    console.log("OriginalSettingValues", OriginalSettingValues);
-    console.log("SettingValues", SettingValues);
     const handleSaveClick = async () => {
         try {
             // const response = await setSettingConfig(SettingValues);
@@ -134,7 +131,9 @@ function SettingDropdown() {
         <div className='dropdown-background'>
             <div className="dropdown" ref={settingDropdownRef}>
                 <div className="dropdown-header">
-                    <div className="heading">Setting</div>
+                    <div className="heading">
+                        Setting
+                    </div>
                     <div className="sub-heading">Every Setting is available here</div>
                 </div>
                 <div className="dropdown-body">

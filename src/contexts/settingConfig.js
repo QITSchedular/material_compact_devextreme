@@ -45,10 +45,11 @@ export function SettingProvider({ children }) {
                         result[0].rejectedWhs || ""
                     ]
                 };
+                const originalValuesCopy = JSON.parse(JSON.stringify(resultObject));
+                // Object.freeze(originalValuesCopy);
 
                 setSettingValues(resultObject);
-                setOriginalSettingValues(resultObject);
-                Object.freeze(OriginalSettingValues);
+                setOriginalSettingValues(originalValuesCopy);
 
                 // console.log("SettingValues", SettingValues);
                 // console.log("OriginalSettingValues", OriginalSettingValues);
