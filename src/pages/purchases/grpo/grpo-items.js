@@ -23,6 +23,7 @@ import GrpoWarehouseChooserComponent, {
 } from "./grpo-warehouse-chooser";
 import { GRPOScanner } from "../../../assets/icon";
 import TransparentContainer from "../../../components/qr-scanner/transparent-container";
+import { PopupHeaderText, PopupSubText } from "../../../components/typographyTexts/TypographyComponents";
 
 const GrpoItems = () => {
   const { qrCode } = useParams();
@@ -74,19 +75,18 @@ const GrpoItems = () => {
   const handleItemQrVerification = async (dataScanFromScanner) => {
     console.log("At handleItemQrVerification");
     console.log("The selectedItemQr is:", selectedItemQr);
-    if (dataScanFromScanner) {
-      console.log("Ola ama tale tale ooooo")
+    if (typeof dataScanFromScanner !== 'object' && dataScanFromScanner !== null) {
       const doItemExists = await ValidateItemQR(qrCode, dataScanFromScanner);
-  
-      if (doItemExists === "No data found") {
-        // console.log("the scanned item does not exist");
+      if (doItemExists.hasError) {
         return toastDisplayer(
-          "error",
-          "The scanned item does not belong to this P.O"
+        "error",
+        doItemExists.errorMessage.statusMsg
         );
-      } else {
+        }
+      
         // Filter out duplicate detailQRCodeID values
-        const newItems = doItemExists.filter((item) => {
+        const validatecheck = doItemExists.responseData;
+        const newItems = validatecheck.filter((item) => {
           if (uniqueIds.has(item.detailQRCodeID)) {
             console.log(`Duplicate data arrived: ${item.detailQRCodeID}`);
             toastDisplayer("error", `${item.detailQRCodeID} Item already available`);
@@ -103,20 +103,20 @@ const GrpoItems = () => {
         });
   
         setGridDataSource((previous) => [...previous, ...newItems]);
-      }
+      
     }
     else if (selectedItemQr) {
       const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
-  
-      if (doItemExists === "No data found") {
-        // console.log("the scanned item does not exist");
+      if (doItemExists.hasError) {
         return toastDisplayer(
-          "error",
-          "The scanned item does not belong to this P.O"
+        "error",
+        doItemExists.errorMessage.statusMsg
         );
-      } else {
+        }
+      
         // Filter out duplicate detailQRCodeID values
-        const newItems = doItemExists.filter((item) => {
+        const validatecheck = doItemExists.responseData;
+        const newItems = validatecheck.filter((item) => {
           if (uniqueIds.has(item.detailQRCodeID)) {
             console.log(`Duplicate data arrived: ${item.detailQRCodeID}`);
             toastDisplayer("error", `${item.detailQRCodeID} Item already available`);
@@ -133,7 +133,7 @@ const GrpoItems = () => {
         });
   
         setGridDataSource((previous) => [...previous, ...newItems]);
-      }
+      
     } else {
       setDisplayGrid(false);
       return toastDisplayer("error", "Scan the Item Qr first");
@@ -143,15 +143,16 @@ const GrpoItems = () => {
 
   const handleGrpoSaving = async () => {
     // return null;
+    
     if (!gridDataSource.length > 0) {
-      toastDisplayer(
-        "error",
-        " ❌ This request not allowed..Please Scan items to proceed"
-      );
+      // toastDisplayer(
+      //   "error",
+      //   " ❌ This request not allowed..Please Scan items to proceed"
+      // );
       return toastDisplayer("error", " ❌ Please Scan items to proceed");
     }
     if (
-      selectedRowsData[0].length > 0 &&
+      selectedRowsData.length > 0 &&
       choosenWarehouseName !== selectedRowsData[0].whsCode
     ) {
       await setSelectedRowsData([]);
@@ -160,9 +161,8 @@ const GrpoItems = () => {
         "Invalid warehouse name, select one from the dropdown"
       );
     } else {
-      if (selectedRowsData.length <= 0) {
+      if (selectedRowsData.length == 0) {
         return toastDisplayer("error", "Choose warehouse to save the grpo");
-        await setSelectedRowsData([]);
       }
       setLoading(true);
       const doGrpo = await generateGrpo(
@@ -170,7 +170,6 @@ const GrpoItems = () => {
         comments,
         choosenWarehouseName
       );
-      console.log("doGrpo", doGrpo.isSaved);
       if (doGrpo.isSaved === "Y") {
         console.log("saved");
         setLoading(false);
@@ -330,11 +329,11 @@ const GrpoItems = () => {
       )}
 
       <div className="title-section">
-        <h3 className="title-name">Grpo</h3>
-        <span className="title-description">
-          Type or scan the item code to make an entry
-        </span>
-      </div>
+          <PopupHeaderText text={"Grpo"} />
+          <PopupSubText
+            text={"Type or scan the item code to make an entry"}
+          />
+        </div>
 
       <div className="actions-section">
         <div className="search-section">

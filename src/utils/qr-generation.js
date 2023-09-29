@@ -246,7 +246,8 @@ export const checkIfDetailsExists = async (
 export const getItemsMaxIncNumber = async (headerQrString) => {
   try {
     const response = await axios.post(
-      `${API_URL}/Commons/DetailIncNo?HeaderQR=${headerQrString}`
+      // `${API_URL}/Commons/DetailIncNo?HeaderQR=${headerQrString}`
+      `${API_URL}/Commons/GetDetailQR?HeaderQR=${headerQrString}`
     );
     if (response.status === 200) {
       console.log("The incremental number is:" + response.data);

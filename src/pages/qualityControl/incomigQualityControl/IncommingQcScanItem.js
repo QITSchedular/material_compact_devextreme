@@ -544,7 +544,7 @@ function IncommingQcScanItem() {
       {QrRequestPopUp && (
         <Popup
           visible={true}
-          height={window.innerHeight - 100}
+          height={700}
           width={544}
           showCloseButton={true}
           className="QrRequestPopUp"

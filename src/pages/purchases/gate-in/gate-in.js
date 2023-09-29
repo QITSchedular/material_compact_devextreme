@@ -280,7 +280,7 @@ const GateInComponent = () => {
 
     await setDocEntry(poResponse[0].docEntry);
     await setDocNum(poResponse[0].docNum);
-    // console.log("This is the whole P.O  data for gate In", poResponse);
+    console.log("This is the whole P.O  data for gate In", poResponse);
     await setDataLineNum(poDetArrayWithRecQty.map((item) => item.lineNum));
     await setPoData(poDetArrayWithRecQty);
 
@@ -337,7 +337,6 @@ const GateInComponent = () => {
   };
 
   const handleGateIn = async () => {
-    console.log("Updated item from HandleGateIn", updatedItems);
     if (!vehicleName) {
       return toastDisplayer("error", "Enter vehicle number");
     }
@@ -350,8 +349,6 @@ const GateInComponent = () => {
         "Please recieve some item, to proceed with gate in.."
       );
     }
-    console.log(updatedItems.map((items) => items));
-    // console.log(vehicleName, selectedTransporterData);
     const callLoop = await callUpdatePoApi(
       updatedItems,
       docNum,
@@ -363,6 +360,7 @@ const GateInComponent = () => {
     const allResponses = await Promise.all(
       callLoop.map(async (item) => {
         if (item.statusCode === "200") {
+         
           return "success";
         } else {
           const errorResponse = await item.statusMsg;
@@ -374,6 +372,12 @@ const GateInComponent = () => {
     if (isSuccess) {
       await setUpdatedItems([]);
       await handleSearchPurchasedOrder();
+      setPoData(null);
+      setSelectedPeriodIndicator("");
+      setSelectedSeries("");
+      setPoNumber("");
+      setVehicleName("");
+      setTransporterName("");
       return toast.success("Items Taken in, add more?", {
         position: "top-right",
         autoClose: 5000,
@@ -398,30 +402,6 @@ const GateInComponent = () => {
         theme: "light",
       });
     }
-    // if (callLoop.statusCode === "200") {
-    //   await handleSearchPurchasedOrder();
-    //   return toast.success("Items Taken in, add more?", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // } else {
-    // return toast.error("Something went wrong, try again later", {
-    //   position: "top-right",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "light",
-    // });
-    // }
   };
 
   const handleGridSaving = async (e) => {
@@ -542,13 +522,6 @@ const GateInComponent = () => {
         ></Popup>
       )}
       <div className="main-container">
-        {/* <div className="title-section">
-        <h5 className="title-name">Gate IN: PO</h5>
-        <span className="title-description">
-          Select and Enter field values to get P.O
-        </span>
-      </div> */}
-
         <div className="actions-section">
           <div className="action-before-section">
             <div className="buttons-section">
@@ -584,6 +557,7 @@ const GateInComponent = () => {
                 placeholder="Search by purchase order"
                 width={250}
                 showClearButton={true}
+                value={poNumber}
                 valueChangeEvent="keyup"
                 onValueChanged={handlePurchaseOrderEntry}
               />

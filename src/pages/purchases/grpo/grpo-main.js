@@ -275,7 +275,7 @@ const GrpoMain = () => {
         new Set(prevGrpoList).add(selectedPo)
       );
     } else if (!doPoExists) {
-      alert();
+      // alert();
       return toastDisplayer(
         "error",
         "Invalid Grpo, please select a valid Grpo"
@@ -396,10 +396,10 @@ const GrpoMain = () => {
       )}
       <div className="content-block dx-card responsive-paddings grpo-content-wrapper">
         <div className="title-section">
-          <span className="title-name">Grpo</span>
-          <span className="title-description">
-            Type or scan the purchase order to make an entry
-          </span>
+          <PopupHeaderText text={"Grpo"} />
+          <PopupSubText
+            text={"Type or scan the purchase order to make an entry"}
+          />
         </div>
 
         <div className="actions-section">

@@ -68,6 +68,9 @@ const renderContent = ({
     const { series } = seriesList[0];
     const { gateInNo, itemCode, qrMngBy, qty, openQty } = selectedQrRowData;
     const branchID = "1";
+    if(addedBatchNum==""){
+      return toastDisplayer("error", "Enter Batch number");
+    }
     // manaual branch id, it should be dynamically generated
     const resp = await qrGenerationHandler(
       docEntry,

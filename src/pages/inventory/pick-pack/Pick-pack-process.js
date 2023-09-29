@@ -11,12 +11,14 @@ import { ValidateItemQR1 } from '../../../utils/grpo-saver'
 import { toastDisplayer } from '../../../api/qrgenerators'
 import { Button } from 'devextreme-react'
 import QtcDataGrid from '../../../components/qtcCommonComponent/qtcDataGrid'
+import TransparentContainer from '../../../components/qr-scanner/transparent-container'
 const PickPackProcess = () => {
   const { qrCode, docEntry } = useParams()
   const [selectedItemQr, setSelectedItemQR] = useState(null)
   const [gridDataSource, setGridDataSource] = useState('')
   const [displayGrid, setDisplayGrid] = useState(false)
-
+  const [showScanner, setShowScanner] = useState(false);
+  const [scannedData, setScannedData] = useState([]);
   const handleTextValueChange = e => {
     return setSelectedItemQR(e.value)
   }
@@ -29,13 +31,41 @@ const PickPackProcess = () => {
   }
 
   // on hit of search button
-  const handleItemQrVerification = async e => {
+  const handleItemQrVerification = async (scanData) => {
     if (selectedItemQr) {
       const doItemExists = await ValidateItemQR1(
         qrCode,
         selectedItemQr,
         docEntry
       )
+      console.log('doItemExists : ', doItemExists)
+      if(doItemExists.hasError){
+        return toastDisplayer(
+          'error',
+          doItemExists.errorText
+        )
+      }
+      if (doItemExists === 'No data found') {
+        return toastDisplayer(
+          'error',
+          'The scanned item does not belong to this P.O'
+        )
+      } else {
+        setDisplayGrid(true)
+        return setGridDataSource(previous => [...previous, ...doItemExists])
+      }
+    }else if(scanData!=null){
+      const doItemExists = await ValidateItemQR1(
+        qrCode,
+        scanData,
+        docEntry
+      )
+      if(doItemExists.hasError){
+        return toastDisplayer(
+          'error',
+          doItemExists.errorText
+        )
+      }
       console.log('doItemExists : ', doItemExists)
       if (doItemExists === 'No data found') {
         return toastDisplayer(
@@ -46,7 +76,8 @@ const PickPackProcess = () => {
         setDisplayGrid(true)
         return setGridDataSource(previous => [...previous, ...doItemExists])
       }
-    } else {
+    }
+     else {
       setDisplayGrid(false)
       return toastDisplayer('error', 'Scan the Item Qr first')
     }
@@ -57,14 +88,14 @@ const PickPackProcess = () => {
   }
 
   const handleScanner = () => {
-    alert()
+    setShowScanner(true);
   }
   const keyArray1 = [
     {
       feildType: 'textBox',
       handlefunc: handleTextValueChange,
       placeholder: 'Type the item QR code',
-      selectedRowsData: 'selectedRowsData',
+      selectedRowsData: selectedItemQr,
       TextWithIcon: false
     },
     {
@@ -74,8 +105,40 @@ const PickPackProcess = () => {
     },
     { feildType: 'button', handlefunc: handleScanner, btnIcon: GRPOScanner }
   ]
+
+  const HandleCloseQrScanner = () => {
+    setShowScanner(false);
+  };
+  const HandleDecodedData1 = (data1)=>{
+    // console.log("Scanned Data : ",data1);
+    if (scannedData.includes(data1)) {
+      console.log(`${data1} is already available.`);
+    } else {
+      setScannedData([...scannedData, data1]);
+    }
+    // setShowScanner(false);
+  }
+  const HandleSaveDecodedScannedData = async()=>{
+    console.log("From HandleSaveDecodedScannedData",scannedData)
+    setShowScanner(false);
+    scannedData.forEach(async(scannedItem)=>{
+      await handleItemQrVerification(scannedItem);
+      // alert(scannedItem);
+    })
+  }
   return (
     <div className='content-block dx-card responsive-paddings issue-material-container'>
+      {showScanner && (
+        <div>
+          <TransparentContainer
+            mountNodeId="containerInventry"
+            showScan={showScanner}
+            HandleCloseQrScanner1={HandleCloseQrScanner}
+            HandleDecodedData={HandleDecodedData1}
+            HandleSaveDecodedData={HandleSaveDecodedScannedData}
+          ></TransparentContainer>
+        </div>
+      )}
       <div className='header-section'>
         <PopupHeaderText text={'Pick & Packer'} />
         <PopupSubText text={'Search the sales order to pick the items'} />
