@@ -39,6 +39,11 @@ export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
   hasError: false,
   errorMessage: null,
   };
+  const responseBody = {
+    responseData: null,
+    hasError: false,
+    errorMessage: null,
+  };
   // console.log("This is request body", requestBody);
   // return requestBody;
   try {
@@ -128,14 +133,14 @@ export const generateGrpo = async (
   comments,
   choosenWarehouseName
 ) => {
-  console.log("This is the grid data source", gridDataSource);
+  // console.log("This is the grid data source", gridDataSource);
   const structuredPayload = await grpoDetailsConstructor(
     gridDataSource,
     comments,
     choosenWarehouseName
   );
-  console.log("This is the structuredPayload", structuredPayload);
-  console.log(JSON.stringify(structuredPayload));
+  // console.log("This is the structuredPayload", structuredPayload);
+  // console.log(JSON.stringify(structuredPayload));
   if (structuredPayload) {
     try {
       const res = await axios.post(
@@ -145,7 +150,7 @@ export const generateGrpo = async (
       const returnData = await res.data;
       return returnData;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       const returnError = error.response.data;
       return returnError;
     }
@@ -158,7 +163,7 @@ export const wareHouseList = async () => {
     const returnData = await res.data;
     return returnData;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     const returnError = error.response.data;
     return returnError;
   }
@@ -187,10 +192,6 @@ export const ValidateItemQR1 = async (qrCode, detailQRCodeID, docEntry) => {
 
     return data;
   } catch (error) {
-    // console.error(error);
-    // const { statusCode, statusMsg } = error.response.data;
-    // alert(error);
-    // return statusMsg;
     const  statusMsg  = error.message;
     if (statusMsg) {
       errors.hasError = true;

@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import Lottie from "../../../../assets/images/success-lottiie-2.gif";
 import { RequiredRule } from "devextreme-react/validator";
 import { toastDisplayer } from "../../../../api/qrgenerators";
+import { SwalDisplayer } from "../../../../utils/showToastsNotifications";
 
 const renderSuccessContent = ({ qrVisibilityHandler, onQrGenerated }) => {
   const handleCancel = async () => {
@@ -86,6 +87,7 @@ const renderContent = ({
       addedRemarks,
       addedBatchNum
     );
+    // console.log("****",resp)
     // const { qrCode } = resp;x
     if (resp === "Qr Generated") {
       return onQrGenerated(true);
@@ -324,12 +326,15 @@ const PrintPopup = ({
   selectedQrRowData,
   poDetailsfull,
   seriesList,
+  qrgeneraqtedrtnFun
 }) => {
   // const { isQrPopupVisible, openQrPopUp, closeQrPopUp } =
   //   useContext(AppContext);
   const [qrGenerated, setQrGenerated] = useState(false);
   const handleQrGenerated = (isGenerated) => {
     setQrGenerated(isGenerated);
+    return qrgeneraqtedrtnFun(isGenerated);
+
   };
   return (
     <>
@@ -342,7 +347,8 @@ const PrintPopup = ({
           titleRender={() => renderTitle({ selectedQrRowData })}
           contentRender={() =>
             qrGenerated
-              ? renderSuccessContent({
+              ? 
+              renderSuccessContent({
                   qrVisibilityHandler,
                   onQrGenerated: handleQrGenerated,
                 })

@@ -107,12 +107,10 @@ function IncomingQCComponent() {
   }
 
   const fromDateOptions = (e) => {
-    console.log(convertData(e.value));
     setFromDate(convertData(e.value));
   };
 
   const toDateOptions = (e) => {
-    console.log(convertData(e.value));
     setToDate(convertData(e.value));
   };
 
@@ -171,6 +169,8 @@ function IncomingQCComponent() {
               handleDataGridRowSelection={handleDataGridRowSelection}
               dataGridRef={dataGridRef}
               selectedRowKeys={selectedRowKeys}
+              fromDate={fromDate}
+              toDate={toDate}
             />
           )}
         ></Popup>

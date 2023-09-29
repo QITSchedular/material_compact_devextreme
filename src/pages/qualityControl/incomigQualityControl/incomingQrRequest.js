@@ -12,6 +12,7 @@ function IncomingQrRequest({
   requestData,
   approveWareHouse,
   rejectWareHouse,
+  clearData
 }) {
   const [approveQty, setapproveQty] = useState(0);
   const [RejectQty, setRejectQty] = useState(0);
@@ -30,66 +31,70 @@ function IncomingQrRequest({
     await setRejectQty(e.value);
   };
   const handleSave = async () => {
-    const appQty = approveQty;
-    const rejQty = RejectQty;
-    const totleQty = parseInt(appQty) + parseInt(rejQty);
-    if (appQty == 0) {
-      return toastDisplayer("error", "Approve quantity can not be 0");
-    } else if (totleQty > parseInt(QrRequestData["recQty"])) {
-      return toastDisplayer("error", "Invalid quty");
-    } else if (appQty > 0 && totleQty <= parseInt(QrRequestData["recQty"])) {
-      const apiCalls = [];
-      if (rejQty > 0) {
-        const reqBodyRej = {
-          branchID: 1,
-          grpoDocEntry: QrRequestData["grpoDocEntry"],
-          detailQRCodeID: QrRequestData["detailQRCodeID"],
-          fromWhs: "QC",
-          toWhs: rejectWareHouse,
-          action: "R",
-          qty: rejQty,
-          rejectComment: RejectComment,
-        };
+    // const appQty = approveQty;
+    // const rejQty = RejectQty;
+    // const totleQty = parseInt(appQty) + parseInt(rejQty);
+    // if (appQty == 0) {
+    //   return toastDisplayer("error", "Approve quantity can not be 0");
+    // } else if (totleQty > parseInt(QrRequestData["recQty"])) {
+    //   return toastDisplayer("error", "Invalid quty");
+    // } else if (appQty > 0 && totleQty <= parseInt(QrRequestData["recQty"])) {
+    //   const apiCalls = [];
+    //   if (rejQty > 0) {
+    //     const reqBodyRej = {
+    //       branchID: 1,
+    //       grpoDocEntry: QrRequestData["grpoDocEntry"],
+    //       detailQRCodeID: QrRequestData["detailQRCodeID"],
+    //       fromWhs: "QC",
+    //       toWhs: rejectWareHouse,
+    //       action: "R",
+    //       qty: rejQty,
+    //       rejectComment: RejectComment,
+    //     };
 
-        const rejectCall = SavePoListsIQC(reqBodyRej);
-        apiCalls.push(rejectCall);
-      }
+    //     const rejectCall = SavePoListsIQC(reqBodyRej);
+    //     apiCalls.push(rejectCall);
+    //   }
 
-      if (appQty > 0) {
-        const reqBodyApp = {
-          branchID: 1,
-          grpoDocEntry: QrRequestData["grpoDocEntry"],
-          detailQRCodeID: QrRequestData["detailQRCodeID"],
-          fromWhs: "QC",
-          toWhs: approveWareHouse,
-          action: "A",
-          qty: appQty,
-          rejectComment: RejectComment,
-        };
+    //   if (appQty > 0) {
+    //     const reqBodyApp = {
+    //       branchID: 1,
+    //       grpoDocEntry: QrRequestData["grpoDocEntry"],
+    //       detailQRCodeID: QrRequestData["detailQRCodeID"],
+    //       fromWhs: "QC",
+    //       toWhs: approveWareHouse,
+    //       action: "A",
+    //       qty: appQty,
+    //       rejectComment: RejectComment,
+    //     };
+    //     console.log(reqBodyApp)
+    //     const approveCall = SavePoListsIQC(reqBodyApp);
+    //     console.log("approve call : ",approveCall)
+    //     apiCalls.push(approveCall);
+    //   }
 
-        const approveCall = SavePoListsIQC(reqBodyApp);
-        apiCalls.push(approveCall);
-      }
+    //   try {
+    //     const responses = await Promise.all(apiCalls);
+    //     responses.forEach((response, index) => {
+    //       console.log("response",responses)
+    //       if (response["statusCode"] == "200") {
+    //         if (index == 0) {
+    //           // clearData();
+    //           toastDisplayer("succes", "Approve processed successfully..!!");
+    //         } else if (index == 1) {
+    //           toastDisplayer("succes", "Reject processed successfully..!!");
+    //         }
+    //       }else{
+    //         toastDisplayer("error", response['statusMsg']);
+    //       }
+    //     });
 
-      try {
-        const responses = await Promise.all(apiCalls);
-        responses.forEach((response, index) => {
-          if (response["statusCode"] == "200") {
-            if (index == 0) {
-              toastDisplayer("succes", "Approve processed successfully..!!");
-            } else if (index == 1) {
-              toastDisplayer("succes", "Reject processed successfully..!!");
-            }
-          }else{
-            toastDisplayer("error", response["errorText"]);
-          }
-        });
-
-        handleCancelQrRequest();
-      } catch (err) {
-        toastDisplayer("error", "Something went wrong");
-      }
-    }
+    //     handleCancelQrRequest();
+    //   } catch (err) {
+    //     toastDisplayer("error", "Something went wrong");
+    //   }
+    // }
+    clearData();
   };
   const handleValueChange = async (e) => {
     await setRejectComment(e.value);
@@ -174,17 +179,16 @@ function IncomingQrRequest({
                 value={""}
                 onValueChanged={onValueChangedApprove}
               >
-                      
               </NumberBox>
             </div>
             <div className="particularDetail" style={{"marginTop":"0.5rem"}}>
               <div className="particularDetail-txt">
                 <p className="particularDetail-titleTxt">Rejected Quantity</p>
-                <p className="titleTxt">{rejectWareHouse}</p>
+                <p className="titleTxt">{rejectWareHouse ? rejectWareHouse : " --- "}</p>
               </div>
               <NumberBox
                 // className="dx-field-value"
-                className="form-element"
+                className="form-element rejectQty"
                 stylingMode="outlined"
                 // placeholder={placeholder}
                 label={"Qty"}
@@ -193,14 +197,14 @@ function IncomingQrRequest({
                 showClearButton={true}
                 value={""}
                 onValueChanged={onValueChangedReject}
+                disabled={rejectWareHouse ? false:true}
               >
-                      
               </NumberBox>
             </div>
             <div className="particularDetail" style={{"margin":"0.5rem 0rem 0.5rem 0.5rem"}}>
               <TextBox
                 // className="dx-field-value"
-                className="form-element"
+                className="form-element txt-remark"
                 stylingMode="outlined"
                 label={"Remark"}
                 labelMode="floating"
@@ -209,9 +213,8 @@ function IncomingQrRequest({
                 onValueChanged={handleValueChange}
                 value={""}
               >
-                        
               </TextBox>
-               
+
             </div>
             <div
               className="buttons-section"

@@ -1,6 +1,7 @@
 import React from 'react'
 import Notfound from '../../assets/images/error404.svg'
 import './NotFound.scss'
+import { BackBtn } from '../../components'
 
 function NotFound() {
     return (

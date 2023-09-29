@@ -36,6 +36,7 @@ import {
   fetchItemQrCode1,
 } from "../../../../utils/qr-generation";
 import { toastDisplayer } from "../../../../api/qrgenerators";
+import { SwalDisplayer } from "../../../../utils/showToastsNotifications";
 import {
   PopupHeaderText,
   PopupSubText,
@@ -239,7 +240,6 @@ const PrintQrMainComp = () => {
     }
   };
   useEffect(() => {
-    // console.log("object");
     getSeriesData();
   }, [poData]);
 
@@ -295,7 +295,6 @@ const PrintQrMainComp = () => {
   const [printQrVisibility, setPrintQrVisibility] = useState(false);
   const [selectedQrRowData, setSelectedQrRowData] = useState("");
   const handleQrGenerate = async (e) => {
-    // console.log(e.row.data,"new ", poDetailsfull);
     setSelectedQrRowData(e.row.data);
     setShowPrintPop(true);
     // gridRef.current.
@@ -328,9 +327,23 @@ const PrintQrMainComp = () => {
         return true;
       }
     } catch (err) {
-      return toastDisplayer("error", err.message);
+      return toastDisplayer('error', err.message);
     }
-  };
+  }
+
+  const myfunction=(data)=>{
+    if(data){
+      const updatedPoData = poData.map((item) => {
+        if (item.docEntry === selectedQrRowData.docEntry && item.gateInNo === selectedQrRowData.gateInNo) {
+          return { ...item, disablebtn: false };
+        }
+        return item;
+      });
+      setPoData(updatedPoData);
+      setShowPrintPop(false);
+      SwalDisplayer("success", "Operation Successful");
+    } 
+  }
 
   return (
     <div className="content-block dx-card responsive-paddings main-container-printQR">
@@ -340,6 +353,7 @@ const PrintQrMainComp = () => {
           selectedQrRowData={selectedQrRowData}
           poDetailsfull={poDetailsfull}
           seriesList={seriesList}
+          qrgeneraqtedrtnFun={myfunction}
         />
       )}
       {viewQr && (

@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_URL } from "./items-master-data";
 import { toastDisplayer } from "../api/qrgenerators";
 
-export const getPoListsIC = async () => {
+export const getPoListsIC = async (fromDate, toDate) => {
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -10,8 +10,8 @@ export const getPoListsIC = async () => {
   try {
     const responseBody = {
       branchID: 1,
-      fromDate: "",
-      toDate: "",
+      fromDate: fromDate,
+      toDate: toDate,
       headerQRCodeID: "",
       getAll: "Y",
     };
@@ -93,20 +93,14 @@ export const validatePoListsIQC = async (obj) => {
       requestBody
     );
     const data = response.data;
+    console.log("***",data);
     if (data) {
       return data;
     } else {
       return errors;
     }
   } catch (error) {
-    // const { statusMsg } = error.response.data;
-    // if (statusMsg) {
-    //   errors.hasError = true;
-    //   errors.errorText = statusMsg;
-    //   return errors;
-    // }
-    // return errors;
-    return toastDisplayer("error", error.message);
+    return errors;
   }
 };
 
@@ -117,22 +111,20 @@ export const SavePoListsIQC = async (obj) => {
     errorText: "Something went wrong",
   };
   try {
-    const response = await axios.post(`${API_URL}/IncomingQC/QC`, obj);
-    const data = response.data;
-    if (data) {
-      return data;
-    } else {
-      return errors;
-    }
-  } catch (error) {
-    // const { statusMsg } = error.response.data;
-    // if (statusMsg) {
-    //   errors.hasError = true;
-    //   errors.errorText = statusMsg;
+    // const response = await axios.post(`${API_URL}/IncomingQC/QC`, obj);
+    // const data = response.data;
+    // if (data) {
+    //   return data;
+    // } else {
     //   return errors;
     // }
-    // return errors;
-    return toastDisplayer("error", error.message);
+    const data = true;
+    return data;
+  } catch (error) {
+
+    const statusMsg  = error.response.data;
+   
+    return statusMsg;
   }
 };
 

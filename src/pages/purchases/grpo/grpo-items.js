@@ -48,30 +48,7 @@ const GrpoItems = () => {
   // on hit of search button
   // const handleItemQrVerification = async (e) => {
   //   // validate the scanned item
-  //   console.log("At handleItemQrVerification");
-  //   console.log("The selectedItemQr is:", selectedItemQr)
-  //   if (selectedItemQr) {
-  //     const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
 
-  //     if (doItemExists === "No data found") {
-  //       // console.log("the scanned item does not exist");
-  //       return toastDisplayer(
-  //         "error",
-  //         "The scanned item does not belong to this P.O"
-  //       );
-  //     } else {
-  //       // Filter out duplicate detailQRCodeID values
-  //       const newData = doItemExists.filter(
-  //         (item) => !uniqueIds.has(item.detailQRCodeID)
-  //       );
-  //       setDisplayGrid(true);
-  //       return setGridDataSource((previous) => [...previous, ...doItemExists]);
-  //     }
-  //   } else {
-  //     setDisplayGrid(false);
-  //     return toastDisplayer("error", "Scan the Item Qr first");
-  //   }
-  // }; 
   const handleItemQrVerification = async (dataScanFromScanner) => {
     console.log("At handleItemQrVerification");
     console.log("The selectedItemQr is:", selectedItemQr);
@@ -133,13 +110,13 @@ const GrpoItems = () => {
         });
   
         setGridDataSource((previous) => [...previous, ...newItems]);
-      
     } else {
       setDisplayGrid(false);
       return toastDisplayer("error", "Scan the Item Qr first");
     }
   };
   
+
 
   const handleGrpoSaving = async () => {
     // return null;
@@ -171,11 +148,11 @@ const GrpoItems = () => {
         choosenWarehouseName
       );
       if (doGrpo.isSaved === "Y") {
-        console.log("saved");
+        // console.log("saved");
         setLoading(false);
         return toastDisplayer("succes", `${doGrpo.statusMsg}`);
       } else {
-        console.log("error in save");
+        // console.log("error in save");
         setLoading(false);
         return toastDisplayer("error", `${doGrpo.statusMsg}`);
       }
@@ -211,15 +188,15 @@ const GrpoItems = () => {
   };
   const handleSaveSelectedPo = () => {
     if (selectedRowsData.length > 0) {
-      console.log("Current selected row data", selectedRowsData);
-      console.log("Close the popup window");
+      // console.log("Current selected row data", selectedRowsData);
+      // console.log("Close the popup window");
       return setShowWareHousePopupHelp(false);
     } else {
       return toastDisplayer("error", "Please select a PO to save and proceed");
     }
   };
   const handleCancelNoSelection = () => {
-    console.log("User have clicked the cancel buttpn, clear the selection");
+    // console.log("User have clicked the cancel buttpn, clear the selection");
     // setSelectedRowsData([]);
     return setShowWareHousePopupHelp(false);
   };
@@ -232,15 +209,15 @@ const GrpoItems = () => {
     onClick: () => handleCancelNoSelection(),
   };
   const warehousePopUpHandler = async () => {
-    console.log("Open pop up");
+    // console.log("Open pop up");
     return await setShowWareHousePopupHelp(true);
   };
   const popupCloseHandler = async () => {
-    console.log("Open pop up");
+    // console.log("Open pop up");
     return await setShowWareHousePopupHelp(false);
   };
   const handleGrpoPoSelection = (params) => {
-    console.log("from the handleGrpoPoSelection shbchjasbs", params);
+    // console.log("from the handleGrpoPoSelection shbchjasbs", params);
     if (params.length > 0) {
       return setSelectedRowsData(params);
     }
@@ -252,7 +229,7 @@ const GrpoItems = () => {
     //   setChoosenWarehouseName(data);
 
     // }
-    console.log(data);
+    // console.log(data);
     await setChoosenWarehouseName(data.value);
   };
 
@@ -299,7 +276,7 @@ const GrpoItems = () => {
               handleSaveSelectedWarehouse={handleGrpoPoSelection}
             />
           )}
-          // hideOnOutsideClick={outSideHandler}
+        // hideOnOutsideClick={outSideHandler}
         >
           <ToolbarItem
             widget="dxButton"

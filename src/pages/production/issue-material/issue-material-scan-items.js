@@ -13,6 +13,8 @@ import {
   productionIssueSaveItems,
   productionValidateItemQr,
 } from "../../../api/production.api";
+import { BackBtn } from "../../../components";
+import './issue-material-main.styles.scss';
 import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
 const IssueMaterialScanItems = () => {
@@ -162,8 +164,8 @@ const IssueMaterialScanItems = () => {
           stylingMode="outlined"
           icon="search"
           onClick={searchItemsClickHandler}
-          // disabled={isSearchButtonDisabled}
-          // value={inputQrValue}
+        // disabled={isSearchButtonDisabled}
+        // value={inputQrValue}
         />
         <Button
           width={33}

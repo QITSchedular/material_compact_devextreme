@@ -246,7 +246,7 @@ export const checkIfDetailsExists = async (
 export const getItemsMaxIncNumber = async (headerQrString) => {
   try {
     const response = await axios.post(
-      `${API_URL}/Commons/GetDetailQR?HeaderQR=${headerQrString}`
+      `${API_URL}/Commons/DetailIncNo?HeaderQR=${headerQrString}`
     );
     if (response.status === 200) {
       console.log("The incremental number is:" + response.data);
@@ -409,16 +409,74 @@ const itemsQrGeneratorAndSaver = async (
   addedRemarks,
   addedBatchNum
 ) => {
-  let counterArray = [];
+  console.log("Now I am at the itemsQrGeneratorAndSaver");
+  console.log(`The PayLoad it has is: 
+  BranchId: ${branchID}, HeaderQrCode: ${qrCode}`);
+  if (qrMngBy === "S") {
+    // console.log(openQty);
+    // return null;
+    const loopLength = openQty;
+    const counterArray = [];
+    const qty = "1";
+    for (let i = 0; i < loopLength; i++) {
+      const itemIncNumber = await getItemsMaxIncNumber(qrCode);
+      const generateItemQr = qrCode + " " + itemIncNumber;
+      const itemsGeneratedQr = generateItemQr;
+      const isSavedItemQr = await SaveDetailQR(
+        branchID,
+        qrCode,
+        itemsGeneratedQr,
+        itemIncNumber,
+        itemCode,
+        qrMngBy,
+        qty,
+        gateInNo,
+        addedRemarks
+      );
+      const savedItemResponse = await isSavedItemQr;
+      if (savedItemResponse === "Saved Successfully!!!") {
+        console.log("Qr Generated");
+        counterArray.push(1);
+        continue;
+      } else {
+        console.log("Qr Generation for Batch " + ++i + "failed");
+        console.log(
+          "Failed details",
+          branchID,
+          qrCode,
+          itemsGeneratedQr,
+          itemIncNumber,
+          itemCode,
+          qrMngBy,
+          qty,
+          gateInNo,
+          addedRemarks
+        );
+      }
+      counterArray.push(0);
+    }
+    if (!counterArray.includes(0)) {
+      return "Qr Generated";
+    } else {
+      return "Error: Failed to generate";
+    }
+  }
+  if (qrMngBy === "B") {
+    // Needs to total Recieved Quantity
+    // Needs Batch Number
+    console.log("The Qr is Managed By Batches");
+    console.log("No of Batches is: " + addedBatchNum);
+    console.log("Total Received Quantity is: " + openQty);
+    const loopLength = addedBatchNum;
+    const eachBatchQty = openQty / addedBatchNum;
+    console.log("No of Qty In Each Batch is: " + eachBatchQty);
 
-  // local function for all serial, btach and none
-  const incNoAndSaverDetailQr=async(eachBatchQty)=>{
-    const responseDetailQRGene = await getItemsMaxIncNumber(qrCode);
-      console.log("The max inc num for this item is: ", responseDetailQRGene);
-      // const generateItemQr = itemIncNumber.qrCode;
-      const itemsGeneratedQr = responseDetailQRGene.qrCode;
-      const itemIncNumber = responseDetailQRGene.incNo;
-      console.log(`detailqr=${itemsGeneratedQr} incNo=${itemIncNumber}`)
+    const counterArray = [];
+    for (let i = 0; i < loopLength; i++) {
+      const itemIncNumber = await getItemsMaxIncNumber(qrCode);
+      console.log("The max inc num for this item is: ", itemIncNumber);
+      const generateItemQr = qrCode + " " + itemIncNumber;
+      const itemsGeneratedQr = generateItemQr;
       const isSavedItemQr = await SaveDetailQR(
         branchID,
         qrCode,
@@ -431,12 +489,12 @@ const itemsQrGeneratorAndSaver = async (
         addedRemarks
       );
       const savedItemResponse = await isSavedItemQr;
-        console.log("========",savedItemResponse)
       if (savedItemResponse === "Saved Successfully!!!") {
         console.log("Qr Generated");
         counterArray.push(1);
+        continue;
       } else {
-        // console.log("Qr Generation for Batch " + ++i + "failed");
+        console.log("Qr Generation for Batch " + ++i + "failed");
         console.log(
           "Failed details",
           branchID,
@@ -449,46 +507,8 @@ const itemsQrGeneratorAndSaver = async (
           gateInNo,
           addedRemarks
         );
-        counterArray.push(0);
       }
-  }
-
-  console.log("Now I am at the itemsQrGeneratorAndSaver");
-  console.log(`The PayLoad it has is: 
-  BranchId: ${branchID}, HeaderQrCode: ${qrCode}, qtymng : ${qrMngBy}`);
-
-
-  if (qrMngBy === "S") {
-    console.log("s")
-    // console.log(openQty);
-    // return null;
-    const loopLength = openQty;
-    counterArray = [];
-    const qty = "1";
-    for (let i = 0; i < loopLength; i++) {
-      incNoAndSaverDetailQr(qty); 
-    }
-    if (!counterArray.includes(0)) {
-      return "Qr Generated";
-    } else {
-      return "Error: Failed to generate";
-    }
-  }
-  if (qrMngBy === "B") {
-    console.log("b")
-    // Needs to total Recieved Quantity
-    // Needs Batch Number
-    console.log("The Qr is Managed By Batches");
-    console.log("No of Batches is: " + addedBatchNum);
-    console.log("Total Received Quantity is: " + openQty);
-    const loopLength = addedBatchNum;
-    const eachBatchQty = openQty / addedBatchNum;
-    console.log("No of Qty In Each Batch is: " + eachBatchQty);
-    console.log("first ",loopLength)
-    counterArray = [];
-    for (let i = 0; i < loopLength; i++) {
-      console.log("======///")
-      incNoAndSaverDetailQr(eachBatchQty); 
+      counterArray.push(0);
     }
     if (!counterArray.includes(0)) {
       return "Qr Generated";
@@ -496,10 +516,26 @@ const itemsQrGeneratorAndSaver = async (
       return "Error: Failed to generate";
     }
   } else {
-    console.log("else")
-    counterArray = [];
-    incNoAndSaverDetailQr(openQty); 
-    
+    const itemIncNumber = await getItemsMaxIncNumber(qrCode);
+    const generateItemQr = qrCode + " " + itemIncNumber;
+    const itemsGeneratedQr = generateItemQr;
+    const isSavedItemQr = await SaveDetailQR(
+      branchID,
+      qrCode,
+      itemsGeneratedQr,
+      itemIncNumber,
+      itemCode,
+      qrMngBy,
+      openQty,
+      gateInNo,
+      addedRemarks
+    );
+    const savedItemResponse = await isSavedItemQr;
+    if (savedItemResponse === "Saved Successfully!!!") {
+      return "Qr Generated";
+    } else {
+      return "Error: Failed to generate, Qr Code";
+    }
   }
 };
 
@@ -532,7 +568,7 @@ export const fetchItemQrCode = async (data, poDetailsfull, seriesData) => {
     return error.response.data;
   }
 };
-export const fetchItemQrCode1 = async (docEntry, docNum, series, objType, itemCode, gateInNo) => {
+export const fetchItemQrCode1 = async (docEntry,docNum,series,objType,itemCode,gateInNo) => {
   const requestBody = {
     branchID: "1",
     docEntry,
@@ -587,6 +623,7 @@ export const qrGenerationHandler = async (
     addedRemarks,
     addedBatchNum
   );
+
   const data = await doHeaderExists;
   console.log(data);
   // if the header exists
@@ -607,8 +644,6 @@ export const qrGenerationHandler = async (
       gateInNo
     );
 
-    console.log(doDetailsQrExists)
-
     // THE DETAILS QR CODE ALSO EXISTS
     if (doDetailsQrExists.isExist === "Y") {
       console.log(
@@ -618,7 +653,7 @@ export const qrGenerationHandler = async (
       return "Detail Qr already-generated";
     }
 
-    // // THE DETAILS QR CODE DOES NOT EXIST
+    // THE DETAILS QR CODE DOES NOT EXIST
     if (doDetailsQrExists.isExist === "N") {
       console.log("The items QR Code do not exists.");
       console.log(
