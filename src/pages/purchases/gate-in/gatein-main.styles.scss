@@ -74,16 +74,18 @@
     #gate-in-main-container {
         .navigation-header-gatein {
             flex-direction: column;
+
             .title-section {
-                .title-name{
+                .title-name {
                     font-size: 18px;
                 }
+
                 .title-description {
                     font-size: 14px;
                 }
             }
 
-            #selectTab{
+            #selectTab {
                 width: 100% !important;
             }
         }

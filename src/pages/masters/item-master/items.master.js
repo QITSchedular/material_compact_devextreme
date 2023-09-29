@@ -61,6 +61,7 @@ export default function ItemsMaster() {
     };
     getData();
   }, []);
+
   useEffect(() => {
     const setDataAgain = async () => {
       if (isItemAdded) {

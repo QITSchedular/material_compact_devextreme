@@ -76,10 +76,10 @@ const PickPackProcess = () => {
   ]
   return (
     <div className='content-block dx-card responsive-paddings issue-material-container'>
-      <div className='header-section'>
+      {/* <div className='title-section'>
         <PopupHeaderText text={'Pick & Packer'} />
         <PopupSubText text={'Search the sales order to pick the items'} />
-      </div>
+      </div> */}
       <QtcSearchColumn
         popupHeaderText='Purchase Order List'
         popupSubHeaderText='Search the purchase order'

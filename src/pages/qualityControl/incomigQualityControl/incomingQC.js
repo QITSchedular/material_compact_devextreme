@@ -1,10 +1,9 @@
 import { TextBox, Button as NormalButton, DateBox } from "devextreme-react";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Button as TextBoxButton } from "devextreme-react/text-box";
 import { HelpIcons } from "../../purchases/grpo/icons-exporter";
-import "./incomingQC.scss";
 import { GRPOScanner, dateStartToEnd } from "../../../assets/icon";
-import { Popup } from "devextreme-react/popup";
+import { Popup, ScrollView } from "devextreme-react";
 import PurchaseOrderList from "./purchaseOrderList";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import IncomingQCOrderList from "./incomingQC-OrderList";
@@ -196,28 +195,52 @@ function IncomingQCComponent() {
     setShowScanner(false);
   };
 
+  const [popupHeight, setPopupHeight] = useState(window.innerHeight - 70);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPopupHeight(window.innerHeight - 70);
+    };
+
+    // Listen for window resize events
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
 
 
   return (
     <>
       {showTransporterHelp && (
+
+
         <Popup
           visible={true}
-          height={window.innerHeight - 100}
+          //height={window.innerHeight - 70}
+          height={popupHeight}
           showCloseButton={true}
           hideOnOutsideClick={outsideClickHandler}
           className="purchaseOrderList"
           contentRender={() => (
-            <PurchaseOrderList
-              handleCancel={handleCancel}
-              handleSave={handleSave}
-              handleDataGridRowSelection={handleDataGridRowSelection}
-              dataGridRef={dataGridRef}
-              selectedRowKeys={selectedRowKeys}
-            />
+            <ScrollView height="100%">
+              <PurchaseOrderList
+                handleCancel={handleCancel}
+                handleSave={handleSave}
+                handleDataGridRowSelection={handleDataGridRowSelection}
+                dataGridRef={dataGridRef}
+                selectedRowKeys={selectedRowKeys}
+              />
+            </ScrollView>
           )}
         ></Popup>
-      )}
+      )
+      }
+
+
 
       <div className="main-section">
         {/* {console.log(IQCList2)} */}
@@ -230,6 +253,7 @@ function IncomingQCComponent() {
               stylingMode="outlined"
               type="date"
               width={230}
+              height={40}
               onValueChanged={fromDateOptions}
             />
             {/* </div>
@@ -240,6 +264,7 @@ function IncomingQCComponent() {
               stylingMode="outlined"
               type="date"
               width={230}
+              height={40}
               onValueChanged={toDateOptions}
             />
             {/* </div> */}
@@ -257,25 +282,27 @@ function IncomingQCComponent() {
               width={210}
               onValueChanged={handleTextValueChange}
               showClearButton={true}
+              height={40}
             >
               <TextBoxButton
                 name="currency"
                 location="after"
                 options={helpOptions}
+                height={40}
               />
             </TextBox>
             <div className="btnSection">
               <NormalButton
-                width={33}
-                height={33}
+                width={40}
+                height={40}
                 type="normal"
                 stylingMode="outlined"
                 icon="search"
                 onClick={SearchHandler}
               />
               <NormalButton
-                width={33}
-                height={33}
+                width={40}
+                height={40}
                 type="normal"
                 stylingMode="outlined"
                 icon={GRPOScanner}

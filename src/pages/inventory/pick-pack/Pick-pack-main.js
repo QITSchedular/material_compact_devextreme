@@ -4,7 +4,7 @@ import {
   PopupSubText,
 } from "../../../components/typographyTexts/TypographyComponents";
 import QtcSearchColumn from '../../../components/qtcCommonComponent/qtcSearchColumn'
-// import "./inventory-transfer.styles.scss";
+import "../inventory-transfer/inventory-transfer.styles.scss";
 import QtcMainColumn from "../../../components/qtcCommonComponent/qtcMainColumn";
 
 import { getPoLists, searchPoListsIQC } from '../../../utils/gate-in-purchase'
@@ -67,7 +67,7 @@ const PickPackMain = () => {
     },
   ];
   const navigate = useNavigate();
-  const proceedToItemsScan = (param,param1) => {
+  const proceedToItemsScan = (param, param1) => {
     return navigate(`/inventory/pick-pack/pick-pack-Process/${param}/${param1}`);
   };
 
@@ -122,7 +122,7 @@ const PickPackMain = () => {
         getparamFunc={handlePoVerification}
       />
 
-    <QtcMainColumn IQCList={grpoList} columns={columns} handleProceed1={proceedToItemsScan} displayname="headerQRCodeID" DownArrowKey="docEntry"/>
+      <QtcMainColumn IQCList={grpoList} columns={columns} handleProceed1={proceedToItemsScan} displayname="headerQRCodeID" DownArrowKey="docEntry" />
 
     </div>
   );

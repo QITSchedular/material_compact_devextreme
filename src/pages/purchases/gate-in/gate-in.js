@@ -39,6 +39,7 @@ import {
   PopupSubText,
 } from "../../../components/typographyTexts/TypographyComponents";
 import { toastDisplayer } from "../../../api/qrgenerators";
+import "./gate-in-styles.scss";
 
 const buttonDropDownOptions = { width: 230 };
 
@@ -118,7 +119,7 @@ const TransporterHelpComponent = ({
       } else {
         setError(true);
         setLoading(false);
-        return toastDisplayer("error","Network Error");
+        return toastDisplayer("error", "Network Error");
       }
       setLoading(false);
     };
@@ -147,33 +148,33 @@ const TransporterHelpComponent = ({
             <Button icon="close" onClick={handleCancel} />
           </div> */}
           <div className="gateIn-header">
+            <div
+              className="title-section responsive-paddings"
+              style={{
+                // padding: "5px 20px !important",
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+              }}
+            >
+              <PopupHeaderText text={"Choose a Vendor.."} />
+              <PopupSubText
+                text={"Scroll through the list or type in the search box.."}
+              />
+            </div>
+            <div className="close-btn-section">
+              <Button icon="close" onClick={handleCancel} />
+            </div>
+          </div>
           <div
-            className="title-section responsive-paddings"
-            style={{
-              // padding: "5px 20px !important",
-              display: "flex",
-              flexDirection: "column",
-              gap: "5px",
-            }}
-          >
-            <PopupHeaderText text={"Choose a Vendor.."} />
-            <PopupSubText
-              text={"Scroll through the list or type in the search box.."}
-            />
-          </div>
-          <div className="close-btn-section">
-            <Button icon="close" onClick={handleCancel} />
-          </div>
-          </div>
-          <div
-            className="dx-card responsive-paddings transporter-content-datagrid-container dx-saveBtn"
+            className="responsive-paddings transporter-content-datagrid-container dx-saveBtn"
             style={{ margin: "8px 24px", height: "100% !important" }}
           >
             <DataGrid
               height={window.innerHeight - 250}
               dataSource={transporterDataSource}
               keyExpr="cardCode"
-              showBorders={false}
+              showBorders={true}
               columnAutoWidth={true}
               hoverStateEnabled={true}
               className="transporter-data-grid testGrid"
@@ -193,7 +194,7 @@ const TransporterHelpComponent = ({
             </DataGrid>
           </div>
           <div
-            className="buttons-section-save responsive-paddings "
+            className="btns-section-save responsive-paddings "
             style={{ display: "flex", justifyContent: "flex-end" }}
           >
             <Button
@@ -257,7 +258,7 @@ const GateInComponent = () => {
     const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
     setLoading(true);
     const poResponse = await getPurchaseOrder(poNumber, selectedSeries.series);
-    console.log("poResponse : ",poResponse.hasError);
+    console.log("poResponse : ", poResponse.hasError);
     if (poResponse.hasError) {
       // alert();
       return toastDisplayer("error", poResponse.errorText);
@@ -493,7 +494,7 @@ const GateInComponent = () => {
         draggable: true,
         progress: undefined,
         theme: "light",
-      }); 
+      });
     }
     await setPeriodIndicators(data);
   };
@@ -551,7 +552,7 @@ const GateInComponent = () => {
 
         <div className="actions-section">
           <div className="action-before-section">
-            <div className="buttons-section">
+            <div className="btn-section">
               <DropDownButton
                 text={
                   selectedPeriodIndicator
@@ -564,6 +565,7 @@ const GateInComponent = () => {
                 items={periodIndicators}
                 onItemClick={periodItemsClick}
                 className="period-indicator"
+                height={40}
               />
               <DropDownButton
                 text={
@@ -575,6 +577,7 @@ const GateInComponent = () => {
                 displayExpr={"seriesName"}
                 onItemClick={handleSeriesSelectionClick}
                 className="series-indicator"
+                height={40}
               />
             </div>
             <div className="search-section">
@@ -586,11 +589,12 @@ const GateInComponent = () => {
                 showClearButton={true}
                 valueChangeEvent="keyup"
                 onValueChanged={handlePurchaseOrderEntry}
+                height={40}
               />
 
               <NormalButton
-                width={33}
-                height={33}
+                width={40}
+                height={40}
                 type="normal"
                 stylingMode="outlined"
                 icon="search"
@@ -609,6 +613,7 @@ const GateInComponent = () => {
                 width={176}
                 showClearButton={true}
                 onValueChanged={handleVehicleEntry}
+                height={40}
               />
               <TextBox
                 className="dx-field-value"
@@ -617,11 +622,13 @@ const GateInComponent = () => {
                 width={131}
                 showClearButton={true}
                 value={transporterName ? transporterName : ""}
+                height={40}
               >
                 <TextBoxButton
                   name="currency"
                   location="after"
                   options={helpOptions}
+                  height={40}
                 />
               </TextBox>
             </div>
@@ -636,7 +643,7 @@ const GateInComponent = () => {
                 id="data-grid-container-local"
                 dataSource={poData}
                 keyExpr={"itemCode"}
-                showBorders={false}
+                showBorders={true}
                 focusedRowEnabled={true}
                 defaultFocusedRowIndex={0}
                 columnAutoWidth={true}
@@ -651,10 +658,14 @@ const GateInComponent = () => {
 
                 <Editing
                   mode="row"
-                  allowDeleting
-                  allowUpdating
-                  selectTextOnEditStart={true}
+                  allowDeleting={true}
+                  allowUpdating={true}
+                  useIcons={true}
                 />
+                <Column type="buttons" caption="Actions">
+                  <Button name="edit" />
+                  <Button name="delete" />
+                </Column>
                 <Column
                   dataField={"itemCode"}
                   caption={"Item Code"}

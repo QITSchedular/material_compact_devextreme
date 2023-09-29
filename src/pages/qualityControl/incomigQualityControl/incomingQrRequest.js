@@ -80,7 +80,7 @@ function IncomingQrRequest({
             } else if (index == 1) {
               toastDisplayer("succes", "Reject processed successfully..!!");
             }
-          }else{
+          } else {
             toastDisplayer("error", response["errorText"]);
           }
         });
@@ -174,10 +174,9 @@ function IncomingQrRequest({
                 value={""}
                 onValueChanged={onValueChangedApprove}
               >
-                      
               </NumberBox>
             </div>
-            <div className="particularDetail" style={{"marginTop":"0.5rem"}}>
+            <div className="particularDetail" style={{ "marginTop": "0.5rem" }}>
               <div className="particularDetail-txt">
                 <p className="particularDetail-titleTxt">Rejected Quantity</p>
                 <p className="titleTxt">{rejectWareHouse}</p>
@@ -194,10 +193,9 @@ function IncomingQrRequest({
                 value={""}
                 onValueChanged={onValueChangedReject}
               >
-                      
               </NumberBox>
             </div>
-            <div className="particularDetail" style={{"margin":"0.5rem 0rem 0.5rem 0.5rem"}}>
+            <div className="particularDetail" style={{ "margin": "0.5rem 0rem 0.5rem 0.5rem" }}>
               <TextBox
                 // className="dx-field-value"
                 className="form-element"
@@ -234,7 +232,7 @@ function IncomingQrRequest({
                 height={45}
                 onClick={handleSave}
                 className="OkQcBtn"
-                // disabled={selectedRowKeys.length > 0 ? false : true}
+              // disabled={selectedRowKeys.length > 0 ? false : true}
               />
             </div>
           </div>

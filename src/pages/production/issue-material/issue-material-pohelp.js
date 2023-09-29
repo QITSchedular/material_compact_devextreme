@@ -118,7 +118,7 @@ const PopUpContent = ({
         </DataGrid>
       </div>
       <div
-        className="buttons-section responsive-paddings"
+        className="btn-section responsive-paddings"
         style={{ display: "flex", justifyContent: "flex-end" }}
       >
         <Button

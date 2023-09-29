@@ -37,6 +37,7 @@ const GrpoItems = () => {
   const [choosenWarehouseName, setChoosenWarehouseName] = useState("");
   const [showScanner, setShowScanner] = useState(false);
   const [scannedData, setScannedData] = useState([]);
+
   const navigate = useNavigate();
   const handleTextValueChange = (e) => {
     // console.log(e.previousValue);
@@ -74,10 +75,10 @@ const GrpoItems = () => {
   const handleItemQrVerification = async (e) => {
     console.log("At handleItemQrVerification");
     console.log("The selectedItemQr is:", selectedItemQr);
-    
+
     if (selectedItemQr) {
       const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
-  
+
       if (doItemExists === "No data found") {
         // console.log("the scanned item does not exist");
         return toastDisplayer(
@@ -94,14 +95,14 @@ const GrpoItems = () => {
           }
           return true; // Keep unique items
         });
-  
+
         setDisplayGrid(true);
-  
+
         // Update uniqueIds with the new item IDs
         newItems.forEach((item) => {
           uniqueIds.add(item.detailQRCodeID);
         });
-  
+
         setGridDataSource((previous) => [...previous, ...newItems]);
       }
     } else {
@@ -109,7 +110,7 @@ const GrpoItems = () => {
       return toastDisplayer("error", "Scan the Item Qr first");
     }
   };
-  
+
 
   const handleGrpoSaving = async () => {
     // return null;
@@ -144,7 +145,9 @@ const GrpoItems = () => {
       if (doGrpo.isSaved === "Y") {
         console.log("saved");
         setLoading(false);
-        return toastDisplayer("succes", `${doGrpo.statusMsg}`);
+        setGridDataSource([]);
+        toastDisplayer("succes", `${doGrpo.statusMsg}`);
+        navigate("/purchases/grpo");
       } else {
         console.log("error in save");
         setLoading(false);
@@ -235,7 +238,7 @@ const GrpoItems = () => {
   const HandleCloseQrScanner = () => {
     setShowScanner(false);
   };
-  const HandleDecodedData1 = (data1)=>{
+  const HandleDecodedData1 = (data1) => {
     // console.log("Scanned Data : ",data1);
     if (scannedData.includes(data1)) {
       console.log(`${data1} is already available.`);
@@ -245,13 +248,13 @@ const GrpoItems = () => {
     }
     // setShowScanner(false);
   }
-  const scanAndSearchFromScanner = ()=>{
+  const scanAndSearchFromScanner = () => {
     return handleItemQrVerification();
   }
-  const HandleSaveDecodedScannedData = async()=>{
-    console.log("From HandleSaveDecodedScannedData",scannedData)
+  const HandleSaveDecodedScannedData = async () => {
+    console.log("From HandleSaveDecodedScannedData", scannedData)
     setShowScanner(false);
-    scannedData.forEach((scannedItem)=>{
+    scannedData.forEach((scannedItem) => {
       setSelectedItemQR(scannedItem);
     })
     // setSelectedItemQR(scannedData[0]);
@@ -263,7 +266,7 @@ const GrpoItems = () => {
       handleItemQrVerification();
     }
   }, [selectedItemQr]);
-  
+
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
       {loading && <LoadPanel visible={true} />}
@@ -276,9 +279,11 @@ const GrpoItems = () => {
           contentRender={() => (
             <GrpoWarehouseChooserComponent
               handleSaveSelectedWarehouse={handleGrpoPoSelection}
+              handleCloseButton={popupCloseHandler}
             />
+
           )}
-          // hideOnOutsideClick={outSideHandler}
+        // hideOnOutsideClick={outSideHandler}
         >
           <ToolbarItem
             widget="dxButton"
@@ -295,7 +300,7 @@ const GrpoItems = () => {
           />
         </Popup>
       )}
-       {showScanner && (
+      {showScanner && (
         <div>
           <TransparentContainer
             mountNodeId="container"
@@ -326,8 +331,8 @@ const GrpoItems = () => {
           ></TextBox>
 
           <Button
-            width={33}
-            height={33}
+            width={40}
+            height={40}
             type="normal"
             stylingMode="outlined"
             icon="search"
@@ -335,8 +340,8 @@ const GrpoItems = () => {
           />
 
           <Button
-            width={33}
-            height={33}
+            width={40}
+            height={40}
             type="normal"
             stylingMode="outlined"
             icon={GRPOScanner}
@@ -354,11 +359,13 @@ const GrpoItems = () => {
             value={
               selectedRowsData.length > 0 ? selectedRowsData[0].whsCode : ""
             }
+            height={40}
           >
             <TextBoxButton
               name="currency"
               location="after"
               options={helpOptions}
+              height={40}
             />
           </TextBox>
         </div>

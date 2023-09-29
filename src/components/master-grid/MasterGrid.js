@@ -9,6 +9,7 @@ import {
     Scrolling,
     SearchPanel,
     Selection,
+    ColumnFixing
 } from "devextreme-react/data-grid";
 import { getMasterData } from "../../utils/items-master-data";
 import { AppContext } from "../../contexts/dataContext";
@@ -47,7 +48,7 @@ function MasterGrid({ columns, masterType, keyExpr }) {
                 // alert();
                 return toastDisplayer("error", allItemsData.errorText);
             }
-            if(allItemsData){
+            if (allItemsData) {
                 return setItemsData(allItemsData.reverse());
             }
         }
@@ -94,6 +95,7 @@ function MasterGrid({ columns, masterType, keyExpr }) {
                 />
                 <SearchPanel visible={true} width={190} className={"search-panel"} />
                 <Selection mode="multiple" />
+                <ColumnFixing enabled={true} />
                 {columns.map((value, key) => (
 
                     (value["caption"] === "Actions") ?

@@ -6,7 +6,8 @@ import {
   Button as TextBoxButton,
 } from "devextreme-react/text-box";
 import { Button } from "devextreme-react";
-import { Popup, ToolbarItem } from "devextreme-react/popup";
+import { ToolbarItem } from "devextreme-react/popup";
+import { Popup } from "devextreme-react";
 import { HelpIcons } from "./icons-exporter";
 import DataGrid, {
   Column,
@@ -29,7 +30,7 @@ import Html5QrcodePlugin from "./scanner/scanner-component";
 import QtcDataGrid from "../../../components/qtcCommonComponent/qtcDataGrid";
 import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
-const PopupContent = ({ onSelectRow, onSave }) => {
+const PopupContent = ({ onSelectRow, onSave, onCancel }) => {
   const [dataSource, setDataSource] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -105,8 +106,11 @@ const PopupContent = ({ onSelectRow, onSave }) => {
       ) : (
         <div className="responsive-paddings grpo-po-help-container">
           <div className="header-section">
-            <PopupHeaderText text={"Purchase Order List"} />
+            <PopupHeaderText text={"Purchase Order List "} />
             <PopupSubText text={"Search the purchase order"} />
+          </div>
+          <div className="button-groups">
+            <Button icon="close" onClick={onCancel} />
           </div>
           <DataGrid
             height={"70vh"}
@@ -167,6 +171,12 @@ const GrpoMain = () => {
     },
   };
   // toolbar button options
+  const closeButtonOptions = {
+    icon: "close",
+    type: "default",
+    stylingMode: "contained",
+    onClick: () => handleCancelNoSelection(),
+  };
   const saveButtonOptions = {
     width: 120,
     height: 40,
@@ -175,6 +185,7 @@ const GrpoMain = () => {
     stylingMode: "contained",
     onClick: () => handleSaveSelectedPo(),
   };
+
   const cancelButtonOptions = {
     width: 120,
     height: 40,
@@ -197,7 +208,7 @@ const GrpoMain = () => {
         console.log("filteredData : ", filteredData);
         console.log("poListData : ", poListData);
         console.log("qrCodeIds : ", qrCodeIds);
-        
+
         setGrpoList1((prevGrpoList) => {
           const updatedSet = new Set(prevGrpoList);
           filteredData.forEach((response) => {
@@ -205,7 +216,7 @@ const GrpoMain = () => {
           });
           return updatedSet;
         });
-        
+
         // const qrCodeIds = poListData.map((item) => item.qrCodeID);
         const doPoExists = qrCodeIds.includes(qrCode);
         console.log("doPoExists : ", doPoExists);
@@ -341,11 +352,13 @@ const GrpoMain = () => {
   const HandleCloseQrScanner = () => {
     setShowScanner(false);
   };
-  const HandleDecodedData1 = (data)=>{
+  const HandleDecodedData1 = (data) => {
     setSelectedPo(data);
     setShowScanner(false);
   }
-  
+
+
+
   return (
     <>
       {loading && <LoadPanel visible={true} />}
@@ -353,8 +366,8 @@ const GrpoMain = () => {
         <Popup
           visible={true}
           showCloseButton={true}
-          contentRender={() => <PopupContent onSave={handleGrpoPoSelection} />}
-                  >
+          contentRender={() => <PopupContent onSave={handleGrpoPoSelection} onCancel={handleCancelNoSelection} />
+          }>
           <ToolbarItem
             widget="dxButton"
             toolbar="bottom"
@@ -399,10 +412,10 @@ const GrpoMain = () => {
               onValueChanged={handleTextValueChange}
               value={
                 selectedPo ? selectedPo :
-                selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""
+                  selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""
               }
-              // value={selectedPo}
-              // disabled={selectedRowsData.length > 0 ? false : true}
+            // value={selectedPo}
+            // disabled={selectedRowsData.length > 0 ? false : true}
             >
               <TextBoxButton
                 name="currency"
@@ -412,8 +425,8 @@ const GrpoMain = () => {
             </TextBox>
 
             <Button
-              width={33}
-              height={33}
+              width={40}
+              height={40}
               type="normal"
               stylingMode="outlined"
               icon="search"
@@ -422,8 +435,8 @@ const GrpoMain = () => {
 
             {/* {The scanner opener button} */}
             <Button
-              width={33}
-              height={33}
+              width={40}
+              height={40}
               type="normal"
               stylingMode="outlined"
               icon={GRPOScanner}

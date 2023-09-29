@@ -340,16 +340,16 @@ const PrintPopup = ({
           contentRender={() =>
             qrGenerated
               ? renderSuccessContent({
-                  qrVisibilityHandler,
-                  onQrGenerated: handleQrGenerated,
-                })
+                qrVisibilityHandler,
+                onQrGenerated: handleQrGenerated,
+              })
               : renderContent({
-                  qrVisibilityHandler,
-                  selectedQrRowData,
-                  poDetailsfull,
-                  seriesList,
-                  onQrGenerated: handleQrGenerated,
-                })
+                qrVisibilityHandler,
+                selectedQrRowData,
+                poDetailsfull,
+                seriesList,
+                onQrGenerated: handleQrGenerated,
+              })
           }
         ></Popup>
         {/* ... */}

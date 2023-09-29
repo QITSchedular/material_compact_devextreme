@@ -180,12 +180,12 @@ function IncommingQcScanItem() {
     },
   };
 
-  const SearchHandler = async () => {
-    if (detailQRCodeID) {
+  const SearchHandler = async (scannedDetailQRCodeID) => {
+    if (scannedDetailQRCodeID) {
       var reqBody = {
         headerQRCodeID: headerQRCodeID,
         docEntry: docEntry,
-        detailQRCodeID: detailQRCodeID,
+        detailQRCodeID: scannedDetailQRCodeID,
       };
       var response = await validatePoListsIQC(reqBody);
       var doProuctExist;
@@ -197,6 +197,41 @@ function IncommingQcScanItem() {
             return;
           }
         });
+      } else if (detailQRCodeID) {
+        var reqBody = {
+          headerQRCodeID: headerQRCodeID,
+          docEntry: docEntry,
+          detailQRCodeID: detailQRCodeID,
+        };
+        var response = await validatePoListsIQC(reqBody);
+        var doProuctExist;
+        if (IQCList.size > 0) {
+          doProuctExist = false;
+          IQCList.forEach((value) => {
+            if (value.detailQRCodeID == detailQRCodeID) {
+              doProuctExist = true;
+              return;
+            }
+          });
+        } else {
+          doProuctExist = false;
+        }
+
+        if (response["errorText"] == "No data found") {
+          return toastDisplayer("error", "Please enter valid item code");
+        } else if (doProuctExist && response) {
+          return toastDisplayer("error", "Product already added..!!");
+        } else if (!doProuctExist && response) {
+          setIQCList((prevIQCList) => {
+            const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
+
+            response.forEach((resp) => {
+              updatedSet.add(resp); // Add each object from prodResponse to the updatedSet
+            });
+            setIsGridVisible(true);
+            return updatedSet; // Return the updated Set
+          });
+        }
       } else {
         doProuctExist = false;
       }
@@ -220,6 +255,8 @@ function IncommingQcScanItem() {
       return toastDisplayer("error", "Please type/scan Item");
     }
   };
+
+
 
 
   const handleTextValueChange = (e) => {
@@ -390,13 +427,29 @@ function IncommingQcScanItem() {
     }
     // setShowScanner(false);
   }
+
+  // const HandleSaveDecodedScannedData = async () => {
+  //   console.log("From HandleSaveDecodedScannedData", scannedData)
+  //   setShowScanner(false);
+
+  //   scannedData.forEach(async (scannedItem) => {
+  //     await SearchHandler(scannedItem);
+  //   })
+  // }
+
   const HandleSaveDecodedScannedData = async () => {
-    console.log("From HandleSaveDecodedScannedData", scannedData)
+    console.log("From HandleSaveDecodedScannedData");
     setShowScanner(false);
-    // scannedData.forEach(async (scannedItem) => {
-    //   // await handleItemQrVerification(scannedItem);
-    // })
+
+    try {
+      scannedData.forEach(async (scannedItem) => {
+        await SearchHandler(scannedItem);
+      });
+    } catch (error) {
+      console.error("Circular reference detected. Unable to log scannedData.");
+    }
   }
+
 
   const handleScan = () => {
     setShowScanner(true);
