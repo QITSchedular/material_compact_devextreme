@@ -1,11 +1,43 @@
 import axios from "axios";
 import { API_URL } from "./items-master-data";
 
+// export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
+//   const requestBody = {
+//     branchId: "1",
+//     headerQRCodeID: qrCode,
+//     detailQRCodeID: detailQRCodeID,
+//   };
+//   // console.log("This is request body", requestBody);
+//   // return requestBody;
+//   try {
+//     const response = await axios.post(
+//       `${API_URL}/DraftGRPO/ValidateItemQR`,
+//       requestBody
+//     );
+//     const data = response.data;
+//     // console.log(data);
+
+//     return data;
+//   } catch (error) {
+//     console.error(error);
+//     const { statusCode, statusMsg } = error.data;
+//     return statusMsg;
+//   }
+// };
+
+
+
+
 export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
   const requestBody = {
-    branchId: "1",
-    headerQRCodeID: qrCode,
-    detailQRCodeID: detailQRCodeID,
+  branchId: "1",
+  headerQRCodeID: qrCode,
+  detailQRCodeID: detailQRCodeID,
+  };
+  const responseBody = {
+  responseData: null,
+  hasError: false,
+  errorMessage: null,
   };
   const responseBody = {
     responseData: null,
@@ -15,23 +47,24 @@ export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
   // console.log("This is request body", requestBody);
   // return requestBody;
   try {
-    const response = await axios.post(
-      `${API_URL}/DraftGRPO/ValidateItemQR`,
-      requestBody
-    );
-    responseBody.responseData=response.data
-    const data = response.data;
-    // console.log(data);
-
-    return responseBody;
+  const response = await axios.post(
+  `${API_URL}/DraftGRPO/ValidateItemQR`,
+  requestBody
+  );
+  responseBody.responseData=response.data
+  const data = response.data;
+  // console.log(data);
+  
+  return responseBody;
   } catch (error) {
-    responseBody.hasError=true;
-    responseBody.errorMessage=error.response.data;
-    // console.error(error);
-    const { statusCode, statusMsg } = error.response.data;
-    return responseBody;
+  responseBody.hasError=true;
+  responseBody.errorMessage=error.response.data;
+  // console.error(error);
+  const { statusCode, statusMsg } = error.response.data;
+  return responseBody;
   }
-};
+  };
+  
 
 const grpoDetailsConstructor = async (
   gridDataSource,
@@ -145,6 +178,10 @@ export const ValidateItemQR1 = async (qrCode, detailQRCodeID, docEntry) => {
     "detailQRCodeID": detailQRCodeID,
     "grpoDocEntry": docEntry
   };
+  const errors = {
+    hasError: false,
+    errorText: "Something went wrong",
+  };
   // return requestBody;
   try {
     const response = await axios.post(
@@ -155,8 +192,12 @@ export const ValidateItemQR1 = async (qrCode, detailQRCodeID, docEntry) => {
 
     return data;
   } catch (error) {
-    // console.error(error);
-    const { statusCode, statusMsg } = error.response.data;
-    return statusMsg;
+    const  statusMsg  = error.message;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    } 
+    return errors;
   }
 };

@@ -218,6 +218,7 @@ const QtcSearchColumn = ({popupHeaderText,popupSubHeaderText,keyArray,PopUpConte
                   showClearButton={true}
                   onValueChanged={handlefunc}
                   value={
+                    selectedData ? selectedData :
                     selectedRowsData.length > 0
                       ? selectedRowsData[0].qrCodeID
                       : ''

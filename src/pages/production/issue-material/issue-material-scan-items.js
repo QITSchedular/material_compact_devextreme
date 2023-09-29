@@ -15,6 +15,7 @@ import {
 } from "../../../api/production.api";
 import { BackBtn } from "../../../components";
 import './issue-material-main.styles.scss';
+import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
 const IssueMaterialScanItems = () => {
   let { id } = useParams();
@@ -24,7 +25,8 @@ const IssueMaterialScanItems = () => {
   const [showListDataGrid, setShowListDataGrid] = useState(false);
   const [scannedQrString, setScannedQrString] = useState("");
   const [scannedItemsData, setScannedItemsData] = useState([]);
-
+  const [showScanner, setShowScanner] = useState(false); 
+  const [scannedData, setScannedData] = useState([]);
   const inputQrValueChangedCallback = (data) => {
     // console.log(data.value);
     if (data.value) {
@@ -102,16 +104,46 @@ const IssueMaterialScanItems = () => {
     }
   }, []);
 
+  const handleScan = () => {
+    setShowScanner(true);
+    console.log("Handle Scan");
+  };
+  const HandleCloseQrScanner = () => {
+    setShowScanner(false);
+  };
+  const HandleDecodedData1 = (data1)=>{
+    // console.log("Scanned Data : ",data1);
+    if (scannedData.includes(data1)) {
+      console.log(`${data1} is already available.`);
+    } else {
+      setScannedData([...scannedData, data1]);
+    }
+    // setShowScanner(false);
+  }
+  const HandleSaveDecodedScannedData = async()=>{
+    console.log("From HandleSaveDecodedScannedData",scannedData)
+    setShowScanner(false);
+    // scannedData.forEach(async(scannedItem)=>{
+    //   await handleItemQrVerification(scannedItem);
+    // })
+  }
   return (
+
     <div className="content-block dx-card responsive-paddings default-main-conatiner issue-material-scanItems-container ">
-      <div className="topbar">
-        <div className="header-section">
-          <PopupHeaderText text={"Issue Material"} />
-          <PopupSubText text={"Type or scan the item code to make an entry"} />
+     {showScanner && (
+        <div>
+          <TransparentContainer
+            mountNodeId="container"
+            showScan={showScanner}
+            HandleCloseQrScanner1={HandleCloseQrScanner}
+            HandleDecodedData={HandleDecodedData1}
+            HandleSaveDecodedData={HandleSaveDecodedScannedData}
+          ></TransparentContainer>
         </div>
-        <div className="btn-section">
-          <BackBtn />
-        </div>
+      )}
+      <div className="header-section">
+        <PopupHeaderText text={"Issue Material"} />
+        <PopupSubText text={"Type or scan the item code to make an entry"} />
       </div>
 
       <div className="search-section">
@@ -141,7 +173,7 @@ const IssueMaterialScanItems = () => {
           type="normal"
           stylingMode="outlined"
           icon={GRPOScanner}
-          onClick={() => console.log("You have cliced the scanner")}
+          onClick={handleScan}
         />
       </div>
       {showListDataGrid && (

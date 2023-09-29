@@ -3,7 +3,7 @@
     flex-direction: column;
     margin-top: "40px";
     margin-bottom: "40px";
-    min-height: 70vh;
+    // min-height: 70vh;
 
     .title-section {
         .title-name {
@@ -96,7 +96,7 @@
     }
 
     .data-grid-section {
-        margin-top: 1rem !important;
+        margin-top: 3rem !important;
     }
 
     
@@ -222,6 +222,8 @@
         .actions-section {
             flex-direction: column;
             gap: 1.2rem;
+            padding-left: 12px;
+
             .action-before-section {
                
                 width: 100%;
@@ -240,6 +242,8 @@
         .actions-section {
             flex-direction: column;
             gap: 1.2rem;
+            padding-left: 12px;
+
             .action-before-section {
                 gap: 1.2rem;
             }
@@ -255,6 +259,8 @@
         .actions-section {
             flex-direction: row;
             gap: 1.2rem;
+            padding-left: 12px;
+
             .action-before-section {
                
                 // width: 100%;

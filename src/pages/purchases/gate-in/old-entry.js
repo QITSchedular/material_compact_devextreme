@@ -65,6 +65,7 @@ function OldEntryComponent() {
         remoteOperations={true}
         height={400}
         className="gate-in-data-grid"
+        
       >
         <SearchPanel
           visible={true}
