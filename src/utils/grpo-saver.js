@@ -26,18 +26,11 @@ import { API_URL } from "./items-master-data";
 // };
 
 
-
-
 export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
   const requestBody = {
   branchId: "1",
   headerQRCodeID: qrCode,
   detailQRCodeID: detailQRCodeID,
-  };
-  const responseBody = {
-  responseData: null,
-  hasError: false,
-  errorMessage: null,
   };
   const responseBody = {
     responseData: null,

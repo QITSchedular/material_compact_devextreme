@@ -187,7 +187,7 @@ const PickPackMain = () => {
           ></TransparentContainer>
         </div>
       )}
-      <div className="header-section">
+      <div className="title-section">
         <PopupHeaderText text={"Pick & Packer"} />
         <PopupSubText text={"Search the sales order to pick the items "} />
       </div>
