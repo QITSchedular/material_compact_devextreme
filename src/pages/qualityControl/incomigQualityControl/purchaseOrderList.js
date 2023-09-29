@@ -24,7 +24,7 @@ function PurchaseOrderList({ handleCancel, handleSave, handleDataGridRowSelectio
   useEffect(() => {
     setLoading(true);
     const dataGridDataHandler = async () => {
-      const poListData = await getPoListsIC();
+      const poListData = await getPoListsIC(fromDate, toDate);
       if (poListData.length > 0) {
         console.log("It has data");
         setSelectedRowKeys(selectedRowKeys);

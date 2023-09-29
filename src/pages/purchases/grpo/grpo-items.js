@@ -41,30 +41,77 @@ const GrpoItems = () => {
   };
 
   // on hit of search button
+  // const handleItemQrVerification = async (e) => {
+  //   // validate the scanned item
+  //   if (selectedItemQr) {
+  //     const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
+  //     console.log(doItemExists)
+  //     if (doItemExists === "No data found") {
+  //       // console.log("the scanned item does not exist");
+  //       return toastDisplayer(
+  //         "error",
+  //         "The scanned item does not belong to this P.O"
+  //       );
+  //     } else {
+  //       const temp=doItemExists.responseData;
+  //       // Filter out duplicate detailQRCodeID values
+  //       const newData = temp.filter(
+  //         (item) => !uniqueIds.has(item.detailQRCodeID)
+  //       );
+  //       setDisplayGrid(true);
+  //       console.log(gridDataSource)
+  //       return setGridDataSource((previous) => [...previous, ...temp]);
+  //     }
+  //   } else {
+  //     setDisplayGrid(false);
+  //     return toastDisplayer("error", "Scan the Item Qr first");
+  //   }
+  // }
+
   const handleItemQrVerification = async (e) => {
     // validate the scanned item
     if (selectedItemQr) {
-      const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
-
-      if (doItemExists === "No data found") {
+      const response = await ValidateItemQR(qrCode, selectedItemQr);
+      // console.log(response)
+      if (response.hasError) {
         // console.log("the scanned item does not exist");
         return toastDisplayer(
           "error",
-          "The scanned item does not belong to this P.O"
+          response.errorMessage.statusMsg
         );
       } else {
+        const doItemExists = response.responseData;
+        var doProuctExist;
         // Filter out duplicate detailQRCodeID values
-        const newData = doItemExists.filter(
-          (item) => !uniqueIds.has(item.detailQRCodeID)
-        );
+        if (gridDataSource.length > 0) {
+          doProuctExist = false;
+          gridDataSource.map((value) => {
+            if (value.detailQRCodeID == selectedItemQr) {
+              doProuctExist = true;
+              return;
+            }
+          });
+        } else {
+          doProuctExist = false;
+        }
+
+        if (doProuctExist) {
+          return toastDisplayer("error", "Scan the Item Qr is already added..!!");
+
+        }else{
         setDisplayGrid(true);
         return setGridDataSource((previous) => [...previous, ...doItemExists]);
+
+        }
+        // console.log("old data....", gridDataSource)
+        // console.log("new data ...", newData)
       }
     } else {
       setDisplayGrid(false);
       return toastDisplayer("error", "Scan the Item Qr first");
     }
   };
+
 
   const handleGrpoSaving = async () => {
     // return null;
@@ -95,13 +142,13 @@ const GrpoItems = () => {
         comments,
         choosenWarehouseName
       );
-      console.log("doGrpo", doGrpo.isSaved);
+      // console.log("doGrpo", doGrpo.isSaved);
       if (doGrpo.isSaved === "Y") {
-        console.log("saved");
+        // console.log("saved");
         setLoading(false);
         return toastDisplayer("succes", `${doGrpo.statusMsg}`);
       } else {
-        console.log("error in save");
+        // console.log("error in save");
         setLoading(false);
         return toastDisplayer("error", `${doGrpo.statusMsg}`);
       }
@@ -137,15 +184,15 @@ const GrpoItems = () => {
   };
   const handleSaveSelectedPo = () => {
     if (selectedRowsData.length > 0) {
-      console.log("Current selected row data", selectedRowsData);
-      console.log("Close the popup window");
+      // console.log("Current selected row data", selectedRowsData);
+      // console.log("Close the popup window");
       return setShowWareHousePopupHelp(false);
     } else {
       return toastDisplayer("error", "Please select a PO to save and proceed");
     }
   };
   const handleCancelNoSelection = () => {
-    console.log("User have clicked the cancel buttpn, clear the selection");
+    // console.log("User have clicked the cancel buttpn, clear the selection");
     // setSelectedRowsData([]);
     return setShowWareHousePopupHelp(false);
   };
@@ -158,15 +205,15 @@ const GrpoItems = () => {
     onClick: () => handleCancelNoSelection(),
   };
   const warehousePopUpHandler = async () => {
-    console.log("Open pop up");
+    // console.log("Open pop up");
     return await setShowWareHousePopupHelp(true);
   };
   const popupCloseHandler = async () => {
-    console.log("Open pop up");
+    // console.log("Open pop up");
     return await setShowWareHousePopupHelp(false);
   };
   const handleGrpoPoSelection = (params) => {
-    console.log("from the handleGrpoPoSelection shbchjasbs", params);
+    // console.log("from the handleGrpoPoSelection shbchjasbs", params);
     if (params.length > 0) {
       return setSelectedRowsData(params);
     }
@@ -178,7 +225,7 @@ const GrpoItems = () => {
     //   setChoosenWarehouseName(data);
 
     // }
-    console.log(data);
+    // console.log(data);
     await setChoosenWarehouseName(data.value);
   };
   return (
@@ -195,7 +242,7 @@ const GrpoItems = () => {
               handleSaveSelectedWarehouse={handleGrpoPoSelection}
             />
           )}
-          // hideOnOutsideClick={outSideHandler}
+        // hideOnOutsideClick={outSideHandler}
         >
           <ToolbarItem
             widget="dxButton"
