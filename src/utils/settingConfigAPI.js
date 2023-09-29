@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_URL } from "./items-master-data";
+import { toastDisplayer } from "../api/qrgenerators";
 
 export const getWarehouse = async () => {
     try {
@@ -8,7 +9,7 @@ export const getWarehouse = async () => {
 
         return data;
     } catch (error) {
-        return error;
+        return toastDisplayer('error', error.message);
     }
 };
 
@@ -19,7 +20,7 @@ export const getSettingConfig = async () => {
 
         return data;
     } catch (error) {
-        return error;
+        // return toastDisplayer('error', error.message);
     }
 };
 
@@ -30,6 +31,6 @@ export const setSettingConfig = async () => {
 
         return data;
     } catch (error) {
-        return error;
+        return toastDisplayer('error', error.message);
     }
 };

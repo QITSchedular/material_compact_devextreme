@@ -4,20 +4,20 @@
     margin-top: 60px;
 
     .image404 {
-        animation: zoomimage 2s forwards ease-in-out;
+        animation: zoomimage 1s infinite ease-in-out;
     }
 
     @keyframes zoomimage {
         0% {
-            transform: scale(1.1) rotate(0deg);
+            transform: scale(1);
         }
 
         50% {
-            transform: scale(0.9) rotate(360deg);
+            transform: scale(1.05);
         }
 
         100% {
-            transform: scale(1.1) rotate(0deg);
+            transform: scale(1);
         }
     }
 

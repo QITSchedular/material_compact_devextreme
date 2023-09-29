@@ -115,12 +115,11 @@
                     &.dx-state-selected:not(.dx-state-focused)>.dx-treeview-item {
                         background: #f2f2f2 !important;
                         margin-bottom: 10px;
-                        // border-radius: 8px 0px 0px 8px;
                     }
 
                     &.dx-state-selected>.dx-treeview-item * {
                         transition: all .3s ease-in-out;
-                        background-color: #f2f2f2 !important;
+                        // background-color: #f2f2f2 !important;
                         color: #161616;
                         // border-radius: 8px 0px 0px 8px;
                     }

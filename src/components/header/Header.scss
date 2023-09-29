@@ -232,24 +232,96 @@
         .breadcrumb-item.active:before {
             content: url("data: image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDggMTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik01LjI0NjI0IDYuMDAwMDJMMC42NDYyNCAxLjQwMDAyTDEuNzAwMDcgMC4zNDYxOTFMNy4zNTM4OSA2LjAwMDAyTDEuNzAwMDcgMTEuNjUzOEwwLjY4MjUyNCAxMC42MzYxOTFMNS4yNDYyNCA2LjAwMDAyWiIgZmlsbD0iYmxhY2siLz4KPC9zdmc+Cg==");
             padding: 0px 12px;
-            color: #000;
         }
 
         .breadcrumb-item.active {
-            color: #000;
+            color: #525252;
             text-decoration: none;
 
             a {
-                color: #000 !important;
+                color: #525252 !important;
             }
         }
     }
 }
 
-.dropdown-background {
+::-webkit-scrollbar {
+    width: 5px;
+    overflow: hidden;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+}
+
+::-webkit-scrollbar-track:hover {
+    background-color: #f0f0f0;
+}
+
+.search-result-box {
     position: absolute;
-    z-index: 170;
-    height: 100vh;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.55);
+    height: 60vh;
+    width: 300px;
+    top: 50px;
+    right: 15.4rem;
+    z-index: 100;
+    border-radius: 8px 8px;
+    border-bottom: 4px solid #4371B7;
+    background: rgba(255, 255, 255, 1);
+    overflow-y: scroll;
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        a {
+            text-decoration: none;
+        }
+
+        li {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            padding: 16px 20px;
+            font-size: 18px;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .heading {
+                display: flex;
+                align-items: center;
+                color: #262626;
+                gap: 1rem;
+
+                .list-icon {
+                    font-size: 20px;
+                    background-color: rgba(67, 113, 183, .15);
+                    border-radius: 50%;
+                    padding: 6px;
+                    color: #2f2f2f;
+                    // color: #FFF;
+                }
+
+                .heading-text {
+                    display: flex;
+                    flex-direction: column;
+                    font-size: 14px;
+                    color: #525252;
+
+                    .path {
+                        text-transform: capitalize;
+                        font-size: 12px;
+                        color: #6f6f6f;
+                    }
+                }
+            }
+
+        }
+    }
 }
