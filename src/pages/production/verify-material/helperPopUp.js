@@ -78,7 +78,7 @@ function HelperPopUp({
               dataField="itemCode"
               alignment="left"
               caption={"Item Code"}
-              // dataType={"date"}
+            // dataType={"date"}
             />
             <Column
               dataField="seriesName"
@@ -105,7 +105,7 @@ function HelperPopUp({
           </DataGrid>
         </div>
         <div
-          className="buttons-section"
+          className="btn-section"
           style={{ display: "flex", justifyContent: "flex-end" }}
         >
           <Button

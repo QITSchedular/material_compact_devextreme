@@ -142,7 +142,7 @@ const PickPackProcess = () => {
       <div className='header-section'>
         <PopupHeaderText text={'Pick & Packer'} />
         <PopupSubText text={'Search the sales order to pick the items'} />
-      </div>
+      </div> */}
       <QtcSearchColumn
         popupHeaderText='Purchase Order List'
         popupSubHeaderText='Search the purchase order'

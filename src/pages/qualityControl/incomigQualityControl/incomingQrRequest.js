@@ -72,7 +72,6 @@ function IncomingQrRequest({
         // console.log("approve call : ",approveCall)
         apiCalls.push(approveCall);
       }
-
       try {
         const responses = await Promise.all(apiCalls);
         responses.forEach((response, index) => {
@@ -181,7 +180,7 @@ function IncomingQrRequest({
               >
               </NumberBox>
             </div>
-            <div className="particularDetail" style={{"marginTop":"0.5rem"}}>
+            <div className="particularDetail" style={{ "marginTop": "0.5rem" }}>
               <div className="particularDetail-txt">
                 <p className="particularDetail-titleTxt">Rejected Quantity</p>
                 <p className="titleTxt">{rejectWareHouse ? rejectWareHouse : " --- "}</p>
@@ -201,7 +200,7 @@ function IncomingQrRequest({
               >
               </NumberBox>
             </div>
-            <div className="particularDetail" style={{"margin":"0.5rem 0rem 0.5rem 0.5rem"}}>
+            <div className="particularDetail" style={{ "margin": "0.5rem 0rem 0.5rem 0.5rem" }}>
               <TextBox
                 // className="dx-field-value"
                 className="form-element txt-remark"
@@ -238,7 +237,7 @@ function IncomingQrRequest({
                 height={45}
                 onClick={handleSave}
                 className="OkQcBtn"
-                // disabled={selectedRowKeys.length > 0 ? false : true}
+              // disabled={selectedRowKeys.length > 0 ? false : true}
               />
             </div>
           </div>

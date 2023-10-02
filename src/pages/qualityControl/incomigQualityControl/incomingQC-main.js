@@ -1,5 +1,4 @@
 import React from "react";
-import "./incomingQC.scss";
 import IncomingQCComponent from "./incomingQC";
 import IncomingQc_Header from "./IncomingQc-Header";
 

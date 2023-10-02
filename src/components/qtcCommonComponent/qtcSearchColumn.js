@@ -1,21 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Button from 'devextreme-react/button'
-import {TextBox,Button as NormalButton,Button as TextBoxButton} from 'devextreme-react/text-box'
+import { TextBox, Button as NormalButton, Button as TextBoxButton } from 'devextreme-react/text-box'
 import { DataGrid, Popup } from 'devextreme-react'
 import { ToolbarItem } from 'devextreme-react/autocomplete'
-import { PopupHeaderText,PopupSubText } from '../typographyTexts/TypographyComponents'
-import { Column,Paging,Scrolling,SearchPanel,Selection } from 'devextreme-react/data-grid'
+import { PopupHeaderText, PopupSubText } from '../typographyTexts/TypographyComponents'
+import { Column, Paging, Scrolling, SearchPanel, Selection } from 'devextreme-react/data-grid'
 import { HelpIcons } from '../../pages/purchases/grpo/icons-exporter'
 import { toastDisplayer } from '../../api/qrgenerators'
 
-const PopupContent = ({popupHeaderText,popupSubHeaderText,onSave,PopUpContent,selectedRowsData}) => {
+const PopupContent = ({ popupHeaderText, popupSubHeaderText, onSave, PopUpContent, selectedRowsData }) => {
   const [dataSource, setDataSource] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const [selectedRowData, setSelectedRowData] = useState('')
   const dataGridRef = useRef()
 
-  const handleDataGridRowSelection = async ({selectedRowKeys,selectedRowsData}) => {
+  const handleDataGridRowSelection = async ({ selectedRowKeys, selectedRowsData }) => {
     const length = await selectedRowKeys.length;
     if (selectedRowKeys.length > 1) {
       const value = await dataGridRef.current.instance.selectRows(
@@ -73,7 +73,7 @@ const PopupContent = ({popupHeaderText,popupSubHeaderText,onSave,PopUpContent,se
         </div>
       ) : (
         <div className='responsive-paddings grpo-po-help-container'>
-          <div className='header-section'>
+          <div className='title-section'>
             <PopupHeaderText text={popupHeaderText} />
             <PopupSubText text={popupSubHeaderText} />
           </div>
@@ -118,7 +118,7 @@ const PopupContent = ({popupHeaderText,popupSubHeaderText,onSave,PopUpContent,se
   )
 }
 
-const QtcSearchColumn = ({popupHeaderText,popupSubHeaderText,keyArray,PopUpContent,getparamFunc}) => {
+const QtcSearchColumn = ({ popupHeaderText, popupSubHeaderText, keyArray, PopUpContent, getparamFunc }) => {
   const [selectedRowsData, setSelectedRowsData] = useState([])
   const [selectedData, setSelectedData] = useState([])
   const [showPoHelp, setShowPoHelp] = useState(false)
@@ -224,11 +224,13 @@ const QtcSearchColumn = ({popupHeaderText,popupSubHeaderText,keyArray,PopUpConte
                       : ''
                   }
                   // disabled={selectedData.length > 0 ? false : true}
+                  height={40}
                 >
                   <TextBoxButton
                     name='currency'
                     location='after'
                     options={helpOptions}
+                    height={40}
                   />
                 </TextBox>
               )
@@ -246,7 +248,8 @@ const QtcSearchColumn = ({popupHeaderText,popupSubHeaderText,keyArray,PopUpConte
                       ? selectedRowsData[0].qrCodeID
                       : ''
                   }
-                  // disabled={selectedData.length > 0 ? false : true}
+                  height={40}
+                // disabled={selectedData.length > 0 ? false : true}
                 ></TextBox>
               )
             }
@@ -254,8 +257,8 @@ const QtcSearchColumn = ({popupHeaderText,popupSubHeaderText,keyArray,PopUpConte
             if (btnIcon == 'search') {
               return (
                 <Button
-                  width={33}
-                  height={33}
+                  width={40}
+                  height={40}
                   type='normal'
                   stylingMode='outlined'
                   icon={btnIcon}
@@ -265,8 +268,8 @@ const QtcSearchColumn = ({popupHeaderText,popupSubHeaderText,keyArray,PopUpConte
             } else {
               return (
                 <Button
-                  width={33}
-                  height={33}
+                  width={40}
+                  height={40}
                   type='normal'
                   stylingMode='outlined'
                   icon={btnIcon}

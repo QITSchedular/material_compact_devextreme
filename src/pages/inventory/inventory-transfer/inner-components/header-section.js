@@ -1,12 +1,11 @@
 import React from "react";
-import "./header.styles.scss";
 import { GRPOScanner } from "../../../../assets/icon";
 import { Button, TextBox } from "devextreme-react";
 const HeaderSection = ({
   productionNumberInputHandler,
   productionNumberInput,
   productionNumberInputSearchHandler,
-txtBoxRef,
+  txtBoxRef,
 handleScan,
 scannedData
 }) => {
@@ -21,8 +20,8 @@ scannedData
           showClearButton={true}
           valueChangeEvent="keyup"
           onValueChanged={(data) => productionNumberInputHandler(data)}
-ref={txtBoxRef}
-value={scannedData}
+          ref={txtBoxRef}
+          value={scannedData}
         ></TextBox>
         <Button
           width={33}
@@ -32,7 +31,7 @@ value={scannedData}
           icon="search"
           onClick={productionNumberInputSearchHandler}
           disabled={!productionNumberInput ? true : false}
-          //   value={inputQrValue}
+        //   value={inputQrValue}
         />
         <Button
           width={33}

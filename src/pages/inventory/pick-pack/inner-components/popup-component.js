@@ -9,6 +9,7 @@ import {
   Scrolling,
   SearchPanel,
   Selection,
+  Button
 } from "devextreme-react/data-grid";
 
 const PopupHelpComponent = ({
@@ -83,6 +84,9 @@ const PopupHelpComponent = ({
         <PopupSubText
           text={"Scroll through the list or type in the search box.."}
         />
+      </div>
+      <div className="button-groups">
+        <Button icon="close" onClick={popUpOutsideClickHandler} />
       </div>
       {loading && <LoadPanel visible={true} shading={true} />}
       <div

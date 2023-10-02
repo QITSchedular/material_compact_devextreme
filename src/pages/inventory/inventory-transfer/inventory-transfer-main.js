@@ -198,7 +198,7 @@ const InventorytransferMain = () => {
           <Button
             text="New"
             width={124}
-            height={35}
+            height={40}
             icon="refresh"
             onClick={handleRefresh}
             className="refreshBtnIT"
