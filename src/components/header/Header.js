@@ -45,7 +45,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
     const flattenedNavigation = flattenNavigation(navigation);
 
     const [filteredItems, setfilteredItems] = useState(flattenedNavigation);
-    const [textBoxValue, settextBoxValue] = useState("");
+    const [textBoxValue, settextBoxValue] = useState(null);
     const searchRef = useRef(null);
     const searchBoxRef = useRef(null);
 
@@ -80,40 +80,49 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
             );
             setfilteredItems(result);
         }
+        else {
+            setfilteredItems(flattenedNavigation);
+        }
     };
 
 
     const SearchResultBox = () => {
+        const animationDelay = 0.05; // Set your initial animation delay here
+
         return (
             <div className="dropdown-background">
                 <div className="search-result-box" ref={searchRef}>
                     <ul>
                         {
-                            console.log()
-                            // filteredItems.map((item) => (
-                            //     <Link to={item.path} onClick={() => settextBoxValue(null)}>
-                            //         <li>
-                            //             <div className="heading">
-                            //                 <span className="material-symbols-outlined list-icon">
-                            //                     {item.icon}
-                            //                 </span>
-                            //                 <span className="heading-text">
-                            //                     {item.text}
-                            //                     <span className="path">
-                            //                         {
-                            //                             item.path.split('/').slice(1).join(' > ').split('/').map((pathPart, index, array) => (
-                            //                                 <div key={index}>
-                            //                                     {pathPart}
-                            //                                     {index < array.length - 1 && ' > '}
-                            //                                 </div>
-                            //                             ))
-                            //                         }
-                            //                     </span>
-                            //                 </span>
-                            //             </div>
-                            //         </li>
-                            //     </Link>
-                            // ))
+                            (filteredItems && filteredItems.length > 0) ?
+                                filteredItems.map((item, index) => (
+                                    <Link to={item.path} onClick={() => settextBoxValue(null)}>
+                                        <li style={{ animationDelay: `${animationDelay * index}s` }}>
+                                            <div className="heading">
+                                                <span className="material-symbols-outlined list-icon">
+                                                    {item.icon}
+                                                </span>
+                                                <div className="divider"></div>
+                                                <span className="heading-text">
+                                                    {item.text}
+                                                    <span className="path">
+                                                        {
+                                                            item.path.split('/').slice(1).join(' > ').split('/').map((pathPart, index, array) => (
+                                                                <div key={index}>
+                                                                    {pathPart}
+                                                                    {index < array.length - 1 && ' > '}
+                                                                </div>
+                                                            ))
+                                                        }
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </Link>
+                                )) :
+                                <>
+                                    <div className="no-data-found">No Data Found</div>
+                                </>
                         }
                     </ul>
                 </div>

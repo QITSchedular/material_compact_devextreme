@@ -43,23 +43,64 @@ export function SettingProvider({ children }) {
                         result[0].inProcessQCWhs || "",
                         result[0].approvedWhs || "",
                         result[0].rejectedWhs || ""
-                    ]
+                    ],
+                    'Enable Verify Material': {
+                        "Yes": result[0].qcRequired === "Y",
+                        "No": result[0].qcRequired === "N",
+                    },
+                    'Pro Rework Reason': {
+                        "Yes": result[0].isProRework === "Y",
+                        "No": result[0].isProRework === "N",
+                    },
                 };
                 const originalValuesCopy = JSON.parse(JSON.stringify(resultObject));
-                // Object.freeze(originalValuesCopy);
 
                 setSettingValues(resultObject);
                 setOriginalSettingValues(originalValuesCopy);
-
-                // console.log("SettingValues", SettingValues);
-                // console.log("OriginalSettingValues", OriginalSettingValues);
-                // console.log("resultObject", resultObject);
             } catch (error) {
+                setSettingValues({
+                    'Batch / Serial No Generation Method': {
+                        "Auto": false,
+                        "Manual": false,
+                    },
+                    'QR Managed by': {
+                        "None": false,
+                        "Manual": false,
+                        "Serial Numbar": false,
+                    },
+                    'QR Generation Method': {
+                        "Transaction Wise QR": false,
+                        "Master Wise QR": false,
+                    },
+                    'Batch Type': {
+                        "Batch": false,
+                        "Batch + Project": false,
+                    },
+                    'Quality Control': {
+                        "Yes": false,
+                        "No": false,
+                    },
+                    'Default Period Indicator': "",
+                    'Warehouse': [
+                        "",
+                        "",
+                        "",
+                        ""
+                    ],
+                    'Enable Verify Material': {
+                        "Yes": false,
+                        "No": false,
+                    },
+                    'Pro Rework Reason': {
+                        "Yes": false,
+                        "No": false,
+                    },
+                });
                 console.error("Error", error);
             }
         };
 
-        fetchData(); // Call the async function
+        fetchData();
     }, []);
 
 

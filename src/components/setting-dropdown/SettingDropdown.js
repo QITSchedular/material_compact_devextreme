@@ -125,6 +125,14 @@ function SettingDropdown() {
             title: 'Default Period Indicator',
             html: <SettingDropDownInputBox selectBoxGroup={"Default Period Indicator"} />,
         },
+        {
+            title: 'Enable Verify Material',
+            html: <CustomCheckBox checkboxvalue={["Yes", "No"]} checkboxgroup={'Enable Verify Material'} />
+        },
+        {
+            title: 'Pro Rework Reason',
+            html: <CustomCheckBox checkboxvalue={["Yes", "No"]} checkboxgroup={'Pro Rework Reason'} />
+        },
     ];
 
     return (
