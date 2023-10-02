@@ -16,7 +16,6 @@ import DataGrid, {
   Button,
   ColumnFixing,
 } from "devextreme-react/data-grid";
-import "../gate-in-styles.scss";
 import "./printqr-styles.scss";
 //sample data Things
 
@@ -303,7 +302,7 @@ const PrintQrMainComp = () => {
     // console.log(data);
     return await setShowPrintPop(data);
   };
-
+  
   const shouldDisableButtonForRow1 = async (
     docEntry,
     docNum,
@@ -387,6 +386,7 @@ const PrintQrMainComp = () => {
               items={periodIndicators}
               onItemClick={periodItemsClick}
               className="period-indicator"
+              height={40}
             />
             <DropDownButton
               text={
@@ -398,6 +398,7 @@ const PrintQrMainComp = () => {
               displayExpr={"seriesName"}
               onItemClick={handleSeriesSelectionClick}
               className="series-indicator"
+              height={40}
             />
           </div>
           <div>
@@ -413,6 +414,7 @@ const PrintQrMainComp = () => {
               displayExpr={"gateInNo"}
               onItemClick={handleGateInNumSelectionClick}
               className="gatein-num-list"
+              height={40}
             />
           </div>
         </div>
@@ -424,11 +426,12 @@ const PrintQrMainComp = () => {
             width={250}
             showClearButton={true}
             onValueChanged={handlePurchaseOrderEntry}
+            height={40}
           />
 
           <NormalButton
-            width={33}
-            height={33}
+            width={40}
+            height={40}
             type="normal"
             stylingMode="outlined"
             icon="search"
@@ -444,7 +447,7 @@ const PrintQrMainComp = () => {
               id="data-grid-container-local"
               dataSource={poData}
               keyExpr={"gateInNo"}
-              showBorders={false}
+              showBorders={true}
               focusedRowEnabled={true}
               defaultFocusedRowIndex={0}
               columnAutoWidth={true}

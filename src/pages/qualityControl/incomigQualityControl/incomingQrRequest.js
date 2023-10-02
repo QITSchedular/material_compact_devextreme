@@ -88,13 +88,25 @@ function IncomingQrRequest({
     //         toastDisplayer("error", response['statusMsg']);
     //       }
     //     });
+      try {
+        const responses = await Promise.all(apiCalls);
+        responses.forEach((response, index) => {
+          if (response["statusCode"] == "200") {
+            if (index == 0) {
+              toastDisplayer("succes", "Approve processed successfully..!!");
+            } else if (index == 1) {
+              toastDisplayer("succes", "Reject processed successfully..!!");
+            }
+          } else {
+            toastDisplayer("error", response["errorText"]);
+          }
+        });
 
-    //     handleCancelQrRequest();
-    //   } catch (err) {
-    //     toastDisplayer("error", "Something went wrong");
-    //   }
-    // }
-    clearData();
+        handleCancelQrRequest();
+      } catch (err) {
+        toastDisplayer("error", "Something went wrong");
+      }
+    }
   };
   const handleValueChange = async (e) => {
     await setRejectComment(e.value);
@@ -181,7 +193,7 @@ function IncomingQrRequest({
               >
               </NumberBox>
             </div>
-            <div className="particularDetail" style={{"marginTop":"0.5rem"}}>
+            <div className="particularDetail" style={{ "marginTop": "0.5rem" }}>
               <div className="particularDetail-txt">
                 <p className="particularDetail-titleTxt">Rejected Quantity</p>
                 <p className="titleTxt">{rejectWareHouse ? rejectWareHouse : " --- "}</p>
@@ -201,7 +213,7 @@ function IncomingQrRequest({
               >
               </NumberBox>
             </div>
-            <div className="particularDetail" style={{"margin":"0.5rem 0rem 0.5rem 0.5rem"}}>
+            <div className="particularDetail" style={{ "margin": "0.5rem 0rem 0.5rem 0.5rem" }}>
               <TextBox
                 // className="dx-field-value"
                 className="form-element txt-remark"
@@ -238,7 +250,7 @@ function IncomingQrRequest({
                 height={45}
                 onClick={handleSave}
                 className="OkQcBtn"
-                // disabled={selectedRowKeys.length > 0 ? false : true}
+              // disabled={selectedRowKeys.length > 0 ? false : true}
               />
             </div>
           </div>

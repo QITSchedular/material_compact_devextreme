@@ -6,6 +6,8 @@ import DataGrid, {
   Selection,
   Editing,
   SearchPanel,
+  ColumnFixing,
+  Button
 } from "devextreme-react/data-grid";
 import { GateInList } from "../../../utils/gate-in-purchase";
 
@@ -57,11 +59,10 @@ function OldEntryComponent() {
         id="data-grid-container-local"
         dataSource={transporterDataSource}
         keyExpr={"srNo"}
-        showBorders={false}
+        showBorders={true}
         focusedRowEnabled={true}
         defaultFocusedRowIndex={0}
         columnAutoWidth={true}
-        columnHidingEnabled={false}
         remoteOperations={true}
         height={400}
         className="gate-in-data-grid"
@@ -69,20 +70,24 @@ function OldEntryComponent() {
       >
         <SearchPanel
           visible={true}
-          width={190}
           highlightCaseSensitive={true}
-          className={"search-panel"}
+          height={40}
+          className="search-panel"
         />
         <Scrolling mode={scrollingMode} />
         <Paging defaultPageSize={10} />
         <Selection mode="multiple" />
-
+        <ColumnFixing enabled={true} />
         <Editing
           mode="row"
-          allowDeleting
-          allowUpdating
-          selectTextOnEditStart={true}
+          allowDeleting={true}
+          allowUpdating={true}
+          useIcons={true}
         />
+        <Column type="buttons" caption="Actions">
+          <Button name="edit" />
+          <Button name="delete" />
+        </Column>
         <Column
           dataField={"docNum"}
           caption={"PO Document No."}

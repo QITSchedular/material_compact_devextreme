@@ -22,6 +22,7 @@ import DataGrid, {
   Scrolling,
 } from "devextreme-react/data-grid";
 import IncomingQrRequest from "./incomingQrRequest";
+import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
 function IncommingQcScanItem() {
   const columns = [
@@ -109,6 +110,12 @@ function IncommingQcScanItem() {
   const dataGridRef = useRef();
   const dataGridRefList = useRef();
 
+  //scanner open and close
+  const [showScanner, setShowScanner] = useState(false);
+  //for Data
+  const [scannedData, setScannedData] = useState([]);
+
+
   //pop up cancel handler QR request
   const handleCancelQrRequest = async () => {
     const value = await dataGridRefList.current.instance.selectRows(
@@ -176,12 +183,12 @@ function IncommingQcScanItem() {
     },
   };
 
-  const SearchHandler = async () => {
-    if (detailQRCodeID) {
+  const SearchHandler = async (scannedDetailQRCodeID) => {
+    if (scannedDetailQRCodeID) {
       var reqBody = {
         headerQRCodeID: headerQRCodeID,
         docEntry: docEntry,
-        detailQRCodeID: detailQRCodeID,
+        detailQRCodeID: scannedDetailQRCodeID,
       };
       var response = await validatePoListsIQC(reqBody);
       // console.log("=====",response)
@@ -194,6 +201,41 @@ function IncommingQcScanItem() {
             return;
           }
         });
+      } else if (detailQRCodeID) {
+        var reqBody = {
+          headerQRCodeID: headerQRCodeID,
+          docEntry: docEntry,
+          detailQRCodeID: detailQRCodeID,
+        };
+        var response = await validatePoListsIQC(reqBody);
+        var doProuctExist;
+        if (IQCList.size > 0) {
+          doProuctExist = false;
+          IQCList.forEach((value) => {
+            if (value.detailQRCodeID == detailQRCodeID) {
+              doProuctExist = true;
+              return;
+            }
+          });
+        } else {
+          doProuctExist = false;
+        }
+
+        if (response["errorText"] == "No data found") {
+          return toastDisplayer("error", "Please enter valid item code");
+        } else if (doProuctExist && response) {
+          return toastDisplayer("error", "Product already added..!!");
+        } else if (!doProuctExist && response) {
+          setIQCList((prevIQCList) => {
+            const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
+
+            response.forEach((resp) => {
+              updatedSet.add(resp); // Add each object from prodResponse to the updatedSet
+            });
+            setIsGridVisible(true);
+            return updatedSet; // Return the updated Set
+          });
+        }
       } else {
         doProuctExist = false;
       }
@@ -219,6 +261,9 @@ function IncommingQcScanItem() {
       return toastDisplayer("error", "Please type/scan Item");
     }
   };
+
+
+
 
   const handleTextValueChange = (e) => {
     return setdetailQRCodeID(e.value);
@@ -380,15 +425,47 @@ function IncommingQcScanItem() {
     }
   };
 
-  // clear data after qc request successfully saved 
-  const clearData=()=>{
-    console.log("btn click");
-    alert();
-    setdetailQRCodeID("");
-    setselectedRowsDataApprove([]);
-    console.log(selectedRowsDataApprove);
-    // setselectedRowsDataReject([]);
+  //close and open scanner
+  const HandleCloseQrScanner = () => {
+    setShowScanner(false);
+  };
+  const HandleDecodedData1 = (data1) => {
+    // console.log("Scanned Data : ",data1);
+    if (scannedData.includes(data1)) {
+      console.log(`${data1} is already available.`);
+    } else {
+      setScannedData([...scannedData, data1]);
+    }
+    // setShowScanner(false);
   }
+
+  // const HandleSaveDecodedScannedData = async () => {
+  //   console.log("From HandleSaveDecodedScannedData", scannedData)
+  //   setShowScanner(false);
+
+  //   scannedData.forEach(async (scannedItem) => {
+  //     await SearchHandler(scannedItem);
+  //   })
+  // }
+
+  const HandleSaveDecodedScannedData = async () => {
+    console.log("From HandleSaveDecodedScannedData");
+    setShowScanner(false);
+
+    try {
+      scannedData.forEach(async (scannedItem) => {
+        await SearchHandler(scannedItem);
+      });
+    } catch (error) {
+      console.error("Circular reference detected. Unable to log scannedData.");
+    }
+  }
+
+
+  const handleScan = () => {
+    setShowScanner(true);
+    console.log("Handle Scan");
+  };
 
   return (
     <>
@@ -450,46 +527,57 @@ function IncommingQcScanItem() {
               placeholder="From"
               stylingMode="outlined"
               type="date"
-              // width={150}
+            // width={150}
             />
             <DateBox
               className="dx-field-value"
               placeholder="To"
               stylingMode="outlined"
               type="date"
-              // width={150}
+            // width={150}
             />
-            
-          </div> */}
+          </div>
           <div className="txtBtn-section">
-              <TextBox
-                className="dx-field-value purchaseQRField"
+            <TextBox
+              className="dx-field-value purchaseQRField"
+              stylingMode="outlined"
+              placeholder="Type the purchase QR code"
+              width={230}
+              onValueChanged={handleTextValueChange}
+              showClearButton={true}
+            ></TextBox>
+            <div className="btnSection">
+              <NormalButton
+                width={33}
+                height={33}
+                type="normal"
                 stylingMode="outlined"
-                placeholder="Type the purchase QR code"
-                // width={260}
-                onValueChanged={handleTextValueChange}
-                showClearButton={true}
-                value={detailQRCodeID?detailQRCodeID:""}
-              ></TextBox>
-              <div className="btnSection">
-                <NormalButton
-                  width={33}
-                  height={33}
-                  type="normal"
-                  stylingMode="outlined"
-                  icon="search"
-                  onClick={SearchHandler}
-                />
+                icon="search"
+                onClick={SearchHandler}
+              />
 
-                <NormalButton
-                  width={33}
-                  height={33}
-                  type="normal"
-                  stylingMode="outlined"
-                  icon={GRPOScanner}
-                />
-              </div>
+              <NormalButton
+                width={33}
+                height={33}
+                type="normal"
+                stylingMode="outlined"
+                icon={GRPOScanner}
+                onClick={handleScan}
+              />
+              {showScanner && (
+                <div>
+                  <TransparentContainer
+                    mountNodeId="container"
+                    showScan={showScanner}
+                    HandleCloseQrScanner1={HandleCloseQrScanner}
+                    HandleDecodedData={HandleDecodedData1}
+                    HandleSaveDecodedData={HandleSaveDecodedScannedData}
+                  ></TransparentContainer>
+                </div>
+              )}
+              
             </div>
+          </div>
         </div>
         <div className="helperWrapper">
           <TextBox
@@ -545,7 +633,7 @@ function IncommingQcScanItem() {
             hoverStateEnabled={true}
             onSelectionChanged={handleDataGridRowSelection}
             ref={dataGridRefList}
-            // selectedRowKeys={selectedRowKeysNew}
+          // selectedRowKeys={selectedRowKeysNew}
           >
             {/* <SearchPanel visible={true} /> */}
             <Selection mode="multiple" />
