@@ -115,6 +115,15 @@
 .dx-overlay-content.dx-popup-normal.dx-popup-draggable.dx-resizable {
     .dx-popup-content {
         .grpo-po-help-container {
+            .header-section {
+                justify-content: space-between;
+
+            .close-btn-section {
+                padding-top: 2%;
+                // padding-right: 2%;
+            }
+            }
+
             .dx-widget.dx-visibility-change-handler {
                 max-height: 80%;
 

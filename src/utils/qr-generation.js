@@ -440,10 +440,17 @@ const itemsQrGeneratorAndSaver = async (
     for (let i = 0; i < loopLength; i++) {
       await incNoAndSaverDetailQr(qty); 
     }
+    // if (!counterArray.includes(0)) {
+    //   return "Qr Generated";
+    // } else {
+    //   return "Error: Failed to generate";
+    // }
     if (!counterArray.includes(0)) {
       return "Qr Generated";
-    } else {
+    } else if (!counterArray.includes(1)) {
       return "Error: Failed to generate";
+    }else{
+      return counterArray;
     }
   }
   if (qrMngBy === "B") {
@@ -451,12 +458,16 @@ const itemsQrGeneratorAndSaver = async (
     const eachBatchQty = openQty / addedBatchNum;
     counterArray = [];
     for (let i = 0; i < loopLength; i++) {
+
       await incNoAndSaverDetailQr(eachBatchQty);
+
     }
     if (!counterArray.includes(0)) {
       return "Qr Generated";
-    } else {
+    } else if (!counterArray.includes(1)) {
       return "Error: Failed to generate";
+    }else{
+      return counterArray;
     }
   } else {
     console.log("none")
@@ -599,6 +610,7 @@ export const qrGenerationHandler = async (
         incNo: incNo,
       };
       const saveGeneratedHeaderQr = await SaveHeaderQR(payload);
+
       if (saveGeneratedHeaderQr.statusCode == 200) {
         const itemsQrGeneratedFinally = await itemsQrGeneratorAndSaver(
           branchID,

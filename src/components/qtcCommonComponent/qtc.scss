@@ -107,8 +107,10 @@
         }
     }
 }
-
-
+.header-popup{
+    display: flex;
+    justify-content: space-between;
+}
 @media only screen and (max-width: 450px) {
     .po-list-section{
         display: flex !important;
