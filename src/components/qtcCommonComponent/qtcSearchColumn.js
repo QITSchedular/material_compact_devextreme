@@ -98,6 +98,7 @@ const PopupContent = ({
         <div className="responsive-paddings grpo-po-help-container">
           <div className="header-popup">
           <div className="header-section">
+
             <PopupHeaderText text={popupHeaderText} />
             <PopupSubText text={popupSubHeaderText} />
           </div>
@@ -146,6 +147,7 @@ const PopupContent = ({
   );
 };
 
+
 const QtcSearchColumn = ({
   popupHeaderText,
   popupSubHeaderText,
@@ -156,6 +158,7 @@ const QtcSearchColumn = ({
   const [selectedRowsData, setSelectedRowsData] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
   const [showPoHelp, setShowPoHelp] = useState(false);
+
   const showPopupHandler = () => {
     return setShowPoHelp(true);
   };
@@ -260,11 +263,13 @@ const QtcSearchColumn = ({
                       : ""
                   }
                   // disabled={selectedData.length > 0 ? false : true}
+                  height={40}
                 >
                   <TextBoxButton
                     name="currency"
                     location="after"
                     options={helpOptions}
+                    height={40}
                   />
                 </TextBox>
               );
@@ -282,7 +287,8 @@ const QtcSearchColumn = ({
                       ? selectedRowsData[0].qrCodeID
                       : ""
                   }
-                  // disabled={selectedData.length > 0 ? false : true}
+                  height={40}
+                // disabled={selectedData.length > 0 ? false : true}
                 ></TextBox>
               );
             }
@@ -290,10 +296,10 @@ const QtcSearchColumn = ({
             if (btnIcon == "search") {
               return (
                 <Button
-                  width={33}
-                  height={33}
-                  type="normal"
-                  stylingMode="outlined"
+                  width={40}
+                  height={40}
+                  type='normal'
+                  stylingMode='outlined'
                   icon={btnIcon}
                   onClick={selectedRowSetter}
                 />
@@ -301,10 +307,10 @@ const QtcSearchColumn = ({
             } else {
               return (
                 <Button
-                  width={33}
-                  height={33}
-                  type="normal"
-                  stylingMode="outlined"
+                  width={40}
+                  height={40}
+                  type='normal'
+                  stylingMode='outlined'
                   icon={btnIcon}
                   onClick={handlefunc}
                 />

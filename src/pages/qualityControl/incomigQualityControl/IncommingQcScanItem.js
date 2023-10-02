@@ -5,7 +5,7 @@ import {
   Popup,
 } from "devextreme-react";
 import { Button as TextBoxButton } from "devextreme-react/text-box";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GRPOScanner } from "../../../assets/icon";
 import { HelpIcons } from "../../purchases/grpo/icons-exporter";
 import { useParams } from "react-router-dom";
@@ -23,6 +23,7 @@ import DataGrid, {
   Editing,
 } from "devextreme-react/data-grid";
 import IncomingQrRequest from "./incomingQrRequest";
+import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
 function IncommingQcScanItem() {
   const columns = [
@@ -110,6 +111,12 @@ function IncommingQcScanItem() {
   const dataGridRef = useRef();
   const dataGridRefList = useRef();
 
+  //scanner open and close
+  const [showScanner, setShowScanner] = useState(false);
+  //for Data
+  const [scannedData, setScannedData] = useState([]);
+
+
   //pop up cancel handler QR request
   const handleCancelQrRequest = async () => {
     const value = await dataGridRefList.current.instance.selectRows(0);
@@ -175,12 +182,12 @@ function IncommingQcScanItem() {
     },
   };
 
-  const SearchHandler = async () => {
-    if (detailQRCodeID) {
+  const SearchHandler = async (scannedDetailQRCodeID) => {
+    if (scannedDetailQRCodeID) {
       var reqBody = {
         headerQRCodeID: headerQRCodeID,
         docEntry: docEntry,
-        detailQRCodeID: detailQRCodeID,
+        detailQRCodeID: scannedDetailQRCodeID,
       };
       var response = await validatePoListsIQC(reqBody);
       // console.log("=====",response)
@@ -193,6 +200,41 @@ function IncommingQcScanItem() {
             return;
           }
         });
+      } else if (detailQRCodeID) {
+        var reqBody = {
+          headerQRCodeID: headerQRCodeID,
+          docEntry: docEntry,
+          detailQRCodeID: detailQRCodeID,
+        };
+        var response = await validatePoListsIQC(reqBody);
+        var doProuctExist;
+        if (IQCList.size > 0) {
+          doProuctExist = false;
+          IQCList.forEach((value) => {
+            if (value.detailQRCodeID == detailQRCodeID) {
+              doProuctExist = true;
+              return;
+            }
+          });
+        } else {
+          doProuctExist = false;
+        }
+
+        if (response["errorText"] == "No data found") {
+          return toastDisplayer("error", "Please enter valid item code");
+        } else if (doProuctExist && response) {
+          return toastDisplayer("error", "Product already added..!!");
+        } else if (!doProuctExist && response) {
+          setIQCList((prevIQCList) => {
+            const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
+
+            response.forEach((resp) => {
+              updatedSet.add(resp); // Add each object from prodResponse to the updatedSet
+            });
+            setIsGridVisible(true);
+            return updatedSet; // Return the updated Set
+          });
+        }
       } else {
         doProuctExist = false;
       }
@@ -218,6 +260,9 @@ function IncommingQcScanItem() {
       return toastDisplayer("error", "Please type/scan Item");
     }
   };
+
+
+
 
   const handleTextValueChange = (e) => {
     return setdetailQRCodeID(e.value);
@@ -351,7 +396,7 @@ function IncommingQcScanItem() {
       if (selectedRowsDataApprove.length > 0) {
         setQrRequestPopUp(true);
         IQCList.forEach((item) => {
-          if (item.itemCode == selectedRowKeys[0]) {
+          if (item.detailQRCodeID == selectedRowKeys[0]) {
             setQrRequestData(item);
           }
         });
@@ -373,19 +418,74 @@ function IncommingQcScanItem() {
     }
   };
 
-  // clear data after qc request successfully saved
-  const clearData = async (e) => {
-    const itemToRemove = e.key;
+
+  const removeFromIQCList = async (itemToRemove) => {
+    // const itemToRemove = e.key;
     const updatedIQCList = new Set(IQCList);
     updatedIQCList.forEach((item) => {
       if (item.detailQRCodeID === itemToRemove) {
         updatedIQCList.delete(item);
       }
     });
-    // if(IQCList.size==0){
-    //   setIsGridVisible(false);
-    // }
     return setIQCList(updatedIQCList);
+  };
+
+  // Function to clear data
+  const clearData = async (detailQr) => {
+    setdetailQRCodeID('');
+    setselectedRowsDataApprove([]);
+    setselectedRowsDataReject([]);
+    await removeFromIQCList(detailQr); // Remove the item from IQCList
+    if(IQCList.size<=0){
+      setIsGridVisible(false);
+    }
+  };
+  // delete data
+  const DeleteData = async (e) => {
+    await removeFromIQCList(e.key);
+  };
+
+  //close and open scanner
+  const HandleCloseQrScanner = () => {
+    setShowScanner(false);
+  };
+  const HandleDecodedData1 = (data1) => {
+    // console.log("Scanned Data : ",data1);
+    if (scannedData.includes(data1)) {
+      console.log(`${data1} is already available.`);
+    } else {
+      setScannedData([...scannedData, data1]);
+    }
+    // setShowScanner(false);
+  }
+
+  // const HandleSaveDecodedScannedData = async () => {
+  //   console.log("From HandleSaveDecodedScannedData", scannedData)
+  //   setShowScanner(false);
+
+  //   scannedData.forEach(async (scannedItem) => {
+  //     await SearchHandler(scannedItem);
+  //   })
+  // }
+
+  const HandleSaveDecodedScannedData = async () => {
+    console.log("From HandleSaveDecodedScannedData");
+    setShowScanner(false);
+
+    try {
+      scannedData.forEach(async (scannedItem) => {
+        await SearchHandler(scannedItem);
+      });
+    } catch (error) {
+      console.error("Circular reference detected. Unable to log scannedData.");
+    }
+  }
+
+
+
+  const handleScan = () => {
+    setShowScanner(true);
+    console.log("Handle Scan");
   };
 
   return (
@@ -440,23 +540,6 @@ function IncommingQcScanItem() {
       )}
       <div className="main-section-scan-item">
         <div className="inputWrapper-scan-item">
-          {/* <div className="date-section">
-            <DateBox
-              className="dx-field-value"
-              placeholder="From"
-              stylingMode="outlined"
-              type="date"
-              // width={150}
-            />
-            <DateBox
-              className="dx-field-value"
-              placeholder="To"
-              stylingMode="outlined"
-              type="date"
-              // width={150}
-            />
-            
-          </div> */}
           <div className="txtBtn-section">
             <TextBox
               className="dx-field-value purchaseQRField"
@@ -472,6 +555,7 @@ function IncommingQcScanItem() {
                 width={33}
                 height={33}
                 type="normal"
+
                 stylingMode="outlined"
                 icon="search"
                 onClick={SearchHandler}
@@ -483,7 +567,19 @@ function IncommingQcScanItem() {
                 type="normal"
                 stylingMode="outlined"
                 icon={GRPOScanner}
+                onClick={handleScan}
               />
+              {showScanner && (
+                <div>
+                  <TransparentContainer
+                    mountNodeId="container"
+                    showScan={showScanner}
+                    HandleCloseQrScanner1={HandleCloseQrScanner}
+                    HandleDecodedData={HandleDecodedData1}
+                    HandleSaveDecodedData={HandleSaveDecodedScannedData}
+                  ></TransparentContainer>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -494,7 +590,7 @@ function IncommingQcScanItem() {
             placeholder="Approved Wherehouse"
             value={
               selectedRowsDataApprove.length > 0
-                ? selectedRowsDataApprove[0]
+                ? selectedRowsDataApprove[0].whsCode
                 : ""
             }
             width={160}
@@ -507,7 +603,6 @@ function IncommingQcScanItem() {
               options={approveWareHouseHandler}
             />
           </TextBox>
-          {console.log(selectedRowsDataApprove.length)}
           <TextBox
             className="dx-field-value purchaseQRField"
             stylingMode="outlined"
@@ -541,8 +636,9 @@ function IncommingQcScanItem() {
             hoverStateEnabled={true}
             onSelectionChanged={handleDataGridRowSelection}
             ref={dataGridRefList}
-            onRowRemoving={clearData}
+            onRowRemoving={DeleteData}
             // selectedRowKeys={selectedRowKeysNew}
+
           >
             {/* <SearchPanel visible={true} /> */}
             <Selection mode="multiple" />
@@ -574,12 +670,10 @@ function IncommingQcScanItem() {
             <IncomingQrRequest
               handleCancelQrRequest={handleCancelQrRequest}
               requestData={QrRequestData}
-              approveWareHouse={selectedRowsDataApprove[0].whsCode}
-              rejectWareHouse={
-                selectedRowsDataReject.length
-                  ? selectedRowsDataReject[0].whsCode
-                  : null
-              }
+
+              approveWareHouse={selectedRowsDataApprove.length ? selectedRowsDataApprove[0].whsCode : null}
+              rejectWareHouse={selectedRowsDataReject.length ? selectedRowsDataReject[0].whsCode : null}
+
               clearData={clearData}
             />
           )}

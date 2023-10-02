@@ -46,9 +46,6 @@ const GrpoItems = () => {
   };
 
   // on hit of search button
-  // const handleItemQrVerification = async (e) => {
-  //   // validate the scanned item
-
   const handleItemQrVerification = async (dataScanFromScanner) => {
     console.log("At handleItemQrVerification");
     console.log("The selectedItemQr is:", selectedItemQr);
@@ -71,7 +68,6 @@ const GrpoItems = () => {
           }
           return true; // Keep unique items
         });
-  
         setDisplayGrid(true);
   
         // Update uniqueIds with the new item IDs
@@ -103,12 +99,11 @@ const GrpoItems = () => {
         });
   
         setDisplayGrid(true);
-  
+      
         // Update uniqueIds with the new item IDs
         newItems.forEach((item) => {
           uniqueIds.add(item.detailQRCodeID);
         });
-  
         setGridDataSource((previous) => [...previous, ...newItems]);
     } else {
       setDisplayGrid(false);
@@ -116,6 +111,7 @@ const GrpoItems = () => {
     }
   };
   
+
 
 
   const handleGrpoSaving = async () => {
@@ -150,7 +146,9 @@ const GrpoItems = () => {
       if (doGrpo.isSaved === "Y") {
         // console.log("saved");
         setLoading(false);
-        return toastDisplayer("succes", `${doGrpo.statusMsg}`);
+        setGridDataSource([]);
+        toastDisplayer("succes", `${doGrpo.statusMsg}`);
+        navigate("/purchases/grpo");
       } else {
         // console.log("error in save");
         setLoading(false);
@@ -241,7 +239,7 @@ const GrpoItems = () => {
   const HandleCloseQrScanner = () => {
     setShowScanner(false);
   };
-  const HandleDecodedData1 = (data1)=>{
+  const HandleDecodedData1 = (data1) => {
     // console.log("Scanned Data : ",data1);
     if (scannedData.includes(data1)) {
       console.log(`${data1} is already available.`);
@@ -250,17 +248,25 @@ const GrpoItems = () => {
     }
     // setShowScanner(false);
   }
-  const scanAndSearchFromScanner = ()=>{
+  
+  const scanAndSearchFromScanner = () => {
     return handleItemQrVerification();
   }
-  const HandleSaveDecodedScannedData = async()=>{
-    console.log("From HandleSaveDecodedScannedData",scannedData)
+  const HandleSaveDecodedScannedData = async () => {
+    console.log("From HandleSaveDecodedScannedData", scannedData)
     setShowScanner(false);
-    scannedData.forEach(async(scannedItem)=>{
-      await handleItemQrVerification(scannedItem);
+    scannedData.forEach((scannedItem) => {
+      setSelectedItemQR(scannedItem);
     })
+    // setSelectedItemQR(scannedData[0]);
+    // await scanAndSearchFromScanner();
   }
-  
+  useEffect(() => {
+    if (selectedItemQr) {
+      console.log("Inside the use effect")
+      handleItemQrVerification();
+    }
+  }, [selectedItemQr]);
   
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
@@ -274,7 +280,9 @@ const GrpoItems = () => {
           contentRender={() => (
             <GrpoWarehouseChooserComponent
               handleSaveSelectedWarehouse={handleGrpoPoSelection}
+              handleCloseButton={popupCloseHandler}
             />
+
           )}
         // hideOnOutsideClick={outSideHandler}
         >
@@ -293,7 +301,8 @@ const GrpoItems = () => {
           />
         </Popup>
       )}
-       {showScanner && (
+
+      {showScanner && (
         <div>
           <TransparentContainer
             mountNodeId="container"
@@ -324,8 +333,8 @@ const GrpoItems = () => {
           ></TextBox>
 
           <Button
-            width={33}
-            height={33}
+            width={40}
+            height={40}
             type="normal"
             stylingMode="outlined"
             icon="search"
@@ -333,8 +342,8 @@ const GrpoItems = () => {
           />
 
           <Button
-            width={33}
-            height={33}
+            width={40}
+            height={40}
             type="normal"
             stylingMode="outlined"
             icon={GRPOScanner}
@@ -352,11 +361,13 @@ const GrpoItems = () => {
             value={
               selectedRowsData.length > 0 ? selectedRowsData[0].whsCode : ""
             }
+            height={40}
           >
             <TextBoxButton
               name="currency"
               location="after"
               options={helpOptions}
+              height={40}
             />
           </TextBox>
         </div>

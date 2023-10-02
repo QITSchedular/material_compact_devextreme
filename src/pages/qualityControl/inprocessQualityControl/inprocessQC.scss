@@ -1,7 +1,7 @@
-.mainContainer-iQC
-{
+.mainContainer-iQC {
     margin-top: 40px !important;
 }
+
 .inQCDropDownSection {
     .main-section {
         display: flex;
@@ -213,6 +213,7 @@
 // }
 
 .buttons-section {
+    margin-top: -50px;
 
     .cancelQcBtn,
     .OkQcBtn {
@@ -519,7 +520,7 @@
         height: 42px !important;
     }
 
-    .form-element.dx-show-invalid-badge.dx-numberbox.dx-texteditor.dx-show-clear-button.dx-editor-outlined.dx-widget.dx-texteditor-with-floating-label{
+    .form-element.dx-show-invalid-badge.dx-numberbox.dx-texteditor.dx-show-clear-button.dx-editor-outlined.dx-widget.dx-texteditor-with-floating-label {
         height: 42px !important;
     }
 
@@ -621,14 +622,15 @@
     }
 }
 
-.hrLine{
+.hrLine {
     margin: 1rem 0px;
 }
 
 @media only screen and (max-width: 450px) {
-    .dx-overlay-wrapper.dx-popup-wrapper.dx-overlay-shader .dx-overlay-content.dx-popup-normal.dx-resizable{
+    .dx-overlay-wrapper.dx-popup-wrapper.dx-overlay-shader .dx-overlay-content.dx-popup-normal.dx-resizable {
         width: 350px !important;
     }
+
     .inQCDropDownSection {
 
         .main-section {
@@ -656,6 +658,7 @@
 
                     .btnSection {
                         display: flex !important;
+                        height: 40px;
                     }
                 }
             }

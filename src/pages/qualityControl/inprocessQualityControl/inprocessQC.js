@@ -158,22 +158,24 @@ function InprocessQCComponent() {
         <div className="inputWrapper">
           <div className="date-section">
             {/* <div> */}
-              <DateBox
-                className="dx-field-value"
-                placeholder="From"
-                stylingMode="outlined"
-                type="date"
-                width={230}
-              />
+            <DateBox
+              className="dx-field-value"
+              placeholder="From"
+              stylingMode="outlined"
+              type="date"
+              width={230}
+              height={40}
+            />
             {/* </div>
             <div> */}
-              <DateBox
-                className="dx-field-value"
-                placeholder="To"
-                stylingMode="outlined"
-                type="date"
-                width={230}
-              />
+            <DateBox
+              className="dx-field-value"
+              placeholder="To"
+              stylingMode="outlined"
+              type="date"
+              width={230}
+              height={40}
+            />
             {/* </div> */}
           </div>
           <div className="txtBtn-section">
@@ -187,25 +189,27 @@ function InprocessQCComponent() {
               width={210}
               onValueChanged={handleTextValueChange}
               showClearButton={true}
+              height={40}
             >
               <TextBoxButton
                 name="currency"
                 location="after"
                 options={helpOptions}
+                height={40}
               />
             </TextBox>
             <div className="btnSection">
               <NormalButton
-                width={33}
-                height={33}
+                width={40}
+                height={40}
                 type="normal"
                 stylingMode="outlined"
                 icon="search"
                 onClick={SearchHandler}
               />
               <NormalButton
-                width={33}
-                height={33}
+                width={40}
+                height={40}
                 type="normal"
                 stylingMode="outlined"
                 icon={GRPOScanner}

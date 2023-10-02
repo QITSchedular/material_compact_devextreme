@@ -362,12 +362,12 @@ const PrintPopup = ({
                   onQrGenerated: handleQrGenerated,
                 })
               : renderContent({
-                  qrVisibilityHandler,
-                  selectedQrRowData,
-                  poDetailsfull,
-                  seriesList,
-                  onQrGenerated: handleQrGenerated,
-                })
+                qrVisibilityHandler,
+                selectedQrRowData,
+                poDetailsfull,
+                seriesList,
+                onQrGenerated: handleQrGenerated,
+              })
           }
         ></Popup>
         {/* ... */}
