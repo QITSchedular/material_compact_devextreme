@@ -95,7 +95,7 @@ export const IsDetailQRExist = async (
 // gets the Purchase order's/Headers' Incremental Number
 export const HeaderIncNo = async () => {
   try {
-    const response = await axios.post(`${API_URL}/Commons/HeaderIncNo`);
+    const response = await axios.post(`${API_URL}/Commons/GetHeaderQR`);
     const incrementalNum = await response.data;
     const data = {
       isError: false,
@@ -116,9 +116,10 @@ export const HeaderIncNo = async () => {
 export const itemsIncNum = async (headerQrString) => {
   try {
     const response = await axios.post(
-      `${API_URL}/Commons/DetailIncNo?HeaderQR=${headerQrString}`
+      `${API_URL}/Commons/GetDetailQR?HeaderQR=${headerQrString}`
     );
     const incrementalNum = await response.data;
+    console.log("incrementalNum",incrementalNum)
     return incrementalNum;
   } catch (error) {
     const errorResponse = "Something went wrong, please try again later";
@@ -133,7 +134,7 @@ export const SaveHeaderQR = async (payload) => {
       `${API_URL}/Commons/SaveHeaderQR`,
       payload
     );
-    const incrementalNum = await response.data;
+    const incrementalNum = await response;
     return incrementalNum;
   } catch (error) {
     const errorResponse = "Something went wrong, please try again later";
