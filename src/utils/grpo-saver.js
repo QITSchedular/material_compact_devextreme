@@ -35,11 +35,6 @@ export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
   detailQRCodeID: detailQRCodeID,
   };
   const responseBody = {
-  responseData: null,
-  hasError: false,
-  errorMessage: null,
-  };
-  const responseBody = {
     responseData: null,
     hasError: false,
     errorMessage: null,

@@ -31,74 +31,61 @@ function IncomingQrRequest({
     await setRejectQty(e.value);
   };
   const handleSave = async () => {
-    // const appQty = approveQty;
-    // const rejQty = RejectQty;
-    // const totleQty = parseInt(appQty) + parseInt(rejQty);
-    // if (appQty == 0) {
-    //   return toastDisplayer("error", "Approve quantity can not be 0");
-    // } else if (totleQty > parseInt(QrRequestData["recQty"])) {
-    //   return toastDisplayer("error", "Invalid quty");
-    // } else if (appQty > 0 && totleQty <= parseInt(QrRequestData["recQty"])) {
-    //   const apiCalls = [];
-    //   if (rejQty > 0) {
-    //     const reqBodyRej = {
-    //       branchID: 1,
-    //       grpoDocEntry: QrRequestData["grpoDocEntry"],
-    //       detailQRCodeID: QrRequestData["detailQRCodeID"],
-    //       fromWhs: "QC",
-    //       toWhs: rejectWareHouse,
-    //       action: "R",
-    //       qty: rejQty,
-    //       rejectComment: RejectComment,
-    //     };
+    const appQty = approveQty;
+    const rejQty = RejectQty;
+    const totleQty = parseInt(appQty) + parseInt(rejQty);
+    if (appQty == 0) {
+      return toastDisplayer("error", "Approve quantity can not be 0");
+    } else if (totleQty > parseInt(QrRequestData["recQty"])) {
+      return toastDisplayer("error", "Invalid quty");
+    } else if (appQty > 0 && totleQty <= parseInt(QrRequestData["recQty"])) {
+      const apiCalls = [];
+      if (rejQty > 0) {
+        const reqBodyRej = {
+          branchID: 1,
+          grpoDocEntry: QrRequestData["grpoDocEntry"],
+          detailQRCodeID: QrRequestData["detailQRCodeID"],
+          fromWhs: "QC",
+          toWhs: rejectWareHouse,
+          action: "R",
+          qty: rejQty,
+          rejectComment: RejectComment,
+        };
 
-    //     const rejectCall = SavePoListsIQC(reqBodyRej);
-    //     apiCalls.push(rejectCall);
-    //   }
+        const rejectCall = SavePoListsIQC(reqBodyRej);
+        apiCalls.push(rejectCall);
+      }
 
-    //   if (appQty > 0) {
-    //     const reqBodyApp = {
-    //       branchID: 1,
-    //       grpoDocEntry: QrRequestData["grpoDocEntry"],
-    //       detailQRCodeID: QrRequestData["detailQRCodeID"],
-    //       fromWhs: "QC",
-    //       toWhs: approveWareHouse,
-    //       action: "A",
-    //       qty: appQty,
-    //       rejectComment: RejectComment,
-    //     };
-    //     console.log(reqBodyApp)
-    //     const approveCall = SavePoListsIQC(reqBodyApp);
-    //     console.log("approve call : ",approveCall)
-    //     apiCalls.push(approveCall);
-    //   }
-
-    //   try {
-    //     const responses = await Promise.all(apiCalls);
-    //     responses.forEach((response, index) => {
-    //       console.log("response",responses)
-    //       if (response["statusCode"] == "200") {
-    //         if (index == 0) {
-    //           // clearData();
-    //           toastDisplayer("succes", "Approve processed successfully..!!");
-    //         } else if (index == 1) {
-    //           toastDisplayer("succes", "Reject processed successfully..!!");
-    //         }
-    //       }else{
-    //         toastDisplayer("error", response['statusMsg']);
-    //       }
-    //     });
+      if (appQty > 0) {
+        const reqBodyApp = {
+          branchID: 1,
+          grpoDocEntry: QrRequestData["grpoDocEntry"],
+          detailQRCodeID: QrRequestData["detailQRCodeID"],
+          fromWhs: "QC",
+          toWhs: approveWareHouse,
+          action: "A",
+          qty: appQty,
+          rejectComment: RejectComment,
+        };
+        // console.log(reqBodyApp)
+        const approveCall = SavePoListsIQC(reqBodyApp);
+        // console.log("approve call : ",approveCall)
+        apiCalls.push(approveCall);
+      }
       try {
         const responses = await Promise.all(apiCalls);
         responses.forEach((response, index) => {
+          // console.log("response",responses)
           if (response["statusCode"] == "200") {
             if (index == 0) {
+              clearData(QrRequestData["detailQRCodeID"]);
+
               toastDisplayer("succes", "Approve processed successfully..!!");
             } else if (index == 1) {
               toastDisplayer("succes", "Reject processed successfully..!!");
             }
-          } else {
-            toastDisplayer("error", response["errorText"]);
+          }else{
+            toastDisplayer("error", response['statusMsg']);
           }
         });
 

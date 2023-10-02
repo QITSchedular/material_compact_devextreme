@@ -5,7 +5,7 @@ import {
   Popup,
 } from "devextreme-react";
 import { Button as TextBoxButton } from "devextreme-react/text-box";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GRPOScanner } from "../../../assets/icon";
 import { HelpIcons } from "../../purchases/grpo/icons-exporter";
 import { useParams } from "react-router-dom";
@@ -254,7 +254,7 @@ function IncommingQcScanItem() {
           setIsGridVisible(true);
           return updatedSet; // Return the updated Set
         });
-      }else{
+      } else {
         return toastDisplayer("error", response["errorText"]);
       }
     } else {
@@ -401,7 +401,7 @@ function IncommingQcScanItem() {
       ) {
         setQrRequestPopUp(true);
         IQCList.forEach((item) => {
-          if (item.itemCode == selectedRowKeys[0]) {
+          if (item.detailQRCodeID == selectedRowKeys[0]) {
             setQrRequestData(item);
           }
         });
@@ -422,6 +422,28 @@ function IncommingQcScanItem() {
         selectedRowKeys[0]
       );
       return selectedRowSetter(value);
+    }
+  };
+
+  const removeFromIQCList = async (itemToRemove) => {
+    // const itemToRemove = e.key;
+    const updatedIQCList = new Set(IQCList);
+    updatedIQCList.forEach((item) => {
+      if (item.detailQRCodeID === itemToRemove) {
+        updatedIQCList.delete(item);
+      }
+    });
+    return setIQCList(updatedIQCList);
+  };
+
+  // Function to clear data
+  const clearData = async (detailQr) => {
+    setdetailQRCodeID('');
+    setselectedRowsDataApprove([]);
+    setselectedRowsDataReject([]);
+    await removeFromIQCList(detailQr); // Remove the item from IQCList
+    if(IQCList.size<=0){
+      setIsGridVisible(false);
     }
   };
 
@@ -521,30 +543,15 @@ function IncommingQcScanItem() {
       )}
       <div className="main-section-scan-item">
         <div className="inputWrapper-scan-item">
-          {/* <div className="date-section">
-            <DateBox
-              className="dx-field-value"
-              placeholder="From"
-              stylingMode="outlined"
-              type="date"
-            // width={150}
-            />
-            <DateBox
-              className="dx-field-value"
-              placeholder="To"
-              stylingMode="outlined"
-              type="date"
-            // width={150}
-            />
-          </div>
           <div className="txtBtn-section">
             <TextBox
               className="dx-field-value purchaseQRField"
               stylingMode="outlined"
               placeholder="Type the purchase QR code"
-              width={230}
+              // width={260}
               onValueChanged={handleTextValueChange}
               showClearButton={true}
+              value={detailQRCodeID ? detailQRCodeID : ""}
             ></TextBox>
             <div className="btnSection">
               <NormalButton
@@ -575,7 +582,6 @@ function IncommingQcScanItem() {
                   ></TransparentContainer>
                 </div>
               )}
-              
             </div>
           </div>
         </div>
@@ -586,7 +592,7 @@ function IncommingQcScanItem() {
             placeholder="Approved Wherehouse"
             value={
               selectedRowsDataApprove.length > 0
-                ? selectedRowsDataApprove[0]
+                ? selectedRowsDataApprove[0].whsCode
                 : ""
             }
             width={160}
@@ -599,7 +605,6 @@ function IncommingQcScanItem() {
               options={approveWareHouseHandler}
             />
           </TextBox>
-          {console.log(selectedRowsDataApprove.length)}
           <TextBox
             className="dx-field-value purchaseQRField"
             stylingMode="outlined"
@@ -626,8 +631,8 @@ function IncommingQcScanItem() {
           <DataGrid
             // height={420}
             dataSource={Array.from(IQCList)}
-            keyExpr={"itemCode"}
-            // keyExpr={"detailQRCodeID"}
+            // keyExpr={"itemCode"}
+            keyExpr={"detailQRCodeID"}
             showBorders={true}
             columnAutoWidth={true}
             hoverStateEnabled={true}
@@ -661,8 +666,8 @@ function IncommingQcScanItem() {
             <IncomingQrRequest
               handleCancelQrRequest={handleCancelQrRequest}
               requestData={QrRequestData}
-              approveWareHouse={selectedRowsDataApprove[0].whsCode}
-              rejectWareHouse={selectedRowsDataReject.length?selectedRowsDataReject[0].whsCode : null}
+              approveWareHouse={selectedRowsDataApprove.length ? selectedRowsDataApprove[0].whsCode : null}
+              rejectWareHouse={selectedRowsDataReject.length ? selectedRowsDataReject[0].whsCode : null}
               clearData={clearData}
             />
           )}
