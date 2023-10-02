@@ -468,10 +468,17 @@ const itemsQrGeneratorAndSaver = async (
     for (let i = 0; i < loopLength; i++) {
       incNoAndSaverDetailQr(qty); 
     }
+    // if (!counterArray.includes(0)) {
+    //   return "Qr Generated";
+    // } else {
+    //   return "Error: Failed to generate";
+    // }
     if (!counterArray.includes(0)) {
       return "Qr Generated";
-    } else {
+    } else if (!counterArray.includes(1)) {
       return "Error: Failed to generate";
+    }else{
+      return counterArray;
     }
   }
   if (qrMngBy === "B") {
@@ -487,13 +494,14 @@ const itemsQrGeneratorAndSaver = async (
     console.log("first ",loopLength)
     counterArray = [];
     for (let i = 0; i < loopLength; i++) {
-      console.log("======///")
       incNoAndSaverDetailQr(eachBatchQty); 
     }
     if (!counterArray.includes(0)) {
       return "Qr Generated";
-    } else {
+    } else if (!counterArray.includes(1)) {
       return "Error: Failed to generate";
+    }else{
+      return counterArray;
     }
   } else {
     console.log("else")
@@ -685,7 +693,6 @@ export const qrGenerationHandler = async (
         console.log(
           "Now I will check for the items qr, if it has been generated or not"
         );
-
         const doDetailsQrExists = await IsDetailQRExist(
           branchID,
           docEntry,

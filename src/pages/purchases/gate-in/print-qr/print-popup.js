@@ -55,7 +55,6 @@ const renderContent = ({
   seriesList,
   onQrGenerated,
 }) => {
-
   var addedRemarks = "";
   var addedBatchNum = "";
   var addedProjectCode = "";
@@ -69,7 +68,7 @@ const renderContent = ({
     const { series } = seriesList[0];
     const { gateInNo, itemCode, qrMngBy, qty, openQty } = selectedQrRowData;
     const branchID = "1";
-    if(addedBatchNum==""){
+    if (addedBatchNum == "") {
       return toastDisplayer("error", "Enter Batch number");
     }
     // manaual branch id, it should be dynamically generated
@@ -87,8 +86,20 @@ const renderContent = ({
       addedRemarks,
       addedBatchNum
     );
-    // console.log("****",resp)
-    // const { qrCode } = resp;x
+
+    if (Array.isArray(resp)) {
+      const counts = resp.reduce((countObj, currentValue) => {
+        countObj[currentValue] = (countObj[currentValue] || 0) + 1;
+        return countObj;
+      }, {});
+      const count0 = counts[0] || 0;
+      const count1 = counts[1] || 0;
+      handleCancel();
+      SwalDisplayer(
+        "success",
+        `successfully generated QR ${count1},  Failed to generate QR ${count0}`
+      );
+    }
     if (resp === "Qr Generated") {
       return onQrGenerated(true);
     }
@@ -326,7 +337,7 @@ const PrintPopup = ({
   selectedQrRowData,
   poDetailsfull,
   seriesList,
-  qrgeneraqtedrtnFun
+  qrgeneraqtedrtnFun,
 }) => {
   // const { isQrPopupVisible, openQrPopUp, closeQrPopUp } =
   //   useContext(AppContext);
@@ -334,7 +345,6 @@ const PrintPopup = ({
   const handleQrGenerated = (isGenerated) => {
     setQrGenerated(isGenerated);
     return qrgeneraqtedrtnFun(isGenerated);
-
   };
   return (
     <>
@@ -347,8 +357,7 @@ const PrintPopup = ({
           titleRender={() => renderTitle({ selectedQrRowData })}
           contentRender={() =>
             qrGenerated
-              ? 
-              renderSuccessContent({
+              ? renderSuccessContent({
                   qrVisibilityHandler,
                   onQrGenerated: handleQrGenerated,
                 })
