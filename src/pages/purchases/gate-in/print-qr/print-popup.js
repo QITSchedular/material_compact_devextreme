@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import Lottie from "../../../../assets/images/success-lottiie-2.gif";
 import { RequiredRule } from "devextreme-react/validator";
 import { toastDisplayer } from "../../../../api/qrgenerators";
+import { SwalDisplayer } from "../../../../utils/showToastsNotifications";
 
 const renderSuccessContent = ({ qrVisibilityHandler, onQrGenerated }) => {
   const handleCancel = async () => {
@@ -68,6 +69,9 @@ const renderContent = ({
     const { series } = seriesList[0];
     const { gateInNo, itemCode, qrMngBy, qty, openQty } = selectedQrRowData;
     const branchID = "1";
+    if(addedBatchNum==""){
+      return toastDisplayer("error", "Enter Batch number");
+    }
     // manaual branch id, it should be dynamically generated
     const resp = await qrGenerationHandler(
       docEntry,
@@ -83,6 +87,7 @@ const renderContent = ({
       addedRemarks,
       addedBatchNum
     );
+    // console.log("****",resp)
     // const { qrCode } = resp;x
     if (resp === "Qr Generated") {
       return onQrGenerated(true);
@@ -321,12 +326,15 @@ const PrintPopup = ({
   selectedQrRowData,
   poDetailsfull,
   seriesList,
+  qrgeneraqtedrtnFun
 }) => {
   // const { isQrPopupVisible, openQrPopUp, closeQrPopUp } =
   //   useContext(AppContext);
   const [qrGenerated, setQrGenerated] = useState(false);
   const handleQrGenerated = (isGenerated) => {
     setQrGenerated(isGenerated);
+    return qrgeneraqtedrtnFun(isGenerated);
+
   };
   return (
     <>
@@ -340,9 +348,9 @@ const PrintPopup = ({
           contentRender={() =>
             qrGenerated
               ? renderSuccessContent({
-                qrVisibilityHandler,
-                onQrGenerated: handleQrGenerated,
-              })
+                  qrVisibilityHandler,
+                  onQrGenerated: handleQrGenerated,
+                })
               : renderContent({
                 qrVisibilityHandler,
                 selectedQrRowData,

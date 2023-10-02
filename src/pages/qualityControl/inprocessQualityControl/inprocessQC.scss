@@ -94,7 +94,7 @@
 
             // gap:0.5rem;
             .purchaseQRField {
-                width: 200px;
+                width: 230px;
             }
 
             .btnSection {
@@ -470,8 +470,13 @@
 }
 
 .particularDetail {
-    .particularDetail-txt {
-        .particularDetail-titleTxt {
+    .txt-remark{
+        .dx-texteditor-container{
+            margin-top: 0rem;
+        }
+    }
+    .particularDetail-txt{
+        .particularDetail-titleTxt{
             color: #393939;
             margin: 0.5rem !important;
             font-family: Roboto;
@@ -500,9 +505,9 @@
         border-bottom: 0px !important;
     }
 
-    .dx-texteditor-container {
-        margin-top: -1rem;
-    }
+    // .dx-texteditor-container {
+    //     margin-top: -1rem;
+    // }
 
     .dx-texteditor.dx-editor-outlined.dx-state-focused {
         // border: 0.5px solid #8D8D8D;
@@ -612,6 +617,7 @@
         box-shadow: none;
         border: 0.5px solid #8D8D8D;
         border-radius: 8px 0px 0px 8px;
+        border-right: 0px;
         width: 10px;
     }
 }
@@ -684,7 +690,7 @@
 
                 // gap:0.5rem;
                 .purchaseQRField {
-                    width: 100% !important;
+                    width: 100%;
                 }
 
                 .btnSection {
@@ -858,7 +864,7 @@
 
                 // gap:0.5rem;
                 .purchaseQRField {
-                    width: 65% !important;
+                    width: 65% ;
                 }
 
                 .btnSection {
@@ -937,7 +943,7 @@
 
                 // gap:0.5rem;
                 .purchaseQRField {
-                    width: 65% !important;
+                    width: 65%;
                 }
 
                 .btnSection {
@@ -1071,8 +1077,16 @@
             //     }
             // }
         }
-    }
 
+        .main-section-scan-item{
+            .txtBtn-section {
+                .purchaseQRField {
+                width: 230px;
+                }
+            }
+        }
+    }
+    
 }
 
 @media only screen and (min-width: 1024px) {
@@ -1148,7 +1162,7 @@
             .helperWrapper {
                 display: flex;
                 gap: 1rem;
-                width: 40%;
+                width: 30%;
                 margin-top: 0px !important;
             }
 

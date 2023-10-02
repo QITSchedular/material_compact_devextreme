@@ -253,12 +253,12 @@ export const searchPoListsIQC = async (QRCode) => {
       return errors;
     }
   } catch (error) {
-    const { statusMsg } = error.response.data;
+    const  statusMsg  = error.message;
     if (statusMsg) {
       errors.hasError = true;
       errors.errorText = statusMsg;
       return errors;
-    }
+    } 
     return errors;
   }
 };

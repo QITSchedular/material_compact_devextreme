@@ -23,6 +23,7 @@ import GrpoWarehouseChooserComponent, {
 } from "./grpo-warehouse-chooser";
 import { GRPOScanner } from "../../../assets/icon";
 import TransparentContainer from "../../../components/qr-scanner/transparent-container";
+import { PopupHeaderText, PopupSubText } from "../../../components/typographyTexts/TypographyComponents";
 
 const GrpoItems = () => {
   const { qrCode } = useParams();
@@ -37,7 +38,6 @@ const GrpoItems = () => {
   const [choosenWarehouseName, setChoosenWarehouseName] = useState("");
   const [showScanner, setShowScanner] = useState(false);
   const [scannedData, setScannedData] = useState([]);
-
   const navigate = useNavigate();
   const handleTextValueChange = (e) => {
     // console.log(e.previousValue);
@@ -46,48 +46,21 @@ const GrpoItems = () => {
   };
 
   // on hit of search button
-  // const handleItemQrVerification = async (e) => {
-  //   // validate the scanned item
-  //   console.log("At handleItemQrVerification");
-  //   console.log("The selectedItemQr is:", selectedItemQr)
-  //   if (selectedItemQr) {
-  //     const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
-
-  //     if (doItemExists === "No data found") {
-  //       // console.log("the scanned item does not exist");
-  //       return toastDisplayer(
-  //         "error",
-  //         "The scanned item does not belong to this P.O"
-  //       );
-  //     } else {
-  //       // Filter out duplicate detailQRCodeID values
-  //       const newData = doItemExists.filter(
-  //         (item) => !uniqueIds.has(item.detailQRCodeID)
-  //       );
-  //       setDisplayGrid(true);
-  //       return setGridDataSource((previous) => [...previous, ...doItemExists]);
-  //     }
-  //   } else {
-  //     setDisplayGrid(false);
-  //     return toastDisplayer("error", "Scan the Item Qr first");
-  //   }
-  // }; 
-  const handleItemQrVerification = async (e) => {
+  const handleItemQrVerification = async (dataScanFromScanner) => {
     console.log("At handleItemQrVerification");
     console.log("The selectedItemQr is:", selectedItemQr);
-
-    if (selectedItemQr) {
-      const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
-
-      if (doItemExists === "No data found") {
-        // console.log("the scanned item does not exist");
+    if (typeof dataScanFromScanner !== 'object' && dataScanFromScanner !== null) {
+      const doItemExists = await ValidateItemQR(qrCode, dataScanFromScanner);
+      if (doItemExists.hasError) {
         return toastDisplayer(
-          "error",
-          "The scanned item does not belong to this P.O"
+        "error",
+        doItemExists.errorMessage.statusMsg
         );
-      } else {
+        }
+      
         // Filter out duplicate detailQRCodeID values
-        const newItems = doItemExists.filter((item) => {
+        const validatecheck = doItemExists.responseData;
+        const newItems = validatecheck.filter((item) => {
           if (uniqueIds.has(item.detailQRCodeID)) {
             console.log(`Duplicate data arrived: ${item.detailQRCodeID}`);
             toastDisplayer("error", `${item.detailQRCodeID} Item already available`);
@@ -95,34 +68,64 @@ const GrpoItems = () => {
           }
           return true; // Keep unique items
         });
-
         setDisplayGrid(true);
-
+  
         // Update uniqueIds with the new item IDs
         newItems.forEach((item) => {
           uniqueIds.add(item.detailQRCodeID);
         });
-
+  
         setGridDataSource((previous) => [...previous, ...newItems]);
-      }
+      
+    }
+    else if (selectedItemQr) {
+      const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
+      if (doItemExists.hasError) {
+        return toastDisplayer(
+        "error",
+        doItemExists.errorMessage.statusMsg
+        );
+        }
+      
+        // Filter out duplicate detailQRCodeID values
+        const validatecheck = doItemExists.responseData;
+        const newItems = validatecheck.filter((item) => {
+          if (uniqueIds.has(item.detailQRCodeID)) {
+            console.log(`Duplicate data arrived: ${item.detailQRCodeID}`);
+            toastDisplayer("error", `${item.detailQRCodeID} Item already available`);
+            return false; // Filter out duplicates
+          }
+          return true; // Keep unique items
+        });
+  
+        setDisplayGrid(true);
+      
+        // Update uniqueIds with the new item IDs
+        newItems.forEach((item) => {
+          uniqueIds.add(item.detailQRCodeID);
+        });
+        setGridDataSource((previous) => [...previous, ...newItems]);
     } else {
       setDisplayGrid(false);
       return toastDisplayer("error", "Scan the Item Qr first");
     }
   };
+  
+
 
 
   const handleGrpoSaving = async () => {
     // return null;
+    
     if (!gridDataSource.length > 0) {
-      toastDisplayer(
-        "error",
-        " ❌ This request not allowed..Please Scan items to proceed"
-      );
+      // toastDisplayer(
+      //   "error",
+      //   " ❌ This request not allowed..Please Scan items to proceed"
+      // );
       return toastDisplayer("error", " ❌ Please Scan items to proceed");
     }
     if (
-      selectedRowsData[0].length > 0 &&
+      selectedRowsData.length > 0 &&
       choosenWarehouseName !== selectedRowsData[0].whsCode
     ) {
       await setSelectedRowsData([]);
@@ -131,9 +134,8 @@ const GrpoItems = () => {
         "Invalid warehouse name, select one from the dropdown"
       );
     } else {
-      if (selectedRowsData.length <= 0) {
+      if (selectedRowsData.length == 0) {
         return toastDisplayer("error", "Choose warehouse to save the grpo");
-        await setSelectedRowsData([]);
       }
       setLoading(true);
       const doGrpo = await generateGrpo(
@@ -141,15 +143,14 @@ const GrpoItems = () => {
         comments,
         choosenWarehouseName
       );
-      console.log("doGrpo", doGrpo.isSaved);
       if (doGrpo.isSaved === "Y") {
-        console.log("saved");
+        // console.log("saved");
         setLoading(false);
         setGridDataSource([]);
         toastDisplayer("succes", `${doGrpo.statusMsg}`);
         navigate("/purchases/grpo");
       } else {
-        console.log("error in save");
+        // console.log("error in save");
         setLoading(false);
         return toastDisplayer("error", `${doGrpo.statusMsg}`);
       }
@@ -185,15 +186,15 @@ const GrpoItems = () => {
   };
   const handleSaveSelectedPo = () => {
     if (selectedRowsData.length > 0) {
-      console.log("Current selected row data", selectedRowsData);
-      console.log("Close the popup window");
+      // console.log("Current selected row data", selectedRowsData);
+      // console.log("Close the popup window");
       return setShowWareHousePopupHelp(false);
     } else {
       return toastDisplayer("error", "Please select a PO to save and proceed");
     }
   };
   const handleCancelNoSelection = () => {
-    console.log("User have clicked the cancel buttpn, clear the selection");
+    // console.log("User have clicked the cancel buttpn, clear the selection");
     // setSelectedRowsData([]);
     return setShowWareHousePopupHelp(false);
   };
@@ -206,15 +207,15 @@ const GrpoItems = () => {
     onClick: () => handleCancelNoSelection(),
   };
   const warehousePopUpHandler = async () => {
-    console.log("Open pop up");
+    // console.log("Open pop up");
     return await setShowWareHousePopupHelp(true);
   };
   const popupCloseHandler = async () => {
-    console.log("Open pop up");
+    // console.log("Open pop up");
     return await setShowWareHousePopupHelp(false);
   };
   const handleGrpoPoSelection = (params) => {
-    console.log("from the handleGrpoPoSelection shbchjasbs", params);
+    // console.log("from the handleGrpoPoSelection shbchjasbs", params);
     if (params.length > 0) {
       return setSelectedRowsData(params);
     }
@@ -226,7 +227,7 @@ const GrpoItems = () => {
     //   setChoosenWarehouseName(data);
 
     // }
-    console.log(data);
+    // console.log(data);
     await setChoosenWarehouseName(data.value);
   };
 
@@ -243,11 +244,11 @@ const GrpoItems = () => {
     if (scannedData.includes(data1)) {
       console.log(`${data1} is already available.`);
     } else {
-      // Use the spread operator (...) to create a new array with the existing data and the new item
       setScannedData([...scannedData, data1]);
     }
     // setShowScanner(false);
   }
+  
   const scanAndSearchFromScanner = () => {
     return handleItemQrVerification();
   }
@@ -266,7 +267,7 @@ const GrpoItems = () => {
       handleItemQrVerification();
     }
   }, [selectedItemQr]);
-
+  
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
       {loading && <LoadPanel visible={true} />}
@@ -300,6 +301,7 @@ const GrpoItems = () => {
           />
         </Popup>
       )}
+
       {showScanner && (
         <div>
           <TransparentContainer
@@ -313,11 +315,11 @@ const GrpoItems = () => {
       )}
 
       <div className="title-section">
-        <h3 className="title-name">Grpo</h3>
-        <span className="title-description">
-          Type or scan the item code to make an entry
-        </span>
-      </div>
+          <PopupHeaderText text={"Grpo"} />
+          <PopupSubText
+            text={"Type or scan the item code to make an entry"}
+          />
+        </div>
 
       <div className="actions-section">
         <div className="search-section">

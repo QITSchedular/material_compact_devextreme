@@ -5,11 +5,13 @@
 
         display: flex;
         justify-content: space-between;
-        padding: 16px 0px;
+        // padding: 16px 0px;
+        padding: 2px 0px 32px 12px;
 
         .title-section {
             display: flex;
             flex-direction: column;
+            padding-top: 12px;
             gap: 0.4rem;
 
             .title-name {
@@ -74,7 +76,7 @@
     #gate-in-main-container {
         .navigation-header-gatein {
             flex-direction: column;
-
+            padding: 12px 0px 32px 12px;
             .title-section {
                 .title-name {
                     font-size: 18px;

@@ -1,5 +1,11 @@
 import { TextBox, Button as NormalButton, LoadPanel } from "devextreme-react";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import DropDownButton from "devextreme-react/drop-down-button";
 import DataGrid, {
   Column,
@@ -24,14 +30,20 @@ import {
 import PrintPopup from "./print-popup";
 import { AppContext } from "../../../../contexts/dataContext";
 import ItemsQrDisplayer from "./qr-displayer";
-import { fetchItemQrCode, fetchItemQrCode1 } from "../../../../utils/qr-generation";
+import {
+  fetchItemQrCode,
+  fetchItemQrCode1,
+} from "../../../../utils/qr-generation";
 import { toastDisplayer } from "../../../../api/qrgenerators";
+import { SwalDisplayer } from "../../../../utils/showToastsNotifications";
+import {
+  PopupHeaderText,
+  PopupSubText,
+} from "../../../../components/typographyTexts/TypographyComponents";
 
 const buttonDropDownOptions = { width: 230, maxHeight: 450 };
 
 const PrintQrMainComp = () => {
-
-
   const [poDetailsfull, setPoDetailsFull] = React.useState("");
   const [scrollingMode, setScrollingMode] = React.useState("standard");
   const [periodIndicators, setPeriodIndicators] = useState([]);
@@ -45,6 +57,7 @@ const PrintQrMainComp = () => {
   const [poData, setPoData] = useState(null);
   const [objType, setobjType] = useState(null);
   const [docEntry, setDocEntry] = useState(null);
+  const gridRef = useRef("");
   const [selectedValue, setSelectedValue] = useState({
     periodIsSelected: false,
     seriesIsSelected: false,
@@ -57,13 +70,12 @@ const PrintQrMainComp = () => {
 
   const handleSearchPurchasedOrder = async () => {
     try {
-
       const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
       if (poNumber == "") {
-        return toastDisplayer('error', "Please enter purchase order no.");
+        return toastDisplayer("error", "Please enter purchase order no.");
       }
       if (periodIsSelected) {
-        return toastDisplayer('error', "Please select period.");
+        return toastDisplayer("error", "Please select period.");
       }
       // if(!seriesIsSelected){
       //   return toastDisplayer('error', "Please select series.");
@@ -100,25 +112,29 @@ const PrintQrMainComp = () => {
         ...item,
         recQty: 0,
       }));
-      const updatedDataArray = await Promise.all(poDetArrayWithRecQty.map(async (item) => {
-        // Add your conditions here to determine  when to set 'additionalData'
-        var additionalItem = await shouldDisableButtonForRow1(item.docEntry,
-          poResponse[0].docNum,
-          seriesList[0].series,
-          poResponse[0].objType,
-          item.itemCode,
-          item.gateInNo);
-        if (additionalItem) {
-          return { ...item, disablebtn: false };
-        } else {
-          return { ...item, disablebtn: true };
-        }
-      }));
+      const updatedDataArray = await Promise.all(
+        poDetArrayWithRecQty.map(async (item) => {
+          // Add your conditions here to determine  when to set 'additionalData'
+          var additionalItem = await shouldDisableButtonForRow1(
+            item.docEntry,
+            poResponse[0].docNum,
+            seriesList[0].series,
+            poResponse[0].objType,
+            item.itemCode,
+            item.gateInNo
+          );
+          if (additionalItem) {
+            return { ...item, disablebtn: false };
+          } else {
+            return { ...item, disablebtn: true };
+          }
+        })
+      );
       await setPoData(updatedDataArray);
       await setPoDetailsFull(poResponse);
       setLoading(false);
     } catch (err) {
-      return toastDisplayer('error', err.message);
+      return toastDisplayer("error", err.message);
     }
   };
 
@@ -145,7 +161,7 @@ const PrintQrMainComp = () => {
       setSelectedValue({ periodIsSelected: true });
       // console.log("This is series data", seriesData);
     } catch (err) {
-      return toastDisplayer('error', err.message);
+      return toastDisplayer("error", err.message);
     }
   };
 
@@ -171,7 +187,7 @@ const PrintQrMainComp = () => {
         await setGetInNumList(listOfGateInNumber);
       }
     } catch (err) {
-      return toastDisplayer('error', err.message);
+      return toastDisplayer("error", err.message);
     }
   };
 
@@ -223,9 +239,8 @@ const PrintQrMainComp = () => {
     }
   };
   useEffect(() => {
-    // console.log("object");
     getSeriesData();
-  }, []);
+  }, [poData]);
 
   // qr Visible handlers
   const handleClone = async (e) => {
@@ -279,21 +294,23 @@ const PrintQrMainComp = () => {
   const [printQrVisibility, setPrintQrVisibility] = useState(false);
   const [selectedQrRowData, setSelectedQrRowData] = useState("");
   const handleQrGenerate = async (e) => {
-    // console.log(e.row.data,"new ", poDetailsfull);
     setSelectedQrRowData(e.row.data);
     setShowPrintPop(true);
+    // gridRef.current.
   };
   const qrVisibilityHandler = async (data) => {
     // console.log(data);
     return await setShowPrintPop(data);
   };
-
-  const shouldDisableButtonForRow1 = async (docEntry,
+  
+  const shouldDisableButtonForRow1 = async (
+    docEntry,
     docNum,
     series,
     objType,
     itemCode,
-    gateInNo,) => {
+    gateInNo
+  ) => {
     try {
       const iqstr = await fetchItemQrCode1(
         docEntry,
@@ -301,7 +318,7 @@ const PrintQrMainComp = () => {
         series,
         objType,
         itemCode,
-        gateInNo,
+        gateInNo
       );
       if (!iqstr.length > 0) {
         return false;
@@ -313,6 +330,20 @@ const PrintQrMainComp = () => {
     }
   }
 
+  const myfunction=(data)=>{
+    if(data){
+      const updatedPoData = poData.map((item) => {
+        if (item.docEntry === selectedQrRowData.docEntry && item.gateInNo === selectedQrRowData.gateInNo) {
+          return { ...item, disablebtn: false };
+        }
+        return item;
+      });
+      setPoData(updatedPoData);
+      setShowPrintPop(false);
+      SwalDisplayer("success", "Operation Successful");
+    } 
+  }
+
   return (
     <div className="content-block dx-card responsive-paddings main-container-printQR">
       {showPrintPop && (
@@ -321,6 +352,7 @@ const PrintQrMainComp = () => {
           selectedQrRowData={selectedQrRowData}
           poDetailsfull={poDetailsfull}
           seriesList={seriesList}
+          qrgeneraqtedrtnFun={myfunction}
         />
       )}
       {viewQr && (
@@ -331,11 +363,12 @@ const PrintQrMainComp = () => {
         />
       )}
       <div className="title-section">
-
-        <div className="title-name">Generate & Print QR Code</div>
+        <PopupHeaderText text={"Generate & Print QR Code"} />
+        <PopupSubText text={"Select and Enter field values to get P.O"} />
+        {/* <div className="title-name">Generate & Print QR Code</div>
         <div className="title-description">
           Select and Enter field values to get P.O
-        </div>
+        </div>*/}
       </div>
 
       <div className="actions-section">
@@ -421,6 +454,7 @@ const PrintQrMainComp = () => {
               columnHidingEnabled={false}
               remoteOperations={true}
               onSaving={handleGridSaving}
+              ref={gridRef}
             >
               <Scrolling mode={scrollingMode} />
               <Paging defaultPageSize={10} />
@@ -479,7 +513,6 @@ const PrintQrMainComp = () => {
                 dataField={"recDate"}
                 caption={"Rec. Date"}
                 allowEditing={false}
-
               />
               <Column
                 type="buttons"
@@ -493,14 +526,14 @@ const PrintQrMainComp = () => {
                   icon="fa-solid fa-qrcode"
                   visible={true}
                   onClick={handleQrGenerate}
-                  disabled={data => !data.row.data.disablebtn}
+                  disabled={(data) => !data.row.data.disablebtn}
                 />
                 <Button
                   hint="Clone"
                   icon="fa-solid fa-print"
                   visible={true}
                   onClick={handleClone}
-                  disabled={data => data.row.data.disablebtn}
+                  disabled={(data) => data.row.data.disablebtn}
                 />
               </Column>
             </DataGrid>

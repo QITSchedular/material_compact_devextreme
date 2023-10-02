@@ -39,7 +39,9 @@ const TransparentContainer = ({
       {mountNodeId && (
         <>
           <div id={mountNodeId} className="scanner-container-fullscreen"></div>
+          <div className="scan"></div>
           <div className="button-container">
+         
             <Button
               className="popup-button"
               type="danger"

@@ -16,6 +16,7 @@
         display: flex;
         margin: 0.5rem 0 1.5rem 0;
         justify-content: space-between;
+        padding-top: 10px;
 
         .buttons-section {
             display: flex;
@@ -31,7 +32,7 @@
     .title-section {
         display: flex;
         flex-direction: column;
-        padding-top: 16px;
+        padding-top: 12px;
         gap: 0.4rem;
 
         .title-name {

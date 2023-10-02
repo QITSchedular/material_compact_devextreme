@@ -12,6 +12,7 @@ import { toastDisplayer } from "../../../api/qrgenerators";
 import { verifyProdcutionQrInput } from "../../../api/inventory.transfer.api";
 import ItemsGrid from "./inner-components/items-grid";
 import { Button, Switch } from "devextreme-react";
+import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
 const InventorytransferMain = () => {
   const [showToWarehousePopup, setShowToWarehousePopup] = useState(false);
@@ -30,7 +31,7 @@ const InventorytransferMain = () => {
   const [innerWidth, setInnerWidth] = useState("");
 
   const [dataGridDataSource, setDataGridDataSource] = useState([]);
-
+  const [showScanner, setShowScanner] = useState(false);
   const toWarehouseChooser = async () => {
     console.log("ToWarehouseChooser");
     const allwarehouses = await getWareHouseList();
@@ -141,7 +142,7 @@ const InventorytransferMain = () => {
     if (txtBoxRef.current) {
       txtBoxRef.current.instance.reset();
     }
-  }
+  };
 
   useEffect(() => {
     const selectedToWarehouseResolver = async () => {
@@ -161,8 +162,33 @@ const InventorytransferMain = () => {
     selectedFromWarehouseResolver();
   }, [selectedFromWarehouse]);
 
+  const handleScan = () => {
+    setShowScanner(true);
+    console.log("Handle Scan");
+  };
+
+  const HandleCloseQrScanner = () => {
+    setShowScanner(false);
+  };
+  const HandleDecodedData1 = (data) => {
+    // setSelectedPo(data);
+    console.log("data after scanning  : ",data)
+    setProductionNumberInput(data);
+    // setShowPO(true);
+    setShowScanner(false);
+  };
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner inventory-transfer-main-container ">
+      {showScanner && (
+        <div>
+          <TransparentContainer
+            mountNodeId="containerInventry"
+            showScan={showScanner}
+            HandleCloseQrScanner1={HandleCloseQrScanner}
+            HandleDecodedData={HandleDecodedData1}
+          ></TransparentContainer>
+        </div>
+      )}
       <div className="header-section">
         <div>
           <PopupHeaderText text={"Inventory Transfer"} />
@@ -218,6 +244,8 @@ const InventorytransferMain = () => {
                   productionNumberInputSearchHandler
                 }
                 txtBoxRef={txtBoxRef}
+                handleScan={handleScan}
+                scannedData={productionNumberInput}
               />
             </div>
           </div>

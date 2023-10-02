@@ -118,6 +118,9 @@ function IncommingQcScanItem() {
 
   //pop up cancel handler QR request
   const handleCancelQrRequest = async () => {
+    const value = await dataGridRefList.current.instance.selectRows(
+      0
+    );
     return await outsideClickHandlerQrRequest();
   };
 
@@ -188,6 +191,7 @@ function IncommingQcScanItem() {
         detailQRCodeID: scannedDetailQRCodeID,
       };
       var response = await validatePoListsIQC(reqBody);
+      // console.log("=====",response)
       var doProuctExist;
       if (IQCList.size > 0) {
         doProuctExist = false;
@@ -236,7 +240,7 @@ function IncommingQcScanItem() {
         doProuctExist = false;
       }
 
-      if (response["errorText"] == "No data found") {
+      if (response["errorText"]) {
         return toastDisplayer("error", "Please enter valid item code");
       } else if (doProuctExist && response) {
         return toastDisplayer("error", "Product already added..!!");
@@ -250,6 +254,8 @@ function IncommingQcScanItem() {
           setIsGridVisible(true);
           return updatedSet; // Return the updated Set
         });
+      }else{
+        return toastDisplayer("error", response["errorText"]);
       }
     } else {
       return toastDisplayer("error", "Please type/scan Item");
@@ -374,6 +380,9 @@ function IncommingQcScanItem() {
       const value = await dataGridRef.current.instance.selectRows(
         selectedRowKeys[length - 1]
       );
+      const value1 = await dataGridRefList.current.instance.selectRows(
+        0
+      );
       return selectedRowSetterReject(value);
     } else {
       const value = await dataGridRef.current.instance.selectRows(
@@ -388,8 +397,7 @@ function IncommingQcScanItem() {
     const length = await selectedRowKeys.length;
     if (selectedRowKeys.length == 1) {
       if (
-        selectedRowsDataApprove.length > 0 &&
-        selectedRowsDataReject.length > 0
+        selectedRowsDataApprove.length > 0
       ) {
         setQrRequestPopUp(true);
         IQCList.forEach((item) => {
@@ -398,6 +406,9 @@ function IncommingQcScanItem() {
           }
         });
       } else {
+        const value = await dataGridRefList.current.instance.selectRows(
+          0
+        );
         return toastDisplayer("error", "Please select warehouse");
       }
     }
@@ -456,7 +467,6 @@ function IncommingQcScanItem() {
     console.log("Handle Scan");
   };
 
-
   return (
     <>
       {ApproveWareHouse && (
@@ -482,10 +492,8 @@ function IncommingQcScanItem() {
             />
           )}
         >
-          <h1>hello</h1>
         </Popup>
       )}
-
       {RejectWareHouse && (
         <Popup
           visible={true}
@@ -509,12 +517,11 @@ function IncommingQcScanItem() {
             />
           )}
         >
-          <h1>hello</h1>
         </Popup>
       )}
       <div className="main-section-scan-item">
         <div className="inputWrapper-scan-item">
-          <div className="date-section">
+          {/* <div className="date-section">
             <DateBox
               className="dx-field-value"
               placeholder="From"
@@ -529,7 +536,6 @@ function IncommingQcScanItem() {
               type="date"
             // width={150}
             />
-
           </div>
           <div className="txtBtn-section">
             <TextBox
@@ -569,6 +575,7 @@ function IncommingQcScanItem() {
                   ></TransparentContainer>
                 </div>
               )}
+              
             </div>
           </div>
         </div>
@@ -579,7 +586,7 @@ function IncommingQcScanItem() {
             placeholder="Approved Wherehouse"
             value={
               selectedRowsDataApprove.length > 0
-                ? selectedRowsDataApprove[0].whsCode
+                ? selectedRowsDataApprove[0]
                 : ""
             }
             width={160}
@@ -592,6 +599,7 @@ function IncommingQcScanItem() {
               options={approveWareHouseHandler}
             />
           </TextBox>
+          {console.log(selectedRowsDataApprove.length)}
           <TextBox
             className="dx-field-value purchaseQRField"
             stylingMode="outlined"
@@ -619,6 +627,7 @@ function IncommingQcScanItem() {
             // height={420}
             dataSource={Array.from(IQCList)}
             keyExpr={"itemCode"}
+            // keyExpr={"detailQRCodeID"}
             showBorders={true}
             columnAutoWidth={true}
             hoverStateEnabled={true}
@@ -628,14 +637,13 @@ function IncommingQcScanItem() {
           >
             {/* <SearchPanel visible={true} /> */}
             <Selection mode="multiple" />
-            <Scrolling columnRenderingMode="infinite" />
+            <Scrolling columnRenderingMode="infinite" enabled="true" />
             <Paging enabled={false} />
             {columns &&
               columns.map((value, key) => (
                 <Column
                   dataField={value["field"]}
                   caption={value["caption"]}
-                  hidingPriority={6}
                 ></Column>
               ))}
           </DataGrid>
@@ -644,7 +652,7 @@ function IncommingQcScanItem() {
       {QrRequestPopUp && (
         <Popup
           visible={true}
-          height={window.innerHeight - 100}
+          height={700}
           width={544}
           showCloseButton={true}
           className="QrRequestPopUp"
@@ -654,10 +662,13 @@ function IncommingQcScanItem() {
               handleCancelQrRequest={handleCancelQrRequest}
               requestData={QrRequestData}
               approveWareHouse={selectedRowsDataApprove[0].whsCode}
-              rejectWareHouse={selectedRowsDataReject[0].whsCode}
+              rejectWareHouse={selectedRowsDataReject.length?selectedRowsDataReject[0].whsCode : null}
+              clearData={clearData}
             />
           )}
-        ></Popup>
+        >
+          {/* {console.log(selectedRowsDataReject.length,"--",selectedRowsDataReject)} */}
+        </Popup>
       )}
       {/* {QrRequestPopUp && <incomingQrRequest isCommonPopupVisible={QrRequestPopUp} />} */}
     </>

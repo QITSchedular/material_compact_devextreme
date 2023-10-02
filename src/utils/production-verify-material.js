@@ -45,8 +45,8 @@ export const validatePoListsVerifyMaterial = async (detailQRCodeID) => {
   };
   try {
     const response = await axios.post(
-      `${API_URL}/Production/ValidateItemQR`,
-      // `${API_URL}/Production/ValidateDraftIssueItemQR`,
+      // `${API_URL}/Production/ValidateItemQR`,
+      `${API_URL}/Production/ValidateDraftIssueItemQR`,
       requestBody
     );
     const data = response.data;

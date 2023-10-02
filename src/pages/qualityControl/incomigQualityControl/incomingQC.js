@@ -114,12 +114,10 @@ function IncomingQCComponent() {
   }
 
   const fromDateOptions = (e) => {
-    console.log(convertData(e.value));
     setFromDate(convertData(e.value));
   };
 
   const toDateOptions = (e) => {
-    console.log(convertData(e.value));
     setToDate(convertData(e.value));
   };
 
@@ -226,23 +224,20 @@ function IncomingQCComponent() {
           hideOnOutsideClick={outsideClickHandler}
           className="purchaseOrderList"
           contentRender={() => (
-            <ScrollView height="100%">
-              <PurchaseOrderList
-                handleCancel={handleCancel}
-                handleSave={handleSave}
-                handleDataGridRowSelection={handleDataGridRowSelection}
-                dataGridRef={dataGridRef}
-                selectedRowKeys={selectedRowKeys}
-              />
-            </ScrollView>
+            <PurchaseOrderList
+              handleCancel={handleCancel}
+              handleSave={handleSave}
+              handleDataGridRowSelection={handleDataGridRowSelection}
+              dataGridRef={dataGridRef}
+              selectedRowKeys={selectedRowKeys}
+              fromDate={fromDate}
+              toDate={toDate}
+            />
           )}
         ></Popup>
       )
       }
-
-
-
-      <div className="main-section">
+        <div className="main-section">
         {/* {console.log(IQCList2)} */}
         <div className="inputWrapper">
           <div className="date-section">
