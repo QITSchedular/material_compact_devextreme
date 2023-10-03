@@ -96,7 +96,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                         {
                             (filteredItems && filteredItems.length > 0) ?
                                 filteredItems.map((item, index) => (
-                                    <Link to={item.path} onClick={() => settextBoxValue(null)}>
+                                    <Link to={item.path} onClick={() => settextBoxValue(null)} key={index}>
                                         <li style={{ animationDelay: `${animationDelay * index}s` }}>
                                             <div className="heading">
                                                 <span className="material-symbols-outlined list-icon">

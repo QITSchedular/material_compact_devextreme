@@ -185,4 +185,9 @@ export const navigation = [
             },
         ],
     },
+    {
+        text: "Settings",
+        path: "/configuration",
+        icon: `settings`,
+    },
 ];

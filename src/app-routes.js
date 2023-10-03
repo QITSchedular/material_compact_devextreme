@@ -36,7 +36,8 @@ import {
   ProductionPage,
   InventoryPage,
   MachinemasterPage,
-  EmployeemasterPage
+  EmployeemasterPage,
+  ConfigurationPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -201,6 +202,10 @@ const routes = [
   {
     path: "/TrackMachines/MachineManagement",
     element: MachineManagementPage,
+  },
+  {
+    path: "/configuration",
+    element: ConfigurationPage,
   },
 ];
 

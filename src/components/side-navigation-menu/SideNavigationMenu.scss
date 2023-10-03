@@ -13,12 +13,21 @@
     .menu-container {
         min-height: 100%;
         display: flex;
+        max-height: 100vh;
         flex: 1;
 
+
+
         .dx-treeview {
-            // ## Long text positioning
             white-space: nowrap;
-            margin-top: 1rem !important;
+
+            .dx-scrollable-content {
+                margin-top: 1rem !important;
+                padding-bottom: 5rem !important;
+            }
+
+            // ## Long text positioning
+
 
             // ## Icon width customization
             .dx-treeview-item {

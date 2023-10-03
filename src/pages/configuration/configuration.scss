@@ -1,0 +1,147 @@
+.custom-card {
+    padding: 0px;
+    margin: 1rem;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #FFF;
+    box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.1);
+
+    .card-header {
+        padding-top: .5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        text-align: left;
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 12.606px;
+        letter-spacing: 0.567px;
+        white-space: nowrap;
+        font-size: 20px;
+    }
+
+    .card-body {
+        padding: 10px 25px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+        .checkbox-group {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            margin-bottom: 1rem;
+
+            .custom-checkbox {
+                margin: .4rem .5rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .dx-widget {
+                    .dx-checkbox-container {
+                        gap: 0.6rem;
+                        color: #8D8D8D;
+                        font-family: Roboto;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+                }
+            }
+        }
+
+        .dropdown-group {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: 1fr 1fr;
+            margin-bottom: 1rem;
+
+            .custom-checkbox {
+                margin: .4rem .5rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .dx-widget {
+                    .dx-checkbox-container {
+                        gap: 0.6rem;
+                        color: #8D8D8D;
+                        font-family: Roboto;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                    }
+                }
+            }
+
+            .dx-selectbox {
+                margin-top: .3rem;
+                margin-bottom: .5rem;
+                border-radius: 8px;
+                box-shadow: none;
+                background-color: transparent;
+                border-radius: 8px;
+                border: 1px solid #E0E0E0;
+                color: #E0E0E0;
+            }
+        }
+
+        fieldset {
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            padding-top: 1rem;
+
+            legend {
+                font-size: 14px;
+                color: #525252;
+                font-feature-settings: "clig" off, "liga" off;
+                font-family: Roboto;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+        }
+
+        .checkbox-group-fieldset {
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            margin-top: 1rem;
+
+            legend {
+                font-size: 12px;
+                color: #525252;
+                font-feature-settings: "clig" off, "liga" off;
+                font-family: Roboto;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+        }
+    }
+
+    .card-footer {
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+
+        .my-button {
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            background: transparent;
+        }
+
+        .save-button {
+            background-color: #4371B7;
+
+            .dx-button-content {
+                .dx-button-text {
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
