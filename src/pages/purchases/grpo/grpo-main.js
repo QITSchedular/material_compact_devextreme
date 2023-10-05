@@ -205,7 +205,7 @@ const GrpoMain = () => {
         const filteredData = poListData.filter(
           (item) => item.qrCodeID === qrCode
         );
-
+        
         setGrpoList1((prevGrpoList) => {
           console.log("prevGrpoList: ", prevGrpoList);
 

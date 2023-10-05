@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom'
 import QtcSearchColumn from '../../../components/qtcCommonComponent/qtcSearchColumn'
 import { getPoLists } from '../../../utils/gate-in-purchase'
 import { GRPOScanner } from '../../../assets/icon'
-import { ValidateItemQR1 } from '../../../utils/grpo-saver'
+import { ValidateItemQR } from '../../../utils/grpo-saver'
 import { toastDisplayer } from '../../../api/qrgenerators'
 import { Button } from 'devextreme-react'
 import QtcDataGrid from '../../../components/qtcCommonComponent/qtcDataGrid'
@@ -17,6 +17,7 @@ const DeliveryProcess = () => {
     const [selectedItemQr, setSelectedItemQR] = useState(null)
     const [gridDataSource, setGridDataSource] = useState('')
     const [displayGrid, setDisplayGrid] = useState(false)
+    const [uniqueIds, setUniqueIds] = useState(new Set());
 
     const handleTextValueChange = e => {
         return setSelectedItemQR(e.value)
@@ -30,31 +31,34 @@ const DeliveryProcess = () => {
     }
 
     // on hit of search button
-    const handleItemQrVerification = async e => {
+    const handleItemQrVerification = async (e) => {
+        // validate the scanned item
         if (selectedItemQr) {
-            const doItemExists = await ValidateItemQR1(
-                qrCode,
-                selectedItemQr,
-                docEntry
-            )
-            console.log('doItemExists : ', doItemExists)
-            if (doItemExists === 'No data found') {
+            const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
+
+            if (doItemExists === "No data found") {
+                // console.log("the scanned item does not exist");
                 return toastDisplayer(
-                    'error',
-                    'The scanned item does not belong to this P.O'
-                )
+                    "error",
+                    "The scanned item does not belong to this P.O"
+                );
             } else {
-                setDisplayGrid(true)
-                return setGridDataSource(previous => [...previous, ...doItemExists])
+                // Filter out duplicate detailQRCodeID values
+                const newData = doItemExists.filter(
+                    (item) => !uniqueIds.has(item.detailQRCodeID)
+                );
+                setDisplayGrid(true);
+                return setGridDataSource((previous) => [...previous, ...doItemExists]);
             }
         } else {
-            setDisplayGrid(false)
-            return toastDisplayer('error', 'Scan the Item Qr first')
+            setDisplayGrid(false);
+            return toastDisplayer("error", "Scan the Item Qr first");
         }
-    }
+    };
 
     const handleGrpoSaving = async () => {
         console.log('gridDataSource : ', gridDataSource)
+        return toastDisplayer("succes", `Delivered Successfully!!!`);
     }
 
     const handleScanner = () => {
@@ -78,8 +82,8 @@ const DeliveryProcess = () => {
     return (
         <div className='content-block dx-card responsive-paddings issue-material-container'>
             <div className='header-section'>
-                <PopupHeaderText text={'Issue Material'} />
-                <PopupSubText text={'Type or scan the item code to make an entry'} />
+                <PopupHeaderText text={'Delivery'} />
+                <PopupSubText text={'All the item details at one place'} />
             </div>
             <QtcSearchColumn
                 popupHeaderText='Purchase Order List'
@@ -115,7 +119,7 @@ const DeliveryProcess = () => {
                                     text='Save'
                                     type='default'
                                     onClick={handleGrpoSaving}
-                                    className='grpo-save'
+                                    className='default-button'
                                     width={120}
                                     height={40}
                                 ></Button>
