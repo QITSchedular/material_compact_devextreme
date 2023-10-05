@@ -48,11 +48,11 @@ const columns = [
 
 var customers = [];
 
-function IncomingQCOrderList({ IQCList2 }) {
+function IncomingQCOrderList({ IQCList2, deleteFromList }) {
   const [data, setData] = useState([]);
 
   const navigate = useNavigate();
-  const handleProceed = (headerQRCodeID,docEntry) => {
+  const handleProceed = (headerQRCodeID, docEntry) => {
     return navigate(
       `/qualityControl/incomigQualityControl/IncomingQcScanItemsPage/${headerQRCodeID}/${docEntry}`
     );
@@ -103,19 +103,24 @@ function IncomingQCOrderList({ IQCList2 }) {
             <div key={index} className="single-po">
               <div className="single-po1">
                 <div className="single-po-delete">
-                  <Button icon="trash"></Button>
+                  <Button icon="trash" onClick={()=>deleteFromList(item["docEntry"])}></Button>
                 </div>
                 <div className="single-po-name">
-                  <span className="po-name">{item["headerQRCodeID"]}</span>
-                  <Button
-                    icon="custom-chevron-down-icon"
-                    onClick={() => handleShowRealtiveDataGrid(item["docEntry"])}
-                  ></Button>
+                  <div className="single-po-sub-name">
+                    <div className="po-name1"><span className="po-name">PO No :</span> {item["headerQRCodeID"]}</div>
+                    <div className="po-name1"><span className="po-name"> Doc No :</span> {item["docNum"]}</div>
+                  </div>
+                  <div>
+                    <Button
+                      icon="custom-chevron-down-icon"
+                      onClick={() => handleShowRealtiveDataGrid(item["docEntry"])}
+                    ></Button>
+                  </div>
                 </div>
                 <div className="single-po-proceed">
                   <Button
                     text="Proceed"
-                    onClick={() => handleProceed(item["headerQRCodeID"],item["docEntry"])}
+                    onClick={() => handleProceed(item["headerQRCodeID"], item["docEntry"])}
                   ></Button>
                 </div>
               </div>

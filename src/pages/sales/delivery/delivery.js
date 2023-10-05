@@ -62,7 +62,7 @@ export default function Delivery() {
         } else {
             return toastDisplayer('error', 'Please type/scan P.O')
         }
-    }
+  
   };
   const handleTextValueChange = (data) => {
     setSelectedPo(data.value);
@@ -74,105 +74,105 @@ export default function Delivery() {
         { feildType: "button", handlefunc: 'handleScan', btnIcon: GRPOScanner },
     ];
 
-  const proceedToItemsScan = (param1, param2) => {
-    navigate(`/production/issue-material/verify-material/${param1}/${param2}`);
-  };
+  // const proceedToItemsScan = (param1, param2) => {
+  //   navigate(`/production/issue-material/verify-material/${param1}/${param2}`);
+  // };
 
-  const handleShowRealtiveDataGrid = () => {
-    return setIsDataGridVisible(!isDataGridVisible);
-  };
-  const columns = [
-    {
-      caption: "Vendor Code",
-      field: "cardCode",
-    },
-    {
-      caption: "Vendor Ref No.",
-      field: "cardCode",
-    },
-    {
-      caption: "Vendor Name",
-      field: "cardName",
-    },
-    {
-      caption: "Doc Series",
-      field: "series",
-    },
-    {
-      caption: "Doc No.",
-      field: "docNum",
-    },
-    {
-      caption: "Doc Date",
-      field: "docDate",
-    },
-    {
-      caption: "Post Date",
-      field: "postDate",
-    },
-    {
-      caption: "Project",
-      field: "project",
-    },
-    {
-      caption: "Remark",
-      field: "project",
-    },
-    {
-      caption: "Doc Entry",
-      field: "docEntry",
-    },
-  ];
+  // const handleShowRealtiveDataGrid = () => {
+  //   return setIsDataGridVisible(!isDataGridVisible);
+  // };
+  // const columns = [
+  //   {
+  //     caption: "Vendor Code",
+  //     field: "cardCode",
+  //   },
+  //   {
+  //     caption: "Vendor Ref No.",
+  //     field: "cardCode",
+  //   },
+  //   {
+  //     caption: "Vendor Name",
+  //     field: "cardName",
+  //   },
+  //   {
+  //     caption: "Doc Series",
+  //     field: "series",
+  //   },
+  //   {
+  //     caption: "Doc No.",
+  //     field: "docNum",
+  //   },
+  //   {
+  //     caption: "Doc Date",
+  //     field: "docDate",
+  //   },
+  //   {
+  //     caption: "Post Date",
+  //     field: "postDate",
+  //   },
+  //   {
+  //     caption: "Project",
+  //     field: "project",
+  //   },
+  //   {
+  //     caption: "Remark",
+  //     field: "project",
+  //   },
+  //   {
+  //     caption: "Doc Entry",
+  //     field: "docEntry",
+  //   },
+  // ];
 
-    const proceedToItemsScan = (qrCode) => {
-        navigate(`/sales/delivery/delivery-process/${qrCode}`);
-    };
+  //   const proceedToItemsScan = (qrCode) => {
+  //       navigate(`/sales/delivery/delivery-process/${qrCode}`);
+  //   };
 
-    const handleShowRealtiveDataGrid = () => {
-        return setIsDataGridVisible(!isDataGridVisible);
-    };
-    const columns = [
-        {
-            caption: "Vendor Code",
-            field: "cardCode",
-        },
-        {
-            caption: "Vendor Ref No.",
-            field: "cardCode",
-        },
-        {
-            caption: "Vendor Name",
-            field: "cardName",
-        },
-        {
-            caption: "Doc Series",
-            field: "series",
-        },
-        {
-            caption: "Doc No.",
-            field: "docNum",
-        },
-        {
-            caption: "Doc Date",
-            field: "docDate",
-        },
-        {
-            caption: "Post Date",
-            field: "postDate",
-        },
-        {
-            caption: "Project",
-            field: "project",
-        },
-        {
-            caption: "Remark",
-            field: "project",
-        },
-        {
-            caption: "Doc Entry",
-            field: "docEntry",
-        },
-    ];
+  //   const handleShowRealtiveDataGrid = () => {
+  //       return setIsDataGridVisible(!isDataGridVisible);
+  //   };
+  //   const columns = [
+  //       {
+  //           caption: "Vendor Code",
+  //           field: "cardCode",
+  //       },
+  //       {
+  //           caption: "Vendor Ref No.",
+  //           field: "cardCode",
+  //       },
+  //       {
+  //           caption: "Vendor Name",
+  //           field: "cardName",
+  //       },
+  //       {
+  //           caption: "Doc Series",
+  //           field: "series",
+  //       },
+  //       {
+  //           caption: "Doc No.",
+  //           field: "docNum",
+  //       },
+  //       {
+  //           caption: "Doc Date",
+  //           field: "docDate",
+  //       },
+  //       {
+  //           caption: "Post Date",
+  //           field: "postDate",
+  //       },
+  //       {
+  //           caption: "Project",
+  //           field: "project",
+  //       },
+  //       {
+  //           caption: "Remark",
+  //           field: "project",
+  //       },
+  //       {
+  //           caption: "Doc Entry",
+  //           field: "docEntry",
+  //       },
+  //   ];
 
     return (
         <>
@@ -185,9 +185,6 @@ export default function Delivery() {
                 {/* here we have to change headertext and sub text after making an new api for this page */}
                 <QtcSearchColumn popupHeaderText="Delivery" popupSubHeaderText="To pick and deliver the items" optionFunc={helpOptions} keyArray={keyArray1} PopUpContent={getPoLists()} getparamFunc={handlePoVerification} valueToShowParam="qrCodeID" keyExpr="docEntry" />
 
-                {grpoList.size > 0 &&
-                    <QtcMainColumn IQCList={grpoList} columns={columns} handleProceed1={proceedToItemsScan} displayname="headerQRCodeID" DownArrowKey="docEntry" keyExpr="docEntry" />
-                }
 
             </div>
         </>

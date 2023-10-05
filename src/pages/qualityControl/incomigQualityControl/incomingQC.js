@@ -121,15 +121,21 @@ function IncomingQCComponent() {
     setToDate(convertData(e.value));
   };
 
-  const SearchHandler = async () => {
-    if (txtValueOfTypePOL) {
-      const prodResponse = await searchPoListsIQC(txtValueOfTypePOL, fromDate, toDate);
+  const SearchHandler=()=>{
+    HandleSearchHandler(txtValueOfTypePOL);
+  }
+
+  const HandleSearchHandler = async (txtValueOfTypePOL_new) => {
+    console.log(txtValueOfTypePOL_new)
+    if (txtValueOfTypePOL_new) {
+      const prodResponse = await searchPoListsIQC(txtValueOfTypePOL_new, fromDate, toDate);
+      console.log("api response==>",prodResponse)
       var doProuctExist;
       
       if (IQCList2.size > 0) {
         doProuctExist = false;
         IQCList2.forEach((value) => {
-          if (value.headerQRCodeID == txtValueOfTypePOL) {
+          if (value.headerQRCodeID == txtValueOfTypePOL_new) {
             doProuctExist = true;
             return;
           }
@@ -145,15 +151,6 @@ function IncomingQCComponent() {
         } else if (prodResponse && doProuctExist) {
           return toastDisplayer("error", "Product alredy exist..!!");
         } else if (prodResponse && !doProuctExist) {
-          // setIQCList2((prevIQCList) => {
-            //   const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
-            
-            //   prodResponse.forEach((response) => {
-              //     updatedSet.add(response); // Add each object from prodResponse to the updatedSet
-              //   });
-              
-              //   return updatedSet; // Return the updated Set
-              // });
         setIQCList2((prevIQCList) => {
 
           const updatedSet = new Set(prevIQCList);
@@ -177,6 +174,16 @@ function IncomingQCComponent() {
     }
   };
 
+  const handleDelete = (docEntry)=>{
+    const updatedgrpoList1 = new Set(IQCList2);
+    updatedgrpoList1.forEach((item) => {
+      if (item.docEntry === docEntry) {
+        updatedgrpoList1.delete(item);
+      }
+    });
+    return setIQCList2(updatedgrpoList1);
+  }
+
   //close and open scanner
   const HandleCloseQrScanner = () => {
     setShowScanner(false);
@@ -189,6 +196,7 @@ function IncomingQCComponent() {
 
   const HandleDecodedData1 = (data) => {
     settxtValueOfTypePOL(data);
+    HandleSearchHandler(data);
     setShowPO(true);
     setShowScanner(false);
   };
@@ -209,6 +217,7 @@ function IncomingQCComponent() {
     };
   }, []);
 
+ 
 
 
   return (
@@ -318,7 +327,7 @@ function IncomingQCComponent() {
         </div>
       </div>
       <div className="orderList-section">
-        <IncomingQCOrderList IQCList2={IQCList2} />
+        <IncomingQCOrderList IQCList2={IQCList2} deleteFromList={handleDelete} />
       </div>
     </>
   );
