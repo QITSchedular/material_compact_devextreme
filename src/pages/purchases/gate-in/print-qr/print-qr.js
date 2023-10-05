@@ -67,7 +67,7 @@ const PrintQrMainComp = () => {
   const [updatedItems, setUpdatedItems] = useState([]);
   const [viewQr, setViewQr] = useState(false);
   const [itemQrCode, setItemQrCode] = useState([]);
-
+  
   const handleSearchPurchasedOrder = async () => {
     try {
       const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;

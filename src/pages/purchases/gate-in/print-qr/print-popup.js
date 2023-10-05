@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Popup, ToolbarItem } from "devextreme-react/popup";
 import { Button } from "devextreme-react/button";
 import TextBox from "devextreme-react/text-box";
@@ -20,6 +20,7 @@ const renderSuccessContent = ({ qrVisibilityHandler, onQrGenerated }) => {
     await onQrGenerated(false);
     await qrVisibilityHandler(false);
   };
+
   return (
     <div
       className="lottie-conatiner"
@@ -68,47 +69,48 @@ const renderContent = ({
     const { series } = seriesList[0];
     const { gateInNo, itemCode, qrMngBy, qty, openQty } = selectedQrRowData;
     const branchID = "1";
-    if (addedBatchNum == "") {
-      return toastDisplayer("error", "Enter Batch number");
-    }
-    // manaual branch id, it should be dynamically generated
-    const resp = await qrGenerationHandler(
-      docEntry,
-      docNum,
-      objType,
-      series,
-      branchID,
-      itemCode,
-      gateInNo,
-      poDetailsfull,
-      qrMngBy,
-      openQty,
-      addedRemarks,
-      addedBatchNum
-    );
+   
+    // if (addedBatchNum == "") {
+    //   return toastDisplayer("error", "Enter Batch number");
+    // }
+    // // manaual branch id, it should be dynamically generated
+    // const resp = await qrGenerationHandler(
+    //   docEntry,
+    //   docNum,
+    //   objType,
+    //   series,
+    //   branchID,
+    //   itemCode,
+    //   gateInNo,
+    //   poDetailsfull,
+    //   qrMngBy,
+    //   openQty,
+    //   addedRemarks,
+    //   addedBatchNum
+    // );
 
-    if (Array.isArray(resp)) {
-      const counts = resp.reduce((countObj, currentValue) => {
-        countObj[currentValue] = (countObj[currentValue] || 0) + 1;
-        return countObj;
-      }, {});
-      const count0 = counts[0] || 0;
-      const count1 = counts[1] || 0;
-      handleCancel();
-      SwalDisplayer(
-        "success",
-        `successfully generated QR ${count1},  Failed to generate QR ${count0}`
-      );
-    }
-    if (resp === "Qr Generated") {
-      return onQrGenerated(true);
-    }
-    if (resp === "Detail Qr already-generated") {
-      return handleCancel();
-    }
-    if (resp === "Error: Failed to generate") {
-      await toastDisplayer("error", "Error: Failed to generate the QrCode");
-    }
+    // if (Array.isArray(resp)) {
+    //   const counts = resp.reduce((countObj, currentValue) => {
+    //     countObj[currentValue] = (countObj[currentValue] || 0) + 1;
+    //     return countObj;
+    //   }, {});
+    //   const count0 = counts[0] || 0;
+    //   const count1 = counts[1] || 0;
+    //   handleCancel();
+    //   SwalDisplayer(
+    //     "success",
+    //     `successfully generated QR ${count1},  Failed to generate QR ${count0}`
+    //   );
+    // }
+    // if (resp === "Qr Generated") {
+    //   return onQrGenerated(true);
+    // }
+    // if (resp === "Detail Qr already-generated") {
+    //   return handleCancel();
+    // }
+    // if (resp === "Error: Failed to generate") {
+    //   await toastDisplayer("error", "Error: Failed to generate the QrCode");
+    // }
   };
 
   const handleRemarksValueChanged = async (data) => {
@@ -346,6 +348,7 @@ const PrintPopup = ({
     setQrGenerated(isGenerated);
     return qrgeneraqtedrtnFun(isGenerated);
   };
+ 
   return (
     <>
       <div className="print-qr-popup">

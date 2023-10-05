@@ -469,6 +469,7 @@ const itemsQrGeneratorAndSaver = async (
     }else{
       return counterArray;
     }
+      // return counterArray;
   } else {
     console.log("none")
     counterArray = [];

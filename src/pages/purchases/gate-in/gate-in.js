@@ -586,6 +586,7 @@ const GateInComponent = () => {
                 placeholder="Enter vehicle number"
                 width={176}
                 showClearButton={true}
+                value={vehicleName?vehicleName:""}
                 onValueChanged={handleVehicleEntry}
                 height={40}
               />
