@@ -129,4 +129,16 @@ export const SwalDisplayer = (type, title, text) => {
       timer: 3000,
     });
   }
+  if (type === "info") {
+    return Swal.fire({
+      title: title,
+      text: text ? text : "",
+      icon: "info",
+      customClass: {
+        icon: 'iconclass'
+      },
+      imageAlt: "operation failed",
+      timer: 3000,
+    });
+  }
 };
