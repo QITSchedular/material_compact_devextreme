@@ -168,14 +168,14 @@ const IssueMaterialMain = () => {
             disabled={isSearchButtonDisabled}
             value={inputQrValue}
           />
-          <Button
+          {/* <Button
             width={33}
             height={33}
             type="normal"
             stylingMode="outlined"
             icon={GRPOScanner}
             onClick={() => console.log("You have cliced the scanner")}
-          />
+          /> */}
         </div>
 
         {/*------- LISTING SECTION -----*/}

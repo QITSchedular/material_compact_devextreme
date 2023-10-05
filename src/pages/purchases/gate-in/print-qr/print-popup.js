@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Popup, ToolbarItem } from "devextreme-react/popup";
 import { Button } from "devextreme-react/button";
 import TextBox from "devextreme-react/text-box";
@@ -13,12 +13,14 @@ import { toast } from "react-toastify";
 import Lottie from "../../../../assets/images/success-lottiie-2.gif";
 import { RequiredRule } from "devextreme-react/validator";
 import { toastDisplayer } from "../../../../api/qrgenerators";
+import { SwalDisplayer } from "../../../../utils/showToastsNotifications";
 
 const renderSuccessContent = ({ qrVisibilityHandler, onQrGenerated }) => {
   const handleCancel = async () => {
     await onQrGenerated(false);
     await qrVisibilityHandler(false);
   };
+
   return (
     <div
       className="lottie-conatiner"
@@ -54,7 +56,6 @@ const renderContent = ({
   seriesList,
   onQrGenerated,
 }) => {
-
   var addedRemarks = "";
   var addedBatchNum = "";
   var addedProjectCode = "";
@@ -68,31 +69,48 @@ const renderContent = ({
     const { series } = seriesList[0];
     const { gateInNo, itemCode, qrMngBy, qty, openQty } = selectedQrRowData;
     const branchID = "1";
-    // manaual branch id, it should be dynamically generated
-    const resp = await qrGenerationHandler(
-      docEntry,
-      docNum,
-      objType,
-      series,
-      branchID,
-      itemCode,
-      gateInNo,
-      poDetailsfull,
-      qrMngBy,
-      openQty,
-      addedRemarks,
-      addedBatchNum
-    );
-    // const { qrCode } = resp;x
-    if (resp === "Qr Generated") {
-      return onQrGenerated(true);
-    }
-    if (resp === "Detail Qr already-generated") {
-      return handleCancel();
-    }
-    if (resp === "Error: Failed to generate") {
-      await toastDisplayer("error", "Error: Failed to generate the QrCode");
-    }
+   
+    // if (addedBatchNum == "") {
+    //   return toastDisplayer("error", "Enter Batch number");
+    // }
+    // // manaual branch id, it should be dynamically generated
+    // const resp = await qrGenerationHandler(
+    //   docEntry,
+    //   docNum,
+    //   objType,
+    //   series,
+    //   branchID,
+    //   itemCode,
+    //   gateInNo,
+    //   poDetailsfull,
+    //   qrMngBy,
+    //   openQty,
+    //   addedRemarks,
+    //   addedBatchNum
+    // );
+
+    // if (Array.isArray(resp)) {
+    //   const counts = resp.reduce((countObj, currentValue) => {
+    //     countObj[currentValue] = (countObj[currentValue] || 0) + 1;
+    //     return countObj;
+    //   }, {});
+    //   const count0 = counts[0] || 0;
+    //   const count1 = counts[1] || 0;
+    //   handleCancel();
+    //   SwalDisplayer(
+    //     "success",
+    //     `successfully generated QR ${count1},  Failed to generate QR ${count0}`
+    //   );
+    // }
+    // if (resp === "Qr Generated") {
+    //   return onQrGenerated(true);
+    // }
+    // if (resp === "Detail Qr already-generated") {
+    //   return handleCancel();
+    // }
+    // if (resp === "Error: Failed to generate") {
+    //   await toastDisplayer("error", "Error: Failed to generate the QrCode");
+    // }
   };
 
   const handleRemarksValueChanged = async (data) => {
@@ -321,13 +339,16 @@ const PrintPopup = ({
   selectedQrRowData,
   poDetailsfull,
   seriesList,
+  qrgeneraqtedrtnFun,
 }) => {
   // const { isQrPopupVisible, openQrPopUp, closeQrPopUp } =
   //   useContext(AppContext);
   const [qrGenerated, setQrGenerated] = useState(false);
   const handleQrGenerated = (isGenerated) => {
     setQrGenerated(isGenerated);
+    return qrgeneraqtedrtnFun(isGenerated);
   };
+ 
   return (
     <>
       <div className="print-qr-popup">
@@ -344,12 +365,12 @@ const PrintPopup = ({
                   onQrGenerated: handleQrGenerated,
                 })
               : renderContent({
-                  qrVisibilityHandler,
-                  selectedQrRowData,
-                  poDetailsfull,
-                  seriesList,
-                  onQrGenerated: handleQrGenerated,
-                })
+                qrVisibilityHandler,
+                selectedQrRowData,
+                poDetailsfull,
+                seriesList,
+                onQrGenerated: handleQrGenerated,
+              })
           }
         ></Popup>
         {/* ... */}

@@ -6,7 +6,8 @@ import {
   Button as TextBoxButton,
 } from "devextreme-react/text-box";
 import { Button } from "devextreme-react";
-import { Popup, ToolbarItem } from "devextreme-react/popup";
+import { ToolbarItem } from "devextreme-react/popup";
+import { Popup } from "devextreme-react";
 import { HelpIcons } from "./icons-exporter";
 import DataGrid, {
   Column,
@@ -29,7 +30,7 @@ import Html5QrcodePlugin from "./scanner/scanner-component";
 import QtcDataGrid from "../../../components/qtcCommonComponent/qtcDataGrid";
 import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
-const PopupContent = ({ onSelectRow, onSave }) => {
+const PopupContent = ({ onSelectRow, onSave, onCancel }) => {
   const [dataSource, setDataSource] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -105,8 +106,11 @@ const PopupContent = ({ onSelectRow, onSave }) => {
       ) : (
         <div className="responsive-paddings grpo-po-help-container">
           <div className="header-section">
-            <PopupHeaderText text={"Purchase Order List"} />
+            <PopupHeaderText text={"Purchase Order List "} />
             <PopupSubText text={"Search the purchase order"} />
+          </div>
+          <div className="button-groups">
+            <Button icon="close" onClick={onCancel} />
           </div>
           <DataGrid
             height={"70vh"}
@@ -160,6 +164,7 @@ const GrpoMain = () => {
   const [gridDataSourceForPopup, setGridDataSourceForPopup] = useState([]); // State to store the
   const [isSelectedFromPopup, setIsSelectedFromPopup] = useState(false); // State to store the
   const [showScanner, setShowScanner] = useState(false);
+  const [showPO, setShowPO] = useState();
   const helpOptions = {
     icon: HelpIcons,
     onClick: async () => {
@@ -167,6 +172,12 @@ const GrpoMain = () => {
     },
   };
   // toolbar button options
+  const closeButtonOptions = {
+    icon: "close",
+    type: "default",
+    stylingMode: "contained",
+    onClick: () => handleCancelNoSelection(),
+  };
   const saveButtonOptions = {
     width: 120,
     height: 40,
@@ -175,6 +186,7 @@ const GrpoMain = () => {
     stylingMode: "contained",
     onClick: () => handleSaveSelectedPo(),
   };
+
   const cancelButtonOptions = {
     width: 120,
     height: 40,
@@ -191,26 +203,30 @@ const GrpoMain = () => {
       if (poListData.length > 0) {
         const qrCodeIds = poListData.map((item) => item.qrCodeID);
         const filteredData = poListData.filter(
-          (item) => item.qrCodeID == qrCode
+          (item) => item.qrCodeID === qrCode
         );
 
-        console.log("filteredData : ", filteredData);
-        console.log("poListData : ", poListData);
-        console.log("qrCodeIds : ", qrCodeIds);
-        
         setGrpoList1((prevGrpoList) => {
+          console.log("prevGrpoList: ", prevGrpoList);
+
           const updatedSet = new Set(prevGrpoList);
+
           filteredData.forEach((response) => {
-            updatedSet.add(response);
+            const exists = Array.from(updatedSet).some(
+              (item) => item.qrCodeID === response.qrCodeID
+            );
+            if (!exists) {
+              updatedSet.add(response);
+            }
           });
+
           return updatedSet;
         });
-        
+
         // const qrCodeIds = poListData.map((item) => item.qrCodeID);
         const doPoExists = qrCodeIds.includes(qrCode);
         console.log("doPoExists : ", doPoExists);
         setLoading(false);
-
         return doPoExists;
       } else {
         // setError("No data found");
@@ -248,31 +264,37 @@ const GrpoMain = () => {
   const handleTextValueChange = (e) => {
     // console.log(e.previousValue);
     console.log(e.value);
+    setShowPO(true);
     return setSelectedPo(e.value);
   };
 
   // handle the hit search event
   const handlePoVerification = async (e) => {
-    if (selectedPo) {
-      const doPoExists = await dataGridDataHandler(selectedPo);
-      // console.log("selectedPo : ",grpoList1);
-      if (doPoExists && grpoList.has(selectedPo)) {
-        // Show an alert or a message to inform the user about the duplicate value
-        return toastDisplayer("error", "QR Code already exists in the list!");
-      } else if (doPoExists && !grpoList.has(selectedPo)) {
-        // Add the selectedPo to the grpoList using the Set's add method
-        return setGrpoList((prevGrpoList) =>
-          new Set(prevGrpoList).add(selectedPo)
-        );
-      } else if (!doPoExists) {
-        return toastDisplayer(
-          "error",
-          "Invalid Grpo, please select a valid Grpo"
-        );
-      }
-    } else {
+    // console.log("selectedRowsData : ",selectedRowsData[0].qrCodeID)
+    // await setSelectedPo(selectedRowsData[0].qrCodeID)
+
+    if (!selectedPo) {
       return toastDisplayer("error", "Please type/scan P.O");
     }
+    // if (selectedPo) {
+    const doPoExists = await dataGridDataHandler(selectedPo);
+    // console.log("selectedPo : ",grpoList1);
+    if (doPoExists && grpoList.has(selectedPo)) {
+      return toastDisplayer("error", "QR Code already exists in the list!");
+    } else if (doPoExists && !grpoList.has(selectedPo)) {
+      return setGrpoList((prevGrpoList) =>
+        new Set(prevGrpoList).add(selectedPo)
+      );
+    } else if (!doPoExists) {
+      // alert();
+      return toastDisplayer(
+        "error",
+        "Invalid Grpo, please select a valid Grpo"
+      );
+    }
+    // } else {
+    //   return toastDisplayer("error", "Please type/scan P.O");
+    // }
   };
   const [data, setData] = useState([]);
   // const handleShowRealtiveDataGrid = qrCode => {
@@ -296,8 +318,12 @@ const GrpoMain = () => {
   };
 
   const handleGrpoPoSelection = (params) => {
-    console.log("from the handleGrpoPoSelection", params);
+    console.log(
+      "from the handleGrpoPoSelection =================================",
+      params
+    );
     if (params.length > 0) {
+      setShowPO(false);
       return setSelectedRowsData(params);
     }
   };
@@ -306,6 +332,7 @@ const GrpoMain = () => {
     if (selectedRowsData.length > 0) {
       console.log("Current selected row data", selectedRowsData);
       console.log("Close the popup window");
+      // setSelectedPo("");
       setIsSelectedFromPopup(false);
       return setShowPoHelp(false);
     } else {
@@ -329,7 +356,6 @@ const GrpoMain = () => {
       const poListData = await getPoLists();
       if (poListData.length > 0) {
         await setGridDataSourceForPopup(poListData);
-        console.log(poListData);
       } else {
         toastDisplayer("error", "Something went wrong please tyr again later.");
       }
@@ -337,19 +363,15 @@ const GrpoMain = () => {
     };
     fetchAllPo();
   }, []);
-  const [decodedResults, setDecodedResults] = useState([]);
-  
-  const onNewScanResult = (decodedText) => {
-    alert("decodedText : ", decodedText);
-    // console.log("App [result]", decodedResult);
-    // setDecodedResults((prev) => [...prev, decodedResult]);
-    console.log("decodedText : ", decodedText);
-    setSelectedPo(decodedText);
-  };
-
   const HandleCloseQrScanner = () => {
     setShowScanner(false);
   };
+  const HandleDecodedData1 = (data) => {
+    setSelectedPo(data);
+    setShowPO(true);
+    setShowScanner(false);
+  };
+
   return (
     <>
       {loading && <LoadPanel visible={true} />}
@@ -357,8 +379,8 @@ const GrpoMain = () => {
         <Popup
           visible={true}
           showCloseButton={true}
-          contentRender={() => <PopupContent onSave={handleGrpoPoSelection} />}
-                  >
+          contentRender={() => <PopupContent onSave={handleGrpoPoSelection} onCancel={handleCancelNoSelection} />
+          }>
           <ToolbarItem
             widget="dxButton"
             toolbar="bottom"
@@ -380,15 +402,16 @@ const GrpoMain = () => {
             mountNodeId="container"
             showScan={showScanner}
             HandleCloseQrScanner1={HandleCloseQrScanner}
+            HandleDecodedData={HandleDecodedData1}
           ></TransparentContainer>
         </div>
       )}
       <div className="content-block dx-card responsive-paddings grpo-content-wrapper">
         <div className="title-section">
-          <span className="title-name">Grpo</span>
-          <span className="title-description">
-            Type or scan the purchase order to make an entry
-          </span>
+          <PopupHeaderText text={"Grpo"} />
+          <PopupSubText
+            text={"Type or scan the purchase order to make an entry"}
+          />
         </div>
 
         <div className="actions-section">
@@ -401,9 +424,14 @@ const GrpoMain = () => {
               showClearButton={true}
               onValueChanged={handleTextValueChange}
               value={
-                selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""
+                showPO
+                  ? selectedPo
+                  : selectedRowsData.length > 0
+                  ? selectedRowsData[0].qrCodeID
+                  : ""
               }
-              // disabled={selectedRowsData.length > 0 ? false : true}
+            // value={selectedPo}
+            // disabled={selectedRowsData.length > 0 ? false : true}
             >
               <TextBoxButton
                 name="currency"
@@ -413,8 +441,8 @@ const GrpoMain = () => {
             </TextBox>
 
             <Button
-              width={33}
-              height={33}
+              width={40}
+              height={40}
               type="normal"
               stylingMode="outlined"
               icon="search"
@@ -423,8 +451,8 @@ const GrpoMain = () => {
 
             {/* {The scanner opener button} */}
             <Button
-              width={33}
-              height={33}
+              width={40}
+              height={40}
               type="normal"
               stylingMode="outlined"
               icon={GRPOScanner}

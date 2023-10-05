@@ -83,19 +83,19 @@ export function useQRCodeScan({
                 error: "",
               });
   
-              if (closeAfterScan) {
-                html5qrCodeScanner
-                  .stop()
-                  .then((ignore) => {
-                    // QR Code scanning is stopped.
-                    // setIsOpenCamera(false);
-                    console.log("stopped after successful scan");
-                  })
-                  .catch((err) => {
-                    // Stop failed, handle it.
-                    console.log("fails to stop after successful scan result ");
-                  });
-              }
+              // if (closeAfterScan) {
+              //   html5qrCodeScanner
+              //     .stop()
+              //     .then((ignore) => {
+              //       // QR Code scanning is stopped.
+              //       // setIsOpenCamera(false);
+              //       console.log("stopped after successful scan");
+              //     })
+              //     .catch((err) => {
+              //       // Stop failed, handle it.
+              //       console.log("fails to stop after successful scan result ");
+              //     });
+              // }
             },
             (errorMessage) => {}
           )

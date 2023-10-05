@@ -63,7 +63,7 @@ const PopUpContent = ({
               text={"Scroll through the list or type in the search box.."}
             />
             <div className="close-btn">
-              <Button icon="close" onClick={handleClosePopup} />
+              <Button icon="close" onClick={proHelpCloser} />
             </div>
           </div>
 
@@ -90,14 +90,14 @@ const PopUpContent = ({
             </DataGrid>
           </div>
           <div
-            className="buttons-section responsive-paddings"
+            className="btn-section responsive-paddings"
             style={{ display: "flex", justifyContent: "flex-end" }}
           >
             <Button
               text="Cancel"
               width={124}
               height={35}
-              onClick={handleClosePopup}
+              onClick={proHelpCloser}
             />
             <Button
               text="OK"
