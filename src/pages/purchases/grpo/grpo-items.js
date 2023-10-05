@@ -240,7 +240,7 @@ const GrpoItems = () => {
     setShowScanner(false);
   };
   const HandleDecodedData1 = (data1) => {
-    // console.log("Scanned Data : ",data1);
+    console.log("Scanned Data : ",data1);
     if (scannedData.includes(data1)) {
       console.log(`${data1} is already available.`);
     } else {
@@ -255,8 +255,11 @@ const GrpoItems = () => {
   const HandleSaveDecodedScannedData = async () => {
     console.log("From HandleSaveDecodedScannedData", scannedData)
     setShowScanner(false);
-    scannedData.forEach((scannedItem) => {
-      setSelectedItemQR(scannedItem);
+    // scannedData.forEach((scannedItem) => {
+    //   setSelectedItemQR(scannedItem);
+    // })
+    scannedData.forEach(async(scannedItem)=>{
+      await handleItemQrVerification(scannedItem);
     })
     // setSelectedItemQR(scannedData[0]);
     // await scanAndSearchFromScanner();

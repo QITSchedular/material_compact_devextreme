@@ -292,9 +292,7 @@ const GrpoMain = () => {
         "Invalid Grpo, please select a valid Grpo"
       );
     }
-    // } else {
-    //   return toastDisplayer("error", "Please type/scan P.O");
-    // }
+
   };
   const [data, setData] = useState([]);
   // const handleShowRealtiveDataGrid = qrCode => {
@@ -371,6 +369,19 @@ const GrpoMain = () => {
     setShowPO(true);
     setShowScanner(false);
   };
+
+  const handleDelete = (docEntry)=>{
+    console.log("qrCode : ",docEntry," ",grpoList1);
+    const updatedgrpoList1 = new Set(grpoList1);
+    updatedgrpoList1.forEach((item) => {
+      if (item.docEntry === docEntry) {
+        updatedgrpoList1.delete(item);
+      }
+    });
+    // setGrpoList(updatedgrpoList1);
+    setGrpoList(updatedgrpoList1);
+    return setGrpoList1(updatedgrpoList1);
+  }
 
   return (
     <>
@@ -468,7 +479,7 @@ const GrpoMain = () => {
               <div key={index} className="single-po">
                 <div className="single-po1">
                   <div className="single-po-delete">
-                    <Button icon="trash"></Button>
+                    <Button icon="trash" onClick={() => handleDelete(qrCode["docEntry"])}></Button>
                   </div>
                   <div className="single-po-name">
                     <span className="po-name">{qrCode["qrCodeID"]}</span>
