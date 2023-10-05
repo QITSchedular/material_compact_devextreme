@@ -39,7 +39,7 @@ const GenerateReceiptSelectors = ({
   return (
     <div className="actions-section">
       <div className="action-before-section">
-        <div className="buttons-section">
+        <div className="btn-section">
           <DropDownButton
             id="period-indicator-dropdown"
             className="period-indicator-dropdown"

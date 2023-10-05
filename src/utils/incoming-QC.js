@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_URL } from "./items-master-data";
 import { toastDisplayer } from "../api/qrgenerators";
 
-export const getPoListsIC = async () => {
+export const getPoListsIC = async (fromDate, toDate) => {
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -10,8 +10,8 @@ export const getPoListsIC = async () => {
   try {
     const responseBody = {
       branchID: 1,
-      fromDate: "",
-      toDate: "",
+      fromDate: fromDate,
+      toDate: toDate,
       headerQRCodeID: "",
       getAll: "Y",
     };
@@ -99,14 +99,14 @@ export const validatePoListsIQC = async (obj) => {
       return errors;
     }
   } catch (error) {
-    // const { statusMsg } = error.response.data;
-    // if (statusMsg) {
-    //   errors.hasError = true;
-    //   errors.errorText = statusMsg;
-    //   return errors;
-    // }
-    // return errors;
-    return toastDisplayer("error", error.message);
+    if(!error.response){
+      errors.errorText = error.message;
+    }else{
+      const { statusMsg } = error.response.data;
+      errors.errorText = statusMsg;
+    }
+    errors.hasError = true; 
+    return errors;
   }
 };
 
@@ -124,15 +124,12 @@ export const SavePoListsIQC = async (obj) => {
     } else {
       return errors;
     }
+    // const data = true;
+    // return data;
   } catch (error) {
-    // const { statusMsg } = error.response.data;
-    // if (statusMsg) {
-    //   errors.hasError = true;
-    //   errors.errorText = statusMsg;
-    //   return errors;
-    // }
-    // return errors;
-    return toastDisplayer("error", error.message);
+    const statusMsg  = error.response.data;
+   
+    return statusMsg;
   }
 };
 

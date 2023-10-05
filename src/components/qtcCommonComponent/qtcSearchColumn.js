@@ -1,175 +1,212 @@
-import React, { useEffect, useRef, useState } from 'react'
-import Button from 'devextreme-react/button'
-import {TextBox,Button as NormalButton,Button as TextBoxButton} from 'devextreme-react/text-box'
-import { DataGrid, Popup } from 'devextreme-react'
-import { ToolbarItem } from 'devextreme-react/autocomplete'
-import { PopupHeaderText,PopupSubText } from '../typographyTexts/TypographyComponents'
-import { Column,Paging,Scrolling,SearchPanel,Selection } from 'devextreme-react/data-grid'
-import { HelpIcons } from '../../pages/purchases/grpo/icons-exporter'
-import { toastDisplayer } from '../../api/qrgenerators'
+import React, { useEffect, useRef, useState } from "react";
+import Button from "devextreme-react/button";
+import {
+  TextBox,
+  Button as NormalButton,
+  Button as TextBoxButton,
+} from "devextreme-react/text-box";
+import { DataGrid, Popup } from "devextreme-react";
+import { ToolbarItem } from "devextreme-react/autocomplete";
+import {
+  PopupHeaderText,
+  PopupSubText,
+} from "../typographyTexts/TypographyComponents";
+import {
+  Column,
+  Paging,
+  Scrolling,
+  SearchPanel,
+  Selection,
+} from "devextreme-react/data-grid";
+import { HelpIcons } from "../../pages/purchases/grpo/icons-exporter";
+import { toastDisplayer } from "../../api/qrgenerators";
+import "./qtc.scss";
+const PopupContent = ({
+  popupHeaderText,
+  popupSubHeaderText,
+  onSave,
+  PopUpContent,
+  selectedRowsData,
+  onCancel
+}) => {
+  const [dataSource, setDataSource] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [selectedRowData, setSelectedRowData] = useState("");
+  const dataGridRef = useRef();
 
-const PopupContent = ({popupHeaderText,popupSubHeaderText,onSave,PopUpContent,selectedRowsData}) => {
-  const [dataSource, setDataSource] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
-  const [selectedRowData, setSelectedRowData] = useState('')
-  const dataGridRef = useRef()
-
-  const handleDataGridRowSelection = async ({selectedRowKeys,selectedRowsData}) => {
+  const handleDataGridRowSelection = async ({
+    selectedRowKeys,
+    selectedRowsData,
+  }) => {
     const length = await selectedRowKeys.length;
     if (selectedRowKeys.length > 1) {
       const value = await dataGridRef.current.instance.selectRows(
         selectedRowKeys[length - 1]
-      )
-      return selectedRowSetter(value)
+      );
+      return selectedRowSetter(value);
     } else {
       const value = await dataGridRef.current.instance.selectRows(
         selectedRowKeys[0]
-      )
-      return selectedRowSetter(value)
+      );
+      return selectedRowSetter(value);
     }
-  }
+  };
 
   const selectedRowSetter = async (params) => {
-    await setSelectedRowData(params)
-    return onSave(params)
-  }
+    await setSelectedRowData(params);
+    return onSave(params);
+  };
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const dataGridDataHandler = async () => {
-      const poListData = await PopUpContent
-      console.log(poListData)
+      const poListData = await PopUpContent;
+      console.log(poListData);
       if (poListData.length > 0) {
-        console.log('It has data')
-        setDataSource(poListData)
-        return setLoading(false) // Correct the state update to false
+        console.log("It has data");
+        setDataSource(poListData);
+        return setLoading(false); // Correct the state update to false
       } else {
-        const { errorText } = poListData
-        return setError(errorText)
+        const { errorText } = poListData;
+        return setError(errorText);
       }
-    }
-    setLoading(true)
-    dataGridDataHandler()
-  }, [])
+    };
+    setLoading(true);
+    dataGridDataHandler();
+  }, []);
 
   return (
     <>
       {error ? (
         <div
-          className='loader-displayer'
+          className="loader-displayer"
           style={{
-            margin: '50px',
-            height: '200px',
-            padding: '25px',
-            display: 'flex',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            alignItems: 'center'
+            margin: "50px",
+            height: "200px",
+            padding: "25px",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <div className='text-section'>Data Could not be loaded..</div>
-          <div className='text-section'>Click outside to exit</div>
+          <div className="text-section">Data Could not be loaded..</div>
+          <div className="text-section">Click outside to exit</div>
         </div>
       ) : (
-        <div className='responsive-paddings grpo-po-help-container'>
-          <div className='header-section'>
+        <div className="responsive-paddings grpo-po-help-container">
+          <div className="header-popup">
+          <div className="header-section">
+
             <PopupHeaderText text={popupHeaderText} />
             <PopupSubText text={popupSubHeaderText} />
+          </div>
+            <div className="close-btn-section">
+              <Button icon="close" onClick={onCancel}/>
+            </div>
           </div>
           <DataGrid
             height={420}
             dataSource={dataSource}
-            keyExpr='docEntry'
+            keyExpr="docEntry"
             showBorders={true}
             columnAutoWidth={true}
             hoverStateEnabled={true}
             onSelectionChanged={handleDataGridRowSelection}
             selectedRowKeys={
-              selectedRowsData.length > 0 ? [selectedRowsData[0].docEntry] : ''
+              selectedRowsData.length > 0 ? [selectedRowsData[0].docEntry] : ""
             }
             ref={dataGridRef}
           >
             <SearchPanel visible={true} />
-            <Selection mode='multiple' />
-            <Scrolling columnRenderingMode='infinite' />
+            <Selection mode="multiple" />
+            <Scrolling columnRenderingMode="infinite" />
             <Paging enabled={false} />
             <Column
-              dataField='cardCode'
-              alignment='left'
-              caption={'Vendor Code'}
+              dataField="cardCode"
+              alignment="left"
+              caption={"Vendor Code"}
             />
             <Column
-              dataField='cardName'
-              alignment='left'
-              caption={'Vendor Name'}
+              dataField="cardName"
+              alignment="left"
+              caption={"Vendor Name"}
             />
-            <Column dataField='docNum' alignment='left' caption={'PO No.'} />
+            <Column dataField="docNum" alignment="left" caption={"PO No."} />
             <Column
-              dataField='docDate'
-              alignment='left'
-              caption={'Doc Date'}
-              dataType={'date'}
+              dataField="docDate"
+              alignment="left"
+              caption={"Doc Date"}
+              dataType={"date"}
             />
           </DataGrid>
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-const QtcSearchColumn = ({popupHeaderText,popupSubHeaderText,keyArray,PopUpContent,getparamFunc}) => {
-  const [selectedRowsData, setSelectedRowsData] = useState([])
-  const [selectedData, setSelectedData] = useState([])
-  const [showPoHelp, setShowPoHelp] = useState(false)
+
+const QtcSearchColumn = ({
+  popupHeaderText,
+  popupSubHeaderText,
+  keyArray,
+  PopUpContent,
+  getparamFunc,
+}) => {
+  const [selectedRowsData, setSelectedRowsData] = useState([]);
+  const [selectedData, setSelectedData] = useState([]);
+  const [showPoHelp, setShowPoHelp] = useState(false);
+
   const showPopupHandler = () => {
-    return setShowPoHelp(true)
-  }
-  const handleGrpoPoSelection = params => {
+    return setShowPoHelp(true);
+  };
+  const handleGrpoPoSelection = (params) => {
     if (params.length > 0) {
-      return setSelectedRowsData(params)
+      return setSelectedRowsData(params);
     }
-  }
+  };
   const handleCancelNoSelection = () => {
-    return setShowPoHelp(false)
-  }
+    return setShowPoHelp(false);
+  };
   const helpOptions = {
     icon: HelpIcons,
     onClick: async () => {
-      showPopupHandler()
-    }
-  }
+      showPopupHandler();
+    },
+  };
   const handleSaveSelectedPo = () => {
-    console.log('The save button has been clicked')
+    console.log("The save button has been clicked");
     if (selectedRowsData.length > 0) {
-      setSelectedData(selectedRowsData)
-      return setShowPoHelp(false)
+      setSelectedData(selectedRowsData);
+      return setShowPoHelp(false);
     } else {
       return toastDisplayer("error", "Please select a PO to save and proceed");
     }
-  }
+  };
 
   const cancelButtonOptions = {
     width: 120,
     height: 40,
-    text: 'Cancel',
-    type: 'error',
-    stylingMode: 'contained',
-    onClick: () => handleCancelNoSelection()
-  }
+    text: "Cancel",
+    type: "error",
+    stylingMode: "contained",
+    onClick: () => handleCancelNoSelection(),
+  };
   const saveButtonOptions = {
     width: 120,
     height: 40,
-    text: 'Save',
-    type: 'default',
-    stylingMode: 'contained',
-    onClick: () => handleSaveSelectedPo()
-  }
+    text: "Save",
+    type: "default",
+    stylingMode: "contained",
+    onClick: () => handleSaveSelectedPo(),
+  };
   const selectedRowSetter = async () => {
-    return getparamFunc(selectedData)
-  }
+    return getparamFunc(selectedData);
+  };
   return (
-    <div className='search-section'>
+    <div className="search-section">
       {showPoHelp && (
         <Popup
           visible={true}
@@ -181,61 +218,66 @@ const QtcSearchColumn = ({popupHeaderText,popupSubHeaderText,keyArray,PopUpConte
               PopUpContent={PopUpContent}
               onSave={handleGrpoPoSelection}
               selectedRowsData={selectedRowsData}
+              onCancel={handleCancelNoSelection}
             />
           )}
         >
           <ToolbarItem
-            widget='dxButton'
-            toolbar='bottom'
-            location='after'
+            widget="dxButton"
+            toolbar="bottom"
+            location="after"
             options={cancelButtonOptions}
           />
           <ToolbarItem
-            widget='dxButton'
-            toolbar='bottom'
-            location='after'
+            widget="dxButton"
+            toolbar="bottom"
+            location="after"
             options={saveButtonOptions}
-            cssClass={'tootlbar-save-button'}
+            cssClass={"tootlbar-save-button"}
           />
         </Popup>
       )}
       {keyArray &&
         keyArray.map((item, index) => {
-          const key = item.feildType
-          const handlefunc = item.handlefunc
-          const selectedData = item.selectedRowsData
-          const placeholder = item.placeholder
-          const btnIcon = item.btnIcon
-          const TextWithIcon = item.TextWithIcon
-          if (key === 'textBox') {
+          const key = item.feildType;
+          const handlefunc = item.handlefunc;
+          const selectedData = item.selectedRowsData;
+          const placeholder = item.placeholder;
+          const btnIcon = item.btnIcon;
+          const TextWithIcon = item.TextWithIcon;
+          if (key === "textBox") {
             if (TextWithIcon) {
               return (
                 <TextBox
-                  className='dx-field-value'
-                  stylingMode='outlined'
+                  className="dx-field-value"
+                  stylingMode="outlined"
                   placeholder={placeholder}
                   width={250}
                   showClearButton={true}
                   onValueChanged={handlefunc}
                   value={
-                    selectedRowsData.length > 0
+                    selectedData
+                      ? selectedData
+                      : selectedRowsData.length > 0
                       ? selectedRowsData[0].qrCodeID
-                      : ''
+                      : ""
                   }
                   // disabled={selectedData.length > 0 ? false : true}
+                  height={40}
                 >
                   <TextBoxButton
-                    name='currency'
-                    location='after'
+                    name="currency"
+                    location="after"
                     options={helpOptions}
+                    height={40}
                   />
                 </TextBox>
-              )
+              );
             } else {
               return (
                 <TextBox
-                  className='dx-field-value'
-                  stylingMode='outlined'
+                  className="dx-field-value"
+                  stylingMode="outlined"
                   placeholder={placeholder}
                   width={250}
                   showClearButton={true}
@@ -243,39 +285,40 @@ const QtcSearchColumn = ({popupHeaderText,popupSubHeaderText,keyArray,PopUpConte
                   value={
                     selectedRowsData.length > 0
                       ? selectedRowsData[0].qrCodeID
-                      : ''
+                      : ""
                   }
-                  // disabled={selectedData.length > 0 ? false : true}
+                  height={40}
+                // disabled={selectedData.length > 0 ? false : true}
                 ></TextBox>
-              )
+              );
             }
-          } else if (key === 'button') {
-            if (btnIcon == 'search') {
+          } else if (key === "button") {
+            if (btnIcon == "search") {
               return (
                 <Button
-                  width={33}
-                  height={33}
+                  width={40}
+                  height={40}
                   type='normal'
                   stylingMode='outlined'
                   icon={btnIcon}
                   onClick={selectedRowSetter}
                 />
-              )
+              );
             } else {
               return (
                 <Button
-                  width={33}
-                  height={33}
+                  width={40}
+                  height={40}
                   type='normal'
                   stylingMode='outlined'
                   icon={btnIcon}
                   onClick={handlefunc}
                 />
-              )
+              );
             }
           }
         })}
     </div>
-  )
-}
-export default QtcSearchColumn
+  );
+};
+export default QtcSearchColumn;

@@ -81,8 +81,8 @@ const WarehouseChooserDataGrid = ({ handleSaveSelectedWarehouse }) => {
 };
 
 const GrpoWarehouseChooserComponent = ({
-  popupCloseHandler,
   handleSaveSelectedWarehouse,
+  handleCloseButton
 }) => {
   return (
     <div className="responsive-paddings grpo-warehouse-chooser-wrapper">
@@ -99,7 +99,7 @@ const GrpoWarehouseChooserComponent = ({
             icon="close"
             height={34}
             width={34}
-            onClick={() => toastDisplayer("info-dark", "clicked")}
+            onClick={handleCloseButton}
           />
         </div>
       </div>

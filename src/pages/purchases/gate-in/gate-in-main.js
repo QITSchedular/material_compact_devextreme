@@ -4,13 +4,18 @@ import "./gatein-main.styles.scss";
 import notify from "devextreme/ui/notify";
 import GateInComponent from "./gate-in";
 import OldEntryComponent from "./old-entry";
+import { PopupHeaderText, PopupSubText } from "../../../components/typographyTexts/TypographyComponents";
 const HeaderContent = () => {
   return (
     <div className="title-section">
-      <h3 className="title-name">Gate IN - PO</h3>
-      <span className="title-description">
+      {/* <h3 className="title-name">Gate IN - PO</h3> */}
+      <PopupHeaderText text={"Gate IN - PO"} />
+      <PopupSubText 
+              text={"Type or scan the purchase order to make an entry"}
+            />
+      {/* <span className="title-description">
         Type or scan the purchase order to make an entry
-      </span>
+      </span> */}
     </div>
   );
 };
@@ -50,7 +55,7 @@ const GateInMain = () => {
     <div
       className="content-block dx-card responsive-paddings"
       id="gate-in-main-container"
-    >
+    > 
       <div className="navigation-header-gatein">
         <HeaderContent />
         <TabsContent setSelectedTab={setSelectedTab} />

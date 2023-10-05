@@ -117,7 +117,7 @@ function MachineInOut() {
                                     <div className="content-text">
 
                                         <div className="Machine-header">Scan the Machine QR Code</div>
-                                        <div className="Machine-text-info">Please place the camera near Qr code</div>
+                                        <div className="Machine-text-info">Place the camera near Qr code</div>
                                     </div>
                                     <div className="close-btn-section">
                                         <Button icon="close" onClick={handleCancel} />

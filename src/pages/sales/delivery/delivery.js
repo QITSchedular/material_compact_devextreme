@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { PopupHeaderText, PopupSubText, } from "../../../components/typographyTexts/TypographyComponents";
+import {
+  PopupHeaderText,
+  PopupSubText,
+} from "../../../components/typographyTexts/TypographyComponents";
 import { GRPOScanner } from "../../../assets/icon";
 import { HelpIcons } from "../../purchases/grpo/icons-exporter";
 import { getPoLists, searchPoListsIQC } from "../../../utils/gate-in-purchase";
@@ -11,8 +14,8 @@ import { toastDisplayer } from "../../../api/qrgenerators";
 import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
 export default function Delivery() {
-    const [grpoList, setGrpoList] = useState(new Set())
-    const [selectedPo, setSelectedPo] = useState('');
+  const [grpoList, setGrpoList] = useState(new Set());
+  const [selectedPo, setSelectedPo] = useState("");
 
     const helpOptions = {
         icon: HelpIcons,
@@ -60,6 +63,10 @@ export default function Delivery() {
             return toastDisplayer('error', 'Please type/scan P.O')
         }
     }
+  };
+  const handleTextValueChange = (data) => {
+    setSelectedPo(data.value);
+  };
 
     const keyArray1 = [
         { feildType: "textBox", handlefunc: "handleTextValueChange", placeholder: "Search by purchase order", selectedRowsData: "selectedRowsData", TextWithIcon: true },
@@ -67,9 +74,55 @@ export default function Delivery() {
         { feildType: "button", handlefunc: 'handleScan', btnIcon: GRPOScanner },
     ];
 
-    const navigate = useNavigate();
-    const [isDataGridVisible, setIsDataGridVisible] = useState(false);
+  const proceedToItemsScan = (param1, param2) => {
+    navigate(`/production/issue-material/verify-material/${param1}/${param2}`);
+  };
 
+  const handleShowRealtiveDataGrid = () => {
+    return setIsDataGridVisible(!isDataGridVisible);
+  };
+  const columns = [
+    {
+      caption: "Vendor Code",
+      field: "cardCode",
+    },
+    {
+      caption: "Vendor Ref No.",
+      field: "cardCode",
+    },
+    {
+      caption: "Vendor Name",
+      field: "cardName",
+    },
+    {
+      caption: "Doc Series",
+      field: "series",
+    },
+    {
+      caption: "Doc No.",
+      field: "docNum",
+    },
+    {
+      caption: "Doc Date",
+      field: "docDate",
+    },
+    {
+      caption: "Post Date",
+      field: "postDate",
+    },
+    {
+      caption: "Project",
+      field: "project",
+    },
+    {
+      caption: "Remark",
+      field: "project",
+    },
+    {
+      caption: "Doc Entry",
+      field: "docEntry",
+    },
+  ];
 
     const proceedToItemsScan = (qrCode) => {
         navigate(`/sales/delivery/delivery-process/${qrCode}`);

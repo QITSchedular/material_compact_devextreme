@@ -39,6 +39,7 @@ import {
   PopupSubText,
 } from "../../../components/typographyTexts/TypographyComponents";
 import { toastDisplayer } from "../../../api/qrgenerators";
+import "./gate-in-styles.scss";
 
 const buttonDropDownOptions = { width: 230 };
 
@@ -118,7 +119,7 @@ const TransporterHelpComponent = ({
       } else {
         setError(true);
         setLoading(false);
-        return toastDisplayer("error","Network Error");
+        return toastDisplayer("error", "Network Error");
       }
       setLoading(false);
     };
@@ -147,33 +148,33 @@ const TransporterHelpComponent = ({
             <Button icon="close" onClick={handleCancel} />
           </div> */}
           <div className="gateIn-header">
+            <div
+              className="title-section responsive-paddings"
+              style={{
+                // padding: "5px 20px !important",
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+              }}
+            >
+              <PopupHeaderText text={"Choose a Vendor.."} />
+              <PopupSubText
+                text={"Scroll through the list or type in the search box.."}
+              />
+            </div>
+            <div className="close-btn-section">
+              <Button icon="close" onClick={handleCancel} />
+            </div>
+          </div>
           <div
-            className="title-section responsive-paddings"
-            style={{
-              // padding: "5px 20px !important",
-              display: "flex",
-              flexDirection: "column",
-              gap: "5px",
-            }}
-          >
-            <PopupHeaderText text={"Choose a Vendor.."} />
-            <PopupSubText
-              text={"Scroll through the list or type in the search box.."}
-            />
-          </div>
-          <div className="close-btn-section">
-            <Button icon="close" onClick={handleCancel} />
-          </div>
-          </div>
-          <div
-            className="dx-card responsive-paddings transporter-content-datagrid-container dx-saveBtn"
+            className="responsive-paddings transporter-content-datagrid-container dx-saveBtn"
             style={{ margin: "8px 24px", height: "100% !important" }}
           >
             <DataGrid
               height={window.innerHeight - 250}
               dataSource={transporterDataSource}
               keyExpr="cardCode"
-              showBorders={false}
+              showBorders={true}
               columnAutoWidth={true}
               hoverStateEnabled={true}
               className="transporter-data-grid testGrid"
@@ -193,7 +194,7 @@ const TransporterHelpComponent = ({
             </DataGrid>
           </div>
           <div
-            className="buttons-section-save responsive-paddings "
+            className="btns-section-save responsive-paddings "
             style={{ display: "flex", justifyContent: "flex-end" }}
           >
             <Button
@@ -257,7 +258,7 @@ const GateInComponent = () => {
     const { periodIsSelected, seriesIsSelected, poIsEntered } = selectedValue;
     setLoading(true);
     const poResponse = await getPurchaseOrder(poNumber, selectedSeries.series);
-    console.log("poResponse : ",poResponse.hasError);
+    console.log("poResponse : ", poResponse.hasError);
     if (poResponse.hasError) {
       // alert();
       return toastDisplayer("error", poResponse.errorText);
@@ -280,7 +281,7 @@ const GateInComponent = () => {
 
     await setDocEntry(poResponse[0].docEntry);
     await setDocNum(poResponse[0].docNum);
-    // console.log("This is the whole P.O  data for gate In", poResponse);
+    console.log("This is the whole P.O  data for gate In", poResponse);
     await setDataLineNum(poDetArrayWithRecQty.map((item) => item.lineNum));
     await setPoData(poDetArrayWithRecQty);
 
@@ -337,7 +338,6 @@ const GateInComponent = () => {
   };
 
   const handleGateIn = async () => {
-    console.log("Updated item from HandleGateIn", updatedItems);
     if (!vehicleName) {
       return toastDisplayer("error", "Enter vehicle number");
     }
@@ -350,8 +350,6 @@ const GateInComponent = () => {
         "Please recieve some item, to proceed with gate in.."
       );
     }
-    console.log(updatedItems.map((items) => items));
-    // console.log(vehicleName, selectedTransporterData);
     const callLoop = await callUpdatePoApi(
       updatedItems,
       docNum,
@@ -363,6 +361,7 @@ const GateInComponent = () => {
     const allResponses = await Promise.all(
       callLoop.map(async (item) => {
         if (item.statusCode === "200") {
+         
           return "success";
         } else {
           const errorResponse = await item.statusMsg;
@@ -374,6 +373,12 @@ const GateInComponent = () => {
     if (isSuccess) {
       await setUpdatedItems([]);
       await handleSearchPurchasedOrder();
+      setPoData(null);
+      setSelectedPeriodIndicator("");
+      setSelectedSeries("");
+      setPoNumber("");
+      setVehicleName("");
+      setTransporterName("");
       return toast.success("Items Taken in, add more?", {
         position: "top-right",
         autoClose: 5000,
@@ -398,30 +403,6 @@ const GateInComponent = () => {
         theme: "light",
       });
     }
-    // if (callLoop.statusCode === "200") {
-    //   await handleSearchPurchasedOrder();
-    //   return toast.success("Items Taken in, add more?", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // } else {
-    // return toast.error("Something went wrong, try again later", {
-    //   position: "top-right",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "light",
-    // });
-    // }
   };
 
   const handleGridSaving = async (e) => {
@@ -493,7 +474,7 @@ const GateInComponent = () => {
         draggable: true,
         progress: undefined,
         theme: "light",
-      }); 
+      });
     }
     await setPeriodIndicators(data);
   };
@@ -542,16 +523,9 @@ const GateInComponent = () => {
         ></Popup>
       )}
       <div className="main-container">
-        {/* <div className="title-section">
-        <h5 className="title-name">Gate IN: PO</h5>
-        <span className="title-description">
-          Select and Enter field values to get P.O
-        </span>
-      </div> */}
-
         <div className="actions-section">
           <div className="action-before-section">
-            <div className="buttons-section">
+            <div className="btn-section">
               <DropDownButton
                 text={
                   selectedPeriodIndicator
@@ -564,6 +538,7 @@ const GateInComponent = () => {
                 items={periodIndicators}
                 onItemClick={periodItemsClick}
                 className="period-indicator"
+                height={40}
               />
               <DropDownButton
                 text={
@@ -575,6 +550,7 @@ const GateInComponent = () => {
                 displayExpr={"seriesName"}
                 onItemClick={handleSeriesSelectionClick}
                 className="series-indicator"
+                height={40}
               />
             </div>
             <div className="search-section">
@@ -584,13 +560,15 @@ const GateInComponent = () => {
                 placeholder="Search by purchase order"
                 width={250}
                 showClearButton={true}
+                value={poNumber}
                 valueChangeEvent="keyup"
                 onValueChanged={handlePurchaseOrderEntry}
+                height={40}
               />
 
               <NormalButton
-                width={33}
-                height={33}
+                width={40}
+                height={40}
                 type="normal"
                 stylingMode="outlined"
                 icon="search"
@@ -608,7 +586,9 @@ const GateInComponent = () => {
                 placeholder="Enter vehicle number"
                 width={176}
                 showClearButton={true}
+                value={vehicleName?vehicleName:""}
                 onValueChanged={handleVehicleEntry}
+                height={40}
               />
               <TextBox
                 className="dx-field-value"
@@ -617,11 +597,13 @@ const GateInComponent = () => {
                 width={131}
                 showClearButton={true}
                 value={transporterName ? transporterName : ""}
+                height={40}
               >
                 <TextBoxButton
                   name="currency"
                   location="after"
                   options={helpOptions}
+                  height={40}
                 />
               </TextBox>
             </div>
@@ -636,7 +618,7 @@ const GateInComponent = () => {
                 id="data-grid-container-local"
                 dataSource={poData}
                 keyExpr={"itemCode"}
-                showBorders={false}
+                showBorders={true}
                 focusedRowEnabled={true}
                 defaultFocusedRowIndex={0}
                 columnAutoWidth={true}
@@ -651,10 +633,14 @@ const GateInComponent = () => {
 
                 <Editing
                   mode="row"
-                  allowDeleting
-                  allowUpdating
-                  selectTextOnEditStart={true}
+                  allowDeleting={true}
+                  allowUpdating={true}
+                  useIcons={true}
                 />
+                <Column type="buttons" caption="Actions">
+                  <Button name="edit" />
+                  <Button name="delete" />
+                </Column>
                 <Column
                   dataField={"itemCode"}
                   caption={"Item Code"}
