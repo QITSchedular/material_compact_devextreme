@@ -410,6 +410,7 @@ function IncommingQcScanItem() {
         setQrRequestPopUp(true);
         IQCList.forEach((item) => {
           if (item.detailQRCodeID == selectedRowKeys[0]) {
+            console.log(item);
             setQrRequestData(item);
           }
         });
@@ -684,7 +685,7 @@ function IncommingQcScanItem() {
             <IncomingQrRequest
               handleCancelQrRequest={handleCancelQrRequest}
               requestData={QrRequestData}
-
+              allData={QrRequestData}
               approveWareHouse={selectedRowsDataApprove.length ? selectedRowsDataApprove[0].whsCode : null}
               rejectWareHouse={selectedRowsDataReject.length ? selectedRowsDataReject[0].whsCode : null}
 

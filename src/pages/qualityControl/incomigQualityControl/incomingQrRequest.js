@@ -12,7 +12,8 @@ function IncomingQrRequest({
   requestData,
   approveWareHouse,
   rejectWareHouse,
-  clearData
+  clearData,
+  allData
 }) {
   const [approveQty, setapproveQty] = useState(0);
   const [RejectQty, setRejectQty] = useState(0);
@@ -45,11 +46,12 @@ function IncomingQrRequest({
           branchID: 1,
           grpoDocEntry: QrRequestData["grpoDocEntry"],
           detailQRCodeID: QrRequestData["detailQRCodeID"],
-          fromWhs: "QC",
+          fromWhs: allData.fromWhs,
           toWhs: rejectWareHouse,
           action: "R",
           qty: rejQty,
           rejectComment: RejectComment,
+          fromBin:allData.fromBin
         };
 
         const rejectCall = SavePoListsIQC(reqBodyRej);
@@ -61,11 +63,12 @@ function IncomingQrRequest({
           branchID: 1,
           grpoDocEntry: QrRequestData["grpoDocEntry"],
           detailQRCodeID: QrRequestData["detailQRCodeID"],
-          fromWhs: "QC",
-          toWhs: approveWareHouse,
+          fromWhs: allData.fromWhs,
+          // toWhs: approveWareHouse,
           action: "A",
           qty: appQty,
           rejectComment: RejectComment,
+          fromBin:allData.fromBin
         };
         // console.log(reqBodyApp)
         const approveCall = SavePoListsIQC(reqBodyApp);

@@ -123,7 +123,7 @@ export default function Delivery() {
 
     const navigate = useNavigate();
     const proceedToItemsScan = (qrCode) => {
-        navigate(`/sales/delivery/delivery-process/${qrCode}`);
+        navigate(/sales/delivery/delivery-process/${qrCode});
     };
 
 
