@@ -1,4 +1,4 @@
-import { Button, LoadPanel, Popup, TextBox } from "devextreme-react";
+import { Button, DropDownButton, LoadPanel, Popup, TextBox } from "devextreme-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ValidateItemQR, generateGrpo } from "../../../utils/grpo-saver";
@@ -402,10 +402,90 @@ const GrpoItems = () => {
           </DataGrid>
           {gridDataSource.length > 0 && (
             <>
+              <div style={{display:"flex",alignItems:"center",gap:"0.5rem"}}>
+
+              
+                <DropDownButton
+            text={
+              // selectedPeriodIndicator
+                // ? selectedPeriodIndicator
+                // : 
+                "Qc Warehouse"
+            }
+            // dropDownOptions={buttonDropDownOptions}
+            keyExpr="indicator"
+            displayExpr={"indicator"}
+            // items={periodIndicators}
+            // onItemClick={periodItemsClick}
+            className="grop-item-dropdown"
+            height={40}
+          />
+                <DropDownButton
+            text={
+              // selectedPeriodIndicator
+                // ? selectedPeriodIndicator
+                // : 
+                "Qc Bin"
+            }
+            // dropDownOptions={buttonDropDownOptions}
+            keyExpr="indicator"
+            displayExpr={"indicator"}
+            // items={periodIndicators}
+            // onItemClick={periodItemsClick}
+            className="grop-item-dropdown"
+            height={40}
+          />
+                <DropDownButton
+            text={
+              // selectedPeriodIndicator
+                // ? selectedPeriodIndicator
+                // : 
+                "Non-Qc Warehouse"
+            }
+            // dropDownOptions={buttonDropDownOptions}
+            keyExpr="indicator"
+            displayExpr={"indicator"}
+            // items={periodIndicators}
+            // onItemClick={periodItemsClick}
+            className="grop-item-dropdown"
+            height={40}
+          />
+                <DropDownButton
+            text={
+              // selectedPeriodIndicator
+                // ? selectedPeriodIndicator
+                // : 
+                "Non-Qc Bin"
+            }
+            // dropDownOptions={buttonDropDownOptions}
+            keyExpr="indicator"
+            displayExpr={"indicator"}
+            // items={periodIndicators}
+            // onItemClick={periodItemsClick}
+            className="grop-item-dropdown"
+            height={40}
+          />
+          </div>
+          <TextBox
+                  className="grop-item-field-value"
+                  stylingMode="outlined"
+                  placeholder={"Ref No."}
+                  // width={250}
+                  // showClearButton={true}
+                  // onValueChanged={handlefunc}
+                  // value={
+                  //   selectedRowsData.length > 0
+                  //     ? selectedRowsData[0].qrCodeID
+                  //     : ""
+                  // }
+                  height={40}
+                // disabled={selectedData.length > 0 ? false : true}
+                ></TextBox>
               <div
                 className="text-area-container"
                 style={{ marginTop: "1rem" }}
               >
+                 
                 <TextArea
                   height={40}
                   autoResizeEnabled={true}

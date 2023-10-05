@@ -7,14 +7,17 @@
             .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget{
                 border-radius: 8px !important;
                 box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
-                
             }
-            // .dx-editor-outlined.dx-widget.dx-state-hover.dx-state.focused{
-            //     border: 1px solid red !important;
-            //     box-shadow: inset 0 1px 120px 0px rgba(0, 0, 0, 0.01) !important;
-                
-            // }
         }
+
+    }
+    .grop-item-dropdown{
+        width: 250px;
+        margin-top: 5px;
+        
+    }
+    .grop-item-field-value{
+        margin-top: 5px;
     }
     .cta-section{
         .grpo-save{
