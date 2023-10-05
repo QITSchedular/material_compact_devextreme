@@ -3,7 +3,7 @@ import {
     PopupHeaderText,
     PopupSubText
 } from '../../../components/typographyTexts/TypographyComponents'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import QtcSearchColumn from '../../../components/qtcCommonComponent/qtcSearchColumn'
 import { getPoLists } from '../../../utils/gate-in-purchase'
 import { GRPOScanner } from '../../../assets/icon'
@@ -14,6 +14,7 @@ import QtcDataGrid from '../../../components/qtcCommonComponent/qtcDataGrid'
 import TransparentContainer from '../../../components/qr-scanner/transparent-container'
 
 const DeliveryProcess = () => {
+    const navigate = useNavigate()
     const { qrCode, docEntry } = useParams()
     const [selectedItemQr, setSelectedItemQR] = useState(null)
     const [gridDataSource, setGridDataSource] = useState('')
@@ -101,7 +102,8 @@ const DeliveryProcess = () => {
 
     const handleGrpoSaving = async () => {
         console.log('gridDataSource : ', gridDataSource)
-        return toastDisplayer("succes", `Delivered Successfully!!!`);
+        toastDisplayer("succes", `Delivery order generated successfully`);
+        return navigate("/sales/delivery")
     }
 
     const handleScanner = () => {
@@ -177,7 +179,7 @@ const DeliveryProcess = () => {
                     }}
                 >
                     <QtcDataGrid
-                        keyExpr='grpoDocEntry'
+                        keyExpr='detailQRCodeID'
                         Data={gridDataSource}
                         onRowRemoved={onRowRemoved}
                     />
