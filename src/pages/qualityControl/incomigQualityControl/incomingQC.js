@@ -125,7 +125,7 @@ function IncomingQCComponent() {
     if (txtValueOfTypePOL) {
       const prodResponse = await searchPoListsIQC(txtValueOfTypePOL, fromDate, toDate);
       var doProuctExist;
-
+      
       if (IQCList2.size > 0) {
         doProuctExist = false;
         IQCList2.forEach((value) => {
@@ -141,33 +141,33 @@ function IncomingQCComponent() {
         return toastDisplayer(
           "error",
           "Invalid Incoming QC, please select a valid Incoming QC"
-        );
-      } else if (prodResponse && doProuctExist) {
-        return toastDisplayer("error", "Product alredy exist..!!");
-      } else if (prodResponse && !doProuctExist) {
-        // setIQCList2((prevIQCList) => {
-        //   const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
-
-        //   prodResponse.forEach((response) => {
-        //     updatedSet.add(response); // Add each object from prodResponse to the updatedSet
-        //   });
-
-        //   return updatedSet; // Return the updated Set
-        // });
+          );
+        } else if (prodResponse && doProuctExist) {
+          return toastDisplayer("error", "Product alredy exist..!!");
+        } else if (prodResponse && !doProuctExist) {
+          // setIQCList2((prevIQCList) => {
+            //   const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
+            
+            //   prodResponse.forEach((response) => {
+              //     updatedSet.add(response); // Add each object from prodResponse to the updatedSet
+              //   });
+              
+              //   return updatedSet; // Return the updated Set
+              // });
         setIQCList2((prevIQCList) => {
-          console.log("prevIQCList: ", prevIQCList);
 
           const updatedSet = new Set(prevIQCList);
 
           prodResponse.forEach((response) => {
+           
             const exists = Array.from(updatedSet).some(
-              (item) => item.qrCodeID === response.qrCodeID
+              (item) => item.docNum === response.docNum
             );
             if (!exists) {
               updatedSet.add(response);
             }
           });
-
+          console.log("updatedSet : ",updatedSet);
           return updatedSet;
         });
 

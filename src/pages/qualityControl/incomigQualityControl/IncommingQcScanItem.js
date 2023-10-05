@@ -182,15 +182,35 @@ function IncommingQcScanItem() {
     },
   };
 
-  const SearchHandler = async (scannedDetailQRCodeID) => {
-    if (scannedDetailQRCodeID) {
+  const commonFunctionforSearchHandler= async (data)=>{
+    var reqBody = {
+      headerQRCodeID: headerQRCodeID,
+      docEntry: docEntry,
+      detailQRCodeID: data,
+    };
+    var response = await validatePoListsIQC(reqBody);
+    var doProuctExist;
+    if (response.hasError) {
+      return toastDisplayer(
+      "error",
+      response.errorText
+      );
+      }
+    if (IQCList.size > 0) {
+      doProuctExist = false;
+      IQCList.forEach((value) => {
+        if (value.detailQRCodeID == detailQRCodeID) {
+          doProuctExist = true;
+          return;
+        }
+      });
+    } else if (detailQRCodeID) {
       var reqBody = {
         headerQRCodeID: headerQRCodeID,
         docEntry: docEntry,
-        detailQRCodeID: scannedDetailQRCodeID,
+        detailQRCodeID: detailQRCodeID,
       };
       var response = await validatePoListsIQC(reqBody);
-      // console.log("=====",response)
       var doProuctExist;
       if (IQCList.size > 0) {
         doProuctExist = false;
@@ -200,46 +220,11 @@ function IncommingQcScanItem() {
             return;
           }
         });
-      } else if (detailQRCodeID) {
-        var reqBody = {
-          headerQRCodeID: headerQRCodeID,
-          docEntry: docEntry,
-          detailQRCodeID: detailQRCodeID,
-        };
-        var response = await validatePoListsIQC(reqBody);
-        var doProuctExist;
-        if (IQCList.size > 0) {
-          doProuctExist = false;
-          IQCList.forEach((value) => {
-            if (value.detailQRCodeID == detailQRCodeID) {
-              doProuctExist = true;
-              return;
-            }
-          });
-        } else {
-          doProuctExist = false;
-        }
-
-        if (response["errorText"] == "No data found") {
-          return toastDisplayer("error", "Please enter valid item code");
-        } else if (doProuctExist && response) {
-          return toastDisplayer("error", "Product already added..!!");
-        } else if (!doProuctExist && response) {
-          setIQCList((prevIQCList) => {
-            const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
-
-            response.forEach((resp) => {
-              updatedSet.add(resp); // Add each object from prodResponse to the updatedSet
-            });
-            setIsGridVisible(true);
-            return updatedSet; // Return the updated Set
-          });
-        }
       } else {
         doProuctExist = false;
       }
 
-      if (response["errorText"]) {
+      if (response["errorText"] == "No data found") {
         return toastDisplayer("error", "Please enter valid item code");
       } else if (doProuctExist && response) {
         return toastDisplayer("error", "Product already added..!!");
@@ -253,9 +238,37 @@ function IncommingQcScanItem() {
           setIsGridVisible(true);
           return updatedSet; // Return the updated Set
         });
-      } else {
-        return toastDisplayer("error", response["errorText"]);
       }
+    } else {
+      doProuctExist = false;
+    }
+
+    if (response["errorText"]) {
+      return toastDisplayer("error", "Please enter valid item code");
+    } else if (doProuctExist && response) {
+      return toastDisplayer("error", "Product already added..!!");
+    } else if (!doProuctExist && response) {
+      setIQCList((prevIQCList) => {
+        const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
+
+        response.forEach((resp) => {
+          updatedSet.add(resp); // Add each object from prodResponse to the updatedSet
+        });
+        setIsGridVisible(true);
+        return updatedSet; // Return the updated Set
+      });
+    } else {
+      return toastDisplayer("error", response["errorText"]);
+    }
+  }
+
+  const SearchHandler = async (scannedDetailQRCodeID) => {
+    console.log("scannedDetailQRCodeID  : ",detailQRCodeID);
+    // alert(scannedDetailQRCodeID);
+    if (typeof scannedDetailQRCodeID !== 'object' && scannedDetailQRCodeID !== null){
+      commonFunctionforSearchHandler(scannedDetailQRCodeID);
+    }else if (detailQRCodeID) {
+      commonFunctionforSearchHandler(detailQRCodeID);
     } else {
       return toastDisplayer("error", "Please type/scan Item");
     }
@@ -420,13 +433,15 @@ function IncommingQcScanItem() {
 
 
   const removeFromIQCList = async (itemToRemove) => {
-    // const itemToRemove = e.key;
     const updatedIQCList = new Set(IQCList);
     updatedIQCList.forEach((item) => {
       if (item.detailQRCodeID === itemToRemove) {
         updatedIQCList.delete(item);
       }
     });
+    if(updatedIQCList.size<=0){
+      setIsGridVisible(false);
+    }
     return setIQCList(updatedIQCList);
   };
 
@@ -555,7 +570,6 @@ function IncommingQcScanItem() {
                 width={33}
                 height={33}
                 type="normal"
-
                 stylingMode="outlined"
                 icon="search"
                 onClick={SearchHandler}
