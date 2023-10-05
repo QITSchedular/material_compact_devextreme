@@ -39,7 +39,7 @@ const PickPackProcess = () => {
         docEntry
       )
       console.log('doItemExists : ', doItemExists)
-      if(doItemExists.hasError){
+      if (doItemExists.hasError) {
         return toastDisplayer(
           'error',
           doItemExists.errorText
@@ -54,13 +54,13 @@ const PickPackProcess = () => {
         setDisplayGrid(true)
         return setGridDataSource(previous => [...previous, ...doItemExists])
       }
-    }else if(scanData!=null){
+    } else if (scanData != null) {
       const doItemExists = await ValidateItemQR1(
         qrCode,
         scanData,
         docEntry
       )
-      if(doItemExists.hasError){
+      if (doItemExists.hasError) {
         return toastDisplayer(
           'error',
           doItemExists.errorText
@@ -77,7 +77,7 @@ const PickPackProcess = () => {
         return setGridDataSource(previous => [...previous, ...doItemExists])
       }
     }
-     else {
+    else {
       setDisplayGrid(false)
       return toastDisplayer('error', 'Scan the Item Qr first')
     }
@@ -109,7 +109,7 @@ const PickPackProcess = () => {
   const HandleCloseQrScanner = () => {
     setShowScanner(false);
   };
-  const HandleDecodedData1 = (data1)=>{
+  const HandleDecodedData1 = (data1) => {
     // console.log("Scanned Data : ",data1);
     if (scannedData.includes(data1)) {
       console.log(`${data1} is already available.`);
@@ -118,10 +118,10 @@ const PickPackProcess = () => {
     }
     // setShowScanner(false);
   }
-  const HandleSaveDecodedScannedData = async()=>{
-    console.log("From HandleSaveDecodedScannedData",scannedData)
+  const HandleSaveDecodedScannedData = async () => {
+    console.log("From HandleSaveDecodedScannedData", scannedData)
     setShowScanner(false);
-    scannedData.forEach(async(scannedItem)=>{
+    scannedData.forEach(async (scannedItem) => {
       await handleItemQrVerification(scannedItem);
       // alert(scannedItem);
     })
@@ -142,7 +142,7 @@ const PickPackProcess = () => {
       <div className='header-section'>
         <PopupHeaderText text={'Pick & Packer'} />
         <PopupSubText text={'Search the sales order to pick the items'} />
-      </div> */}
+      </div>
       <QtcSearchColumn
         popupHeaderText='Purchase Order List'
         popupSubHeaderText='Search the purchase order'
