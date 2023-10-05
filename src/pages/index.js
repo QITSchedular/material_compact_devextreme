@@ -39,7 +39,7 @@ export { default as PickPackProcess } from "./inventory/pick-pack/Pick-pack-proc
 export { default as PurchasePage } from "./purchases/purchase/purchase";
 export { default as SalePage } from "./sales/salesIndex/sale";
 export { default as DeliveryPage } from "./sales/delivery/delivery";
-
+export { default as DeliveryProcessPage } from "./sales/delivery/delivery-process";
 export { default as MachineInOutPage } from "./Track Machines/MachineInOut";
 export { default as MachineManagementPage } from "./Track Machines/MachineManagement";
 export { default as VarifyMaterialScanItemPage } from "./production/verify-material/varify-material-scanItemPage";

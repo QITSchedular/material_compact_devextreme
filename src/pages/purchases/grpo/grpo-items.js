@@ -195,7 +195,7 @@ const GrpoItems = () => {
               handleSaveSelectedWarehouse={handleGrpoPoSelection}
             />
           )}
-          // hideOnOutsideClick={outSideHandler}
+        // hideOnOutsideClick={outSideHandler}
         >
           <ToolbarItem
             widget="dxButton"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PopupHeaderText, PopupSubText, } from "../../../components/typographyTexts/TypographyComponents";
 import { GRPOScanner } from "../../../assets/icon";
@@ -8,6 +8,7 @@ import QtcMainColumn from "../../../components/qtcCommonComponent/qtcMainColumn"
 import QtcSearchColumn from "../../../components/qtcCommonComponent/qtcSearchColumn";
 import "./delivery.scss";
 import { toastDisplayer } from "../../../api/qrgenerators";
+import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
 export default function Delivery() {
     const [grpoList, setGrpoList] = useState(new Set())
@@ -20,6 +21,7 @@ export default function Delivery() {
             alert();
         },
     };
+
     const handlePoVerification = async param => {
         if (param.length > 0 && param) {
             setSelectedPo(param)
@@ -59,21 +61,19 @@ export default function Delivery() {
         }
     }
 
-
     const keyArray1 = [
         { feildType: "textBox", handlefunc: "handleTextValueChange", placeholder: "Search by purchase order", selectedRowsData: "selectedRowsData", TextWithIcon: true },
         { feildType: "button", handlefunc: handlePoVerification, btnIcon: "search" },
-        { feildType: "button", handlefunc: "handlePoVerification", btnIcon: GRPOScanner },
+        { feildType: "button", handlefunc: 'handleScan', btnIcon: GRPOScanner },
     ];
 
     const navigate = useNavigate();
     const [isDataGridVisible, setIsDataGridVisible] = useState(false);
 
 
-    const proceedToItemsScan = (param1, param2) => {
-        navigate(`/production/issue-material/verify-material/${param1}/${param2}`);
+    const proceedToItemsScan = (qrCode) => {
+        navigate(`/sales/delivery/delivery-process/${qrCode}`);
     };
-
 
     const handleShowRealtiveDataGrid = () => {
         return setIsDataGridVisible(!isDataGridVisible);
