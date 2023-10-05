@@ -9,9 +9,11 @@ import {
     Scrolling,
     SearchPanel,
     Selection,
+    ColumnFixing
 } from "devextreme-react/data-grid";
 import { getMasterData } from "../../utils/items-master-data";
 import { AppContext } from "../../contexts/dataContext";
+import { toastDisplayer } from "../../api/qrgenerators";
 const allowedPageSizes = [10, 20, 30];
 
 function MasterGrid({ columns, masterType, keyExpr }) {
@@ -42,7 +44,11 @@ function MasterGrid({ columns, masterType, keyExpr }) {
     useEffect(() => {
         const getData = async () => {
             const allItemsData = await getMasterData(masterType);
-            if(allItemsData){
+            if (allItemsData.hasError) {
+                // alert();
+                return toastDisplayer("error", allItemsData.errorText);
+            }
+            if (allItemsData) {
                 return setItemsData(allItemsData.reverse());
             }
         }
@@ -89,6 +95,7 @@ function MasterGrid({ columns, masterType, keyExpr }) {
                 />
                 <SearchPanel visible={true} width={190} className={"search-panel"} />
                 <Selection mode="multiple" />
+                <ColumnFixing enabled={true} />
                 {columns.map((value, key) => (
 
                     (value["caption"] === "Actions") ?

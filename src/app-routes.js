@@ -20,15 +20,27 @@ import {
   VerifyMaterialScanItemsPage,
   ReceiveMaterialPage,
   ReceiveMaterialScanItemsPage,
+  ReceiveMaterialGenerateQrPage,
   IssueMaterialPage,
+  IssueMaterialScanItemsPage,
   InventoryTransferMainPage,
   PickPackMain,
   InprocessQcScanItemsPage,
   SalePage,
   PurchasePage,
   DeliveryPage,
-  DeliveryProcessPage,
-  IncomingQcScanItemsPage
+  IncomingQcScanItemsPage,
+  NotfoundPage,
+  MachineInOutPage,
+  MachineManagementPage,
+  PickPackProcess,
+  QualityControlPage,
+  ProductionPage,
+  InventoryPage,
+  MachinemasterPage,
+  EmployeemasterPage,
+  DepartmentMasterPage,
+  VarifyMaterialScanItemPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -40,6 +52,10 @@ const routes = [
   {
     path: "/home",
     element: HomePage,
+  },
+  {
+    path: "/Notfound",
+    element: NotfoundPage,
   },
   {
     path: "/masters",
@@ -73,6 +89,18 @@ const routes = [
     path: "/masters/location",
     element: LocationMasterPage,
   },
+  {
+    path: "/masters/machine",
+    element: MachinemasterPage,
+  },
+  {
+    path: "/masters/Department",
+    element: DepartmentMasterPage,
+  },
+  {
+    path: "/masters/employee",
+    element: EmployeemasterPage,
+  },
   //purchases
   {
     path: "/purchases",
@@ -98,6 +126,11 @@ const routes = [
     path: "/purchases/grpo/scanItems/:qrCode",
     element: GrpoScanItemsPage,
   },
+  // qualityControl
+  {
+    path: "/qualityControl",
+    element: QualityControlPage,
+  },
   {
     path: "/qualityControl/incomingQC",
     element: IncomingQCPage,
@@ -116,12 +149,20 @@ const routes = [
   },
   //Production Page
   {
+    path: "/production",
+    element: ProductionPage,
+  },
+  {
     path: "/production/verify-material",
     element: VerifyMaterialPage,
   },
   {
     path: "/production/verify-material/verify-items:prodid",
     element: VerifyMaterialScanItemsPage,
+  },
+  {
+    path: "/production/verify-material/varify-material-scanItemPage/:itemCode/:docEntry",
+    element: VarifyMaterialScanItemPage,
   },
   {
     path: "/production/receive-material",
@@ -132,8 +173,21 @@ const routes = [
     element: ReceiveMaterialScanItemsPage,
   },
   {
+    path: "/production/receive-material/generateqr",
+    element: ReceiveMaterialGenerateQrPage,
+  },
+  {
     path: "/production/issue-material",
     element: IssueMaterialPage,
+  },
+  // InventoryPage
+  {
+    path: "/inventory",
+    element: InventoryPage,
+  },
+  {
+    path: "/issue-material/scanitems/:id",
+    element: IssueMaterialScanItemsPage,
   },
   {
     path: "/inventory/transfer",
@@ -142,6 +196,10 @@ const routes = [
   {
     path: "/inventory/pick-pack",
     element: PickPackMain,
+  },
+  {
+    path: "/inventory/pick-pack/pick-pack-Process/:qrCode/:docEntry",
+    element: PickPackProcess,
   },
   //Sales Page
   {
@@ -153,8 +211,16 @@ const routes = [
     element: DeliveryPage,
   },
   {
-    path: "/production/issue-material/verify-material/:qrCode/:docEntry",
-    element: DeliveryProcessPage,
+    path: "/TrackMachines",
+    element: MachineInOutPage,
+  },
+  {
+    path: "/TrackMachines/MachineInOut",
+    element: MachineInOutPage,
+  },
+  {
+    path: "/TrackMachines/MachineManagement",
+    element: MachineManagementPage,
   },
 ];
 

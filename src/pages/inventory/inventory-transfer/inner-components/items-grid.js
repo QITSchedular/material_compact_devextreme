@@ -20,7 +20,11 @@ const columns = [
   "Project",
 ];
 
-const ItemsGrid = ({ dataGridDataSource }) => {
+const ItemsGrid = ({
+  dataGridDataSource,
+  selectedFromWarehouse,
+  selectedToWarehouse,
+}) => {
   console.log("Visible Data grid data source: ", dataGridDataSource);
   const [dataSource, setDataGridDataSource] = useState([]);
   // Handle the editing of the cell recieved qty
@@ -37,18 +41,27 @@ const ItemsGrid = ({ dataGridDataSource }) => {
     });
   };
   const handleGridSaving = (e) => {
-    if (!e.changes[0]) {
-      return toastDisplayer(
-        "error",
-        "Please, receive the quantity first to proceed"
-      );
-    }
-    const { key } = e.changes[0];
+    console.log(e.changes[0]);
+    // if (!e.changes[0]) {
+    //   return toastDisplayer(
+    //     "error",
+    //     "Please, receive the quantity first to proceed"
+    //   );
+    // }
+    // const { key } = e.changes[0];
   };
 
   const inventorySaveHandler = async (dataGridDataSource) => {
-    const constructorData = await inventoryTransferSaver(dataGridDataSource);
-    console.log("The constructed payload is", constructorData);
+    // console.log("dataGridDataSource : ", dataGridDataSource);
+    const constructorData = await inventoryTransferSaver(
+      dataGridDataSource,
+      selectedFromWarehouse,
+      selectedToWarehouse
+    );
+    console.log("Inventory transfer api response", constructorData);
+    if (constructorData.statusCode == 200) {
+      return toastDisplayer("succes", "Item transfer successful..");
+    }
   };
   return (
     <>

@@ -1,0 +1,184 @@
+.dropdown {
+    position: absolute;
+    z-index: 999;
+    right: 35px;
+    top: 60px;
+    width: 300px;
+    height: 90vh;
+    border-radius: 13.841px;
+    border-bottom: 4px solid #4371B7;
+    background: #FFF;
+    box-shadow: 0px 3px 9px 0px rgba(0, 0, 0, 0.50);
+    animation: dropdownanimation 0.3s both ease-in-out;
+
+    @keyframes dropdownanimation {
+        0% {
+            opacity: 0;
+            height: 0;
+        }
+
+        100% {
+            opacity: 1;
+            height: 90vh;
+        }
+    }
+
+    .dropdown-header {
+        border-radius: 8px 8px 0px 0px;
+        background-color: #4371B7;
+        padding: .8rem 1rem;
+        color: #FFF;
+
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 28px;
+
+        .heading {
+            font-size: 16px;
+        }
+
+        .sub-heading {
+            color: var(--default-gray-20, #E0E0E0);
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Roboto;
+            font-size: 11px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+    }
+
+    .dropdown-body {
+        ::-webkit-scrollbar {
+            width: 6px;
+            /* Width of the scrollbar track */
+        }
+
+        /* Customizing the scrollbar thumb */
+        ::-webkit-scrollbar-thumb {
+            background-color: #888;
+            /* Color of the scrollbar thumb */
+            border-radius: 4px;
+            /* Rounded corners */
+        }
+
+        /* Customizing the scrollbar thumb on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #4371B7;
+            /* Color on hover */
+        }
+
+        /* Customizing the scrollbar track on hover */
+        ::-webkit-scrollbar-track:hover {
+            background-color: #f0f0f0;
+            /* Color of the track on hover */
+        }
+
+
+        padding: 5px 5px;
+
+        .batch-serial-acrdn {
+            margin: 0;
+
+            .dx-accordion-wrapper {
+                .dx-item {
+                    border: 0px;
+                    box-shadow: none;
+                    color: #525252;
+                    font-feature-settings: 'clig' off, 'liga' off;
+                    font-family: Roboto;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 400;
+                    margin: 0.8rem 0px;
+                    line-height: normal;
+
+                    .dx-item-content.dx-accordion-item-title {
+
+                        .dx-accordion-item-title-caption {
+                            font-size: 14px;
+                            color: #525252;
+                            font-feature-settings: 'clig' off, 'liga' off;
+                            font-family: Roboto;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
+                    }
+
+                    .dx-item-content.dx-accordion-item-body {
+                        padding: 0;
+
+                        .custom-checkbox {
+                            margin: 1rem 2rem;
+
+                            .dx-widget {
+                                .dx-checkbox-container {
+                                    gap: 0.6rem;
+                                    color: #8D8D8D;
+                                    font-family: Roboto;
+                                    font-size: 14px;
+                                    font-style: normal;
+                                    font-weight: 400;
+                                    line-height: normal;
+                                }
+                            }
+                        }
+
+                        .dx-selectbox {
+                            margin: 15px 10px;
+                            border-radius: 8px;
+                            box-shadow: none;
+                            background-color: transparent;
+                            border-radius: 8px;
+                            border: 1px solid #E0E0E0;
+                            color: #E0E0E0;
+                        }
+                    }
+                }
+
+                .dx-accordion-item.dx-state-hover {
+                    .dx-accordion-item-title {
+                        background: transparent !important;
+                    }
+                }
+
+                .dx-accordion-item.dx-state-focused {
+                    .dx-accordion-item-title {
+                        background: transparent !important;
+                    }
+                }
+
+                .dx-accordion-item-opened {
+                    .dx-item-content.dx-accordion-item-title {
+                        .dx-accordion-item-title-caption {
+                            color: #4371B7;
+                            font-weight: bolder;
+                        }
+                    }
+                }
+            }
+        }
+
+        .quality-control-dropdown {
+            cursor: pointer;
+            padding: 5px 11px;
+            margin-bottom: 20px;
+            color: #525252;
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Roboto;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            margin: 0.8rem 0px;
+            line-height: normal;
+        }
+
+        .subdropdown-open {
+            color: #4371B7;
+            font-weight: bold;
+        }
+    }
+}

@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import Lottie from "../../../../assets/images/success-lottiie-2.gif";
 import { RequiredRule } from "devextreme-react/validator";
 import { toastDisplayer } from "../../../../api/qrgenerators";
+import { SwalDisplayer } from "../../../../utils/showToastsNotifications";
 
 const renderSuccessContent = ({ qrVisibilityHandler, onQrGenerated }) => {
   const handleCancel = async () => {
@@ -54,11 +55,6 @@ const renderContent = ({
   seriesList,
   onQrGenerated,
 }) => {
-  // console.log(seriesList[0]);
-  console.log(
-    "The selected Row Data from Generated QR POPUP",
-    selectedQrRowData
-  );
   var addedRemarks = "";
   var addedBatchNum = "";
   var addedProjectCode = "";
@@ -72,7 +68,9 @@ const renderContent = ({
     const { series } = seriesList[0];
     const { gateInNo, itemCode, qrMngBy, qty, openQty } = selectedQrRowData;
     const branchID = "1";
-
+    if (addedBatchNum == "") {
+      return toastDisplayer("error", "Enter Batch number");
+    }
     // manaual branch id, it should be dynamically generated
     const resp = await qrGenerationHandler(
       docEntry,
@@ -88,7 +86,20 @@ const renderContent = ({
       addedRemarks,
       addedBatchNum
     );
-    // const { qrCode } = resp;
+
+    if (Array.isArray(resp)) {
+      const counts = resp.reduce((countObj, currentValue) => {
+        countObj[currentValue] = (countObj[currentValue] || 0) + 1;
+        return countObj;
+      }, {});
+      const count0 = counts[0] || 0;
+      const count1 = counts[1] || 0;
+      handleCancel();
+      SwalDisplayer(
+        "success",
+        `successfully generated QR ${count1},  Failed to generate QR ${count0}`
+      );
+    }
     if (resp === "Qr Generated") {
       return onQrGenerated(true);
     }
@@ -105,6 +116,7 @@ const renderContent = ({
     addedRemarks = data;
     return addedRemarks;
   };
+
   const handleBatchesValueChange = async (data) => {
     const { qty } = selectedQrRowData;
     if (data > qty) {
@@ -114,10 +126,12 @@ const renderContent = ({
     console.log(addedBatchNum);
     return addedBatchNum;
   };
+
   const addBatchNumber = async (totalBatches) => {
     const newBatchNum = totalBatches;
     return newBatchNum;
   };
+
   return (
     <div className="responsive-paddings">
       <div className="title-section" style={{ marginBottom: "1rem" }}>
@@ -323,12 +337,14 @@ const PrintPopup = ({
   selectedQrRowData,
   poDetailsfull,
   seriesList,
+  qrgeneraqtedrtnFun,
 }) => {
   // const { isQrPopupVisible, openQrPopUp, closeQrPopUp } =
   //   useContext(AppContext);
   const [qrGenerated, setQrGenerated] = useState(false);
   const handleQrGenerated = (isGenerated) => {
     setQrGenerated(isGenerated);
+    return qrgeneraqtedrtnFun(isGenerated);
   };
   return (
     <>
@@ -346,12 +362,12 @@ const PrintPopup = ({
                   onQrGenerated: handleQrGenerated,
                 })
               : renderContent({
-                  qrVisibilityHandler,
-                  selectedQrRowData,
-                  poDetailsfull,
-                  seriesList,
-                  onQrGenerated: handleQrGenerated,
-                })
+                qrVisibilityHandler,
+                selectedQrRowData,
+                poDetailsfull,
+                seriesList,
+                onQrGenerated: handleQrGenerated,
+              })
           }
         ></Popup>
         {/* ... */}

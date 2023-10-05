@@ -1,17 +1,17 @@
 import axios from "axios";
 import { API_URL } from "./items-master-data";
+import { toastDisplayer } from "../api/qrgenerators";
 
-export const getPoListsIC = async () => {
+export const getPoListsIC = async (fromDate, toDate) => {
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
   };
-  // http://192.168.1.102:{{PORT}}/api/Commons/Series?Indicator=FY2223&ObjType=22&BranchID=1
   try {
     const responseBody = {
       branchID: 1,
-      fromDate: "",
-      toDate: "",
+      fromDate: fromDate,
+      toDate: toDate,
       headerQRCodeID: "",
       getAll: "Y",
     };
@@ -27,24 +27,27 @@ export const getPoListsIC = async () => {
       return errors;
     }
   } catch (error) {
-    const { statusMsg } = error.response.data;
-    if (statusMsg) {
-      errors.hasError = true;
-      errors.errorText = statusMsg;
-      return errors;
-    }
-    return errors;
+    // const { statusMsg } = error.response.data;
+    // console.log(error);
+    // if (statusMsg) {
+    //   errors.hasError = true;
+    //   errors.errorText = statusMsg;
+    //   return errors;
+    // }
+    // return errors;
+    return toastDisplayer("error", error.message);
   }
 };
 
 // Get all po list(used in incoming QC)
-export const searchPoListsIQC = async (QRCode) => {
+export const searchPoListsIQC = async (QRCode,fromDate,toDate) => {
   const requestBody = {
     branchID: 1,
-    fromDate: "",
-    toDate: "",
-    headerQRCodeID: QRCode,
+    fromDate: fromDate,
+    toDate: toDate,
+    headerQRCodeID: QRCode
   };
+  console.log(requestBody)
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -68,6 +71,7 @@ export const searchPoListsIQC = async (QRCode) => {
       return errors;
     }
     return errors;
+    // return toastDisplayer("error", error.message);
   }
 };
 
@@ -89,25 +93,19 @@ export const validatePoListsIQC = async (obj) => {
       requestBody
     );
     const data = response.data;
+    console.log("***",data);
     if (data) {
       return data;
     } else {
       return errors;
     }
   } catch (error) {
-    const { statusMsg } = error.response.data;
-    if (statusMsg) {
-      errors.hasError = true;
-      errors.errorText = statusMsg;
-      return errors;
-    }
     return errors;
   }
 };
 
 // save QC Item
 export const SavePoListsIQC = async (obj) => {
-  console.log("===========",obj);
   const errors = {
     hasError: false,
     errorText: "Something went wrong",
@@ -120,14 +118,12 @@ export const SavePoListsIQC = async (obj) => {
     } else {
       return errors;
     }
+    // const data = true;
+    // return data;
   } catch (error) {
-    const { statusMsg } = error.response.data;
-    if (statusMsg) {
-      errors.hasError = true;
-      errors.errorText = statusMsg;
-      return errors;
-    }
-    return errors;
+    const statusMsg  = error.response.data;
+   
+    return statusMsg;
   }
 };
 
@@ -137,10 +133,16 @@ export const LockedWareHouseList = async () => {
     const returnData = await res.data;
     return returnData;
   } catch (error) {
-    console.log(error);
-    const returnError = error.response.data;
-    return returnError;
+    // console.log(error);
+    // const returnError = error.response.data;
+    // return returnError;
+    return toastDisplayer("error", error.message);
   }
 
 };
 
+
+
+
+
+// This comment should be removed asap

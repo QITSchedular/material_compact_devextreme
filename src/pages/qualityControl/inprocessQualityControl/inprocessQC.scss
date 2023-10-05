@@ -1,3 +1,7 @@
+.mainContainer-iQC {
+    margin-top: 40px !important;
+}
+
 .inQCDropDownSection {
     .main-section {
         display: flex;
@@ -90,7 +94,7 @@
 
             // gap:0.5rem;
             .purchaseQRField {
-                width: 200px;
+                width: 230px;
             }
 
             .btnSection {
@@ -148,12 +152,33 @@
             }
 
             .single-po-name {
-                flex: 1;
-                padding-left: 15px;
+                // border: 2px solid;
+                // flex: 1;
+                // padding-left: 15px;
                 display: flex !important;
-                align-items: center;
+                // align-items: center;
+
+                .single-po-sub-name{
+                    // border: 2px solid;
+                    width:300px ;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    // display: flex;
+                }
 
                 .po-name {
+                    color: #525252;
+                    font-feature-settings: 'clig' off, 'liga' off;
+                    font-family: Poppins;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: normal;
+                    width: 182px;
+                }
+
+                .po-name1{
                     color: #525252;
                     font-feature-settings: 'clig' off, 'liga' off;
                     font-family: Poppins;
@@ -162,6 +187,7 @@
                     font-weight: 400;
                     line-height: normal;
                     width: 182px;
+                    white-space: nowrap;
                 }
 
                 .dx-icon-custom-chevron-down-icon {
@@ -209,6 +235,7 @@
 // }
 
 .buttons-section {
+    margin-top: -50px;
 
     .cancelQcBtn,
     .OkQcBtn {
@@ -401,6 +428,7 @@
 
     .detailsWrapper {
         display: flex !important;
+
         flex-direction: column;
 
         .particularDetail {
@@ -464,6 +492,11 @@
 }
 
 .particularDetail {
+    .txt-remark{
+        .dx-texteditor-container{
+            margin-top: 0rem;
+        }
+    }
     .particularDetail-txt{
         .particularDetail-titleTxt{
             color: #393939;
@@ -494,9 +527,9 @@
         border-bottom: 0px !important;
     }
 
-    .dx-texteditor-container {
-        margin-top: -1rem;
-    }
+    // .dx-texteditor-container {
+    //     margin-top: -1rem;
+    // }
 
     .dx-texteditor.dx-editor-outlined.dx-state-focused {
         // border: 0.5px solid #8D8D8D;
@@ -509,7 +542,7 @@
         height: 42px !important;
     }
 
-    .form-element.dx-show-invalid-badge.dx-numberbox.dx-texteditor.dx-show-clear-button.dx-editor-outlined.dx-widget.dx-texteditor-with-floating-label{
+    .form-element.dx-show-invalid-badge.dx-numberbox.dx-texteditor.dx-show-clear-button.dx-editor-outlined.dx-widget.dx-texteditor-with-floating-label {
         height: 42px !important;
     }
 
@@ -606,18 +639,20 @@
         box-shadow: none;
         border: 0.5px solid #8D8D8D;
         border-radius: 8px 0px 0px 8px;
+        border-right: 0px;
         width: 10px;
     }
 }
 
-.hrLine{
+.hrLine {
     margin: 1rem 0px;
 }
 
 @media only screen and (max-width: 450px) {
-    .dx-overlay-wrapper.dx-popup-wrapper.dx-overlay-shader .dx-overlay-content.dx-popup-normal.dx-resizable{
+    .dx-overlay-wrapper.dx-popup-wrapper.dx-overlay-shader .dx-overlay-content.dx-popup-normal.dx-resizable {
         width: 350px !important;
     }
+
     .inQCDropDownSection {
 
         .main-section {
@@ -645,6 +680,7 @@
 
                     .btnSection {
                         display: flex !important;
+                        height: 40px;
                     }
                 }
             }
@@ -676,7 +712,7 @@
 
                 // gap:0.5rem;
                 .purchaseQRField {
-                    width: 100% !important;
+                    width: 100%;
                 }
 
                 .btnSection {
@@ -725,13 +761,14 @@
                 // }
 
                 .single-po-name {
-                    flex: 1;
-                    padding-left: 8px;
-                    display: flex !important;
-                    align-items: center;
+                    // flex: 1;
+                    // padding-left: 8px;
+                    // display: flex !important;
+                    // align-items: center;
+                    // border: 2px solid;
 
                     .po-name {
-                        font-size: 12px;
+                        font-size: 16px;
                         width: 140px;
                     }
 
@@ -850,7 +887,7 @@
 
                 // gap:0.5rem;
                 .purchaseQRField {
-                    width: 65% !important;
+                    width: 65% ;
                 }
 
                 .btnSection {
@@ -929,7 +966,7 @@
 
                 // gap:0.5rem;
                 .purchaseQRField {
-                    width: 65% !important;
+                    width: 65%;
                 }
 
                 .btnSection {
@@ -1063,8 +1100,16 @@
             //     }
             // }
         }
-    }
 
+        .main-section-scan-item{
+            .txtBtn-section {
+                .purchaseQRField {
+                width: 230px;
+                }
+            }
+        }
+    }
+    
 }
 
 @media only screen and (min-width: 1024px) {
@@ -1140,7 +1185,7 @@
             .helperWrapper {
                 display: flex;
                 gap: 1rem;
-                width: 40%;
+                width: 30%;
                 margin-top: 0px !important;
             }
 

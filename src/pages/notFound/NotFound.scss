@@ -1,0 +1,25 @@
+.errorcontent {
+    text-align: center;
+    justify-content: center;
+    margin-top: 60px;
+
+    .line1 {
+        color: #525252;
+        font-family: Poppins;
+        font-size: 34px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .line2 {
+        color: #000;
+        text-align: center;
+        font-family: Poppins;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding-top: 2px;
+    }
+}

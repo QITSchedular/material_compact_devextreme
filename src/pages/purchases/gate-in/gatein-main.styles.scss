@@ -5,11 +5,13 @@
 
         display: flex;
         justify-content: space-between;
-        padding: 16px 0px;
+        // padding: 16px 0px;
+        padding: 2px 0px 32px 12px;
 
         .title-section {
             display: flex;
             flex-direction: column;
+            padding-top: 12px;
             gap: 0.4rem;
 
             .title-name {
@@ -43,13 +45,11 @@
             align-self: flex-start !important;
 
             .dx-tabs-wrapper {
-
                 .dx-item.dx-tab.dx-tab-selected {
                     .dx-item-content.dx-tab-content {
                         text-transform: none !important;
 
                         .dx-tab-text {
-
                             color: #161616;
                             font-family: Poppins;
                             font-style: normal;
@@ -60,22 +60,34 @@
             }
         }
     }
+
+    .dx-saveBtn {
+        .dx-button {
+            .dx-button-content {
+                .dx-button-text {
+                    color: white !important;
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 880px) {
     #gate-in-main-container {
         .navigation-header-gatein {
             flex-direction: column;
+            padding: 12px 0px 32px 12px;
             .title-section {
-                .title-name{
+                .title-name {
                     font-size: 18px;
                 }
+
                 .title-description {
                     font-size: 14px;
                 }
             }
 
-            #selectTab{
+            #selectTab {
                 width: 100% !important;
             }
         }

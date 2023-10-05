@@ -12,6 +12,8 @@ function IncomingQrRequest({
   requestData,
   approveWareHouse,
   rejectWareHouse,
+  clearData,
+  allData
 }) {
   const [approveQty, setapproveQty] = useState(0);
   const [RejectQty, setRejectQty] = useState(0);
@@ -44,11 +46,12 @@ function IncomingQrRequest({
           branchID: 1,
           grpoDocEntry: QrRequestData["grpoDocEntry"],
           detailQRCodeID: QrRequestData["detailQRCodeID"],
-          fromWhs: "QC",
+          fromWhs: allData.fromWhs,
           toWhs: rejectWareHouse,
           action: "R",
           qty: rejQty,
           rejectComment: RejectComment,
+          fromBin:allData.fromBin
         };
 
         const rejectCall = SavePoListsIQC(reqBodyRej);
@@ -60,28 +63,32 @@ function IncomingQrRequest({
           branchID: 1,
           grpoDocEntry: QrRequestData["grpoDocEntry"],
           detailQRCodeID: QrRequestData["detailQRCodeID"],
-          fromWhs: "QC",
-          toWhs: approveWareHouse,
+          fromWhs: allData.fromWhs,
+          // toWhs: approveWareHouse,
           action: "A",
           qty: appQty,
           rejectComment: RejectComment,
+          fromBin:allData.fromBin
         };
-
+        // console.log(reqBodyApp)
         const approveCall = SavePoListsIQC(reqBodyApp);
+        // console.log("approve call : ",approveCall)
         apiCalls.push(approveCall);
       }
-
       try {
         const responses = await Promise.all(apiCalls);
         responses.forEach((response, index) => {
+          // console.log("response",responses)
           if (response["statusCode"] == "200") {
             if (index == 0) {
+              clearData(QrRequestData["detailQRCodeID"]);
+
               toastDisplayer("succes", "Approve processed successfully..!!");
             } else if (index == 1) {
               toastDisplayer("succes", "Reject processed successfully..!!");
             }
           }else{
-            toastDisplayer("error", response["errorText"]);
+            toastDisplayer("error", response['statusMsg']);
           }
         });
 
@@ -174,17 +181,16 @@ function IncomingQrRequest({
                 value={""}
                 onValueChanged={onValueChangedApprove}
               >
-                      
               </NumberBox>
             </div>
-            <div className="particularDetail" style={{"marginTop":"0.5rem"}}>
+            <div className="particularDetail" style={{ "marginTop": "0.5rem" }}>
               <div className="particularDetail-txt">
                 <p className="particularDetail-titleTxt">Rejected Quantity</p>
-                <p className="titleTxt">{rejectWareHouse}</p>
+                <p className="titleTxt">{rejectWareHouse ? rejectWareHouse : " --- "}</p>
               </div>
               <NumberBox
                 // className="dx-field-value"
-                className="form-element"
+                className="form-element rejectQty"
                 stylingMode="outlined"
                 // placeholder={placeholder}
                 label={"Qty"}
@@ -193,14 +199,14 @@ function IncomingQrRequest({
                 showClearButton={true}
                 value={""}
                 onValueChanged={onValueChangedReject}
+                disabled={rejectWareHouse ? false:true}
               >
-                      
               </NumberBox>
             </div>
-            <div className="particularDetail" style={{"margin":"0.5rem 0rem 0.5rem 0.5rem"}}>
+            <div className="particularDetail" style={{ "margin": "0.5rem 0rem 0.5rem 0.5rem" }}>
               <TextBox
                 // className="dx-field-value"
-                className="form-element"
+                className="form-element txt-remark"
                 stylingMode="outlined"
                 label={"Remark"}
                 labelMode="floating"
@@ -209,9 +215,8 @@ function IncomingQrRequest({
                 onValueChanged={handleValueChange}
                 value={""}
               >
-                        
               </TextBox>
-               
+
             </div>
             <div
               className="buttons-section"
@@ -235,7 +240,7 @@ function IncomingQrRequest({
                 height={45}
                 onClick={handleSave}
                 className="OkQcBtn"
-                // disabled={selectedRowKeys.length > 0 ? false : true}
+              // disabled={selectedRowKeys.length > 0 ? false : true}
               />
             </div>
           </div>

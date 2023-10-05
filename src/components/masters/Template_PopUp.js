@@ -1,30 +1,35 @@
-import { Button, Popup } from "devextreme-react";
+import { Button, DataGrid, Popup } from "devextreme-react";
 import React, { useState } from "react";
 import { toastDisplayer } from "../../api/qrgenerators";
 import {
   PopupHeaderText,
   PopupSubText,
 } from "../typographyTexts/TypographyComponents";
-
-function Template_PopUp({ isPopupVisible, handleClosePopUp }) {
+import QtcDataGrid from "../qtcCommonComponent/qtcDataGrid";
+import "./items-master.scss";
+function Template_PopUp({ isPopupVisible, handleClosePopUp, filefunction, handlesaveImportedFileData, dataSource, keyExpr, heading }) {
   const [selectedFile, setSelectedFile] = useState(null);
-
-  const handleFileChange = (event) => {
-    // setSelectedFile(event.target.files[0]);
-    const selectedFileType = event.target.files[0].type;
-    alert(selectedFileType);
+  const [isfileUpload, setFileUpdload] = useState(false);
+  //console.log("dataSource : ", dataSource, " keyExpr : ", keyExpr);
+  const handleFileChange = (file) => {
+    const selectedFileType = file.target.files[0].type;
     if (
       selectedFileType == "text/csv" ||
       selectedFileType ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ) {
-      setSelectedFile(event.target.files[0]);
+      setFileUpdload(true);
+      setSelectedFile(file.target.files[0]);
+      return filefunction(file);
     } else {
       return toastDisplayer("error", "Please select a CSV or XLSX file.");
     }
-  };
+  }
+
+
 
   const handleFileDelete = () => {
+    setFileUpdload(false);
     setSelectedFile(null);
   };
 
@@ -39,7 +44,10 @@ function Template_PopUp({ isPopupVisible, handleClosePopUp }) {
     link.click();
     document.body.removeChild(link);
   };
-
+  const filechkfunc = ()=>{
+    // alert();
+    return toastDisplayer("error", "Please select a CSV or XLSX file.");
+  }
   return (
     <Popup
       maxWidth={850}
@@ -54,15 +62,30 @@ function Template_PopUp({ isPopupVisible, handleClosePopUp }) {
     >
       <div className="popup-header-item-master-import">
         <div>
-        <PopupHeaderText text={"Template"} />
-        <PopupSubText text={"Import file"} />
+          <PopupHeaderText text={heading} />
+          <div className="filepopuptagline">
+            <PopupSubText text={"Preferred CSV format"} />
+          </div>
         </div>
         <div>
-        <Button icon="close" onClick={handleClosePopUp} />
+          <Button icon="close" onClick={handleClosePopUp} />
         </div>
       </div>
+      <div className="filedatagrid">
+        <DataGrid
+          dataSource={dataSource}
+          keyExpr={keyExpr}
+          showBorders={true}
+          focusedRowEnabled={true}
+          defaultFocusedRowIndex={0}
+          columnAutoWidth={true}
+          columnHidingEnabled={false}
+          className='items-master-datagrid'
+        >
+        </DataGrid>
+      </div>
       <div className="mainContainerFileUpload">
-        <div className="fileuploader-container">
+        {/* <div className="fileuploader-container">
           <div className="file-formate-box">
             <p>CSV file required formate</p>
             <button
@@ -73,7 +96,7 @@ function Template_PopUp({ isPopupVisible, handleClosePopUp }) {
               Download
             </button>
           </div>
-        </div>
+        </div> */}
         <div className="fileuploader-container">
           <div className="file-upload-box">
             <input
@@ -85,7 +108,7 @@ function Template_PopUp({ isPopupVisible, handleClosePopUp }) {
             />
             <span>
               Drag and drop or{" "}
-              <span className="file-link">Browse your file</span>
+              <span className="file-link">browse your file</span>
             </span>
           </div>
           {selectedFile && (
@@ -111,28 +134,28 @@ function Template_PopUp({ isPopupVisible, handleClosePopUp }) {
             </div>
           )}
         </div>
-        
+        {/* Datagrid */}
       </div>
       <div
-          className="buttons-section"
-          style={{ display: "flex", justifyContent: "flex-end", paddingRight:"1rem" }}
-        >
-          <Button
-            text="Cancel"
-            width={124}
-            height={35}
-            onClick={handleClosePopUp}
-          />
-          <Button
-            text="Save"
-            type="default"
-            width={124}
-            height={35}
-            // onClick={handleSave}
-            className="OkQcBtn"
-            // disabled={selectedRowKeys.length > 0 ? false : true}
-          />
-        </div>
+        className="buttons-section"
+        style={{ display: "flex", justifyContent: "flex-end", paddingRight: "1rem" }}
+      >
+        <Button
+          text="Cancel"
+          width={124}
+          height={35}
+          onClick={handleClosePopUp}
+        />
+        <Button
+          text="Save"
+          type="default"
+          width={124}
+          height={35}
+          onClick={isfileUpload ? handlesaveImportedFileData : filechkfunc}
+          className="OkQcBtn"
+        // disabled={selectedRowKeys.length > 0 ? false : true}
+        />
+      </div>
     </Popup>
   );
 }

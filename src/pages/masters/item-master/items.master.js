@@ -13,12 +13,12 @@ import {
 } from "devextreme-react/data-grid";
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../../contexts/dataContext";
-import { getAllItems } from "../../../utils/items-master-data";
+import { addNewMasterItem, getAllItems } from "../../../utils/items-master-data";
 import HeaderContent from "./headerContent";
 import "./items-master.scss";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import PrintQrPopUp from "../../../components/masters/print-qr-popup";
-
+import ExcelJS from "exceljs";
 const allowedPageSizes = [10, 20, 30];
 export default function ItemsMaster() {
   const [itemsData, setItemsData] = useState("");
@@ -26,6 +26,7 @@ export default function ItemsMaster() {
   const [showPrintPop, setShowPrintPop] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedRowDetails, setSelectedRowDetails] = useState([]);
+  const [importedDataArray, setimportedDataArray] = useState([]);
   const {
     isPopupVisible,
     isItemAdded,
@@ -60,6 +61,7 @@ export default function ItemsMaster() {
     };
     getData();
   }, []);
+
   useEffect(() => {
     const setDataAgain = async () => {
       if (isItemAdded) {
@@ -70,6 +72,77 @@ export default function ItemsMaster() {
     };
     setDataAgain();
   }, [isItemAdded]);
+
+  const handleFileUploaded = async (fileData) => {
+    // console.log("fileData : ", fileData.target.files[0]);
+    const file = fileData.target.files[0]; // Get the first file from the array
+    // console.log("file ", file);
+
+    const wb = new ExcelJS.Workbook();
+    const reader = new FileReader();
+
+    reader.readAsArrayBuffer(file); // Use the extracted file here
+    reader.onload = () => {
+      const buffer = reader.result;
+      wb.xlsx.load(buffer).then((workbook) => {
+        workbook.eachSheet((sheet, id) => {
+          sheet.eachRow(async (row, rowIndex) => {
+            var importedData = {};
+            if (rowIndex !== 1) {
+              const rowData = row.values;
+              importedData = {
+                itemCode: rowData[1].toString(),
+                itemName: rowData[2],
+                itmsGrpCod: rowData[3],
+                itmsSubGrpCod: rowData[4],
+                uomEntry: rowData[5],
+                qrMngBy: rowData[6],
+                itemMngBy: rowData[7],
+                isActive: rowData[8],
+                atcEntry: rowData[9],
+              };
+              // console.log("importedData", importedData);
+              importedDataArray.push(importedData);
+            }
+          });
+        });
+      });
+      console.log("importedDataArray : ", importedDataArray);
+    };
+  };
+
+  const saveImportedFileData = async () => {
+    if (importedDataArray.length !== 0) {
+      for (var i = 0; i < importedDataArray.length; i++) {
+        try {
+          const response = await addNewMasterItem(importedDataArray[i], "Items");
+
+          if (response.statusCode === "200") {
+            newItemIsAdded();
+          }
+
+          // await showToastNotifications(response);
+
+        } catch (error) {
+          console.log(error);
+        }
+        // console.log("importedDataArray " + i + " : ",importedDataArray[i])
+      }
+    } else {
+      return toastDisplayer("error", "No data found..!!");
+    }
+  };
+
+  const data = [{
+    ItemName: "String",
+    ItemCode: "Numeric",
+    ItemGroup: "Alphanumeric",
+    ItemSubGroup: "Alphanumeric",
+    UOM: "Alphanumeric",
+    ItemManagedBy: "String",
+    QrManagedBy: "String",
+    OnHand: "Integer",
+  }]
 
   return (
     <React.Fragment>
@@ -91,7 +164,7 @@ export default function ItemsMaster() {
           }}
         >
           <div className="content-blocks">
-            <HeaderContent />
+            <HeaderContent handleFileUploaded={handleFileUploaded} handlesaveImportedFileData={saveImportedFileData} data={data} keyExpr={"ItemCode"} heading={"File input for Items Master"} />
           </div>
           {/* <div
           id="exportContainer"

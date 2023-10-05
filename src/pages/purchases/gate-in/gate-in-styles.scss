@@ -3,7 +3,7 @@
     flex-direction: column;
     margin-top: "40px";
     margin-bottom: "40px";
-    min-height: 70vh;
+    // min-height: 70vh;
 
     .title-section {
         .title-name {
@@ -31,28 +31,31 @@
     }
 
     .actions-section {
-        display: flex !important;
+        display: flex;
         justify-content: space-between;
         // align-items: center;
 
         .action-before-section {
-            display: flex !important;
+            display: flex;
             flex-direction: row;
             justify-content: baseline;
             // gap: 15px;
             flex-wrap: wrap;
             // margin-top: 15px;
 
-            .buttons-section {
+            .btn-section {
+                display: flex;
+                gap: 1rem;
 
                 // margin-bottom: 1rem;
                 .dx-button {
-                    height: 31px;
-                    margin-right: 15px;
+                    height: 40px;
+                    // margin-right: 15px;
                 }
 
                 .period-indicator,
                 .series-indicator {
+
                     span {
                         width: 90.554px !important;
                     }
@@ -60,23 +63,25 @@
 
             }
 
+
+
             .search-section {
                 display: flex !important;
 
                 .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget {
                     border-radius: 8px !important;
                     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
-
                 }
 
             }
         }
 
         .action-after-section {
+
             // margin-top: 15px;
             .bp-search-details {
                 display: flex !important;
-                gap: 1rem ;
+                gap: 1rem;
 
                 .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget {
                     border-radius: 8px !important;
@@ -93,15 +98,51 @@
     }
 
     .data-grid-section {
-        margin-top: 1rem !important;
+        margin-top: 3rem !important;
+    }
 
+
+}
+
+.btns-section-save {
+    .dx-saveBtn {
+        .dx-button-content {
+            .dx-button-text {
+                color: white;
+            }
+        }
     }
 }
 
-.data-grid-container-local {
+
+.gateIn-header {
+    display: flex;
+
+    .close-btn-section {
+        padding-top: 2%;
+        margin-left: 62%;
+    }
+}
+
+#data-grid-container-local {
     max-height: 500px !important;
 }
 
+.dx-list-item-content>.dx-texteditor,
+.dx-list-item-content.dx-texteditor,
+.dx-toolbar-item-content>.dx-texteditor,
+.dx-toolbar-item-content.dx-texteditor {
+    width: 190px;
+    background-color: #fff !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 8px;
+    height: 40px;
+}
+
+.dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button.dx-texteditor-empty.dx-widget.dx-state-focused {
+    border: 1px solid #4371B7 !important;
+    box-shadow: 0px 1px 120px 0px rgba(0, 0, 0, 0.01);
+}
 
 .gate-in-button {
     height: 34px;
@@ -188,7 +229,7 @@
 }
 
 // new added 
-.transpoterGrid{
+.transpoterGrid {
     // border:10px solid black;
     height: 350px;
 }
@@ -198,12 +239,14 @@
         .actions-section {
             flex-direction: column;
             gap: 1.2rem;
+            padding-left: 12px;
+
             .action-before-section {
-               
+
                 width: 100%;
                 gap: 1.2rem;
             }
-    
+
             .action-after-section {
                 width: 100%;
             }
@@ -212,31 +255,36 @@
 }
 
 @media only screen and (min-width: 770px) {
-    .main-container{
+    .main-container {
         .actions-section {
             flex-direction: column;
             gap: 1.2rem;
+            padding-left: 12px;
+
             .action-before-section {
                 gap: 1.2rem;
             }
-    
+
             // .action-after-section {
             //     width: 100%;
             // }
         }
     }
 }
-    @media only screen and (min-width: 1140px) {
+
+@media only screen and (min-width: 1140px) {
     .main-container {
         .actions-section {
             flex-direction: row;
             gap: 1.2rem;
+            padding-left: 12px;
+
             .action-before-section {
-               
+
                 // width: 100%;
                 gap: 1.2rem;
             }
-    
+
             // .action-after-section {
             //     width: 100%;
             // }
@@ -250,11 +298,11 @@
 //             flex-direction: column;
 //             gap: 1.2rem;
 //             .action-before-section {
-               
+
 //                 // width: 100%;
 //                 gap: 1.2rem;
 //             }
-    
+
 //             // .action-after-section {
 //             //     width: 100%;
 //             // }
