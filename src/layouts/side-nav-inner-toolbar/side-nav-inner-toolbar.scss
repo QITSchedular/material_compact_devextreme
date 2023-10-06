@@ -1,0 +1,36 @@
+.side-nav-inner-toolbar {
+  width: 100%;
+}
+
+#navigation-header {
+  @import "../../themes/generated/variables.additional.scss";
+  background-color: $base-accent;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.10);
+
+  //added for menu icon alignment
+  .dx-item-content.dx-toolbar-item-content {
+    .dx-button-mode-text {
+      margin-left: 0px !important;
+    }
+
+  }
+
+  .menu-button .dx-icon {
+    color: white;
+  }
+
+  .screen-x-small & {
+    padding-left: 20px;
+  }
+
+  .dx-theme-generic & {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .site-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

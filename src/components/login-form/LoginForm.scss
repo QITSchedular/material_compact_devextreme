@@ -1,0 +1,61 @@
+@import "../../themes/generated/variables.base.scss";
+
+.login-form {
+  .link {
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .form-text {
+    margin: 10px 0;
+    color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+  }
+}
+
+.login-form {
+  .dx-form.dx-widget.dx-visibility-change-handler {
+    .dx-layout-manager.dx-widget {
+      .dx-widget.dx-collection.dx-responsivebox.dx-responsivebox-screen-sm,
+      .dx-widget.dx-collection.dx-responsivebox.dx-responsivebox-screen-md,
+      .dx-widget.dx-collection.dx-responsivebox.dx-responsivebox-screen-xs,
+      .dx-widget.dx-collection.dx-responsivebox.dx-responsivebox-screen-lg {
+        .dx-box-flex.dx-box.dx-widget.dx-collection {
+          .dx-item.dx-box-item {
+            .dx-item-content.dx-box-item-content {
+              .dx-first-col.dx-last-col.dx-field-item.dx-col-0.dx-field-button-item {
+                .dx-widget.dx-button.dx-button-mode-contained.dx-button-default.dx-widget {
+                  margin-left: -16px !important;
+                  border-radius: 25px !important;
+                  .dx-button-text-login {
+                    font-size: 16;
+                  }
+                }
+                .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-text {
+                  margin-left: -16px !important;
+                  border-radius: 25px !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@import "../../themes/generated/variables.base.scss";
+
+.single-card {
+}
+
+@media only screen and (max-width: 600px) {
+  .login-main-wrapper {
+    width: 90% !important;
+    margin: 40px auto 0px auto !important;
+  }
+}

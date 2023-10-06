@@ -1,0 +1,22 @@
+/* In your component's CSS file or within the <style> tag in the component */
+.custom-form {
+    /* Apply padding and other styles to the entire form if needed */
+    background: #fff;
+  }
+  
+  /* Add border radius to the outlined form elements */
+  .dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget.dx-visibility-change-handler{
+    border-radius: 8px !important;
+  }
+  
+  /* Add border radius to the floating label */
+  .custom-form .dx-texteditor-outlined .dx-texteditor-label-floating {
+    border-radius: 10px; /* Adjust the border-radius value as needed */
+  }
+  .dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget.dx-texteditor-masked{
+    border-radius: 8px !important;
+  }
+
+  .content-block{
+    // margin-top: 40px !important;
+  }

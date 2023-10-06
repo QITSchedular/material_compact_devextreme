@@ -1,0 +1,79 @@
+.popup-btn-save {
+    .dx-button-content {
+        background-color: #4371b7 !important;
+    }
+}
+
+.popUp-header-title {
+    color: #525252;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 0px !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.form-element {
+    margin-top: 40px;
+}
+
+.title {
+    font-size: 30px;
+}
+
+.checkbox {
+    display: inline-flex;
+}
+
+.successAlert {
+    margin-top: 50px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+
+    img {
+        margin-top: 20px;
+        align-self: center;
+        height: 200px;
+        width: 200px;
+    }
+}
+
+/* Update PopupForm.scss */
+.dx-scrollview-content {
+    height: 100%;
+}
+
+/* Add this to remove unnecessary margins */
+.popup-content-container {
+    margin: 0;
+}
+
+@media only screen and (max-width: 600px) {
+    .title {
+        font-size: 20px;
+    }
+
+    .successAlert {
+        margin-top: 20px;
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        gap: 2px;
+
+        img {
+            margin-top: 20px;
+            align-self: center;
+            height: 150px;
+            width: 150px;
+        }
+    }
+}

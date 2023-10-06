@@ -1,0 +1,399 @@
+.search-section {
+    display: flex !important;
+
+    .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget {
+        border-radius: 8px !important;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
+
+    }
+
+}
+
+.main-container-printQR {
+    margin-top: 40px !important;
+
+    .actions-section {
+        display: flex;
+        margin: 0.5rem 0 1.5rem 0;
+        justify-content: space-between;
+
+        .buttons-section {
+            display: flex;
+            gap: 1rem;
+
+            .buttons-sub-section1 {
+                display: flex;
+                gap: 1rem;
+            }
+        }
+    }
+
+    .title-section {
+        display: flex;
+        flex-direction: column;
+        padding-top: 16px;
+        gap: 0.4rem;
+
+        .title-name {
+            color: #393939;
+            font-feature-settings: 'clig' off, 'liga' off;
+            /* H5 Semi- bold */
+            font-family: Poppins;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 28px;
+            /* 116.667% */
+        }
+
+        .title-description {
+            color: #8D8D8D;
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Poppins;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            padding-bottom: 10px !important;
+        }
+    }
+
+}
+
+// @media (max-width: 376px) and (min-width:321px) {
+
+//     .title-section {
+
+//         .title-name {
+//             font-size: 18px !important;
+//         }
+
+//         .title-description {
+//             font-size: 14px !important;
+//         }
+//     }
+
+//     .actions-section {
+//         display: flex;
+//         gap: 4px;
+//         flex-direction: column;
+//         width: 100%;
+
+//         .search-section {
+//             width: inherit;
+//         }
+
+//         .buttons-section>* {
+//             margin-top: 0.5rem;
+//             /* Add margin between buttons */
+//         }
+
+//         .buttons-section {
+//             justify-content: space-between !important;
+//             margin-left: -0.6rem;
+//             // display: block !important;
+//             gap: 20px !important;
+//         }
+//     }
+
+// }
+
+// @media (max-width: 320px) {
+
+//     .title-section {
+
+//         .title-name {
+//             font-size: 18px !important;
+//         }
+
+//         .title-description {
+//             font-size: 14px !important;
+//         }
+//     }
+
+//     .actions-section {
+//         display: flex;
+//         gap: 4px;
+//         flex-direction: column;
+//         width: 100%;
+
+//         .search-section {
+//             width: inherit;
+//         }
+
+//         .buttons-section>* {
+//             margin-top: 0.5rem;
+//             /* Add margin between buttons */
+//         }
+
+//         .buttons-section {
+//             display: block !important;
+//             gap: 20px !important;
+//         }
+//     }
+
+// }
+
+// @media (min-width: 391px) and (max-width:766px) {
+
+//     .title-section {
+
+//         .title-name {
+//             font-size: 18px !important;
+//         }
+
+//         .title-description {
+//             font-size: 14px !important;
+//         }
+//     }
+
+//     .actions-section {
+//         display: flex !important;
+//         gap: 8px;
+//         flex-direction: column;
+//         width: 100%;
+
+//         .search-section {
+//             width: inherit;
+//         }
+
+//         .buttons-section>* {
+//             margin-top: 0.5rem;
+//             /* Add margin between buttons */
+//         }
+
+//         .buttons-section {
+//             // border: 2px solid black;
+//             width: 75%;
+//             // margin-left: -5rem !important;
+//             justify-content: space-between !important;
+//             // display: block !important;
+//         }
+//     }
+
+// }
+
+.main-section {
+
+    .dx-texteditor.dx-editor-outlined {
+
+        border-radius: 8px !important;
+
+        .dx-field {}
+    }
+}
+
+.generate-button {
+    .dx-button-content {
+        span {
+            color: #fff;
+        }
+    }
+}
+
+.lottie-conatiner {
+    .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-icon {
+        align-self: flex-end !important;
+
+        .dx-icon-close {
+            font-size: 24px;
+            color: #c5c5c5;
+        }
+    }
+}
+
+// @media only screen and (max-width: 770px) {
+//     .main-container {
+//         .title-section {
+//             .title-name {
+//                 font-size: 18px;
+//             }
+
+//             .title-description {
+//                 font-size: 14px;
+//             }
+//         }
+
+//         .actions-section
+//         {
+//             .buttons-section{
+//                 display: flex;
+//                 // flex-direction: column;
+//             }
+//         }
+//     }
+// }
+
+// @media only screen and (min-width: 770px) {
+//     .main-container {
+//         .actions-section {
+//             flex-direction: column;
+//             gap: 1.2rem;
+
+//             .action-before-section {
+//                 gap: 1.2rem;
+//             }
+
+//             // .action-after-section {
+//             //     width: 100%;
+//             // }
+//         }
+//     }
+// }
+
+// @media only screen and (min-width: 1140px) {
+//     .main-container {
+//         .actions-section {
+//             flex-direction: row;
+//             gap: 1.2rem;
+
+//             .action-before-section {
+
+//                 // width: 100%;
+//                 gap: 1.2rem;
+//             }
+
+//             // .action-after-section {
+//             //     width: 100%;
+//             // }
+//         }
+//     }
+// }
+
+
+
+@media only screen and (max-width: 650px) {
+    .main-container-printQR {
+
+        .actions-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; // margin-top: 0.5rem;
+
+            .buttons-section {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+
+                .buttons-sub-section1 {
+                    display: flex;
+                    gap: 1rem;
+                }
+            }
+        }
+
+        .title-section {
+            .title-name {
+                font-size: 18px;
+            }
+
+            .title-description {
+                font-size: 14px;
+            }
+        }
+
+    }
+}
+
+// @media only screen and (min-width: 450px) {
+//     .main-container-printQR {
+
+//         .actions-section {
+//             display: flex;
+//             flex-direction: column;
+//             gap: 1rem; // margin-top: 0.5rem;
+
+//             .buttons-section {
+//                 display: flex;
+//                 flex-direction: column;
+//                 gap: 1rem;
+
+//                 .buttons-sub-section1 {
+//                     display: flex;
+//                     gap: 1rem;
+//                 }
+//             }
+//         }
+
+//         .title-section {
+//             .title-name {
+//                 font-size: 18px;
+//             }
+
+//             .title-description {
+//                 font-size: 14px;
+//             }
+//         }
+
+//     }
+// }
+
+@media only screen and (min-width: 650px) {
+    .main-container-printQR {
+
+        .actions-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; // margin-top: 0.5rem;
+
+            .buttons-section {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+
+                .buttons-sub-section1 {
+                    display: flex;
+                    gap: 1rem;
+                }
+            }
+        }
+
+        // .title-section {
+        //     .title-name {
+        //         font-size: 18px;
+        //     }
+
+        //     .title-description {
+        //         font-size: 14px;
+        //     }
+        // }
+
+    }
+}
+
+// @media only screen and (min-width: 770px) {}
+
+@media only screen and (min-width: 880px) {
+    .main-container-printQR {
+
+        .actions-section {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem; // margin-top: 0.5rem;
+
+            .buttons-section {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+
+                .buttons-sub-section1 {
+                    display: flex;
+                    gap: 1rem;
+                }
+            }
+        }
+
+        // .title-section {
+        //     .title-name {
+        //         font-size: 18px;
+        //     }
+
+        //     .title-description {
+        //         font-size: 14px;
+        //     }
+        // }
+
+    }
+}
+
+// @media only screen and (min-width: 1024px) {}

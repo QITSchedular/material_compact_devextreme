@@ -1,0 +1,25 @@
+//for search panel states normal and focused
+//added all
+.items-master-datagrid {
+    .dx-texteditor.dx-editor-filled {
+        background-color: #fff !important;
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 8px;
+    }
+
+    .dx-texteditor.dx-editor-filled::after {
+        border-bottom: none !important;
+    }
+
+    .dx-texteditor.dx-state-focused::before {
+        border-bottom: none !important;
+        transform: none !important;
+
+    }
+
+    // onfocus of the search panel remove the blue outline in the bottom
+    .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button.dx-texteditor-empty.dx-widget.dx-state-focused {
+        border: 1px solid #4371B7 !important;
+        box-shadow: 0px 1px 120px 0px rgba(0, 0, 0, 0.01);
+    }
+}

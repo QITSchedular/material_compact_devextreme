@@ -1,0 +1,39 @@
+
+
+.delivery-container {
+
+    .search-section {
+        margin-top: 1rem;
+    }
+
+    .issue-material-main-section {
+        margin-top: 2rem;
+    }
+
+    .dx-texteditor-buttons-container {
+        .dx-button-has-icon {
+            margin: 0px !important;
+            background: transparent;
+        }
+    }
+
+    .issue-material-main-section {
+        #selectTab {
+            .dx-tabs-wrapper {
+
+                //when the tab is selected
+                .dx-item.dx-tab {
+                    .dx-item-content.dx-tab-content {
+                        .dx-tab-text {
+                            color: #161616;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.dx-overlay-wrapper .dx-overlay-content .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection.dx-popup-bottom {
+    background-color: transparent !important;
+}

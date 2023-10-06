@@ -1,0 +1,365 @@
+.main-container {
+    display: flex !important;
+    flex-direction: column;
+    margin-top: "40px";
+    margin-bottom: "40px";
+    min-height: 70vh;
+
+    .title-section {
+        .title-name {
+            color: #393939;
+            font-feature-settings: 'clig' off, 'liga' off;
+            /* H5 Semi- bold */
+            font-family: Poppins;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 28px;
+            /* 116.667% */
+        }
+
+        .title-description {
+            color: #8D8D8D;
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Poppins;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            padding-bottom: 10px !important;
+        }
+    }
+
+    .actions-section {
+        display: flex;
+        justify-content: space-between;
+        // align-items: center;
+
+        .action-before-section {
+            display: flex;
+            flex-direction: row;
+            justify-content: baseline;
+            // gap: 15px;
+            flex-wrap: wrap;
+            // margin-top: 15px;
+
+            .buttons-section {
+                display: flex;
+                gap: 1rem;
+                // margin-bottom: 1rem;
+                .dx-button {
+                    height: 31px;
+                    // margin-right: 15px;
+                }
+
+                .period-indicator,
+                .series-indicator {
+                    span {
+                        width: 90.554px !important;
+                    }
+                }
+
+            }
+
+           
+
+            .search-section {
+                display: flex !important;
+
+                .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget {
+                    border-radius: 8px !important;
+                    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
+
+                }
+
+            }
+        }
+
+        .action-after-section {
+            // margin-top: 15px;
+            .bp-search-details {
+                display: flex !important;
+                gap: 1rem ;
+
+                .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget {
+                    border-radius: 8px !important;
+                    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
+
+                    .dx-texteditor-container {
+                        .dx-texteditor-input {
+                            padding: 9px 12px !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .data-grid-section {
+        margin-top: 1rem !important;
+    }
+
+    
+}
+
+.buttons-section-save{
+    .dx-saveBtn{
+    .dx-button-content{
+        .dx-button-text{
+            color: white;
+        }
+    }
+    }
+}
+
+
+    .gateIn-header {
+        display: flex;
+        justify-content: space-between;
+
+        .close-btn-section {
+            padding-top: 2%;
+        }
+    }
+
+.data-grid-container-local {
+    max-height: 500px !important;
+}
+
+
+.gate-in-button {
+    height: 34px;
+
+    span {
+        color: #fff;
+        padding: 20px 10px 20px 10px;
+    }
+}
+
+.dx-overlay-wrapper.dx-popup-wrapper.dx-dropdowneditor-overlay.dx-dropdownbutton-popup-wrapper {
+    .dx-overlay-content.dx-popup-normal.dx-resizable {
+        background: linear-gradient(to right, #fff 16px, #FFF 16px);
+    }
+}
+
+// Gate In Main Page styles
+
+.transporter-data-grid {
+    .dx-texteditor.dx-editor-filled {
+        background-color: #fff !important;
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 8px;
+    }
+
+    .dx-texteditor.dx-editor-filled::after {
+        border-bottom: none !important;
+    }
+
+    .dx-texteditor.dx-state-focused::before {
+        border-bottom: none !important;
+        transform: none !important;
+
+    }
+
+    // onfocus of the search panel remove the blue outline in the bottom
+    .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button.dx-texteditor-empty.dx-widget.dx-state-focused {
+        border: 1px solid #4371B7 !important;
+        box-shadow: 0px 1px 120px 0px rgba(0, 0, 0, 0.01);
+
+    }
+}
+
+// to make the search panel of the data grid fully responsive and accquire full width
+.dx-overlay-content.dx-popup-normal.dx-popup-draggable.dx-resizable {
+    .dx-popup-content {
+        .dx-card.responsive-paddings.transporter-content-datagrid-container {
+            .transporter-data-grid.dx-widget.dx-visibility-change-handler {
+                .dx-datagrid.dx-gridbase-container {
+                    .dx-datagrid-header-panel {
+                        padding: 0px !important;
+
+                        .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection {
+                            .dx-toolbar-items-container {
+                                .dx-toolbar-after {
+                                    padding-left: 0px !important;
+                                    width: 100%;
+
+                                    .dx-item.dx-toolbar-item.dx-toolbar-button {
+                                        .dx-item-content.dx-toolbar-item-content {
+                                            .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button {
+                                                width: 100% !important;
+                                                margin: 0 0 0 0 !important;
+
+                                                .dx-texteditor-container {
+                                                    width: 100% !important;
+
+                                                    .dx-texteditor-input-container {
+                                                        width: 100% !important;
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// new added 
+.transpoterGrid{
+    // border:10px solid black;
+    height: 350px;
+}
+
+@media only screen and (max-width: 770px) {
+    .main-container {
+        .actions-section {
+            flex-direction: column;
+            gap: 1.2rem;
+            .action-before-section {
+               
+                width: 100%;
+                gap: 1.2rem;
+            }
+    
+            .action-after-section {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 770px) {
+    .main-container{
+        .actions-section {
+            flex-direction: column;
+            gap: 1.2rem;
+            .action-before-section {
+                gap: 1.2rem;
+            }
+    
+            // .action-after-section {
+            //     width: 100%;
+            // }
+        }
+    }
+}
+    @media only screen and (min-width: 1140px) {
+    .main-container {
+        .actions-section {
+            flex-direction: row;
+            gap: 1.2rem;
+            .action-before-section {
+               
+                // width: 100%;
+                gap: 1.2rem;
+            }
+    
+            // .action-after-section {
+            //     width: 100%;
+            // }
+        }
+    }
+}
+
+// @media only screen and (min-width: 1024px) {
+//     .main-container {
+//         .actions-section {
+//             flex-direction: column;
+//             gap: 1.2rem;
+//             .action-before-section {
+               
+//                 // width: 100%;
+//                 gap: 1.2rem;
+//             }
+    
+//             // .action-after-section {
+//             //     width: 100%;
+//             // }
+//         }
+//     }
+// }
+
+// @media (max-width:320px){
+//     .transpoterGrid{
+//         height: 280px;
+//     }
+
+//     #gate-in-main-container .navigation-header-gatein{
+//         display: block !important;
+//     }
+
+//     .title-section {
+//         .title-name {
+//             font-size: 16px !important;
+//         }
+//     }
+
+//     #selectTab{
+//         width: 240px !important;
+//     }
+
+//     // .buttons-section {
+//     //     border: 2px solid black;
+//     // }
+
+//     .main-container .actions-section .buttons-section {
+//         margin-left: 2rem !important;
+//         width: inherit !important;
+//     }
+// }
+
+// @media (min-width:321px) and (max-width:390px) {
+//     .transpoterGrid {
+//         height: 280px;
+//     }
+
+//     #gate-in-main-container .navigation-header-gatein {
+//         display: block !important;
+//     }
+
+//     .title-section {
+//         .title-name {
+//             font-size: 16px !important;
+//         }
+//     }
+
+//     .main-container .actions-section .buttons-section {
+//         margin-left: 1rem !important;
+//     }
+
+// }
+
+// @media (min-width: 391px) and (max-width:766px) {
+//     .transpoterGrid {
+//         height: 280px;
+//     }
+
+//     #gate-in-main-container .navigation-header-gatein {
+//         display: block !important;
+//     }
+
+//     .title-section {
+//         .title-name {
+//             font-size: 16px !important;
+//         }
+//     }
+
+//     // .actions-section .buttons-section{
+//     //     border: 2px solid black;
+//     //     // .dx-button {
+//     //         // height: 31px;
+//     //         margin-left: 15px;
+//     //     // }
+//     // }
+
+//     .main-container .actions-section .buttons-section {
+//         margin-left: 1rem !important;
+//     }
+// }

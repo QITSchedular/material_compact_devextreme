@@ -1,0 +1,27 @@
+.typ-header-text {
+    color: #161616;
+    font-family: Poppins;
+    font-size: 18px;
+    // font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.typ-sub-text {
+    color: #8D8D8D;
+    font-family: Poppins;
+    font-size: 14px;
+    // font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 126.688%; /* 17.736px */
+}
+@media only screen and (max-width:600px){
+    .typ-header-text{
+        font-size: 18px !important;
+    }
+    .typ-sub-text{
+        font-size: 14px !important;
+    }
+}

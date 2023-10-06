@@ -1,0 +1,142 @@
+@import "./themes/generated/variables.base.scss";
+
+@font-face {
+  font-family: "Material Symbols Outlined";
+  font-style: normal;
+  src: url(https://fonts.gstatic.com/s/materialsymbolsoutlined/v136/kJEhBvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oFsI.woff2)
+    format("woff2");
+}
+
+.app {
+  background-color: darken($base-bg, 5);
+  display: flex;
+  height: 100%;
+  width: 100%;
+
+  .content {
+    line-height: 1.5;
+    flex-grow: 1;
+
+    h2 {
+      font-size: 30px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .container {
+    height: 100%;
+    flex-direction: column;
+    display: flex;
+  }
+
+  .layout-body {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .content-block {
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 20px;
+  }
+}
+
+.side-nav-outer-toolbar .dx-drawer {
+  height: calc(100% - 56px);
+}
+
+.screen-x-small .content-block {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.responsive-paddings {
+  padding: 20px;
+
+  .screen-large & {
+    padding: 40px;
+  }
+}
+
+.responsive-paddings-sm {
+  padding: 10px 20px 20px 20px;
+}
+
+.dx-card.wide-card {
+  border-radius: 0;
+  margin-left: 0;
+  margin-right: 0;
+  border-right: 0;
+  border-left: 0;
+}
+
+.with-footer
+  > .dx-scrollable-wrapper
+  > .dx-scrollable-container
+  > .dx-scrollable-content {
+  height: 100%;
+
+  & > .dx-scrollview-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+}
+
+$side-panel-min-width: 60px;
+
+html,
+body {
+  margin: 0px;
+  min-height: 100%;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.dx-overlay-wrapper.dx-popup-wrapper.dx-dropdownmenu-popup-wrapper.dx-dropdownmenu-popup {
+  .dx-overlay-content.dx-popup-normal.dx-resizable {
+    background: linear-gradient(to right, #fff 16px, #fff 16px);
+  }
+}
+
+// the color for blue button text
+.default-button {
+  .dx-button-content {
+    .dx-button-text {
+      color: #fff;
+    }
+  }
+}
+
+/*------------------------- pages default wrapper container ------------------------------------*/
+.default-main-conatiner {
+  min-height: 80vh !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: 1.5rem !important;
+
+  .header-section {
+    display: flex !important;
+    flex-direction: column;
+    gap: 5px !important;
+  }
+
+  .search-section {
+  }
+}
+
+/*------------------------- pages default wrapper container ------------------------------------*/
+@media only screen and (max-width: 568px) {
+  .default-button {
+    width: 100px !important;
+    height: 30px !important;
+  }
+}

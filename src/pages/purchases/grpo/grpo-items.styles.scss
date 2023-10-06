@@ -1,0 +1,136 @@
+
+.grpo-items-wrapper{
+    .actions-section{
+        display: flex;
+        justify-content: space-between;
+        .warehouse-help-section{
+            .dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget{
+                border-radius: 8px !important;
+                box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+                
+            }
+            // .dx-editor-outlined.dx-widget.dx-state-hover.dx-state.focused{
+            //     border: 1px solid red !important;
+            //     box-shadow: inset 0 1px 120px 0px rgba(0, 0, 0, 0.01) !important;
+                
+            // }
+        }
+    }
+    .cta-section{
+        .grpo-save{
+            .dx-button-content{
+                .dx-button-text{
+                    color: #fff;
+                }
+            }
+        }
+    }   
+}
+
+// grpo-warehouse-chooser-popup
+.dx-overlay-wrapper {
+    .dx-overlay-content {
+        .dx-popup-content {
+            .grpo-warehouse-chooser-wrapper {
+                .header-section {}
+
+                .data-grid-container {
+                    #warehouse-chooser-grid-container {
+                        .dx-datagrid.dx-gridbase-container.dx-datagrid-borders {
+
+                            // the search and column chooser section
+                            .dx-datagrid-header-panel {
+
+                                .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection {
+                                    .dx-toolbar-items-container {
+                                        .dx-toolbar-after {
+                                            width: 100% !important;
+                                            padding-left: 0px !important;
+                                            display: flex !important;
+                                            flex-direction: row-reverse !important;
+                                            align-items: center !important;
+                                            .dx-item.dx-toolbar-item.dx-toolbar-button.dx-toolbar-item-auto-hide.dx-toolbar-text-auto-hide{
+                                                max-width: 44px !important;
+                                                .dx-icon.dx-icon-column-chooser{
+                                                    font-size: 24px;
+                                                    color: #a8a8a8 !important;
+                                                }
+                                            }
+                                            .dx-item.dx-toolbar-item.dx-toolbar-button {
+                                                flex: 1 !important;
+
+                                                .dx-item-content.dx-toolbar-item-content {
+
+                                                    // remove the background greyish shading::after
+                                                    .dx-texteditor.dx-editor-filled {
+                                                        background-color: transparent !important;
+                                                    }
+
+                                                    // remove the bulish line when focused::
+                                                    .dx-texteditor.dx-editor-filled::after {
+                                                        border-bottom: none !important;
+
+                                                    }
+
+                                                    .dx-texteditor.dx-state-focused::before {
+                                                        border-bottom: none !important;
+                                                        transform: none !important;
+                                                    }
+
+                                                    // add the simple border when not focused
+                                                    .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button.dx-texteditor-empty.dx-widget {
+                                                        width: 100% !important;
+                                                        margin-left: 0px !important;
+                                                        border: 0.5px solid #e0e0e0;
+                                                        border-radius: 8px !important;
+                                                    }
+
+                                                    // add the blusish border when focused
+                                                    .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button.dx-texteditor-empty.dx-widget.dx-state-focused {
+                                                        border: 1px solid #4371B7 !important;
+                                                        box-shadow: 0px 1px 120px 0px rgba(0, 0, 0, 0.01);
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
+                            // the grid column header section
+                            .dx-datagrid-headers.dx-datagrid-nowrap {
+                                margin-top: 2rem !important;
+                                border-top-left-radius: 8px !important;
+                                border-top-right-radius: 8px !important;
+                                background-color: #FCFCFC;
+                            }
+
+                            // actual data grid
+                            .dx-datagrid-rowsview {
+                                border-bottom-left-radius: 8px !important;
+                                border-bottom-right-radius: 8px !important;
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        .dx-toolbar.dx-widget.dx-visibility-change-handler.dx-collection.dx-popup-bottom {
+            background-color: #fff !important;
+
+            .dx-toolbar-items-container {
+                .dx-toolbar-after {
+                    .tootlbar-save-button {
+                        span {
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

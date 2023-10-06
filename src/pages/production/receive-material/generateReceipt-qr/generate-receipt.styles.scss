@@ -1,0 +1,112 @@
+#generate-receipt-container {
+    .header-section {
+        gap: 0px !important;
+    }
+
+    .actions-section {
+        .action-before-section {
+            display: flex !important;
+            gap: 16px;
+
+            .buttons-section {
+                display: flex;
+                gap: 16px;
+
+                .period-indicator-dropdown {
+                    height: 100%;
+                    width: 150px !important;
+                }
+
+                .series-indicator-dropdown {
+                    height: 100%;
+                    width: 150px;
+                }
+            }
+        }
+    }
+}
+
+/*********Pop up styles*********/
+.dx-popup-content {
+    .generate-receipt-qr-popup-content-wrapper {
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+
+        .action-section {
+            margin-top: auto;
+        }
+    }
+}
+
+@media only screen and (max-width: 806px) {
+    #generate-receipt-container {
+
+        .actions-section {
+            .action-before-section {
+                flex-direction: column;
+
+                .buttons-section {
+                    display: flex;
+                    gap: 16px;
+
+                    .period-indicator-dropdown {
+                        height: 100%;
+                        width: 150px !important;
+                    }
+
+                    .series-indicator-dropdown {
+                        height: 100%;
+                        width: 150px;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+.close-btn {
+    float: right;
+    margin-right: 10px;
+    padding-top: -60px;
+    /* Pushes the button to the right */
+}
+
+/* Additional styles for the close button icon */
+.close-btn .Button {
+    display: inline-block;
+}
+
+.transporter-data-grid {
+    .dx-toolbar-items-container {
+        .dx-toolbar-after {
+            padding-left: 0px !important;
+            width: 100%;
+
+            .dx-item.dx-toolbar-item.dx-toolbar-button {
+                .dx-item-content.dx-toolbar-item-content {
+                    .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button {
+                        width: 100% !important;
+                        margin: 0 0 0 0 !important;
+
+                        .dx-texteditor-container {
+                            width: 100% !important;
+
+                            .dx-texteditor-input-container {
+                                width: 100% !important;
+
+                            }
+                        }
+                    }
+
+                    .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button.dx-texteditor-empty.dx-widget.dx-state-focused {
+                        border: 1px solid #4371B7 !important;
+                        box-shadow: 0px 1px 120px 0px rgba(0, 0, 0, 0.01);
+
+                    }
+                }
+            }
+        }
+    }
+}
