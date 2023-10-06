@@ -1,3 +1,10 @@
+.content-block-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+
 .card {
     margin: 1rem;
     padding: 2rem;
@@ -6,11 +13,12 @@
     border-radius: 12px;
     background: #FFF;
     box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.10);
+ 
 
     .Btndiv {
         text-align: center;
         justify-content: center;
-        margin-top: 120px;
+        
     }
 
     .my-btn {
@@ -35,9 +43,7 @@
     justify-content: space-between;
     gap: 1rem;
 
-    .content-block-wrapper {
-        // padding-right: 1rem;
-    }
+   
 
     .qrCodeSection {
         display: flex;
@@ -234,16 +240,7 @@
     // margin-left: 20px;
 }
 
-.Machine-text-info {
-    color: #525252;
-    font-family: Roboto;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 126.688%;
-    // margin-left: 20px;
-    /* 17.736px */
-}
+
 
 .Machine-btn {
     display: flex;
@@ -324,3 +321,28 @@
       width:100%;
       gap:1rem;
   }
+  .Machine-text-info {
+    color: #525252;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 126.688%;
+    // margin-left: 20px;
+    /* 17.736px */
+
+}
+.login-details{
+
+    display: flex;
+    align-items: center;
+     flex-direction: column;
+     justify-content: flex-start;
+}
+.h4{
+    font-weight: 600 !important;
+    color: #6F6F6F;
+    span{
+        font-weight: 400;
+    }
+}
