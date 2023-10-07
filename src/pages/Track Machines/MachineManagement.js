@@ -16,9 +16,9 @@ function MachineManagement() {
                     <div className="content-block-1">
                         <div className="content-text">
                             <div className="Machine-header">Machine Management</div>
-                            <div className="Machine-text-info">Manage the machine and employee</div>
+                            <div className="Machine-text">Manage the machine and employee</div>
                             <div className="filter-toolbar-row">
-                                <div className="Machine-text-info">Filter By</div>
+                                <div className="Machine-text">Filter By</div>
                                 <FilterToolbar />
                             </div>
                         </div>

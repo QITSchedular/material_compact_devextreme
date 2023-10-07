@@ -11,8 +11,7 @@ import { useQRCodeScan } from "../../utils/useQRCodeScan";
 import { GRPOScanner } from "../../assets/icon";
 import DropDownBox from "devextreme-react/drop-down-box";
 import DropDownButton from "devextreme-react/drop-down-button";
-
-
+import QR_Code from "../../assets/images/QR_Code.png";
 
 const shifts = [{ shift: "Day" }, { shift: "Night" }];
 
@@ -64,7 +63,6 @@ function MachineInOut() {
     console.log("Handle Scan");
   };
 
-
   const HandleCloseQrScanner = () => {
     setShowScanner(false);
   };
@@ -77,7 +75,6 @@ function MachineInOut() {
 
   const shiftClick = async (e) => {
     await setSelectedSift(e.itemData.shift);
-    
   };
   const handlePopupLogin = async () => {
     if (selectedShift) {
@@ -95,8 +92,6 @@ function MachineInOut() {
         Date: loginDate,
         time: loginTime,
       });
-
-      
     } else {
       alert("Please select your shift");
     }
@@ -108,11 +103,10 @@ function MachineInOut() {
   };
 
   useEffect(() => {
-    
     localStorage.setItem("loginUserDetail", JSON.stringify(localData));
     localStorage.setItem("qrData", JSON.stringify(qrdata));
-    console.log(JSON.stringify(qrdata))
-  }, [showScanner,localData]);
+    console.log(JSON.stringify(qrdata));
+  }, [showScanner, localData]);
   return (
     <>
       <div className="card">
@@ -123,7 +117,6 @@ function MachineInOut() {
               <div className="content-text-info">
                 Confirm your login details here
               </div>
-              
             </div>
           </div>
 
@@ -151,26 +144,54 @@ function MachineInOut() {
         </div>
 
         <div className="login-details">
-            
-            <div>
-                {selectedShift && qrdata ? (
-                  <div className="Machine-text-info">
-                    <h4 className="h4">Machine Details :  <span>{qrdata}</span></h4>
-                  
-                    <h4 className="h4">Shift : <span> {selectedShift}</span></h4>
-               
+          <div>
+            {selectedShift && qrdata ? (
+              <>
+                <div className="Machine-text-info">
+                  <img
+                    className="qr_img"
+                    src={QR_Code}
+                    height={126}
+                    width={133}
+                  />
+                </div>
+                <div className="inner-text">
+                  <span className="login-text">
+                    Click on logout to stop working on the Machine
+                  </span>
+                </div>
+                <div className="Machine-text">
+                  <h4 className="h4">
+                    Machine Details : <span>{qrdata}</span>
+                  </h4>
 
-                    <h4 className="h4">Login Date: <span>{loginDate}</span></h4>
-                
-                    <h4 className="h4"> Login Time: <span>{loginTime}</span></h4>
-            
-                  </div>
-                ) : (
-                  <div className="Machine-text-info">
-                   <h1 className="h4">Login</h1>
-                  </div>
-                )}
+                  <h4 className="h4-logtime">
+                    
+                    Login Time: <span>{loginTime}</span>
+                  </h4>
+
+
+                </div>
+              </>
+            ) : (
+              <div>
+                <div className="Machine-text-info">
+                  <img
+                    className="qr_img"
+                    src={QR_Code}
+                    height={126}
+                    width={133}
+                  />
+                </div>
+                <div>
+                  <span className="login-text">
+                    Click on login to start working on the screen
+                  </span>
+                </div>
+    
               </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -182,7 +203,7 @@ function MachineInOut() {
           showCloseButton={true}
           hideOnOutsideClick={true}
           onHiding={togglePopup}
-          width={700}
+          width={500}
           height={500}
         >
           <div className="content-blocks">
@@ -193,7 +214,7 @@ function MachineInOut() {
                     <div className="Machine-header">
                       Scan the Machine QR Code
                     </div>
-                    <div className="Machine-text-info">
+                    <div className="Machine-text">
                       Please place the camera near Qr code
                     </div>
                   </div>
@@ -221,13 +242,12 @@ function MachineInOut() {
                   <div className="qrCodeSectionSub2">
                     <div className="qrCodeSectionSubSub1">
                       <div>
-                        <span className="detailHeaderTxt">{qrdata}</span>
+                        <span className="detailHeaderTxt" >{qrdata}</span>
                         <br />
-                        <span>Shift : </span>
-                        <span className="detailHeaderTxt">{selectedShift}</span>
+                       
                       </div>
                       <div>
-                        <span className="timeTxt">Time 11:00 A.m.</span>
+                        <span className="timeTxt">Time {loginTime}</span>
                       </div>
                     </div>
                   </div>
@@ -243,7 +263,7 @@ function MachineInOut() {
                         displayExpr={"shift"}
                         items={shifts}
                         className="period-indicator"
-                        width={350}
+                        width={190}
                         onItemClick={shiftClick}
                       />
                     </div>
