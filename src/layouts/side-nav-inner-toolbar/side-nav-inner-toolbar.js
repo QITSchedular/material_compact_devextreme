@@ -105,11 +105,9 @@ export default function SideNavInnerToolbar({ title, children }) {
                   <Button icon="menu" stylingMode="text" onClick={toggleMenu} />
                 </Item>
               )}
-              <Item
-                location={"before"}
-                cssClass={"header-title"}
-                text={title}
-              />
+              <Item location={"before"} cssClass={"header-title"}>
+                <img src={title} alt="site logo" className="site-logo" />
+              </Item>
             </Toolbar>
           </SideNavigationMenu>
         </Template>

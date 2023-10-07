@@ -68,3 +68,22 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### The branch Matser, has some changes till the commit:
+
+        [Author: QITSchedular <qitschedular2023@gmail.com>]
+        Date:   Wed Jul 19 19:28:48 2023 +0530
+
+            [Till Notify]
+
+        commit 5ce7089d9e5dd9287b8f8df9916e38174189a110
+        Author: QITSchedular <qitschedular2023@gmail.com>
+        Date:   Wed Jul 19 18:23:51 2023 +0530
+
+## Use branch Main for production now
+
+## collaborator added Harika
+
+#### What is Upadated here
+
+    Production : Receive Material will be Draft Receipt Pro & Generate Receipt QR

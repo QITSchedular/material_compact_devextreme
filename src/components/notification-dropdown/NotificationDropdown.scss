@@ -1,0 +1,114 @@
+.notifydropdown {
+    position: absolute;
+    z-index: 999;
+    right: 35px;
+    top: 60px;
+    width: 300px;
+    height: 90vh;
+    border-radius: 13.841px;
+    border-bottom: 4px solid #4371B7;
+    background: #FFF;
+    box-shadow: 0px 3px 9px 0px rgba(0, 0, 0, 0.50);
+    animation: notifydropdownanimation 0.3s both ease-in-out;
+
+    @keyframes notifydropdownanimation {
+        0% {
+            opacity: 0;
+            height: 0;
+        }
+
+        100% {
+            opacity: 1;
+            height: 90vh;
+        }
+    }
+
+    .notifydropdown-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 8px 8px 0px 0px;
+        background-color: #4371B7;
+        padding: .8rem 1rem;
+        color: #FFF;
+
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 28px;
+
+        .heading {
+            font-size: 16px;
+        }
+
+        .sub-heading {
+            color: var(--default-gray-20, #E0E0E0);
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Roboto;
+            font-size: 11px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+
+        .dx-button {
+            background-color: transparent;
+
+            .dx-button-content {
+                .dx-icon {
+                    color: #FFF;
+                    font-size: 25px;
+                }
+            }
+        }
+
+        .rfcbtn {
+            transition: transform .3s ease-in-out;
+
+        }
+
+        .dx-button.dx-state-active {
+            background-color: transparent !important;
+            box-shadow: none !important;
+        }
+    }
+
+    .notifydropdown-body {
+        padding: .7rem 0rem;
+
+        .notification {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .5rem .9rem;
+            border-bottom: 1px solid #F4F4F4;
+
+            .notify-title {
+                margin-bottom: .5rem;
+                color: #525252;
+                font-family: Roboto;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+
+            .notify-time {
+                color: #8D8D8D;
+                font-family: Roboto;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+
+            .notify-unread {
+                background-color: #4371B7;
+                height: 7px;
+                width: 7px;
+                border-radius: 50%;
+            }
+        }
+    }
+}

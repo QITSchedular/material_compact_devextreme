@@ -4872,7 +4872,7 @@
   background-color: #4371b7;
 }
 .dx-tab.dx-state-focused {
-  background-color: rgba(67, 113, 183, 0.12);
+  /* background-color: rgba(67, 113, 183, 0.12); */
 }
 .dx-tab.dx-state-disabled,
 .dx-tab.dx-state-disabled .dx-icon {
@@ -4889,12 +4889,12 @@
 }
 .dx-tab.dx-state-active,
 .dx-tab.dx-state-active .dx-inkripple-wave {
-  background-color: rgba(67, 113, 183, 0.16);
+  /* background-color: rgba(67, 113, 183, 0.16); */
 }
 .dx-tab-content,
 .dx-tab-text {
   vertical-align: middle;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   line-height: 24px;
   font-weight: 500;
 }
@@ -14206,7 +14206,7 @@
 .dx-treeview-item {
   display: block;
   cursor: pointer;
-  padding: 10px 8px;
+  padding: 5px 8px;
   min-height: 36px;
   line-height: 16px;
 }
@@ -20279,6 +20279,8 @@
 }
 .dx-datagrid-search-panel {
   margin: 0 0 0 15px;
+  /* border-radius: 8px;
+  background: transparent; */
 }
 .dx-gridbase-container > .dx-datagrid-rowsview {
   -webkit-box-flex: 1;

@@ -1,0 +1,155 @@
+/* ------------------------ pending tab content style ----------------------------*/
+
+
+.pending-list-section{
+    display: flex !important;
+    flex-direction: column;
+    // padding-top: 1rem;
+    gap: 5px;
+    
+    .single-pending{
+        padding: 12px 8px;
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        max-height: 80px;
+        border: 0.5px solid #e0e0e0;
+        border-radius: 8px;
+        &:nth-child(even) {
+            background: rgba(87, 133, 203, 0.05);
+            border: 0.5px solid rgba(87, 133, 203, 0.05);
+          }
+        .single-pending-delete{
+            .dx-button{
+                margin-left: 0px !important;
+                background-color: transparent;
+            }
+            .dx-icon.dx-icon-trash{
+                color: #6F6F6F !important;
+            }
+        }
+        .single-pending-name{
+            flex: 1;
+            padding-left: 15px;
+            display: flex !important;
+            align-items: center;
+            
+            .pending-name{
+                color: #525252;
+                font-feature-settings: 'clig' off, 'liga' off;
+                font-family: Poppins;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+                width: 182px !important;
+            }
+            .dx-icon-custom-chevron-down-icon{
+                background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik02LjAwMDAyIDcuMzUzODdMMC4zNDYxOTEgMS43MDAwN0wxLjQwMDAyIDAuNjQ2MjRMNi4wMDAwMiA1LjI0NjI0TDEwLjYgMC42NDYyNEwxMS42NTM4IDEuNzAwMDdMNi4wMDAwMiA3LjM1Mzg3WiIgZmlsbD0iIzI2MjYyNiIvPgo8L3N2Zz4K);
+                background-repeat: no-repeat;
+                background-position: 0px 0px;
+                margin-top: 5px !important;
+            }
+        }
+        .single-pending-proceed{
+            .dx-button{
+                .dx-button-content{
+                    .dx-button-text{
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* ------------------------ pending tab content style ----------------------------*/
+
+
+
+/* ------------------------ Verify material scanned item section  ----------------------------*/
+
+.issue-material-container{
+    
+
+    /* the data Grid*/
+    .data-grid-section{
+        .dx-datagrid.dx-gridbase-container{
+            .dx-datagrid-headers.dx-datagrid-nowrap{
+                // background: rgb(0, 0, 0, 0.04) !important;
+                background: #f4f4f4 !important;
+            }
+        }
+    }
+}
+/* ------------------------ Verify material scanned item section ----------------------------*/
+
+
+
+@media only screen and (max-width: 450px) {
+ 
+.pending-list-section{
+    display: flex !important;
+    flex-direction: column;
+    padding-top: 1rem;
+    gap: 5px;
+    
+    .single-pending{
+        padding: 12px 8px;
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        max-height: 80px;
+        border: 0.5px solid #e0e0e0;
+        border-radius: 8px;
+        &:nth-child(even) {
+            background: rgba(87, 133, 203, 0.05);
+            border: 0.5px solid rgba(87, 133, 203, 0.05);
+          }
+        .single-pending-delete{
+            .dx-button{
+                margin-left: 0px !important;
+                background-color: transparent;
+            }
+            .dx-icon.dx-icon-trash{
+                color: #6F6F6F !important;
+            }
+        }
+        .single-pending-name{
+            flex: 1;
+            padding-left: 15px;
+            display: flex !important;
+            align-items: center;
+            
+            .pending-name{
+                color: #525252;
+                font-feature-settings: 'clig' off, 'liga' off;
+                font-family: Poppins;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+                width: 108px !important;
+            }
+            .dx-icon-custom-chevron-down-icon{
+                background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik02LjAwMDAyIDcuMzUzODdMMC4zNDYxOTEgMS43MDAwN0wxLjQwMDAyIDAuNjQ2MjRMNi4wMDAwMiA1LjI0NjI0TDEwLjYgMC42NDYyNEwxMS42NTM4IDEuNzAwMDdMNi4wMDAwMiA3LjM1Mzg3WiIgZmlsbD0iIzI2MjYyNiIvPgo8L3N2Zz4K);
+                background-repeat: no-repeat;
+                background-position: 0px 0px;
+                margin-top: 5px !important;
+            }
+        }
+        .single-pending-proceed{
+            .dx-button{
+                .dx-button-content{
+                    .dx-button-text{
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+}
+
+

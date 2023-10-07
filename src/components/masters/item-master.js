@@ -75,7 +75,7 @@ const ItemMasterForm = () => {
   // Button - input options
   const saveButtonOptions = {
     text: "Save",
-    type: "info",
+    type: "default",
     useSubmitBehavior: true,
   };
   const cancelButtonOptions = {
@@ -236,7 +236,7 @@ const ItemMasterForm = () => {
               }
             >
               <div className="popup-header">
-                <h4>Add New Item</h4>
+                <div className="popUp-header-title">Add New Item</div>
                 <Button icon="close" onClick={handleClosePopUp} />
               </div>
 
@@ -247,17 +247,20 @@ const ItemMasterForm = () => {
                   id="form"
                   labelMode="floating"
                   style={{ boxShadow: "none" }}
+                  className="form-element"
                 >
                   <GroupItem>
                     <Item
                       dataField="Item Name"
                       editorOptions={textEditorOptions}
+                      cssClass={"textItems"}
                     >
                       <RequiredRule message="Item Name is required" />
                     </Item>
                     <Item
                       dataField="Item Code"
                       editorOptions={textEditorOptions}
+                      cssClass={"textItems"}
                     >
                       <RequiredRule message="Item Code is required" />
                     </Item>
@@ -267,21 +270,25 @@ const ItemMasterForm = () => {
                     colCount={2}
                     colSpan={2}
                     stylingMode={"outlined"}
+                    cssClass={"textitems"}
                   >
                     <Item
                       dataField="Item Group"
                       editorType="dxSelectBox"
                       editorOptions={itemsGroupEditorOptions}
+                      cssClass={"textitems"}
                     />
                     <Item
                       dataField="Item Sub Group"
                       editorType="dxSelectBox"
                       editorOptions={itemsSubGroupOptions}
+                      cssClass={"textitems"}
                     />
                     <Item
                       dataField="UOM"
                       editorType="dxSelectBox"
                       editorOptions={uomOptions}
+                      cssClass={"textitems"}
                     >
                       <RequiredRule message="Uom is required" />
                     </Item>
@@ -289,15 +296,18 @@ const ItemMasterForm = () => {
                       dataField="Item Managed By"
                       editorType="dxSelectBox"
                       editorOptions={qrManagedByOptions}
+                      cssClass={"textitems"}
                     />
                     <Item
                       dataField="Qr Managed By"
                       editorType="dxSelectBox"
                       editorOptions={qrManagedByOptions}
+                      cssClass={"textitems"}
                     />
                     <SimpleItem
                       dataField="On Hand"
                       editorOptions={onHandEditorOptions}
+                      cssClass={"textitems"}
                     />
                   </Item>
                   <GroupItem cssClass={"tabbed-items-group"}>
@@ -305,11 +315,11 @@ const ItemMasterForm = () => {
                     <TabbedItemComponent />
                   </GroupItem>
 
-                  {/* <Item
+                  <Item
                     itemType="group"
                     colCount={2}
                     colSpan={1}
-                    cssClass={"bottom-button-section"}
+                    cssClass={"bottom-button-section submit-section"}
                   >
                     <ButtonItem
                       horizontalAlignment="right"
@@ -321,8 +331,8 @@ const ItemMasterForm = () => {
                       buttonOptions={saveButtonOptions}
                       cssClass={"popup-btn-save"}
                     />
-                  </Item> */}
-                  <GroupItem cssClass={"submit-section"}>
+                  </Item>
+                  {/* <GroupItem cssClass={"submit-section"}>
                     <Button
                       text="Cancel"
                       icon="close"
@@ -336,7 +346,7 @@ const ItemMasterForm = () => {
                       useSubmitBehavior={true}
                       className="save-button"
                     />
-                  </GroupItem>
+                  </GroupItem> */}
                 </Form>
               </form>
             </div>

@@ -2,8 +2,12 @@ import notify from "devextreme/ui/notify";
 import { AppContext } from "../contexts/dataContext";
 import { useContext, useState } from "react";
 import { Toast, Position } from "devextreme-react/toast";
+import Swal from "sweetalert2";
+import failureLottie from "../assets/images/failure-lottie.gif";
+import successLottie from "../assets/images/success-lottiie-2.gif";
 
-export const showToastNotifications = async (data) => {
+import "./notification.styles.scss";
+export const showToastNotifications = async (data, position, direction) => {
   const { hasError, statusCode, statusMsg } = data;
   if (hasError === false) {
     // await renderSuccessComponent(statusMsg);
@@ -22,16 +26,12 @@ export const showToastNotifications = async (data) => {
         hideOnOutsideClick: true,
         contentComponent: "<h1>Hello</h1>",
       },
-      { position: "center", direction: "up-push" }
+      {
+        position: position ? position : "center",
+        direction: direction ? direction : "up-push",
+      }
     );
   } else {
-    // notify({
-    //   message: `${statusMsg}`,
-    //   type: "error",
-    //   displayTime: 100,
-    //   position: "top-right",
-    //   width: 200,
-    // });
     notify(
       {
         message: statusMsg,
@@ -42,7 +42,10 @@ export const showToastNotifications = async (data) => {
         closeOnClick: true,
         hideOnOutsideClick: true,
       },
-      { position: "center", direction: "up-push" }
+      {
+        position: position ? position : "center",
+        direction: direction ? direction : "up-push",
+      }
     );
   }
 };
@@ -98,3 +101,44 @@ export const showToastNotifications = async (data) => {
 // const renderSuccessComponent = (statusMsg) => {
 //   return <SuccessToast statusMsg={statusMsg} />;
 // };
+
+export const SwalDisplayer = (type, title, text) => {
+  /*
+    will recieve props
+  */
+
+  if (type === "success") {
+    return Swal.fire({
+      title: title,
+      text: text ? text : "",
+      imageUrl: `${successLottie}`,
+      imageWidth: 200,
+      imageHeight: 200,
+      imageAlt: "operation successful",
+      timer: 4000,
+    });
+  }
+  if (type === "error") {
+    return Swal.fire({
+      title: title,
+      text: text ? text : "",
+      imageUrl: `${failureLottie}`,
+      imageWidth: 200,
+      imageHeight: 200,
+      imageAlt: "operation failed",
+      timer: 3000,
+    });
+  }
+  if (type === "info") {
+    return Swal.fire({
+      title: title,
+      text: text ? text : "",
+      icon: "info",
+      customClass: {
+        icon: 'iconclass'
+      },
+      imageAlt: "operation failed",
+      timer: 3000,
+    });
+  }
+};
