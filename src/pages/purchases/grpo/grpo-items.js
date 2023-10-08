@@ -40,6 +40,8 @@ const GrpoItems = () => {
   const [scannedData, setScannedData] = useState([]);
 
   const[qcWareHouseData, setQcWareHouseData] = useState("");
+  const[qcWareHouseSelectedData, setQcWareHouseSelectedData] = useState("");
+  const[nonqcWareHouseSelectedData, setnonQcWareHouseSelectedData] = useState("");
   const[qcWareHouseBinData, setQcWareHouseBinData] = useState("");
   
   const[nonQcWareHouseData, setNonQcWareHouseData] = useState("");
@@ -120,9 +122,6 @@ const GrpoItems = () => {
       return toastDisplayer("error", "Scan the Item Qr first");
     }
   };
-  
-
-
 
   const handleGrpoSaving = async () => {
     // return null;
@@ -284,11 +283,29 @@ const GrpoItems = () => {
     if(gridDataSource.length > 0){
       const getAllWarehouses = async () => {
         const response = await wareHouseList();
+        setQcWareHouseData(response);
+        setNonQcWareHouseData(response);
         console.log(response);
       };
       getAllWarehouses();
     }
   },[gridDataSource])
+  // useEffect(() => {
+  //   const getAllWarehouses = async () => {
+  //     const response = await wareHouseList();
+  //     setQcWareHouseData(response);
+  //     setNonQcWareHouseData(response);
+  //   };
+  //   getAllWarehouses();
+  // }, []);
+
+  const qcWarehouseItemsClick = async ({ itemData }) => {
+    await setQcWareHouseSelectedData(itemData);
+  };
+  const nonqcWarehouseItemsClick = async ({ itemData }) => {
+    await setnonQcWareHouseSelectedData(itemData);
+  };
+
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
       {loading && <LoadPanel visible={true} />}
@@ -424,17 +441,20 @@ const GrpoItems = () => {
               <div className="single-config">
                 <span className="config-label">Qc Warehouse: </span>
               <DropDownButton
-                text={"Select Period"
-                }
+                text={qcWareHouseSelectedData ? qcWareHouseSelectedData.whsName : "Select Warehouse"}
                 width={"100%"}
+                items={qcWareHouseData}
+                keyExpr={"whsCode"}
+                displayExpr={"whsName"}
                 className="config-dropdown"
+                onItemClick={qcWarehouseItemsClick}
                 height={40}
               />
               </div>
               <div className="single-config">
               <span className="config-label">Qc Bin: </span>
                 <DropDownButton
-                text={"Select Period"
+                text={"Select Bin"
                 }
                 width={"100%"}
                 className="config-dropdown"
@@ -443,17 +463,21 @@ const GrpoItems = () => {
               /></div>
               <div className="single-config">
               <span className="config-label">Non Qc Warehouse: </span>
-                <DropDownButton
-                text={"Select Period"
-                }
+              <DropDownButton
+                text={nonqcWareHouseSelectedData ? nonqcWareHouseSelectedData.whsName : "Select Warehouse"}
+                items={nonQcWareHouseData}
                 width={"100%"}
+                keyExpr={"whsCode"}
+                displayExpr={"whsName"}
                 className="config-dropdown"
+                onItemClick={nonqcWarehouseItemsClick}
                 height={40}
-              /></div>
+              /> 
+              </div>
               <div className="single-config">
               <span className="config-label">Non Qc Bin: </span>
                 <DropDownButton
-                text={"Select Period"
+                text={"Select Bin"
                 }
                 width={"100%"}
                 className="config-dropdown"
@@ -461,13 +485,14 @@ const GrpoItems = () => {
               /></div>
               <div className="single-config">
               <span className="config-label">Ref No: </span>
-                <DropDownButton
+                {/* <DropDownButton
                 text={"Select Period"
                 }
                 width={"100%"}
                 className="config-dropdown"
                 height={40}
-              /></div>
+              /> */}
+              </div>
             </div>
 
               <div
