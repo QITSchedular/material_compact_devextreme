@@ -41,6 +41,8 @@ const GrpoItems = () => {
 
   const[qcWareHouseData, setQcWareHouseData] = useState("");
   const[qcWareHouseSelectedData, setQcWareHouseSelectedData] = useState("");
+  const[defaultChoosenQcWareHouse, setDefaultChoosenQcWarehouse] = useState("");
+
   const[nonqcWareHouseSelectedData, setnonQcWareHouseSelectedData] = useState("");
   const[qcWareHouseBinData, setQcWareHouseBinData] = useState("");
   
@@ -280,14 +282,25 @@ const GrpoItems = () => {
     }
   }, [selectedItemQr]);
   useEffect(()=>{
+    setLoading(true);
     if(gridDataSource.length > 0){
       const getAllWarehouses = async () => {
         const response = await wareHouseList();
+        console.log("This is all the wareHouses list",response);
         setQcWareHouseData(response);
         setNonQcWareHouseData(response);
         console.log(response);
+        const choosenQcWarehouse = response.find(item => item.whsCode === 'VD-QA');
+
+            // Check if choosenQcWarehouse is found, then set it into the state
+            if (choosenQcWarehouse) {
+              console.log("choosenQcWarehouse is:",choosenQcWarehouse);
+                setDefaultChoosenQcWarehouse(choosenQcWarehouse);
+                setLoading(false);
+            }
       };
       getAllWarehouses();
+      setLoading(false);
     }
   },[gridDataSource])
   // useEffect(() => {
@@ -300,6 +313,7 @@ const GrpoItems = () => {
   // }, []);
 
   const qcWarehouseItemsClick = async ({ itemData }) => {
+    // console.log("This is warehouse item data",itemData);
     await setQcWareHouseSelectedData(itemData);
   };
   const nonqcWarehouseItemsClick = async ({ itemData }) => {
@@ -438,12 +452,13 @@ const GrpoItems = () => {
           {gridDataSource.length > 0 && (
             <>
             <div className="grpo-config-section" >
+              {loading && <LoadPanel visible={true}/>}
               <div className="single-config">
                 <span className="config-label">Qc Warehouse: </span>
               <DropDownButton
-                text={qcWareHouseSelectedData ? qcWareHouseSelectedData.whsName : "Select Warehouse"}
+                text={defaultChoosenQcWareHouse ? defaultChoosenQcWareHouse.whsName : "Select Warehouse"}
                 width={"100%"}
-                items={qcWareHouseData}
+                items={defaultChoosenQcWareHouse}
                 keyExpr={"whsCode"}
                 displayExpr={"whsName"}
                 className="config-dropdown"
