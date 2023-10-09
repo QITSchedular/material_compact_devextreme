@@ -8,10 +8,12 @@ const TransparentContainer = ({
   mountNodeId,
   showScanner,
   HandleCloseQrScanner1,
+  HandleCloseQrScanner,
   HandleDecodedData,
+  scannerScannedData,
   HandleSaveDecodedData
 }) => {
-  const { startQrCode, stopQrCode, decodedQRData } = useQRCodeScan({
+  const { startQrCode, stopQrCode, decodedQRData , } = useQRCodeScan({
     qrcodeMountNodeID: mountNodeId,
   });
 
@@ -26,14 +28,23 @@ const TransparentContainer = ({
     return HandleCloseQrScanner1();
   };
 
+  // useEffect(()=>{
+  //   const HandleDecodedData1 = (data)=>{
+  //     return HandleDecodedData(data);
+  //   }
+  //   if(decodedQRData.data!=null){
+  //     HandleDecodedData1(decodedQRData.data);
+  //   }
+  // },[decodedQRData])
+
   useEffect(()=>{
-    const HandleDecodedData1 = (data)=>{
-      return HandleDecodedData(data);
-    }
-    if(decodedQRData.data!=null){
-      HandleDecodedData1(decodedQRData.data);
+    if(decodedQRData.data){
+      scannerScannedData(decodedQRData);
+      return HandleCloseQrScanner();
     }
   },[decodedQRData])
+
+
   return (
     <div className={`expanded-div ${showScanner ? "expanded" : ""}`}>
       {mountNodeId && (
