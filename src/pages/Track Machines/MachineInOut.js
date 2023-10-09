@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "devextreme-react/button";
-import "./MachineInOut.scss";
-import { customers } from "./data";
 import { Popup } from "devextreme-react/popup";
-import { TextArea } from "devextreme-react/text-area";
 import scanner from "./scanner.png";
-import { List, MultiView } from "devextreme-react";
 import TransparentContainer from "../../components/qr-scanner/transparent-container";
 import { useQRCodeScan } from "../../utils/useQRCodeScan";
-import { GRPOScanner } from "../../assets/icon";
-import DropDownBox from "devextreme-react/drop-down-box";
 import DropDownButton from "devextreme-react/drop-down-button";
 import QR_Code from "../../assets/images/QR_Code.png";
 import { toastDisplayer } from '../../api/qrgenerators';
 
+import "./MachineInOut.scss";
+import { isLoggedIn } from "../../utils/machineInOut-controller";
+
 const shifts = [{ shift: "Day" }, { shift: "Night" }];
 
-function getDate() {
+const getDate = ()=> {
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
@@ -42,7 +39,7 @@ function MachineInOut() {
   const [loginDate, setLoginDate] = useState(null);
   const [loginTime, setLoginTime] = useState(null);
   const [loginDetails ,setLoginDetails] =useState([]);
-    const [scannedQr, setScannedQr] = useState("");
+  const [scannedQr, setScannedQr] = useState("");
   const [localData, setLocalData] = useState({
     ID: "123456",
     Name: "ABC",
@@ -170,26 +167,11 @@ function MachineInOut() {
     localStorage.removeItem("loginUserDetail");
   };
 
-const isLoggedIn = ()=>{
-
-
-  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
-  const loginUserDetailQrData = JSON.parse(localStorage.getItem("QrData"));
-  if(loginUserDetail && loginUserDetailQrData){
-    alert("User is logged in");
-    console.log("User is logged in");
-    toastDisplayer("success", "Login successfull");
-
-  
-
-
+const isCheckHandler = ()=>{
+const {loginUserDetail,loginUserDetailQrData}  = isLoggedIn();
+if(loginUserDetail && loginUserDetailQrData){
+    console.log("User is looged in")
     return setQrData(loginUserDetailQrData);
-  }
-  else
-  {
-
-    toastDisplayer("error", "User is not logged in")
-    console.log("User is not logged in")
   }
 };
 
@@ -204,7 +186,7 @@ const isLoggedIn = ()=>{
     }
   }, [qrdata]);
   useEffect(() => {
-    isLoggedIn();
+    isCheckHandler();
     getLocalData();
   }, []);
 
