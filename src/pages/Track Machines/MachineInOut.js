@@ -12,6 +12,7 @@ import { GRPOScanner } from "../../assets/icon";
 import DropDownBox from "devextreme-react/drop-down-box";
 import DropDownButton from "devextreme-react/drop-down-button";
 import QR_Code from "../../assets/images/QR_Code.png";
+import { toastDisplayer } from '../../api/qrgenerators';
 
 const shifts = [{ shift: "Day" }, { shift: "Night" }];
 
@@ -35,13 +36,21 @@ function getTime() {
 function MachineInOut() {
   const [isPopupVisible, setPopupVisibility] = useState(false);
   const [statusLogin, setstatusLogin] = useState(true);
-  const [qrdata, setQrData] = useState(null);
+  const [qrdata, setQrData] = useState("");
   const [showScanner, setShowScanner] = useState(false);
   const [selectedShift, setSelectedSift] = useState("");
   const [loginDate, setLoginDate] = useState(null);
   const [loginTime, setLoginTime] = useState(null);
-
-  const [localData, setLocalData] = useState([]);
+  const [loginDetails ,setLoginDetails] =useState([]);
+    const [scannedQr, setScannedQr] = useState("");
+  const [localData, setLocalData] = useState({
+    ID: "123456",
+    Name: "ABC",
+    QR: null,
+    shift: "Day",
+    Date: null,
+    time: null,
+  });
 
   const { startQrCode, stopQrCode, decodedQRData } = useQRCodeScan({
     qrcodeMountNodeID: "machine-login-scanner-wrapper",
@@ -49,8 +58,8 @@ function MachineInOut() {
 
   const [dropDownData, setDropDownData] = useState(shifts);
 
-  const togglePopup = () => {
-    setstatusLogin(true);
+  const togglePopup = async() => {
+    await setstatusLogin(true);
     setPopupVisibility(!isPopupVisible);
   };
 
@@ -67,10 +76,14 @@ function MachineInOut() {
     setShowScanner(false);
   };
 
+
+
   const scannerScannedData = (data) => {
-    console.log("QR Data", data.data);
-    setQrData(data.data);
-    console.log("State QR Data ", qrdata);
+    console.log('Full qr data', data);
+    console.log("This is the scanned QR Data", data.data);
+    const qrValue = data.data;
+    setQrData(qrValue);
+    setScannedQr(qrValue);
   };
 
   const shiftClick = async (e) => {
@@ -84,29 +97,117 @@ function MachineInOut() {
       await setLoginDate(getDate);
       await setLoginTime(getTime);
 
-      await setLocalData({
-        ID: "123456",
-        Name: "ABC",
-        QR: qrdata,
+
+
+
+      const qrDataValue = qrdata;
+
+      const currentDate = getDate();
+      const currentTime = getTime();
+
+      setQrData(qrDataValue);
+      setLoginDate(currentDate);
+      setLoginTime(currentTime);
+
+       setLocalData({
+        ...localData,
+        QR:scannedQr,
         shift: selectedShift,
-        Date: loginDate,
-        time: loginTime,
+        Date: currentDate,
+        time: currentTime,
       });
     } else {
       alert("Please select your shift");
     }
   };
+
+
+
+   //////---------------getting the Data from the localstorage--------------------
+   function getLocalData() {
+    const storedData = localStorage.getItem("loginUserDetail");
+    const storeQr = localStorage.getItem("QrData");
+
+   
+    const dataArray = [];
+
+
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+
+      const ScannedData = JSON.parse(storeQr);
+
+      const dataObject = {
+        Id: parsedData.ID,
+        ScannedData,
+        name: parsedData.Name,
+        Shift: parsedData.shift,
+        Date: parsedData.Date,
+        Time: parsedData.time,
+
+      };
+
+      dataArray.push(dataObject);
+
+ 
+      setSelectedSift(dataObject.Shift);
+      setQrData(storeQr);
+      setLoginTime(dataObject.Time);
+      console.log(dataArray);
+      console.log("This is the selected sift in the logging",dataObject.Shift);
+      setLoginDetails(dataArray);
+    } else {
+      console.log("No data found in local storage.");
+    }
+  }
+
+ 
   const handlePopupLogout = () => {
     setQrData(null);
     setSelectedSift(null);
     setPopupVisibility(false);
+    localStorage.removeItem("qrdata");
+    localStorage.removeItem("loginUserDetail");
   };
 
+const isLoggedIn = ()=>{
+
+
+  const loginUserDetail = JSON.parse(localStorage.getItem("loginUserDetail"));
+  const loginUserDetailQrData = JSON.parse(localStorage.getItem("QrData"));
+  if(loginUserDetail && loginUserDetailQrData){
+    alert("User is logged in");
+    console.log("User is logged in");
+    toastDisplayer("success", "Login successfull");
+
+  
+
+
+    return setQrData(loginUserDetailQrData);
+  }
+  else
+  {
+
+    toastDisplayer("error", "User is not logged in")
+    console.log("User is not logged in")
+  }
+};
+
+
+
+
   useEffect(() => {
-    localStorage.setItem("loginUserDetail", JSON.stringify(localData));
-    localStorage.setItem("qrData", JSON.stringify(qrdata));
-    console.log(JSON.stringify(qrdata));
-  }, [showScanner, localData]);
+    if(qrdata&&loginDate){
+        console.log("This localData",localData)
+        localStorage.setItem("loginUserDetail", JSON.stringify(localData));
+        localStorage.setItem("QrData" ,JSON.stringify(scannedQr))
+    }
+  }, [qrdata]);
+  useEffect(() => {
+    isLoggedIn();
+    getLocalData();
+  }, []);
+
   return (
     <>
       <div className="card">
