@@ -11,3 +11,18 @@ export const isLoggedIn = ()=>{
     const loginUserDetailQrData = JSON.parse(localStorage.getItem("QrData"));
     return {loginUserDetail, loginUserDetailQrData};
 };
+
+
+export const getTime=()=> {
+    const time = new Date();
+    const hour = time.getHours();
+    const minute = time.getMinutes();
+    const sec = time.getSeconds();
+  
+    return `${hour} : ${minute} : ${sec}`;
+  }
+
+ 
+  export const storedData = localStorage.getItem("loginUserDetail");
+   export  const storeQr = localStorage.getItem("QrData");
+  
