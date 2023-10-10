@@ -93,15 +93,13 @@ const GrpoItems = () => {
 
   // on hit of search button
   const handleItemQrVerification = async (dataScanFromScanner) => {
-    console.log("At handleItemQrVerification");
-    console.log("The selectedItemQr is:", selectedItemQr);
     if (
       typeof dataScanFromScanner !== "object" &&
       dataScanFromScanner !== null
     ) {
       const doItemExists = await ValidateItemQR(qrCode, dataScanFromScanner);
       if (doItemExists.hasError) {
-        return toastDisplayer("error", doItemExists.errorMessage.statusMsg);
+        return toastDisplayer("error",doItemExists.errorMessage);
       }
 
       // Filter out duplicate detailQRCodeID values
@@ -128,7 +126,7 @@ const GrpoItems = () => {
     } else if (selectedItemQr) {
       const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
       if (doItemExists.hasError) {
-        return toastDisplayer("error", doItemExists.errorMessage.statusMsg);
+        return toastDisplayer("error",doItemExists.errorMessage);
       }
 
       // Filter out duplicate detailQRCodeID values
@@ -162,8 +160,7 @@ const GrpoItems = () => {
     if (!noqcBinData) {
       return toastDisplayer("error", " ❌ Please Select Bin items to proceed");
     }
-    console.log("noqcBinData : ",noqcBinData[0].absEntry," gridDataSource : ",gridDataSource," comments : ",comments," choosenWarehouseName : ",
-choosenWarehouseName," numAtCard : ",numAtCard," defaultChoosenQcWareHouse :",defaultChoosenQcWareHouse," choosenQcWareHouseBinData : ",noqcBinData[0].binCode," ",noqcBinData[0].absEntry," defaultChoosenNonQcWareHouse : ",defaultChoosenNonQcWareHouse);
+    
     if (!gridDataSource.length > 0) {
       return toastDisplayer("error", " ❌ Please Scan items to proceed");
     }
@@ -260,7 +257,6 @@ choosenWarehouseName," numAtCard : ",numAtCard," defaultChoosenQcWareHouse :",de
   const handlebinSaveSelectedBin = () => {
     // setnoQcBinData
     if (noqcBinData.length > 0) {
-      console.log("nonQcBin Data : ",noqcBinData);
       return setShowBinPopupHelp(false);
     } else {
       return toastDisplayer("error", "Please select a Bin to save and proceed");
@@ -294,7 +290,6 @@ choosenWarehouseName," numAtCard : ",numAtCard," defaultChoosenQcWareHouse :",de
     }
   };
   const handleGrpoBinSelection = (params) => {
-    console.log(params);
     if (params.length > 0) {
       return setnoQcBinData(params);
     }
@@ -358,7 +353,6 @@ choosenWarehouseName," numAtCard : ",numAtCard," defaultChoosenQcWareHouse :",de
           // (item) => item.whsCode === "VD-QA"
           (item) => item.whsCode === "VD-Store"
         );
-        console.log("choosenNonQcWarehouse is ", choosenNonQcWarehouse);
 
         // choosen qc warehouse things
         if (choosenQcWarehouse) {
@@ -368,7 +362,6 @@ choosenWarehouseName," numAtCard : ",numAtCard," defaultChoosenQcWareHouse :",de
           }
           if (choosenQcWarehouse.binActivat === "Yes") {
             setQcBindisable(true);
-            console.log("Bin for this choosenQcWarehouse has been activated");
             setQcBinIsNotActivated(false);
             const bindata = await getBinForQcWareHouse(choosenQcWarehouse);
             // setNonQcBinDataGridDataSource(bindata);
@@ -377,9 +370,7 @@ choosenWarehouseName," numAtCard : ",numAtCard," defaultChoosenQcWareHouse :",de
 
         // choosen no qc warehouse
         if (choosenNonQcWarehouse) {
-          console.log("choose non qc warehouse  : ", choosenNonQcWarehouse);
           setDefaultChoosenNonQcWarehouse([choosenNonQcWarehouse]);
-          console.log("choose non qc warehouse defaultChoosenNonQcWareHouse : ", defaultChoosenNonQcWareHouse);
           if (choosenNonQcWarehouse.binActivat === "No") {
             setNonQcBinIsNotActivated(true);
           }
@@ -419,13 +410,10 @@ choosenWarehouseName," numAtCard : ",numAtCard," defaultChoosenQcWareHouse :",de
     const binLocationDetailsResp = await binLocationController(
       choosenQcWarehouse
     );
-    console.log("binLocationDetailsResp : ", binLocationDetailsResp);
     if (!binLocationDetailsResp.hasError) {
       const { responseData } = binLocationDetailsResp;
       setNonQcWareHouseBinData(responseData);
-      console.log("Bind Data hcv hgsvc: ", responseData);
       setNonQcBinDataGridDataSource(responseData);
-      console.log("nonQcBinDataGridDataSource : ",nonQcBinDataGridDataSource);
     }
   };
 
@@ -439,10 +427,6 @@ choosenWarehouseName," numAtCard : ",numAtCard," defaultChoosenQcWareHouse :",de
   const nonqcWarehouseItemsClick = async ({ itemData }) => {
     await setnonQcWareHouseSelectedData(itemData);
   };
-  const nonQcWareHouseBinItemClick = async ({ itemData }) => {
-    console.log("nonQcWareHouseBinItemClick", itemData);
-    await setChoosenNonQcWareHouseBinData(itemData);
-  };
 
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
@@ -452,14 +436,12 @@ choosenWarehouseName," numAtCard : ",numAtCard," defaultChoosenQcWareHouse :",de
           visible={true}
           showCloseButton={true}
           hideOnOutsideClick={popupCloseHandler}
-          // contentRender={() => <GrpoWarehouseChooserComponent />}
           contentRender={() => (
             <GrpoWarehouseChooserComponent
               handleSaveSelectedWarehouse={handleGrpoPoSelection}
               handleCloseButton={popupCloseHandler}
             />
           )}
-          // hideOnOutsideClick={outSideHandler}
         >
           <ToolbarItem
             widget="dxButton"
@@ -715,13 +697,6 @@ choosenWarehouseName," numAtCard : ",numAtCard," defaultChoosenQcWareHouse :",de
                       stylingMode="outlined"
                       disabled={true}
                     />
-                    {/* <DropDownButton
-                text={"Select Period"
-                }
-                width={"100%"}
-                className="config-dropdown"
-                height={40}
-              /> */}
                   </div>
                 </div>
 
