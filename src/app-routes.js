@@ -124,7 +124,7 @@ const routes = [
     element: GrpoPage,
   },
   {
-    path: "/purchases/grpo/scanItems/:qrCode",
+    path: "/purchases/grpo/scanItems/:qrCode/:numAtCard",
     element: GrpoScanItemsPage,
   },
   // qualityControl

@@ -36,8 +36,6 @@ export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
     hasError: false,
     errorMessage: null,
   };
-  // console.log("This is request body", requestBody);
-  // return requestBody;
   try {
     const response = await axios.post(
       `${API_URL}/DraftGRPO/ValidateItemQR`,
@@ -50,9 +48,12 @@ export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
     return responseBody;
   } catch (error) {
     responseBody.hasError = true;
-    responseBody.errorMessage = error.response.data;
-    // console.error(error);
-    const { statusCode, statusMsg } = error.response.data;
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      responseBody.errorMessage = statusMsg;
+    }else{
+      responseBody.errorMessage = "Unknown error";
+    }
     return responseBody;
   }
 };
@@ -120,7 +121,7 @@ const grpoDetailsConstructor = async (
   const headerItem = gridDataSource[0]; // Assuming gridDataSource has at least one element
   return {
     branchId: "1",
-    series,
+    series:1283,
     docEntry: headerItem.docEntry,
     docNum: headerItem.docNum,
     cardCode: headerItem.cardCode,
@@ -174,7 +175,7 @@ export const generateGrpo = async (
     choosenNonQcWareHouseBinData
   );
   // console.log("This is the structuredPayload", structuredPayload);
-  console.log(JSON.stringify(structuredPayload));
+  console.log("structuredPayload : ",JSON.stringify(structuredPayload));
   if (structuredPayload) {
     try {
       const res = await axios.post(

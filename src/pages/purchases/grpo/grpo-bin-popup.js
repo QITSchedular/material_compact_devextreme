@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import {
   PopupHeaderText,
@@ -16,7 +17,7 @@ import { Button } from "devextreme-react/button";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import { wareHouseList } from "../../../utils/grpo-saver";
 
-const WarehouseChooserDataGrid = ({ handleSaveSelectedWarehouse }) => {
+const BinChooserDataGrid = ({ handleSaveSelectedWarehouse,nonQcBinDataGridDataSource }) => {
   const [selectedItemKeys, setSelectedItemKeys] = useState([]);
   const [wareHouseDataSource, setWareHouseDataSource] = useState([]);
   const dataGridRef = useRef();
@@ -45,15 +46,17 @@ const WarehouseChooserDataGrid = ({ handleSaveSelectedWarehouse }) => {
     return handleSaveSelectedWarehouse(params);
   };
   useEffect(() => {
-    const getAllWarehouses = async () => { 
-      const response = await wareHouseList();
-      setWareHouseDataSource(response);
+    const getAllWarehouses = async () => {
+      // const response = await wareHouseList();
+      console.log("nonQcBinDataGridDataSource : ",nonQcBinDataGridDataSource);
+      setWareHouseDataSource(nonQcBinDataGridDataSource);
     };
     getAllWarehouses();
   }, []);
   return (
     <DataGrid
-      height={window.innerHeight <= 650 ? 380 : 550}
+    //   height={window.innerHeight = 380}
+      height={window.innerHeight <= 650 ? 380 : 450}
       id="warehouse-chooser-grid-container"
       dataSource={wareHouseDataSource}
       showBorders={true}
@@ -72,17 +75,16 @@ const WarehouseChooserDataGrid = ({ handleSaveSelectedWarehouse }) => {
           of="#warehouse-chooser-grid-container"
         />
       </ColumnChooser>
-      <Column dataField="whsCode" caption="Warehouse Code" />
-      <Column dataField="whsName" caption={"Warehouse Name"} />
-      <Column dataField="location" caption={"Location"} />
-      <Column dataField="locked" caption={"Locked"} />
+      <Column dataField="binCode" caption="Bin Code" />
+      <Column dataField="absEntry" caption={"Bin Entry"} />
     </DataGrid>
   );
 };
 
-const GrpoWarehouseChooserComponent = ({
+const GrpoBinChooserComponent = ({
   handleSaveSelectedWarehouse,
   handleCloseButton,
+  dummyData
 }) => {
   return (
     <div className="responsive-paddings grpo-warehouse-chooser-wrapper">
@@ -91,8 +93,7 @@ const GrpoWarehouseChooserComponent = ({
         style={{ display: "flex", justifyContent: "space-between" }}
       >
         <div className="header-title-section">
-          <PopupHeaderText text={"Warehouse"} />
-          <PopupSubText text={"Search the warehouse"} />
+          <PopupHeaderText text={"Choose Bin"} />
         </div>
         <div className="header-close-button">
           <Button
@@ -104,13 +105,14 @@ const GrpoWarehouseChooserComponent = ({
         </div>
       </div>
 
-      <div className="data-grid-container" style={{ maxHeight: "400px" }}>
-        <WarehouseChooserDataGrid
+      <div className="data-grid-container" style={{ maxHeight: "300px" }}>
+        <BinChooserDataGrid
           handleSaveSelectedWarehouse={handleSaveSelectedWarehouse}
+          nonQcBinDataGridDataSource={dummyData}
         />
       </div>
     </div>
   );
 };
 
-export default GrpoWarehouseChooserComponent;
+export default GrpoBinChooserComponent;
