@@ -15,7 +15,7 @@ const PopUpContent = ({ userSelectedRow, generatePopupCloser }) => {
   const [remarks, setRemarks] = useState("");
   const [itemsQrDetailsDataSource, setItemsQrDetailsDataSource] = useState([]);
   const { qrMngBy, itemCode, receiptQty, plannedQty } = userSelectedRow;
-  console.log("From the pop Content Handler", userSelectedRow);
+  
   const dataGridColumns = [
     "headerQRCodeID",
     "detailQRCodeID",
@@ -47,8 +47,15 @@ const PopUpContent = ({ userSelectedRow, generatePopupCloser }) => {
     return setRemarks(value);
   };
   const handleGenerateQr = async () => {
-    console.log("generate");
-    await qrGenerationController(userSelectedRow, batches);
+   
+    const isDataSaved = await qrGenerationController(userSelectedRow, batches);
+    console.log("From the ui part isDataSaved", isDataSaved);
+    if(!isDataSaved.hasError){
+      return toastDisplayer("success", isDataSaved.data[0]);
+    }
+    else{
+      return toastDisplayer("error", "Something went wrong try again later");
+    }
   };
 
   useEffect(() => {

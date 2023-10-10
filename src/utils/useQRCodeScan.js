@@ -45,6 +45,7 @@ export function useQRCodeScan({
           // Stop failed, handle it.
           console.log("fails to stop after successful scan result ");
         });
+
     }
   }
   function startQrCode() {
@@ -74,6 +75,7 @@ export function useQRCodeScan({
           (qrCodeMessage) => {
             // do something when code is read
             // console.log('scanned qr code', qrCodeMessage);
+
 
             setDecodedQrData({
               ...decodedQRData,

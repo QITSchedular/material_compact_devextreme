@@ -1,7 +1,7 @@
-import { Button, LoadPanel, Popup, TextBox } from "devextreme-react";
+import { Button, DropDownButton, LoadPanel, Popup, TextBox } from "devextreme-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ValidateItemQR, generateGrpo } from "../../../utils/grpo-saver";
+import { ValidateItemQR, generateGrpo, wareHouseList } from "../../../utils/grpo-saver";
 import TextArea from "devextreme-react/text-area";
 import DataGrid, {
   Column,
@@ -42,11 +42,21 @@ const GrpoItems = () => {
   const [showScanner, setShowScanner] = useState(false);
   const [isClickedScanner, setIsClickedScanner] = useState(false);
   const [scannedData, setScannedData] = useState([]);
+
+  const[qcWareHouseData, setQcWareHouseData] = useState("");
+  const[qcWareHouseBinData, setQcWareHouseBinData] = useState("");
+  
+  const[nonQcWareHouseData, setNonQcWareHouseData] = useState("");
+  const[nonQcWareHouseBinData, setNonQcWareHouseBinData] = useState("");
+  
+  const [refNo, setRefNo] = useState("");
+
   const navigate = useNavigate();
-  const handleTextValueChange = (e) => {
+  const handleTextValueChange = async(e) => {
+    
     // console.log(e.previousValue);
     // console.log(e.value);
-    return setSelectedItemQR(e.value);
+    return await setSelectedItemQR(e.value);
   };
 
   // on hit of search button
@@ -268,10 +278,20 @@ const GrpoItems = () => {
   };
   useEffect(() => {
     if (showScanner && selectedItemQr) {
-      console.log("Inside the use effect");
+
+      console.log("Inside the use effect")
       handleItemQrVerification();
     }
   }, [selectedItemQr]);
+  useEffect(()=>{
+    if(gridDataSource.length > 0){
+      const getAllWarehouses = async () => {
+        const response = await wareHouseList();
+        console.log(response);
+      };
+      getAllWarehouses();
+    }
+  },[gridDataSource])
 
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
@@ -401,6 +421,56 @@ const GrpoItems = () => {
           </DataGrid>
           {gridDataSource.length > 0 && (
             <>
+            <div className="grpo-config-section" >
+              <div className="single-config">
+                <span className="config-label">Qc Warehouse: </span>
+              <DropDownButton
+                text={"Select Period"
+                }
+                width={"100%"}
+                className="config-dropdown"
+                height={40}
+              />
+              </div>
+              <div className="single-config">
+              <span className="config-label">Qc Bin: </span>
+                <DropDownButton
+                text={"Select Period"
+                }
+                width={"100%"}
+                className="config-dropdown"
+                height={40}
+                
+              /></div>
+              <div className="single-config">
+              <span className="config-label">Non Qc Warehouse: </span>
+                <DropDownButton
+                text={"Select Period"
+                }
+                width={"100%"}
+                className="config-dropdown"
+                height={40}
+              /></div>
+              <div className="single-config">
+              <span className="config-label">Non Qc Bin: </span>
+                <DropDownButton
+                text={"Select Period"
+                }
+                width={"100%"}
+                className="config-dropdown"
+                height={40}
+              /></div>
+              <div className="single-config">
+              <span className="config-label">Ref No: </span>
+                <DropDownButton
+                text={"Select Period"
+                }
+                width={"100%"}
+                className="config-dropdown"
+                height={40}
+              /></div>
+            </div>
+
               <div
                 className="text-area-container"
                 style={{ marginTop: "1rem" }}

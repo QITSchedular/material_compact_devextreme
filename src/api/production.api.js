@@ -40,9 +40,9 @@ export const getProductionOrderItemList = async (docEntry) => {
   };
   try {
     const response = await axios.post(
-      `${API_URL}/Production/GetProductionOrderItemList`,
-      requestBody
+      `${API_URL}/Production/GetProductionOrderList`
     );
+    console.log("hello:::::",response);
     responseBody.responseData = response.data;
     console.log("The api res is: ", responseBody);
     return responseBody;
@@ -54,6 +54,37 @@ export const getProductionOrderItemList = async (docEntry) => {
     return responseBody;
   }
 };
+
+// export const getProductionOrderItemList = async (docEntry) => {
+//   console.log("From APi", docEntry);
+//   const responseBody = {
+//     responseData: null,
+//     hasError: false,
+//     errorMessage: null,
+//   };
+//   const requestBody = {
+//     proOrderItem: [
+//       {
+//         DocEntry: docEntry,
+//       },
+//     ],
+//   };
+//   try {
+//     const response = await axios.post(
+//       `${API_URL}/Production/GetProductionOrderItemList`,
+//       requestBody
+//     );
+//     responseBody.responseData = response.data;
+//     console.log("The api res is: ", responseBody);
+//     return responseBody;
+//   } catch (error) {
+//     console.log("Error while fetching the data, from controller", error);
+//     responseBody.hasError = true;
+//     responseBody.errorMessage = responseBody.errorMessage =
+//       error.response?.data?.statusMsg || error.response?.data?.errors;
+//     return responseBody;
+//   }
+// };
 
 export const productionValidateItemQr = async (proDocEntry, detailQRCodeID) => {
   // console.log("From APi", proDocEntry, detailQRCodeID);

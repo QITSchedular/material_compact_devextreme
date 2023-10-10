@@ -153,6 +153,7 @@ export default function ItemsMaster() {
             selectedRowDetails={selectedRowDetails}
           />
         )}
+        {console.log("loading",loading)}
         {loading && <LoadPanel />}
         <div
           className="content-block dx-card responsive-paddings items-master-content-wrapper"
