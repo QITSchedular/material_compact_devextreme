@@ -11,12 +11,17 @@ import { getAllTransportersList } from "../../../utils/gate-in-purchase";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import { verifyProdcutionQrInput } from "../../../api/inventory.transfer.api";
 import ItemsGrid from "./inner-components/items-grid";
-import { Button, Switch } from "devextreme-react";
+import { Button, Switch, TextBox } from "devextreme-react";
 import TransparentContainer from "../../../components/qr-scanner/transparent-container";
+import { HelpIcons } from "../../purchases/grpo/icons-exporter";
+import { Button as TextBoxButton } from "devextreme-react/text-box";
+import { binLocationController } from "../../../utils/grpo-saver";
+import PopupComponent from "./inner-components/popup-component";
 
 const InventorytransferMain = () => {
   const [showToWarehousePopup, setShowToWarehousePopup] = useState(false);
   const [showFromWarehousePopup, setShowFromWarehousePopup] = useState(false);
+  const [showFromBinPopup, setFromBinPopup] = useState(false);
   const [showBPPopup, setShowBPPopup] = useState(false);
 
   const [toWarehouseList, setToWarehouseList] = useState("");
@@ -32,6 +37,33 @@ const InventorytransferMain = () => {
 
   const [dataGridDataSource, setDataGridDataSource] = useState([]);
   const [showScanner, setShowScanner] = useState(false);
+
+  const [fromBinList, setFromBinList] = useState("");
+  const [fromBinVisible, setFromBinVisible] = useState(true);
+
+  const [qcWareHouseBinData, setQcWareHouseBinData] = useState("");
+
+  const getBinList = async (whsCode) => {
+    const binLocationDetailsResp = await binLocationController({ whsCode });
+    console.log(binLocationDetailsResp);
+
+    if (!binLocationDetailsResp.hasError) {
+      const { responseData } = binLocationDetailsResp;
+      console.log(responseData);
+      setQcWareHouseBinData(responseData);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedFromWarehouse.length > 0) {
+      console.log("selectedFromWarehouse", selectedFromWarehouse[0].binActivat);
+      if (selectedFromWarehouse[0].binActivat === "Yes") {
+        setFromBinVisible(false);
+        getBinList(selectedFromWarehouse[0].whsCode);
+      }
+    }
+  }, [selectedFromWarehouse]);
+
   const toWarehouseChooser = async () => {
     console.log("ToWarehouseChooser");
     const allwarehouses = await getWareHouseList();
@@ -172,10 +204,17 @@ const InventorytransferMain = () => {
   };
   const HandleDecodedData1 = (data) => {
     // setSelectedPo(data);
-    console.log("data after scanning  : ",data)
+    console.log("data after scanning  : ", data);
     setProductionNumberInput(data);
     // setShowPO(true);
     setShowScanner(false);
+  };
+
+  const helpFromBinOptions = {
+    icon: HelpIcons,
+    onClick: async () => {
+      setFromBinPopup(true);
+    },
   };
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner inventory-transfer-main-container ">
@@ -235,6 +274,34 @@ const InventorytransferMain = () => {
                 setCountRef={setCountRef}
               />
             </div>
+            <TextBox
+              className="dx-field-value"
+              stylingMode="outlined"
+              placeholder={"From Bin"}
+              width={160}
+              showClearButton={true}
+              // value={textBoxValue || ""}
+              disabled={fromBinVisible}
+              // ref={txtRef}
+            >
+              <TextBoxButton
+                name="currency"
+                location="after"
+                options={helpFromBinOptions}
+              />
+            </TextBox>
+            {showFromBinPopup && (
+              <PopupComponent
+                // popUpOutsideClickHandler={popUpOutsideClickHandler}
+                placeholder={"From Bin List"}
+                gridDataSourceList={qcWareHouseBinData}
+                // onSelectAndClose={(selectedValue) => {
+                //   setSelectedValue(selectedValue);
+                //   selectedValueDisplayHandler(selectedValue);
+                //   popUpOutsideClickHandler();
+                // }}
+              />
+            )}
 
             <div className="items-scanner-section">
               <HeaderSection
