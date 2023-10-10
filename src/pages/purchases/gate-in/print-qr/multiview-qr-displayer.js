@@ -3,8 +3,7 @@ import MultiView from "devextreme-react/multi-view";
 import QRCode from "react-qr-code";
 import { Button } from "devextreme-react/button";
 import "./qr-displayer-styles.scss";
-const QrViewBox = ({ data, handleClose }) => {
-  console.log("From QR VIEW bOX", handleClose);
+const QrViewBox = ({ data, handleClose, totalNoOfQr }) => {
   const company = data;
 
   const [qrData, setQrData] = useState([]);
@@ -25,6 +24,11 @@ const QrViewBox = ({ data, handleClose }) => {
           <span className="header__supporting--text">
             Place the scanner on qr code to detect{" "}
           </span>
+          {totalNoOfQr && (
+            <span className="header__supporting--text">
+              Total no. of QR: {totalNoOfQr}
+            </span>
+          )}
         </div>
       </div>
 
@@ -40,7 +44,7 @@ const QrViewBox = ({ data, handleClose }) => {
   );
 };
 
-const Multiviewdisplayer = ({ handleClose, multipleQrCodes }) => {
+const Multiviewdisplayer = ({ handleClose, multipleQrCodes, totalNoOfQr }) => {
   const [animationEnabled, setAnimationEnabled] = useState(true);
   const [loop, setLoop] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -73,9 +77,9 @@ const Multiviewdisplayer = ({ handleClose, multipleQrCodes }) => {
       setSelectedIndex(nextIndex);
     }
   };
-  useEffect(() => {
-    console.log("You are at multividimensional");
-  }, []);
+  // useEffect(() => {
+  //   console.log("You are at multividimensional");
+  // }, []);
   return (
     <>
       <div className="header---closer">
@@ -97,7 +101,11 @@ const Multiviewdisplayer = ({ handleClose, multipleQrCodes }) => {
           onOptionChanged={onSelectionChanged}
           loop={true}
           itemComponent={(data) => (
-            <QrViewBox data={data} handleClose={handleClose} /> // Pass the function as a prop to QrViewBox
+            <QrViewBox
+              data={data}
+              handleClose={handleClose}
+              totalNoOfQr={totalNoOfQr}
+            /> // Pass the function as a prop to QrViewBox
           )}
           animationEnabled={true}
         />

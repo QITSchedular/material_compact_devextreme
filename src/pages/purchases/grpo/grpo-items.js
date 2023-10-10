@@ -23,7 +23,10 @@ import GrpoWarehouseChooserComponent, {
 } from "./grpo-warehouse-chooser";
 import { GRPOScanner } from "../../../assets/icon";
 import TransparentContainer from "../../../components/qr-scanner/transparent-container";
-import { PopupHeaderText, PopupSubText } from "../../../components/typographyTexts/TypographyComponents";
+import {
+  PopupHeaderText,
+  PopupSubText,
+} from "../../../components/typographyTexts/TypographyComponents";
 
 const GrpoItems = () => {
   const { qrCode } = useParams();
@@ -37,6 +40,7 @@ const GrpoItems = () => {
   const [uniqueIds, setUniqueIds] = useState(new Set());
   const [choosenWarehouseName, setChoosenWarehouseName] = useState("");
   const [showScanner, setShowScanner] = useState(false);
+  const [isClickedScanner, setIsClickedScanner] = useState(false);
   const [scannedData, setScannedData] = useState([]);
 
   const[qcWareHouseData, setQcWareHouseData] = useState("");
@@ -59,74 +63,72 @@ const GrpoItems = () => {
   const handleItemQrVerification = async (dataScanFromScanner) => {
     console.log("At handleItemQrVerification");
     console.log("The selectedItemQr is:", selectedItemQr);
-    if (typeof dataScanFromScanner !== 'object' && dataScanFromScanner !== null) {
+    if (
+      typeof dataScanFromScanner !== "object" &&
+      dataScanFromScanner !== null
+    ) {
       const doItemExists = await ValidateItemQR(qrCode, dataScanFromScanner);
       if (doItemExists.hasError) {
-        return toastDisplayer(
-        "error",
-        doItemExists.errorMessage.statusMsg
-        );
+        return toastDisplayer("error", doItemExists.errorMessage.statusMsg);
+      }
+
+      // Filter out duplicate detailQRCodeID values
+      const validatecheck = doItemExists.responseData;
+      const newItems = validatecheck.filter((item) => {
+        if (uniqueIds.has(item.detailQRCodeID)) {
+          console.log(`Duplicate data arrived: ${item.detailQRCodeID}`);
+          toastDisplayer(
+            "error",
+            `${item.detailQRCodeID} Item already available`
+          );
+          return false; // Filter out duplicates
         }
-      
-        // Filter out duplicate detailQRCodeID values
-        const validatecheck = doItemExists.responseData;
-        const newItems = validatecheck.filter((item) => {
-          if (uniqueIds.has(item.detailQRCodeID)) {
-            console.log(`Duplicate data arrived: ${item.detailQRCodeID}`);
-            toastDisplayer("error", `${item.detailQRCodeID} Item already available`);
-            return false; // Filter out duplicates
-          }
-          return true; // Keep unique items
-        });
-        setDisplayGrid(true);
-  
-        // Update uniqueIds with the new item IDs
-        newItems.forEach((item) => {
-          uniqueIds.add(item.detailQRCodeID);
-        });
-  
-        setGridDataSource((previous) => [...previous, ...newItems]);
-      
-    }
-    else if (selectedItemQr) {
+        return true; // Keep unique items
+      });
+      setDisplayGrid(true);
+
+      // Update uniqueIds with the new item IDs
+      newItems.forEach((item) => {
+        uniqueIds.add(item.detailQRCodeID);
+      });
+
+      setGridDataSource((previous) => [...previous, ...newItems]);
+    } else if (selectedItemQr) {
       const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
       if (doItemExists.hasError) {
-        return toastDisplayer(
-        "error",
-        doItemExists.errorMessage.statusMsg
-        );
+        return toastDisplayer("error", doItemExists.errorMessage.statusMsg);
+      }
+
+      // Filter out duplicate detailQRCodeID values
+      const validatecheck = doItemExists.responseData;
+      const newItems = validatecheck.filter((item) => {
+        if (uniqueIds.has(item.detailQRCodeID)) {
+          console.log(`Duplicate data arrived: ${item.detailQRCodeID}`);
+          toastDisplayer(
+            "error",
+            `${item.detailQRCodeID} Item already available`
+          );
+          return false; // Filter out duplicates
         }
-      
-        // Filter out duplicate detailQRCodeID values
-        const validatecheck = doItemExists.responseData;
-        const newItems = validatecheck.filter((item) => {
-          if (uniqueIds.has(item.detailQRCodeID)) {
-            console.log(`Duplicate data arrived: ${item.detailQRCodeID}`);
-            toastDisplayer("error", `${item.detailQRCodeID} Item already available`);
-            return false; // Filter out duplicates
-          }
-          return true; // Keep unique items
-        });
-  
-        setDisplayGrid(true);
-      
-        // Update uniqueIds with the new item IDs
-        newItems.forEach((item) => {
-          uniqueIds.add(item.detailQRCodeID);
-        });
-        setGridDataSource((previous) => [...previous, ...newItems]);
+        return true; // Keep unique items
+      });
+
+      setDisplayGrid(true);
+
+      // Update uniqueIds with the new item IDs
+      newItems.forEach((item) => {
+        uniqueIds.add(item.detailQRCodeID);
+      });
+      setGridDataSource((previous) => [...previous, ...newItems]);
     } else {
       setDisplayGrid(false);
       return toastDisplayer("error", "Scan the Item Qr first");
     }
   };
-  
-
-
 
   const handleGrpoSaving = async () => {
     // return null;
-    
+
     if (!gridDataSource.length > 0) {
       // toastDisplayer(
       //   "error",
@@ -250,32 +252,33 @@ const GrpoItems = () => {
     setShowScanner(false);
   };
   const HandleDecodedData1 = (data1) => {
-    console.log("Scanned Data : ",data1);
+    console.log("Scanned Data : ", data1);
     if (scannedData.includes(data1)) {
       console.log(`${data1} is already available.`);
     } else {
       setScannedData([...scannedData, data1]);
     }
     // setShowScanner(false);
-  }
-  
+  };
+
   const scanAndSearchFromScanner = () => {
     return handleItemQrVerification();
-  }
+  };
   const HandleSaveDecodedScannedData = async () => {
-    console.log("From HandleSaveDecodedScannedData", scannedData)
+    console.log("From HandleSaveDecodedScannedData", scannedData);
     setShowScanner(false);
     // scannedData.forEach((scannedItem) => {
     //   setSelectedItemQR(scannedItem);
     // })
-    scannedData.forEach(async(scannedItem)=>{
+    scannedData.forEach(async (scannedItem) => {
       await handleItemQrVerification(scannedItem);
-    })
+    });
     // setSelectedItemQR(scannedData[0]);
     // await scanAndSearchFromScanner();
-  }
+  };
   useEffect(() => {
     if (showScanner && selectedItemQr) {
+
       console.log("Inside the use effect")
       handleItemQrVerification();
     }
@@ -289,6 +292,7 @@ const GrpoItems = () => {
       getAllWarehouses();
     }
   },[gridDataSource])
+
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
       {loading && <LoadPanel visible={true} />}
@@ -303,9 +307,8 @@ const GrpoItems = () => {
               handleSaveSelectedWarehouse={handleGrpoPoSelection}
               handleCloseButton={popupCloseHandler}
             />
-
           )}
-        // hideOnOutsideClick={outSideHandler}
+          // hideOnOutsideClick={outSideHandler}
         >
           <ToolbarItem
             widget="dxButton"
@@ -324,7 +327,7 @@ const GrpoItems = () => {
       )}
 
       {showScanner && (
-        <div>
+        <>
           <TransparentContainer
             mountNodeId="container"
             showScan={showScanner}
@@ -332,15 +335,13 @@ const GrpoItems = () => {
             HandleDecodedData={HandleDecodedData1}
             HandleSaveDecodedData={HandleSaveDecodedScannedData}
           ></TransparentContainer>
-        </div>
+        </>
       )}
 
       <div className="title-section">
-          <PopupHeaderText text={"Grpo"} />
-          <PopupSubText
-            text={"Type or scan the item code to make an entry"}
-          />
-        </div>
+        <PopupHeaderText text={"Grpo"} />
+        <PopupSubText text={"Type or scan the item code to make an entry"} />
+      </div>
 
       <div className="actions-section">
         <div className="search-section">

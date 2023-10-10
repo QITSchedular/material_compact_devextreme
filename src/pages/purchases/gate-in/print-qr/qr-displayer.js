@@ -12,10 +12,11 @@ const ItemsQrDisplayer = ({
   handleQrPopUpClose,
   displayerFlag,
 }) => {
-  console.log("this is the displayerFlag", itemQrCode);
+  const totalQr = itemQrCode.length;
   const [loading, setLoading] = useState(false);
   const [displayMultiViewer, setDisplayMultiViewer] = useState(false);
   const [multipleQrCodes, setMultipleQrCodes] = useState([]);
+  const [totalNoOfQr, setTotalNoOfQr] = useState(totalQr);
   // close the popup window
   const handleClose = async () => {
     await handleQrPopUpClose();
@@ -57,6 +58,7 @@ const ItemsQrDisplayer = ({
           <Multiviewdisplayer
             handleClose={handleClose}
             multipleQrCodes={multipleQrCodes}
+            totalNoOfQr={totalNoOfQr}
           />
         </Popup>
       )}
