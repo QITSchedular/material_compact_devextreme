@@ -9,26 +9,10 @@ import QR_Code from "../../assets/images/QR_Code.png";
 import { toastDisplayer } from '../../api/qrgenerators';
 
 import "./MachineInOut.scss";
-import { isLoggedIn } from "../../utils/machineInOut-controller";
+import { isLoggedIn,getDate,getTime,storeQr,storedData } from "../../utils/machineInOut-controller";
 
 const shifts = [{ shift: "Day" }, { shift: "Night" }];
 
-const getDate = ()=> {
-  const today = new Date();
-  const month = today.getMonth() + 1;
-  const year = today.getFullYear();
-  const date = today.getDate();
-  return `${month}/${date}/${year}`;
-}
-
-function getTime() {
-  const time = new Date();
-  const hour = time.getHours();
-  const minute = time.getMinutes();
-  const sec = time.getSeconds();
-
-  return `${hour} : ${minute} : ${sec}`;
-}
 
 function MachineInOut() {
   const [isPopupVisible, setPopupVisibility] = useState(false);
@@ -53,8 +37,6 @@ function MachineInOut() {
     qrcodeMountNodeID: "machine-login-scanner-wrapper",
   });
 
-  const [dropDownData, setDropDownData] = useState(shifts);
-
   const togglePopup = async() => {
     await setstatusLogin(true);
     setPopupVisibility(!isPopupVisible);
@@ -62,11 +44,6 @@ function MachineInOut() {
 
   const handleCancel = () => {
     setPopupVisibility(false);
-  };
-
-  const handleScan = () => {
-    setShowScanner(true);
-    console.log("Handle Scan");
   };
 
   const HandleCloseQrScanner = () => {
@@ -122,8 +99,7 @@ function MachineInOut() {
 
    //////---------------getting the Data from the localstorage--------------------
    function getLocalData() {
-    const storedData = localStorage.getItem("loginUserDetail");
-    const storeQr = localStorage.getItem("QrData");
+  
 
    
     const dataArray = [];

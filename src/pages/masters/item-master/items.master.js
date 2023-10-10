@@ -28,10 +28,9 @@ export default function ItemsMaster() {
   const [selectedRowDetails, setSelectedRowDetails] = useState([]);
   const [importedDataArray, setimportedDataArray] = useState([]);
   const {
-    isPopupVisible,
+  
     isItemAdded,
-    openPopup,
-    closePopup,
+
     newItemIsAdded,
     revertIsItemAdded,
   } = useContext(AppContext);
@@ -39,7 +38,7 @@ export default function ItemsMaster() {
   const handleClose = async () => {
     return setShowPrintPop(false);
   };
-  // show the qrcode prrint popup
+  
   const handleShowQrCodePrint = async (e) => {
     await setLoading(true);
     const { qrCodeId } = e.row.data;
@@ -74,14 +73,14 @@ export default function ItemsMaster() {
   }, [isItemAdded]);
 
   const handleFileUploaded = async (fileData) => {
-    // console.log("fileData : ", fileData.target.files[0]);
-    const file = fileData.target.files[0]; // Get the first file from the array
-    // console.log("file ", file);
+   
+    const file = fileData.target.files[0]; 
+
 
     const wb = new ExcelJS.Workbook();
     const reader = new FileReader();
 
-    reader.readAsArrayBuffer(file); // Use the extracted file here
+    reader.readAsArrayBuffer(file); 
     reader.onload = () => {
       const buffer = reader.result;
       wb.xlsx.load(buffer).then((workbook) => {
@@ -101,13 +100,12 @@ export default function ItemsMaster() {
                 isActive: rowData[8],
                 atcEntry: rowData[9],
               };
-              // console.log("importedData", importedData);
+            
               importedDataArray.push(importedData);
             }
           });
         });
       });
-      console.log("importedDataArray : ", importedDataArray);
     };
   };
 
@@ -121,12 +119,12 @@ export default function ItemsMaster() {
             newItemIsAdded();
           }
 
-          // await showToastNotifications(response);
+          
 
         } catch (error) {
           console.log(error);
         }
-        // console.log("importedDataArray " + i + " : ",importedDataArray[i])
+      
       }
     } else {
       return toastDisplayer("error", "No data found..!!");
@@ -166,12 +164,7 @@ export default function ItemsMaster() {
           <div className="content-blocks">
             <HeaderContent handleFileUploaded={handleFileUploaded} handlesaveImportedFileData={saveImportedFileData} data={data} keyExpr={"ItemCode"} heading={"File input for Items Master"} />
           </div>
-          {/* <div
-          id="exportContainer"
-          style={{ marginTop: "5px", marginBottom: "5px" }}
-        >
-          <Button text="Refresh" icon="refresh" />
-        </div> */}
+
           <DataGrid
             dataSource={itemsData}
             keyExpr={"itemCode"}
@@ -180,6 +173,7 @@ export default function ItemsMaster() {
             defaultFocusedRowIndex={0}
             columnAutoWidth={true}
             columnHidingEnabled={false}
+
             className="items-master-datagrid"
           >
             <Scrolling columnRenderingMode="virtual" />
@@ -234,6 +228,4 @@ export default function ItemsMaster() {
   );
 }
 
-// const itemQrCode =[{
-//   headerQrCodeId:""
-// }]
+
