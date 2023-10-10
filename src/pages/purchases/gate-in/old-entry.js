@@ -7,17 +7,19 @@ import DataGrid, {
   Editing,
   SearchPanel,
   ColumnFixing,
-  Button
+  Button,
 } from "devextreme-react/data-grid";
 import { GateInList } from "../../../utils/gate-in-purchase";
+
 
 import { toast } from "react-toastify";
 import "./gate-in-styles.scss";
 import { toastDisplayer } from "../../../api/qrgenerators";
+import { LoadPanel, Popup } from "devextreme-react";
 
 function OldEntryComponent() {
   const [scrollingMode, setScrollingMode] = React.useState("standard");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [transporterDataSource, setTransporterDataSource] = useState([]);
   // useEffect(() => {
@@ -36,9 +38,11 @@ function OldEntryComponent() {
 
   const OldEntryDataSource = async () => {
     try {
+      setLoading(true);
       const transPortersData = await GateInList();
       if (transPortersData.length > 0) {
         setTransporterDataSource(transPortersData);
+        setLoading(false);
       } else {
         // No data found, display the error message using your custom toaster function
         console.log("no data");
@@ -55,7 +59,10 @@ function OldEntryComponent() {
 
   return (
     <>
-      <DataGrid
+    {console.log("loading",loading)}
+    {loading && <LoadPanel  visible={true} />}
+    
+     <DataGrid
         id="data-grid-container-local"
         dataSource={transporterDataSource}
         keyExpr={"srNo"}
@@ -66,24 +73,19 @@ function OldEntryComponent() {
         remoteOperations={true}
         height={400}
         className="gate-in-data-grid"
-        
       >
-        <SearchPanel
-          visible={true}
-          highlightCaseSensitive={true}
-          height={40}
-          className="search-panel"
-        />
+        <SearchPanel visible={true} width={190} className={"search-panel"} />
         <Scrolling mode={scrollingMode} />
         <Paging defaultPageSize={10} />
-        <Selection mode="multiple" />
+        <Selection mode="multiple" allowSelectAll={false}/>
         <ColumnFixing enabled={true} />
         <Editing
           mode="row"
           allowDeleting={true}
           allowUpdating={true}
-          useIcons={true}
-        />
+          useIcons={true}>
+            <Popup title="Employee Info" showTitle={true} width={700} height={525} />
+          </Editing>
         <Column type="buttons" caption="Actions">
           <Button name="edit" />
           <Button name="delete" />
@@ -115,7 +117,9 @@ function OldEntryComponent() {
           caption={"Transporter Code"}
           allowEditing={false}
         />
+        
       </DataGrid>
+      
       <div
         className="content-block-save content-block-wrapper"
         style={{ justifyContent: "flex-end", marginTop: "10rem" }}

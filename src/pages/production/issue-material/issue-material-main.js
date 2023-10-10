@@ -38,6 +38,7 @@ const IssueMaterialMain = () => {
 
   const showPopupHandler = async () => {
     /* hit the api to populate the data grid*/
+    setShowPoHelpPopup(!showPoHelpPopup);
     const apiRes = await poDataSourceFetcher();
     if (apiRes.hasError) {
       return toastDisplayer(
@@ -49,12 +50,12 @@ const IssueMaterialMain = () => {
     }
     await setPoHelpDataSource(apiRes.responseData);
 
-    await setShowPoHelpPopup(!showPoHelpPopup);
   };
 
   const poDataSourceFetcher = async () => {
     try {
       const response = await getProductionOrderList();
+      console.log("response:=>",response)
       return response;
     } catch (error) {
       console.log(error);

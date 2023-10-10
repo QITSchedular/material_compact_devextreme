@@ -307,6 +307,7 @@ const GateInComponent = () => {
         theme: "light",
       });
     }
+    setSelectedSeries("");
     // the dropdown should be series name
     await setSeriesList(seriesData);
     setSelectedValue({ periodIsSelected: true });
