@@ -310,9 +310,9 @@ const GrpoMain = () => {
   };
 
   const navigate = useNavigate();
-  const handleProceed = (qrCode) => {
-    console.log(qrCode);
-    return navigate(`/purchases/grpo/scanItems/${qrCode}`);
+  const handleProceed = (qrCode,numAtCard) => {
+    // console.log(qrCode,"  ",numAtCard);
+    return navigate(`/purchases/grpo/scanItems/${qrCode}/${numAtCard}`);
   };
 
   const handleGrpoPoSelection = (params) => {
@@ -493,7 +493,7 @@ const GrpoMain = () => {
                   <div className="single-po-proceed">
                     <Button
                       text="Proceed"
-                      onClick={() => handleProceed(qrCode["qrCodeID"])}
+                      onClick={() => handleProceed(qrCode["qrCodeID"],qrCode["numAtCard"])}
                     ></Button>
                   </div>
                 </div>

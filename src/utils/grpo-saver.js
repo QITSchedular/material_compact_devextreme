@@ -36,23 +36,28 @@ export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
     hasError: false,
     errorMessage: null,
   };
-  // console.log("This is request body", requestBody);
-  // return requestBody;
   try {
     const response = await axios.post(
       `${API_URL}/DraftGRPO/ValidateItemQR`,
       requestBody
     );
     responseBody.responseData = response.data;
-    const data = response.data;
-    // console.log(data);
-
+    // const data = response.data;
     return responseBody;
   } catch (error) {
+    // responseBody.hasError = true;
+    // const { statusMsg } = error.response.data;
+    // if (statusMsg) {
+    //   responseBody.errorMessage = statusMsg;
+    //   console.log(responseBody);
+    // }else{
+    //   responseBody.errorMessage = error.message;
+    // }
+    // return responseBody;
     responseBody.hasError = true;
-    responseBody.errorMessage = error.response.data;
-    // console.error(error);
-    const { statusCode, statusMsg } = error.response.data;
+    responseBody.errorMessage = 
+    responseBody.errorMessage =
+      error.response?.data?.statusMsg || error.response?.data?.errors;
     return responseBody;
   }
 };
@@ -86,7 +91,6 @@ const grpoDetailsConstructor = async (
   };
 
   const constructGrpoBatchSerial = async (groupedData) => {
-    console.log("This is grouped data:", groupedData);
     return groupedData.map((group) => {
       const grpoBatchSerialData = gridDataSource
         .filter((item) => item.itemCode === group.itemCode)
@@ -120,7 +124,7 @@ const grpoDetailsConstructor = async (
   const headerItem = gridDataSource[0]; // Assuming gridDataSource has at least one element
   return {
     branchId: "1",
-    series:"1283",
+    series:1283,
     docEntry: headerItem.docEntry,
     docNum: headerItem.docNum,
     cardCode: headerItem.cardCode,
@@ -150,17 +154,7 @@ export const generateGrpo = async (
   defaultChoosenNonQcWareHouse,
   choosenNonQcWareHouseBinData
 ) => {
-  // console.log("This is the grid data source", gridDataSource);
-  console.log("Payload for grpo saver");
-  console.log("gridDataSource", gridDataSource);
-  console.log("comments", comments);
-  console.log("choosenWarehouseName", choosenWarehouseName);
-  console.log("series", series);
-  console.log("numAtCard", numAtCard);
-  console.log("defaultChoosenQcWareHouse", defaultChoosenQcWareHouse);
-  console.log("choosenQcWareHouseBinData", choosenQcWareHouseBinData);
-  console.log("defaultChoosenNonQcWareHouse", defaultChoosenNonQcWareHouse);
-  console.log("choosenNonQcWareHouseBinData", choosenNonQcWareHouseBinData);
+ 
 
   const structuredPayload = await grpoDetailsConstructor(
     gridDataSource,
@@ -173,8 +167,6 @@ export const generateGrpo = async (
     defaultChoosenNonQcWareHouse,
     choosenNonQcWareHouseBinData
   );
-  // console.log("This is the structuredPayload", structuredPayload);
-  console.log(JSON.stringify(structuredPayload));
   if (structuredPayload) {
     try {
       const res = await axios.post(
@@ -184,7 +176,6 @@ export const generateGrpo = async (
       const returnData = await res.data;
       return returnData;
     } catch (error) {
-      // console.log(error);
       const returnError = error.response.data;
       return returnError;
     }
@@ -197,13 +188,11 @@ export const wareHouseList = async () => {
     const returnData = await res.data;
     return returnData;
   } catch (error) {
-    // console.log(error);
     const returnError = error.response.data;
     return returnError;
   }
 };
 export const binLocationController = async (payload) => {
-  console.log("Payload from binLocationController", payload);
   const { whsCode } = payload;
 
   const responseBody = {
@@ -217,10 +206,8 @@ export const binLocationController = async (payload) => {
       `${API_URL}/Commons/BinLocation?WhsCode=${whsCode}`
     );
     responseBody.responseData = response.data;
-    console.log("The api res is: ", responseBody);
     return responseBody;
   } catch (error) {
-    console.log("Error while fetching the data, from controller", error);
     responseBody.hasError = true;
     responseBody.errorMessage = responseBody.errorMessage =
       error.response?.data?.statusMsg || error.response?.data?.errors;
