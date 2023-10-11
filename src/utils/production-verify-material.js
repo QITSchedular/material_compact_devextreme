@@ -32,10 +32,10 @@ export const getProductionOrder = async () => {
 
 // ------------------ Validate Item ------------------ //
 
-export const validatePoListsVerifyMaterial = async (detailQRCodeID) => {
+export const validatePoListsVerifyMaterial = async (detailQRCodeID, docEntry) => {
   const requestBody = {
     // "proDocEntry": 1,
-    proDocEntry: 59,
+    proDocEntry: docEntry,
     detailQRCodeID: detailQRCodeID,
   };
 

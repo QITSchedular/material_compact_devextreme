@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useQRCodeScan } from "../../utils/useQRCodeScan";
 
 import debounce from "lodash/debounce";
@@ -14,10 +14,16 @@ const TransparentContainer = ({
   const { startQrCode, stopQrCode, decodedQRData } = useQRCodeScan({
     qrcodeMountNodeID: mountNodeId,
   });
+  const [qrScannerStyle,setqrScannerStyle] = useState(false);
 
+  const startQrCode_debounce = ()=>{
+      setqrScannerStyle(true);
+  }
   const debouncedStartQrCode = debounce(startQrCode, 5);
+  const showqrstyle = debounce(startQrCode_debounce,1100);
   useEffect(() => {
     debouncedStartQrCode();
+    showqrstyle();
   }, []);
   const scannerCloser = () => {
     return stopQrCode();
@@ -39,7 +45,7 @@ const TransparentContainer = ({
       {mountNodeId && (
         <>
           <div id={mountNodeId} className="scanner-container-fullscreen"></div>
-          <div className="scan"></div>
+          {qrScannerStyle?<div className="scan"></div>:""}
           <div className="button-container">
          
             <Button

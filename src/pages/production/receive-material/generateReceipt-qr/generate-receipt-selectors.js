@@ -78,8 +78,8 @@ const GenerateReceiptSelectors = ({
           </TextBox>
 
           <NormalButton
-            width={33}
-            height={33}
+            width={40}
+            height={40}
             type="normal"
             stylingMode="outlined"
             icon="search"

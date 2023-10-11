@@ -108,7 +108,8 @@ function IncommingQcScanItem() {
   const [IQCList, setIQCList] = useState(new Set()); // State to store the selected row data
   const [QrRequestData, setQrRequestData] = useState(new Set()); // State to store the selected row data
   const [selectedRowData, setSelectedRowData] = useState("");
-  const dataGridRef = useRef();
+  const dataGridRefApprove = useRef();
+  const dataGridRefReject = useRef();
   const dataGridRefList = useRef();
 
   //scanner open and close
@@ -372,12 +373,12 @@ function IncommingQcScanItem() {
     setSelectedRowKeysOnChangeApprove(selectedRowKeys);
     const length = await selectedRowKeys.length;
     if (selectedRowKeys.length > 1) {
-      const value = await dataGridRef.current.instance.selectRows(
+      const value = await dataGridRefApprove.current.instance.selectRows(
         selectedRowKeys[length - 1]
       );
       return selectedRowSetterApprove(value);
     } else {
-      const value = await dataGridRef.current.instance.selectRows(
+      const value = await dataGridRefApprove.current.instance.selectRows(
         selectedRowKeys[0]
       );
       return selectedRowSetterApprove(value);
@@ -388,14 +389,15 @@ function IncommingQcScanItem() {
   const handleDataGridRowSelectionReject = async ({ selectedRowKeys }) => {
     setSelectedRowKeysOnChangeReject(selectedRowKeys);
     const length = await selectedRowKeys.length;
+    console.log(length)
     if (selectedRowKeys.length > 1) {
-      const value = await dataGridRef.current.instance.selectRows(
+      const value = await dataGridRefReject.current.instance.selectRows(
         selectedRowKeys[length - 1]
       );
-      const value1 = await dataGridRefList.current.instance.selectRows(0);
+      // const value1 = await dataGridRefList.current.instance.selectRows(0);
       return selectedRowSetterReject(value);
     } else {
-      const value = await dataGridRef.current.instance.selectRows(
+      const value = await dataGridRefReject.current.instance.selectRows(
         selectedRowKeys[0]
       );
       return selectedRowSetterReject(value);
@@ -448,7 +450,11 @@ function IncommingQcScanItem() {
 
   // Function to clear data
   const clearData = async (detailQr) => {
+    // dataGridRefApprove.current.instance.selectRows(0);
+    outsideClickHandlerQrRequest();
     setdetailQRCodeID('');
+    setSelectedRowKeys([]);
+    setSelectedRowKeysReject([]); 
     setselectedRowsDataApprove([]);
     setselectedRowsDataReject([]);
     await removeFromIQCList(detailQr); // Remove the item from IQCList
@@ -523,7 +529,7 @@ function IncommingQcScanItem() {
               keyExpr={"whsCode"}
               columns={column}
               handleDataGridRowSelection={handleDataGridRowSelectionApprove}
-              dataGridRef={dataGridRef}
+              dataGridRef={dataGridRefApprove}
               selectedRowKeys={selectedRowKeys}
               selectedWarehouse={selectedRowKeysReject}
             />
@@ -547,7 +553,7 @@ function IncommingQcScanItem() {
               keyExpr={"whsCode"}
               columns={column}
               handleDataGridRowSelection={handleDataGridRowSelectionReject}
-              dataGridRef={dataGridRef}
+              dataGridRef={dataGridRefReject}
               selectedRowKeys={selectedRowKeysReject}
               selectedWarehouse={selectedRowKeys}
             />

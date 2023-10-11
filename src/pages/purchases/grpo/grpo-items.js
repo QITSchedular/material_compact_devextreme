@@ -39,9 +39,10 @@ import {
   PopupHeaderText,
   PopupSubText,
 } from "../../../components/typographyTexts/TypographyComponents";
+import GrpoBinChooserComponent from "./grpo-bin-popup";
 
 const GrpoItems = () => {
-  const { qrCode } = useParams();
+  const { qrCode,numAtCard } = useParams();
   const [selectedItemQr, setSelectedItemQR] = useState(null);
   const [gridDataSource, setGridDataSource] = useState([]);
   const [selectedRowsData, setSelectedRowsData] = useState([]);
@@ -49,6 +50,7 @@ const GrpoItems = () => {
   const [loading, setLoading] = useState(false);
   const [comments, setComments] = useState("");
   const [showWareHousePopupHelp, setShowWareHousePopupHelp] = useState(false);
+  const [showBinPopupHelp, setShowBinPopupHelp] = useState(false);
   const [uniqueIds, setUniqueIds] = useState(new Set());
   const [choosenWarehouseName, setChoosenWarehouseName] = useState("");
   const [showScanner, setShowScanner] = useState(false);
@@ -56,9 +58,7 @@ const GrpoItems = () => {
 
   const [qcWareHouseData, setQcWareHouseData] = useState("");
   const [qcWareHouseSelectedData, setQcWareHouseSelectedData] = useState("");
-  const [defaultChoosenQcWareHouse, setDefaultChoosenQcWarehouse] = useState(
-    []
-  );
+  const [defaultChoosenQcWareHouse, setDefaultChoosenQcWarehouse] = useState([]);
   const [choosenQcWareHouseBinData, setChoosenQcWareHouseBinData] =
     useState("");
   const [qcBinIsNotActivated, setQcBinIsNotActivated] = useState(false); // default is true is activated
@@ -76,6 +76,13 @@ const GrpoItems = () => {
   const [nonQcWareHouseBinData, setNonQcWareHouseBinData] = useState("");
   const [choosenNonQcWareHouseBinData, setChoosenNonQcWareHouseBinData] =
     useState("");
+  const [nonQcBinDataGridDataSource, setNonQcBinDataGridDataSource] = useState("");
+
+
+  const [qcBindisable,setQcBindisable] = useState(false);
+  const [noqcBindisable,setnoQcBindisable] = useState(false);
+  const [noqcBinData,setnoQcBinData] = useState(false);
+
 
   const [refNo, setRefNo] = useState("");
 
@@ -86,15 +93,13 @@ const GrpoItems = () => {
 
   // on hit of search button
   const handleItemQrVerification = async (dataScanFromScanner) => {
-    console.log("At handleItemQrVerification");
-    console.log("The selectedItemQr is:", selectedItemQr);
     if (
       typeof dataScanFromScanner !== "object" &&
       dataScanFromScanner !== null
     ) {
       const doItemExists = await ValidateItemQR(qrCode, dataScanFromScanner);
       if (doItemExists.hasError) {
-        return toastDisplayer("error", doItemExists.errorMessage.statusMsg);
+        return toastDisplayer("error",doItemExists.errorMessage);
       }
 
       // Filter out duplicate detailQRCodeID values
@@ -121,7 +126,7 @@ const GrpoItems = () => {
     } else if (selectedItemQr) {
       const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
       if (doItemExists.hasError) {
-        return toastDisplayer("error", doItemExists.errorMessage.statusMsg);
+        return toastDisplayer("error",doItemExists.errorMessage);
       }
 
       // Filter out duplicate detailQRCodeID values
@@ -152,9 +157,14 @@ const GrpoItems = () => {
   };
 
   const handleGrpoSaving = async () => {
+    if (!noqcBinData) {
+      return toastDisplayer("error", " ❌ Please Select Bin items to proceed");
+    }
+    
     if (!gridDataSource.length > 0) {
       return toastDisplayer("error", " ❌ Please Scan items to proceed");
     }
+    
     if (
       selectedRowsData.length > 0 &&
       choosenWarehouseName !== selectedRowsData[0].whsCode
@@ -170,7 +180,7 @@ const GrpoItems = () => {
       }
       setLoading(true);
       const series = "102";
-      const numAtCard = "8985698";
+      // const numAtCard = "8985698";
       const doGrpo = await generateGrpo(
         gridDataSource,
         comments,
@@ -180,7 +190,7 @@ const GrpoItems = () => {
         defaultChoosenQcWareHouse,
         choosenQcWareHouseBinData,
         defaultChoosenNonQcWareHouse,
-        choosenNonQcWareHouseBinData
+        noqcBinData[0]
       );
       if (doGrpo.isSaved === "Y") {
         // console.log("saved");
@@ -215,6 +225,12 @@ const GrpoItems = () => {
       warehousePopUpHandler();
     },
   };
+  const helpOptionsForBin = {
+    icon: HelpIcons,
+    onClick: () => {
+      binPopUpHandler();
+    },
+  };
   const saveButtonOptions = {
     width: 120,
     height: 40,
@@ -230,7 +246,24 @@ const GrpoItems = () => {
       return toastDisplayer("error", "Please select a PO to save and proceed");
     }
   };
+  const binsaveButtonOptions = {
+    width: 120,
+    height: 40,
+    text: "OK",
+    type: "default",
+    stylingMode: "contained",
+    onClick: () => handlebinSaveSelectedBin(),
+  };
+  const handlebinSaveSelectedBin = () => {
+    // setnoQcBinData
+    if (noqcBinData.length > 0) {
+      return setShowBinPopupHelp(false);
+    } else {
+      return toastDisplayer("error", "Please select a Bin to save and proceed");
+    }
+  };
   const handleCancelNoSelection = () => {
+    setShowBinPopupHelp(false);
     return setShowWareHousePopupHelp(false);
   };
   const cancelButtonOptions = {
@@ -244,12 +277,21 @@ const GrpoItems = () => {
   const warehousePopUpHandler = async () => {
     return await setShowWareHousePopupHelp(true);
   };
+  const binPopUpHandler = async () => {
+    return await setShowBinPopupHelp(true);
+  };
   const popupCloseHandler = async () => {
+    setShowBinPopupHelp(false);
     return await setShowWareHousePopupHelp(false);
   };
   const handleGrpoPoSelection = (params) => {
     if (params.length > 0) {
       return setSelectedRowsData(params);
+    }
+  };
+  const handleGrpoBinSelection = (params) => {
+    if (params.length > 0) {
+      return setnoQcBinData(params);
     }
   };
   const handleChoosenWareHouseChange = async (data) => {
@@ -303,55 +345,57 @@ const GrpoItems = () => {
         setNonQcWareHouseData(response);
 
         const choosenQcWarehouse = response.find(
+          // (item) => item.whsCode === "VD-Store"
           (item) => item.whsCode === "VD-QA"
         );
-        console.log("choosenQcWarehouse is ", choosenQcWarehouse);
 
         const choosenNonQcWarehouse = response.find(
-          (item) => item.whsCode === "VD-Maint"
+          // (item) => item.whsCode === "VD-QA"
+          (item) => item.whsCode === "VD-Store"
         );
-        console.log("choosenNonQcWarehouse is ", choosenNonQcWarehouse);
 
         // choosen qc warehouse things
         if (choosenQcWarehouse) {
           setDefaultChoosenQcWarehouse([choosenQcWarehouse]);
           if (choosenQcWarehouse.binActivat === "No") {
-            console.log(
-              "Bin for this choosenQcWarehouse has not been activated"
-            );
             await setQcBinIsNotActivated(true);
           }
           if (choosenQcWarehouse.binActivat === "Yes") {
-            console.log("Bin for this choosenQcWarehouse has been activated");
+            setQcBindisable(true);
             setQcBinIsNotActivated(false);
             const bindata = await getBinForQcWareHouse(choosenQcWarehouse);
-            console.log("Choosen QcWarehouse has been activated", bindata);
+            // setNonQcBinDataGridDataSource(bindata);
           }
         }
 
         // choosen no qc warehouse
         if (choosenNonQcWarehouse) {
-          const nonQcConfiguartion = await nonQcConfigurationController(
-            choosenNonQcWarehouse
-          );
+          setDefaultChoosenNonQcWarehouse([choosenNonQcWarehouse]);
+          if (choosenNonQcWarehouse.binActivat === "No") {
+            setNonQcBinIsNotActivated(true);
+          }
+          if (choosenNonQcWarehouse.binActivat === "Yes") {
+            setnoQcBindisable(true);
+            setNonQcBinIsNotActivated(false);
+            const bindata = await getBinForNonQcWareHouse(choosenNonQcWarehouse);
+            // setNonQcBinDataGridDataSource(bindata);
+          }
         }
       };
       getAllWarehouses();
     }
   }, [gridDataSource]);
 
-  const nonQcConfigurationController = async (choosenNonQcWarehouse) => {
-    setDefaultChoosenNonQcWarehouse([choosenNonQcWarehouse]);
-    if (choosenNonQcWarehouse.binActivat === "No") {
-      console.log("No qc ware bin has noot been activated");
-      setNonQcBinIsNotActivated(true);
-    }
-    if (choosenNonQcWarehouse.binActivat === "Yes") {
-      console.log("No qc ware bin has been activated");
-      setNonQcBinIsNotActivated(false);
-      await getBinForNonQcWareHouse(choosenNonQcWarehouse);
-    }
-  };
+  // const nonQcConfigurationController = async (choosenNonQcWarehouse) => {
+  //     if (choosenNonQcWarehouse.binActivat === "No") {
+  //       setNonQcBinIsNotActivated(true);
+  //     }
+  //     if (choosenNonQcWarehouse.binActivat === "Yes") {
+  //       setnoQcBindisable(true);
+  //       setNonQcBinIsNotActivated(false);
+  //       await getBinForNonQcWareHouse(choosenNonQcWarehouse);
+  //     }
+  // };
 
   const getBinForQcWareHouse = async (choosenQcWarehouse) => {
     const binLocationDetailsResp = await binLocationController(
@@ -369,6 +413,7 @@ const GrpoItems = () => {
     if (!binLocationDetailsResp.hasError) {
       const { responseData } = binLocationDetailsResp;
       setNonQcWareHouseBinData(responseData);
+      setNonQcBinDataGridDataSource(responseData);
     }
   };
 
@@ -382,10 +427,6 @@ const GrpoItems = () => {
   const nonqcWarehouseItemsClick = async ({ itemData }) => {
     await setnonQcWareHouseSelectedData(itemData);
   };
-  const nonQcWareHouseBinItemClick = async ({ itemData }) => {
-    console.log("nonQcWareHouseBinItemClick", itemData);
-    await setChoosenNonQcWareHouseBinData(itemData);
-  };
 
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
@@ -395,14 +436,12 @@ const GrpoItems = () => {
           visible={true}
           showCloseButton={true}
           hideOnOutsideClick={popupCloseHandler}
-          // contentRender={() => <GrpoWarehouseChooserComponent />}
           contentRender={() => (
             <GrpoWarehouseChooserComponent
               handleSaveSelectedWarehouse={handleGrpoPoSelection}
               handleCloseButton={popupCloseHandler}
             />
           )}
-          // hideOnOutsideClick={outSideHandler}
         >
           <ToolbarItem
             widget="dxButton"
@@ -415,6 +454,37 @@ const GrpoItems = () => {
             toolbar="bottom"
             location="after"
             options={saveButtonOptions}
+            cssClass={"tootlbar-save-button"}
+          />
+        </Popup>
+      )}
+      
+      {showBinPopupHelp && (
+        <Popup
+        visible={true}
+        showCloseButton={true}
+          hideOnOutsideClick={popupCloseHandler}
+          
+          contentRender={() => (
+            <GrpoBinChooserComponent
+            handleSaveSelectedWarehouse={handleGrpoBinSelection}
+            handleCloseButton={popupCloseHandler}
+            dummyData={nonQcBinDataGridDataSource}
+            />
+            )}
+          // hideOnOutsideClick={outSideHandler}
+        >
+          <ToolbarItem
+            widget="dxButton"
+            toolbar="bottom"
+            location="after"
+            options={cancelButtonOptions}
+          />
+          <ToolbarItem
+            widget="dxButton"
+            toolbar="bottom"
+            location="after"
+            options={binsaveButtonOptions}
             cssClass={"tootlbar-save-button"}
           />
         </Popup>
@@ -539,9 +609,11 @@ const GrpoItems = () => {
                     <span className="config-label">Qc Bin: </span>
                     <DropDownButton
                       text={
+                        !qcBindisable ? "No bin" :(
                         choosenQcWareHouseBinData
                           ? choosenQcWareHouseBinData.binCode
-                          : "Choose Bin"
+                          :
+                           "Choose Bin") 
                       }
                       keyExpr={"absEntry"}
                       displayExpr={"binCode"}
@@ -549,7 +621,7 @@ const GrpoItems = () => {
                       width={"100%"}
                       className="config-dropdown"
                       height={40}
-                      disabled={true}
+                      disabled={!qcBindisable?true:false}
                       onItemClick={qcWareHouseBinItemClick}
                     ></DropDownButton>
                   </div>
@@ -557,9 +629,9 @@ const GrpoItems = () => {
                     <span className="config-label">Non Qc Warehouse: </span>
                     <DropDownButton
                       text={
-                        defaultChoosenNonQcWareHouse
-                          ? defaultChoosenNonQcWareHouse[0].whsName
-                          : "No warehouse selected"
+                        defaultChoosenNonQcWareHouse.length>0
+                        ? defaultChoosenNonQcWareHouse[0].whsName
+                        : "No warehouse selected"
                       }
                       items={defaultChoosenNonQcWareHouse}
                       width={"100%"}
@@ -574,7 +646,7 @@ const GrpoItems = () => {
                   </div>
                   <div className="single-config">
                     <span className="config-label">Non Qc Bin: </span>
-                    <DropDownButton
+                    {/* <DropDownButton
                       text={
                         choosenNonQcWareHouseBinData
                           ? choosenNonQcWareHouseBinData.binCode
@@ -590,7 +662,30 @@ const GrpoItems = () => {
                         nonQcBinIsNotActivated ? nonQcBinIsNotActivated : false
                       }
                       onItemClick={nonQcWareHouseBinItemClick}
-                    />
+                    /> */}
+                    <TextBox
+                      className="dx-field-value"
+                      stylingMode="outlined"
+                      placeholder="Choose Bin"
+                      width={"100%"}
+                      showClearButton={true}
+                      value={
+                          !noqcBindisable ? "No bin" :(
+                            noqcBinData.length > 0
+                            ? noqcBinData[0].binCode
+                          :
+                           "Choose Bin")
+                      }
+                      disabled={ !noqcBindisable ?true:false}
+                      height={40}
+                    >
+                      <TextBoxButton
+                        name="currency"
+                        location="after"
+                        options={helpOptionsForBin}
+                        height={40}
+                      />
+                    </TextBox>
                   </div>
                   <div className="single-config">
                     <span className="config-label">Ref No: </span>
@@ -598,17 +693,10 @@ const GrpoItems = () => {
                       height={40}
                       width={"100%"}
                       autoResizeEnabled={true}
-                      value={"969696"}
+                      value={numAtCard}
                       stylingMode="outlined"
                       disabled={true}
                     />
-                    {/* <DropDownButton
-                text={"Select Period"
-                }
-                width={"100%"}
-                className="config-dropdown"
-                height={40}
-              /> */}
                   </div>
                 </div>
 
