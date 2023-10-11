@@ -145,47 +145,6 @@
                 line-height: normal;
             }
         }
-
-        .warehouse-group {
-            .cusotm-switch {
-                display: flex;
-                align-items: center;
-                // justify-content: space-between;
-                gap: 1rem;
-                margin-bottom: 1rem;
-            }
-
-            .warehouse-group-fieldset {
-                display: grid;
-                gap: .7rem;
-                grid-template-columns: 1fr 1fr 1fr 1fr;
-
-                border: 1px solid rgba(0, 0, 0, 0.2);
-                border-radius: 6px;
-                padding-top: 1rem;
-
-                legend {
-                    font-size: 14px;
-                    color: #525252;
-                    font-feature-settings: "clig" off, "liga" off;
-                    font-family: Roboto;
-                    font-style: normal;
-                    font-weight: 400;
-                    line-height: normal;
-                }
-
-                .dx-selectbox {
-                    margin-top: .3rem;
-                    // margin-bottom: 1rem;
-                    border-radius: 8px;
-                    box-shadow: none;
-                    background-color: transparent;
-                    border-radius: 8px;
-                    border: 1px solid #E0E0E0;
-                    color: #E0E0E0;
-                }
-            }
-        }
     }
 
     .card-footer {
@@ -229,23 +188,6 @@
                     display: block;
                 }
             }
-
-            .warehouse-group {
-                .cusotm-switch {
-                    justify-content: space-between;
-                }
-
-                .warehouse-group-fieldset {
-
-                    display: grid;
-                    gap: .7rem;
-                    grid-template-columns: 1fr;
-
-                    .dx-selectbox {
-                        margin-bottom: .2rem;
-                    }
-                }
-            }
         }
     }
 }
@@ -262,18 +204,6 @@
 
                 .dropdown-group-fieldset {
                     display: block;
-                }
-            }
-
-            .warehouse-group {
-                .cusotm-switch {
-                    gap: 1rem;
-                }
-
-                .warehouse-group-fieldset {
-                    display: grid;
-                    gap: .7rem;
-                    grid-template-columns: 1fr;
                 }
             }
         }
@@ -294,19 +224,6 @@
                     display: block;
                 }
             }
-
-            .warehouse-group {
-                .cusotm-switch {
-                    // justify-content: space-between;
-                    gap: 1rem;
-                }
-
-                .warehouse-group-fieldset {
-                    display: grid;
-                    gap: .7rem;
-                    grid-template-columns: 1fr 1fr;
-                }
-            }
         }
     }
 }
@@ -324,19 +241,6 @@
                 .dropdown-group-fieldset {
                     display: grid;
                     grid-template-columns: 1fr 1fr;
-                }
-            }
-
-            .warehouse-group {
-                .cusotm-switch {
-                    // justify-content: space-between;
-                    gap: 1rem;
-                }
-
-                .warehouse-group-fieldset {
-                    display: grid;
-                    gap: .7rem;
-                    grid-template-columns: 1fr 1fr 1fr 1fr;
                 }
             }
         }

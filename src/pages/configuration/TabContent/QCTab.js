@@ -1,12 +1,12 @@
-import { SelectBox } from 'devextreme-react';
 import React, { useEffect, useState } from 'react'
-import { UseSettingContext } from '../../../contexts/settingConfig';
+// import { UseSettingContext } from '../../../contexts/settingConfig';
 import { getWarehouse } from '../../../utils/settingConfigAPI';
 import CustomSwitchBox from './CustomSwitchBox';
+import CustomDropdownBox from './CustomDropdownBox';
 
 
 export default function QCTab() {
-    const { SettingValues, Dropdownchanged } = UseSettingContext();
+    // const { SettingValues, Dropdownchanged } = UseSettingContext();
 
     async function getwarehouseData() {
         try {
@@ -35,7 +35,7 @@ export default function QCTab() {
             return [...prevSelectedItems];
         });
 
-        Dropdownchanged("Warehouse", selectedItems);
+        // Dropdownchanged("Warehouse", selectedItems);
     };
 
     const filterDataSource = (index) => {
@@ -54,36 +54,23 @@ export default function QCTab() {
     const labels = ["Incoming QC", "Inprocess QC", "Approved", "Rejeted"];
     return (
         <>
-            <CustomSwitchBox switchGroup={'Quality Control'} />
 
-            {/* <CustomCheckBox checkboxvalue={["Yes", "No"]} checkboxgroup={'Quality Control'} /> */}
-
-            <fieldset>
-                <legend>Warehouse</legend>
-                {Array.from({ length: 4 }).map((_, index) => {
-                    return (
-                        <div className='warehouseselectionBox'>
-                            <label>{`${labels[index]}`}</label>
-                            <SelectBox
-                                key={index}
-                                // selectBoxGroup={"Default Period Indicator"}
-                                className='warehouseDropdown'
-                                dataSource={filterDataSource(index)}
-                                stylingMode='outlined'
-                                searchEnabled={true}
-                                valueExpr={"whsCode"}
-                                displayExpr={"whsName"}
-                                value={SettingValues['Warehouse'][index] ? SettingValues['Warehouse'][index] : "Select Warehouse"}
-                                onItemClick={(e) => {
-                                    handleDropdownSelect(e.itemData, index);
-                                }}
-                                placeholder={selectedItems[index] ? selectedItems[index]["whsName"] : "Select Warehouse"}
-                                useItemTextAsTitle={true}
-                            />
-                        </div>
-                    )
-                })}
-            </fieldset>
+            <div className='warehouse-group'>
+                <CustomSwitchBox switchGroup={'Quality Control'} />
+                <fieldset className='warehouse-group-fieldset'>
+                    <legend>Warehouse</legend>
+                    {Array.from({ length: 4 }).map((_, index) => {
+                        return (
+                            <div className='warehouseselectionBox'>
+                                <CustomDropdownBox
+                                    selectBoxGroup={labels[index]}
+                                    fetchDataFunction={() => { }}
+                                />
+                            </div>
+                        )
+                    })}
+                </fieldset>
+            </div>
         </>
     )
 }

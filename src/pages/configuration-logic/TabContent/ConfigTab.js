@@ -7,6 +7,9 @@ import { getPeriodIndicator } from '../../../utils/gate-in-purchase';
 import CustomSwitchBox from './CustomSwitchBox';
 
 export default function ConfigTab() {
+    // const { SettingValues } = UseSettingContext();
+    // console.log("SettingValues", SettingValues);
+
     return (
         <>
             <div className='checkbox-group'>
@@ -31,7 +34,7 @@ export default function ConfigTab() {
                 <fieldset className='dropdown-group-fieldset'>
                     <legend>Series</legend>
                     <div>
-                        <CustomDropdownBox
+                        {/* <CustomDropdownBox
                             selectBoxGroup={"Default Period Indicator"}
                             fetchDataFunction={async () => {
                                 try {
@@ -40,8 +43,8 @@ export default function ConfigTab() {
                                     return Promise.reject(error.message);
                                 }
                             }}
-                        />
-                        <CustomDropdownBox
+                        /> */}
+                        {/* <CustomDropdownBox
                             selectBoxGroup={"GRPO Serise <span style='color:red'>No API</span>"}
                             valueExpr={"series"}
                             displayExpr={"seriesName"}
@@ -52,7 +55,7 @@ export default function ConfigTab() {
                                     return Promise.reject(error.message);
                                 }
                             }}
-                        />
+                        /> */}
                         <CustomDropdownBox
                             selectBoxGroup={"Issue Serise"}
                             valueExpr={"series"}
@@ -91,7 +94,7 @@ export default function ConfigTab() {
                                 }
                             }}
                         />
-                        <CustomDropdownBox
+                        {/* <CustomDropdownBox
                             selectBoxGroup={"Inventory Transfer Serise <span style='color:red'>No API</span>"}
                             valueExpr={"series"}
                             displayExpr={"seriesName"}
@@ -102,7 +105,7 @@ export default function ConfigTab() {
                                     return Promise.reject(error.message);
                                 }
                             }}
-                        />
+                        /> */}
                     </div>
                 </fieldset>
                 <fieldset className='switch-group-fieldset'>

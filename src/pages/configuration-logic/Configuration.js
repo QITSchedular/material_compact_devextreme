@@ -41,6 +41,7 @@ export default function Configuration() {
                 >
                     <Item text="Configuration"></Item>
                     <Item text="Quality Control"></Item>
+                    {/* <Item text="New Tab"></Item> */}
                 </Tabs>
             </div>
             <div className="card-body" id='configuration'>
@@ -71,7 +72,7 @@ export default function Configuration() {
                         type='default'
                         className='my-button save-button'
                         onClick={handleSaveClick}
-                    // disabled={!isValueUpdated}
+                        disabled={!isValueUpdated}
                     />
                 </div>
             </div>

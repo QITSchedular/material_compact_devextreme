@@ -33,6 +33,17 @@
     .back-to-home {
         margin-top: 1rem;
         margin-left: 0;
+
+        .dx-button-content {
+            background-color: #fff;
+
+            .dx-button-text {
+                color: #4371B7;
+                font-family: Poppins;
+                font-size: 16px;
+                font-weight: 400;
+            }
+        }
     }
 }
 
