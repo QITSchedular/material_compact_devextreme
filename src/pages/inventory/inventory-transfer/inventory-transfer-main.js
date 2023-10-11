@@ -54,6 +54,11 @@ const InventorytransferMain = () => {
     }
   };
 
+  // close from bin popup 
+  const popUpOutsideClickHandlerFromBin=()=>{
+    setFromBinVisible(false);
+  }
+
   useEffect(() => {
     if (selectedFromWarehouse.length > 0) {
       console.log("selectedFromWarehouse", selectedFromWarehouse[0].binActivat);
@@ -216,6 +221,11 @@ const InventorytransferMain = () => {
       setFromBinPopup(true);
     },
   };
+
+  const popUpOutsideClickHandler = () => {
+    setFromBinPopup(false);
+  };
+
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner inventory-transfer-main-container ">
       {showScanner && (
@@ -280,6 +290,7 @@ const InventorytransferMain = () => {
               placeholder={"From Bin"}
               width={160}
               showClearButton={true}
+              popUpOutsideClickHandler={popUpOutsideClickHandlerFromBin}
               // value={textBoxValue || ""}
               disabled={fromBinVisible}
               // ref={txtRef}
@@ -292,7 +303,7 @@ const InventorytransferMain = () => {
             </TextBox>
             {showFromBinPopup && (
               <PopupComponent
-                // popUpOutsideClickHandler={popUpOutsideClickHandler}
+                popUpOutsideClickHandler={popUpOutsideClickHandler}
                 placeholder={"From Bin List"}
                 gridDataSourceList={qcWareHouseBinData}
                 // onSelectAndClose={(selectedValue) => {

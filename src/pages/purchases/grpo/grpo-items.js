@@ -308,7 +308,7 @@ const GrpoItems = () => {
         console.log("choosenQcWarehouse is ", choosenQcWarehouse);
 
         const choosenNonQcWarehouse = response.find(
-          (item) => item.whsCode === "VD-Store"
+          (item) => item.whsCode === "VD-Maint"
         );
         console.log("choosenNonQcWarehouse is ", choosenNonQcWarehouse);
 

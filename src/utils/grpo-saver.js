@@ -120,7 +120,7 @@ const grpoDetailsConstructor = async (
   const headerItem = gridDataSource[0]; // Assuming gridDataSource has at least one element
   return {
     branchId: "1",
-    series,
+    series:"1283",
     docEntry: headerItem.docEntry,
     docNum: headerItem.docNum,
     cardCode: headerItem.cardCode,
