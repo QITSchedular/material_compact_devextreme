@@ -15,7 +15,7 @@ const PopUpContent = ({ userSelectedRow, generatePopupCloser }) => {
   const [remarks, setRemarks] = useState("");
   const [itemsQrDetailsDataSource, setItemsQrDetailsDataSource] = useState([]);
   const { qrMngBy, itemCode, receiptQty, plannedQty } = userSelectedRow;
-  
+
   const dataGridColumns = [
     "headerQRCodeID",
     "detailQRCodeID",
@@ -47,13 +47,13 @@ const PopUpContent = ({ userSelectedRow, generatePopupCloser }) => {
     return setRemarks(value);
   };
   const handleGenerateQr = async () => {
-   
+
     const isDataSaved = await qrGenerationController(userSelectedRow, batches);
     console.log("From the ui part isDataSaved", isDataSaved);
-    if(!isDataSaved.hasError){
+    if (!isDataSaved.hasError) {
       return toastDisplayer("success", isDataSaved.data[0]);
     }
-    else{
+    else {
       return toastDisplayer("error", "Something went wrong try again later");
     }
   };
@@ -83,6 +83,9 @@ const PopUpContent = ({ userSelectedRow, generatePopupCloser }) => {
           <PopupSubText
             text={"Scroll through the list or type in the search box.."}
           />
+          <div className="button-groups">
+            <Button icon="close" onClick={() => generatePopupCloser()} />
+          </div>
           <div
             className="info-displayer"
             style={{

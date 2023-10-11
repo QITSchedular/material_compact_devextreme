@@ -28,7 +28,11 @@ function HelperPopUp({
     const dataGridDataHandler = async () => {
       const poListData = await getProductionOrder();
       if (poListData.length > 0) {
-        console.log("It has data");
+        console.log("It has data", poListData[0].dueDate);
+        poListData.forEach((item) => {
+          item.dueDate = formatDate(item.dueDate);
+          item.startDate = formatDate(item.startDate);
+        });
         setSelectedRowKeys(selectedRowKeys);
         setDataSource(poListData);
         return setLoading(false); // Correct the state update to false
@@ -36,6 +40,15 @@ function HelperPopUp({
         const { errorText } = poListData;
         return setError(errorText);
       }
+    };
+
+    const formatDate = (dateString) => {
+      const date = new Date(dateString);
+      const dd = String(date.getDate()).padStart(2, "0");
+      const mm = String(date.getMonth() + 1).padStart(2, "0"); // January is 0!
+      const yy = String(date.getFullYear()).slice(-2);
+
+      return `${dd}/${mm}/${yy}`;
     };
     dataGridDataHandler();
   }, []);
@@ -93,14 +106,16 @@ function HelperPopUp({
             <Column
               dataField="startDate"
               alignment="left"
-              caption={"Start Date"}
-              dataType={"date"}
+              caption="Start Date"
+              dataType="date"
+              format="shortDate"
             />
             <Column
               dataField="dueDate"
               alignment="left"
-              caption={"Due Date"}
-              dataType={"date"}
+              caption="Due Date"
+              dataType="date"
+              format="shortDate"
             />
           </DataGrid>
         </div>

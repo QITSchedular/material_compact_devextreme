@@ -79,10 +79,10 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
   console.log("The selected row data from the Production Qr Generation Controller is:", selectedRowData);
   const returnObject = {
     hasError: false,
-    data:[]
+    data: []
   }
 
- 
+
   const branchID = "1";
   const objType = "202";
   const {
@@ -99,7 +99,7 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
     project,
     recComment
   } = selectedRowData;
-  
+
   const doHeaderExists = await checkHeaderProductionQrExistence(
     selectedRowData
   );
@@ -117,7 +117,7 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
     }
     const getHeaderQr = await getHeaderQR(reqBody);
     console.log("Got the header qrCode response as:=>", getHeaderQr);
-    if (!getHeaderQr.hasError) {  
+    if (!getHeaderQr.hasError) {
       console.log("Save the header qr please..")
       const headerSaverPayload = {
         "branchID": branchID,
@@ -130,7 +130,7 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
         "incNo": getHeaderQr.responseData.incNo
       }
       const saveGeneratedHeaderQr = await SaveHeaderQR(headerSaverPayload);
-      
+
       if (!saveGeneratedHeaderQr.hasError) {
         /***Check for details qr existence**/
         console.log(
@@ -144,13 +144,13 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
           itemCode,
           recNo
         );
-        
+
         if (doDetailsQrExists.hasError) {
           console.log(`Detail Qr Code do not exist, but header qr Code has been generated and saved`)
 
           const { qrCode } = getHeaderQr.responseData;
           console.log("The header qr code is: ", qrCode);
-          
+
           const itemQrGenerationResult = await productionItemsQrGeneratorAndSaver(
             branchID,
             qrCode,
@@ -159,28 +159,28 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
             recNo,
             receiptQty,
             addedBatches);
-            console.log("Result of saving the detail qr Codes..", itemQrGenerationResult);
+          console.log("Result of saving the detail qr Codes..", itemQrGenerationResult);
           // console.log("The Final Generation result is: ", itemQrGenerationResult);
-          if(itemQrGenerationResult.includes(0)){
+          if (itemQrGenerationResult.includes(0)) {
             // returnObject.hasError = false;
             // returnObject.data.push("Qr, generation successfull...")
 
             // return returnObject;
             /* Get all the detal qr Data */
             const detailDataProductionQRPayload = {
-              proOrdDocEntry, proOrdDocNum, series, itemCode, recNo, whsCode, project, receiptQty,recComment
+              proOrdDocEntry, proOrdDocNum, series, itemCode, recNo, whsCode, project, receiptQty, recComment
             }
             const allDetailDataProductionRes = await getAllProductionDetailsQr(detailDataProductionQRPayload);
             console.log("allDetailDataProductionRes", allDetailDataProductionRes);
-            const {responseData: detailOfAllQr, hasError:detailOfAllQrHasError} = allDetailDataProductionRes;
-            if(!detailOfAllQrHasError){
-              const payloadFinalSap = await productionReceiptSapSaverPayloadConstructor(branchID,detailDataProductionQRPayload,detailOfAllQr)
+            const { responseData: detailOfAllQr, hasError: detailOfAllQrHasError } = allDetailDataProductionRes;
+            if (!detailOfAllQrHasError) {
+              const payloadFinalSap = await productionReceiptSapSaverPayloadConstructor(branchID, detailDataProductionQRPayload, detailOfAllQr)
             }
           }
         }
       }
     }
-  } 
+  }
   /*-------------The Header Qr Does Exists ------------------*/
   else {
     const doDetailsQrExists = await checkProductionDetailsQrExistence(
@@ -190,7 +190,7 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
       itemCode,
       recNo
     );
-    
+
     if (doDetailsQrExists.hasError) {
       console.log("Header Exists but the details qr does not exist");
       console.log(
@@ -209,27 +209,27 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
       );
       console.log("The Final Generation result is: ", itemQrGenerationResult);
       // now save the thing in the code 
-      if(itemQrGenerationResult.includes(0)){
+      if (itemQrGenerationResult.includes(0)) {
         //  get the data for the production's detail qr
-        const productionDetailQrData = await getDetailDataProductionQRHandler( branchID,proOrdDocEntry, proOrdDocNum,series,objType,itemCode, recNo);
+        const productionDetailQrData = await getDetailDataProductionQRHandler(branchID, proOrdDocEntry, proOrdDocNum, series, objType, itemCode, recNo);
         console.log("All productionDetailQrData")
         console.log(productionDetailQrData);
         /* No all the details has been take move the flow*/
         const detailDataProductionQRPayload = {
-          proOrdDocEntry, proOrdDocNum, series, itemCode, recNo, whsCode, project, receiptQty,recComment
+          proOrdDocEntry, proOrdDocNum, series, itemCode, recNo, whsCode, project, receiptQty, recComment
         }
         const allDetailDataProductionRes = await getAllProductionDetailsQr(detailDataProductionQRPayload);
-            console.log("allDetailDataProductionRes", allDetailDataProductionRes);
-            const {responseData: detailOfAllQr, hasError:detailOfAllQrHasError} = allDetailDataProductionRes;
-            if(!detailOfAllQrHasError){
-              const payloadFinalSap = await productionReceiptSapSaverPayloadConstructor(branchID,detailDataProductionQRPayload,detailOfAllQr)
-              console.log("Is the data been saved to SAP ???")
-              console.log(payloadFinalSap);
-            }
+        console.log("allDetailDataProductionRes", allDetailDataProductionRes);
+        const { responseData: detailOfAllQr, hasError: detailOfAllQrHasError } = allDetailDataProductionRes;
+        if (!detailOfAllQrHasError) {
+          const payloadFinalSap = await productionReceiptSapSaverPayloadConstructor(branchID, detailDataProductionQRPayload, detailOfAllQr)
+          console.log("Is the data been saved to SAP ???")
+          console.log(payloadFinalSap);
+        }
       }
       return itemQrGenerationResult;
     } else {
-      returnObject.hasError =  false;
+      returnObject.hasError = false;
       returnObject.data.push("Qr has alreadey been generated");
 
       return returnObject;
@@ -390,17 +390,17 @@ export const getProductionItemsMaxIncNumber = async (qrCode) => {
   }
 };
 export const productionItemsQrGeneratorAndSaver = async (
-        branchID,
-        qrCode,
-        itemCode,
-        qrMngBy,
-        recNo,
-        receiptQty,
-        addedBatches
+  branchID,
+  qrCode,
+  itemCode,
+  qrMngBy,
+  recNo,
+  receiptQty,
+  addedBatches
 ) => {
   console.log("This is productionItemsQrGeneratorAndSaver");
-  
-  if(qrMngBy === "B"){
+
+  if (qrMngBy === "B") {
     console.log('Qr is managed by batches')
     const isSavedQr = await batchWiseLooper(
       branchID,
@@ -410,9 +410,35 @@ export const productionItemsQrGeneratorAndSaver = async (
       recNo,
       receiptQty,
       addedBatches,);
-      
-      // return the counter array
-      return isSavedQr;
+
+    // return the counter array
+    return isSavedQr;
+  } else if (qrMngBy === "S") {
+    console.log('Qr is managed by serialwise')
+    const isSavedQr = await serialWiseLooper(
+      branchID,
+      qrCode,
+      itemCode,
+      qrMngBy,
+      recNo,
+      receiptQty,
+      //addedBatches,
+    );
+
+    return isSavedQr;
+  }
+  else if (qrMngBy === "N") {
+    console.log('Qr is managed by Numwise')
+    const isSavedQr = await NumWise(branchID,
+      qrCode,
+      itemCode,
+      qrMngBy,
+      recNo,
+      //receiptQty,
+      //addedBatches,
+    );
+
+    return isSavedQr;
   }
 };
 
@@ -422,7 +448,7 @@ const batchWiseLooper = async (branchID,
   qrMngBy,
   recNo,
   receiptQty,
-  addedBatches,)=>{
+  addedBatches) => {
   // first need to get the increment number for each item and save it
   console.log("THIS IS BATCH WISE LOOPER");
   const loopLength = addedBatches;
@@ -432,8 +458,8 @@ const batchWiseLooper = async (branchID,
   for (let i = 0; i < loopLength; i++) {
     // generate the qr code and then get other things for it  
     const getProductionDetailQR = await getProductionItemsMaxIncNumber(qrCode);
-    const {responseData: getAllProductionDetailsQrResponse, hasError: getProductionDetailQRHasError} = getProductionDetailQR;
-    if(!getProductionDetailQRHasError){
+    const { responseData: getAllProductionDetailsQrResponse, hasError: getProductionDetailQRHasError } = getProductionDetailQR;
+    if (!getProductionDetailQRHasError) {
       const { qrCode: detailQRCodeID, incNo } = getAllProductionDetailsQrResponse;
       const isSavedDetailQrCode = await saveProductionDetailsQr(
         branchID,
@@ -452,18 +478,103 @@ const batchWiseLooper = async (branchID,
         counterArray.push(0);
         console.log("Detail qr Code has been saved", detailQRCodeID);
       }
-      
+
     }
   }
   return counterArray;
 };
+
+const serialWiseLooper = async (branchID,
+  qrCode,
+  itemCode,
+  qrMngBy,
+  recNo,
+  receiptQty,
+  addedBatches,
+) => {
+  // first need to get the increment number for each item and save it
+  console.log("THIS IS SERIAL WISE LOOPER");
+  //const loopLength = addedBatches;
+  //const eachBatchQty = receiptQty;
+  //console.log("No of Qty In Each Batch is: " + eachBatchQty);
+  const counterArray = [];
+  for (let i = 0; i < receiptQty; i++) {
+    // generate the qr code and then get other things for it  
+    const getProductionDetailQR = await getProductionItemsMaxIncNumber(qrCode);
+    const { responseData: getAllProductionDetailsQrResponse, hasError: getProductionDetailQRHasError } = getProductionDetailQR;
+    if (!getProductionDetailQRHasError) {
+      const { qrCode: detailQRCodeID, incNo } = getAllProductionDetailsQrResponse;
+      const isSavedDetailQrCode = await saveProductionDetailsQr(
+        branchID,
+        qrCode,
+        detailQRCodeID,
+        incNo,
+        itemCode,
+        qrMngBy,
+        //`${eachBatchQty}`,
+        recNo,
+      );
+      if (isSavedDetailQrCode.hasError) {
+        counterArray.push(1);
+        console.log("Error while saving the Detail QR: ", detailQRCodeID);
+      } else {
+        counterArray.push(0);
+        console.log("Detail qr Code has been saved", detailQRCodeID);
+      }
+
+    }
+  }
+  return counterArray;
+};
+
+const NumWise = async (branchID,
+  qrCode,
+  itemCode,
+  qrMngBy,
+  recNo,
+  receiptQty,
+  addedBatches
+) => {
+  // first need to get the increment number for each item and save it
+  console.log("THIS IS NUM WISE");
+  //const loopLength = addedBatches;
+  const eachBatchQty = qrCode;
+  //console.log("No of Qty In Each Batch is: " + eachBatchQty);
+  const counterArray = [];
+  // generate the qr code and then get other things for it  
+  const getProductionDetailQR = await getProductionItemsMaxIncNumber(qrCode);
+  const { responseData: getAllProductionDetailsQrResponse, hasError: getProductionDetailQRHasError } = getProductionDetailQR;
+  if (!getProductionDetailQRHasError) {
+    const { qrCode: detailQRCodeID, incNo } = getAllProductionDetailsQrResponse;
+    const isSavedDetailQrCode = await saveProductionDetailsQr(
+      branchID,
+      qrCode,
+      detailQRCodeID,
+      incNo,
+      itemCode,
+      qrMngBy,
+      `${eachBatchQty}`,
+      recNo,
+    );
+    if (isSavedDetailQrCode.hasError) {
+      counterArray.push(1);
+      console.log("Error while saving the Detail QR: ", detailQRCodeID);
+    } else {
+      counterArray.push(0);
+      console.log("Detail qr Code has been saved", detailQRCodeID);
+    }
+
+  }
+  return counterArray;
+};
+
 export const saveProductionDetailsQr = async (
   branchID,
   headerQRCodeID,
   detailQRCodeID,
   incNo,
   itemCode,
-  qrMngBy ,
+  qrMngBy,
   qty,
   recNo
 ) => {
@@ -505,7 +616,7 @@ export const saveProductionDetailsQr = async (
   }
 };
 
-const getDetailDataProductionQRHandler = async(branchID,proOrdDocEntry, proOrdDocNum,series,objType,itemCode, recNo)=>{
+const getDetailDataProductionQRHandler = async (branchID, proOrdDocEntry, proOrdDocNum, series, objType, itemCode, recNo) => {
   const responseBody = {
     responseData: null,
     hasError: false,
@@ -623,10 +734,10 @@ export const getAllProductionDetailsQr = async (payload) => {
 
 //--------------------------- To save the things in the SAP -------------------------------------//
 
-const productionReceiptSapSaverPayloadConstructor = async (branchID,detailDataProductionQRPayload,detailOfAllQr)=>{
+const productionReceiptSapSaverPayloadConstructor = async (branchID, detailDataProductionQRPayload, detailOfAllQr) => {
   console.log("From productionReceiptSapSaverPayloadConstructor")
-  console.log(detailDataProductionQRPayload,detailOfAllQr);
-  const {proOrdDocEntry, proOrdDocNum, series, itemCode, recNo, whsCode, project,itemMngBy,receiptQty,recComment} = detailDataProductionQRPayload;
+  console.log(detailDataProductionQRPayload, detailOfAllQr);
+  const { proOrdDocEntry, proOrdDocNum, series, itemCode, recNo, whsCode, project, itemMngBy, receiptQty, recComment } = detailDataProductionQRPayload;
 
   const recDetails = detailOfAllQr.map(item => ({
     detailQRCodeID: item.detailQRCodeID || '',
@@ -634,26 +745,26 @@ const productionReceiptSapSaverPayloadConstructor = async (branchID,detailDataPr
     qty: item.qty || ''
   }));
   const sapSaverPayload = {
-    branchID:parseInt(branchID),
+    branchID: parseInt(branchID),
     proOrdDocEntry,
     series,
     recNo,
     itemCode,
     itemMngBy,
     whsCode,
-    binAbsEntry:0,
+    binAbsEntry: 0,
     receiptQty,
-    project:"null",
-    comment:recComment, 
+    project: "null",
+    comment: recComment,
     recDetails
+  };
+
+  const isProductionReceiptSaved = await productionReceiptSapSaver(sapSaverPayload);
+  console.log("isProductionReceiptSaved", isProductionReceiptSaved);
+  return isProductionReceiptSaved;
 };
 
-const isProductionReceiptSaved = await productionReceiptSapSaver(sapSaverPayload);
-console.log("isProductionReceiptSaved", isProductionReceiptSaved);
-return isProductionReceiptSaved;
-};  
-
-const productionReceiptSapSaver = async (payload)=>{
+const productionReceiptSapSaver = async (payload) => {
   const responseBody = {
     responseData: null,
     hasError: false,
