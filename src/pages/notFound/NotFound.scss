@@ -1,42 +1,82 @@
 .errorcontent {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin-top: 60px;
+    height: 75vh;
 
     .image404 {
         animation: zoomimage 1s infinite ease-in-out;
+        height: 280px;
+        width: 400px;
     }
 
     @keyframes zoomimage {
-        0% {
+
+        0%,
+        100% {
             transform: scale(1);
         }
 
         50% {
             transform: scale(1.05);
         }
-
-        100% {
-            transform: scale(1);
-        }
     }
 
-    .line1 {
+    .line {
         color: #525252;
         font-family: Poppins;
-        font-size: 34px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
+        font-size: 30px;
+        font-weight: 400;
     }
 
-    .line2 {
-        color: #000;
-        text-align: center;
-        font-family: Poppins;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
+    .back-to-home {
+        margin-top: 1rem;
+        margin-left: 0;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .errorcontent {
+        height: 70vh;
+
+        .image404 {
+            height: 250px;
+            width: 350px;
+        }
+
+        .line {
+            font-size: 20px;
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .errorcontent {
+        height: 70vh;
+
+        .image404 {
+            height: 280px;
+            width: 340px;
+        }
+
+        .line {
+            font-size: 30px;
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .errorcontent {
+        height: 75vh;
+
+        .image404 {
+            height: 280px;
+            width: 400px;
+        }
+
+        .line {
+            font-size: 30px;
+        }
     }
 }

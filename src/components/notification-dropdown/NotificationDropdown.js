@@ -81,9 +81,9 @@ function NotificationDropdown() {
                 </div>
                 <div className="notifydropdown-body">
                     {
-                        notificationData.map((values) => (
+                        notificationData.map((values, key) => (
                             <>
-                                <div className={`notification ${values.unread ? 'unread' : ''}`}>
+                                <div className={`notification ${values.unread ? 'unread' : ''}`} key={key}>
                                     <div>
                                         <div className='notify-title'>{values.title}</div>
                                         <div className='notify-time'>{values.time}</div>

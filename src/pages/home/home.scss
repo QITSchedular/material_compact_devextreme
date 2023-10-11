@@ -41,7 +41,7 @@
 
     .index-card-heading {
         font-size: 20px;
-        margin: 2.5rem 1rem .6rem 1rem;
+        margin: 2.5rem 1rem .8rem 1rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -67,7 +67,31 @@
     }
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 320px) {
+    .index-card-container {
+        padding: 0;
+
+        .index-card-heading {
+            gap: .5rem;
+        }
+
+        .grid-container {
+            padding: 0;
+
+            .dx-card {
+                width: 300px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 320px) {
+    .index-card-container {
+        padding: 0;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
     .index-card-container {
         padding: 0;
     }

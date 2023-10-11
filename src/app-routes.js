@@ -37,7 +37,7 @@ import {
   InventoryPage,
   MachinemasterPage,
   EmployeemasterPage,
-  ConfigurationPage
+  ConfigurationPage,
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 

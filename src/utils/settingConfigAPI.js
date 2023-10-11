@@ -13,6 +13,39 @@ export const getWarehouse = async () => {
     }
 };
 
+export const getIssueSerise = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/Commons/Series?BranchID=1&ObjType=60`);
+        const data = response.data;
+
+        return data;
+    } catch (error) {
+        return toastDisplayer('error', error.message);
+    }
+};
+
+export const getReceiptSerise = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/Commons/Series?BranchID=1&ObjType=59`);
+        const data = response.data;
+
+        return data;
+    } catch (error) {
+        return toastDisplayer('error', error.message);
+    }
+};
+
+export const getDeliverySerise = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/Commons/Series?BranchID=1&ObjType=15`);
+        const data = response.data;
+
+        return data;
+    } catch (error) {
+        return toastDisplayer('error', error.message);
+    }
+};
+
 export const getSettingConfig = async () => {
     try {
         const response = await axios.get(`${API_URL}/Configs/Get?BranchID=1`);

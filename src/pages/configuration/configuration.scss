@@ -25,25 +25,41 @@
 
         .checkbox-group {
             display: grid;
-            gap: 10px;
+            gap: .7rem;
             grid-template-columns: 1fr 1fr 1fr 1fr;
             margin-bottom: 1rem;
 
-            .custom-checkbox {
-                margin: .4rem .5rem;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
+            .checkbox-group-fieldset {
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 6px;
+                margin-top: 1rem;
 
-                .dx-widget {
-                    .dx-checkbox-container {
-                        gap: 0.6rem;
-                        color: #8D8D8D;
-                        font-family: Roboto;
-                        font-size: 14px;
-                        font-style: normal;
-                        font-weight: 400;
-                        line-height: normal;
+                legend {
+                    font-size: 14px;
+                    color: #525252;
+                    font-feature-settings: "clig" off, "liga" off;
+                    font-family: Roboto;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                }
+
+                .custom-checkbox {
+                    margin: .8rem .5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    .dx-widget {
+                        .dx-checkbox-container {
+                            gap: 0.6rem;
+                            color: #8D8D8D;
+                            font-family: Roboto;
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: normal;
+                        }
                     }
                 }
             }
@@ -51,64 +67,76 @@
 
         .dropdown-group {
             display: grid;
-            gap: 10px;
+            gap: .7rem;
             grid-template-columns: 1fr 1fr;
             margin-bottom: 1rem;
 
-            .custom-checkbox {
-                margin: .4rem .5rem;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
+            .dropdown-group-fieldset {
+                display: grid;
+                gap: .7rem;
+                grid-template-columns: 1fr 1fr;
 
-                .dx-widget {
-                    .dx-checkbox-container {
-                        gap: 0.6rem;
-                        color: #8D8D8D;
-                        font-family: Roboto;
-                        font-size: 14px;
-                        font-style: normal;
-                        font-weight: 400;
-                        line-height: normal;
-                    }
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 6px;
+                padding-top: 1rem;
+
+                legend {
+                    font-size: 14px;
+                    color: #525252;
+                    font-feature-settings: "clig" off, "liga" off;
+                    font-family: Roboto;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                }
+
+                .dx-selectbox {
+                    margin-top: .3rem;
+                    margin-bottom: 1rem;
+                    border-radius: 8px;
+                    box-shadow: none;
+                    background-color: transparent;
+                    border-radius: 8px;
+                    border: 1px solid #E0E0E0;
+                    color: #E0E0E0;
                 }
             }
 
-            .dx-selectbox {
-                margin-top: .3rem;
-                margin-bottom: .5rem;
-                border-radius: 8px;
-                box-shadow: none;
-                background-color: transparent;
-                border-radius: 8px;
-                border: 1px solid #E0E0E0;
-                color: #E0E0E0;
+            .switch-group-fieldset {
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 6px;
+                padding-top: 1rem;
+
+                legend {
+                    font-size: 14px;
+                    color: #525252;
+                    font-feature-settings: "clig" off, "liga" off;
+                    font-family: Roboto;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: normal;
+                }
+
+                .cusotm-switch {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 1rem;
+                }
             }
         }
 
-        fieldset {
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            padding-top: 1rem;
+        .switch-group-fieldset {
+            .cusotm-switch {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                margin-bottom: 1rem;
+            }
 
             legend {
                 font-size: 14px;
-                color: #525252;
-                font-feature-settings: "clig" off, "liga" off;
-                font-family: Roboto;
-                font-style: normal;
-                font-weight: 400;
-                line-height: normal;
-            }
-        }
-
-        .checkbox-group-fieldset {
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            margin-top: 1rem;
-
-            legend {
-                font-size: 12px;
                 color: #525252;
                 font-feature-settings: "clig" off, "liga" off;
                 font-family: Roboto;
@@ -140,6 +168,79 @@
             .dx-button-content {
                 .dx-button-text {
                     color: #fff;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .custom-card {
+        .card-body {
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .dropdown-group {
+                grid-template-columns: 1fr;
+
+                .dropdown-group-fieldset {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 450px) {
+    .custom-card {
+        .card-body {
+            .checkbox-group {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dropdown-group {
+                grid-template-columns: 1fr;
+
+                .dropdown-group-fieldset {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .custom-card {
+        .card-body {
+            .checkbox-group {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dropdown-group {
+                grid-template-columns: 1fr 1fr;
+
+                .dropdown-group-fieldset {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .custom-card {
+        .card-body {
+            .checkbox-group {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
+
+            .dropdown-group {
+                grid-template-columns: 2fr 1fr;
+
+                .dropdown-group-fieldset {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
                 }
             }
         }

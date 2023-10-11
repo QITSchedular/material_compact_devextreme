@@ -21,6 +21,7 @@ export default function IndexCards({ path }) {
                     navobj[path].map((value, key) => (
                         <>
                             <Card
+                                key={key}
                                 title={value['text']}
                                 description={"Here is the description for the particular"}
                                 icon={value['icon']}

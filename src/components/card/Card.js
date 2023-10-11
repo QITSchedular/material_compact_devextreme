@@ -40,7 +40,7 @@ export default function Card({ title, description, icon, path }) {
         <>
             <div className={'dx-card content'}>
                 <div className={'pin'}>
-                    <span class="material-symbols-outlined card-icon" onClick={() => handlePinClick(title)}>
+                    <span className="material-symbols-outlined card-icon" onClick={() => handlePinClick(title)}>
                         push_pin
                     </span>
                 </div>

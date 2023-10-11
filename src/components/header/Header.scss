@@ -287,7 +287,6 @@
         li {
             padding: 14px 12px;
             font-size: 18px;
-            animation: slidein 0.5s ease 1 both;
             border-bottom: 1px solid rgba(0, 0, 0, 0.10);
 
             .heading {
@@ -334,16 +333,6 @@
                     .list-icon {
                         color: #4371B7;
                     }
-                }
-            }
-
-            @keyframes slidein {
-                from {
-                    transform: translateX(-10rem);
-                }
-
-                to {
-                    transform: translate(0);
                 }
             }
         }

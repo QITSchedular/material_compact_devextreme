@@ -1,7 +1,7 @@
 import axios from "axios";
 import { checkErrorMessages, errorHandler } from "./errorHandler";
 
-export const API_URL = "http://192.168.1.102:5173/api";
+export const API_URL = "http://192.168.1.98:5173/api";
 // http://192.168.1.102:5173/api/ItemSubGroups/Get?Filter=A
 // https://localhost:8084/api/Commons/QR Managed By
 
