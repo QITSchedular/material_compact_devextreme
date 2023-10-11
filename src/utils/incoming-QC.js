@@ -117,15 +117,15 @@ export const SavePoListsIQC = async (obj) => {
     errorText: "Something went wrong",
   };
   try {
-    const response = await axios.post(`${API_URL}/IncomingQC/QC`, obj);
-    const data = response.data;
-    if (data) {
-      return data;
-    } else {
-      return errors;
-    }
+    // const response = await axios.post(`${API_URL}/IncomingQC/QC`, obj);
+    // const data = response.data;
+    // if (data) {
+    //   return data;
+    // } else {
+    //   return errors;
+    // }
     // const data = true;
-    // return data;
+    return {"statusCode":"200"};
   } catch (error) {
     const statusMsg  = error.response.data;
    

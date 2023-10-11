@@ -74,7 +74,7 @@ function IncomingQcPopUp({
         </div>
         <div className="purchaseOrderList-data-section">
           <DataGrid
-            // height={420}
+            height={window.innerHeight - 250}
             dataSource={dataSource}
             keyExpr={keyExpr}
             showBorders={true}
@@ -85,10 +85,15 @@ function IncomingQcPopUp({
             selectedRowKeys={selectedRowKeysNew}
           >
             <ColumnChooser enabled={true} />
-            <SearchPanel visible={true} />
+            <SearchPanel
+            visible={true}
+            width={190}
+            highlightCaseSensitive={true}
+            className={"search-panel"}
+          />
             <Selection mode="multiple" />
-            <Scrolling columnRenderingMode="infinite" />
-            <Paging enabled={false} />
+            <Scrolling columnRenderingMode="virtual" />
+            <Paging defaultPageSize={10}/>
             {columns &&
               columns.map((value, key) => (
                 <Column
