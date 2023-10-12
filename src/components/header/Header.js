@@ -86,48 +86,58 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
     };
 
 
-    const SearchResultBox = () => {
-        return (
-            <div className="dropdown-background">
-                <div className="search-result-box" ref={searchRef}>
-                    <ul>
-                        {
-                            (filteredItems && filteredItems.length > 0) ?
-                                filteredItems.map((item, index) => (
-                                    <Link to={item.path} onClick={() => settextBoxValue(null)} key={index}>
-                                        <li>
-                                            <div className="heading">
-                                                <span className="material-symbols-outlined list-icon">
-                                                    {item.icon}
-                                                </span>
-                                                <div className="divider"></div>
-                                                <span className="heading-text">
-                                                    {item.text}
-                                                    <span className="path">
-                                                        {
-                                                            item.path.split('/').slice(1).join(' > ').split('/').map((pathPart, index, array) => (
-                                                                <div key={index}>
-                                                                    {pathPart}
-                                                                    {index < array.length - 1 && ' > '}
-                                                                </div>
-                                                            ))
-                                                        }
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </li>
-                                    </Link>
-                                )) :
-                                <>
-                                    <div className="no-data-found">No Data Found</div>
-                                </>
-                        }
-                    </ul>
-                </div>
+    const SearchResultBox = () => (
+        <div className="dropdown-background">
+            <div className="search-result-box" ref={searchRef}>
+                <ul>
+                    {filteredItems && filteredItems.length > 0 ? (
+                        filteredItems.map((item, index) => (
+                            <Link to={item.path} onClick={() => settextBoxValue(null)} key={index}>
+                                <li>
+                                    <div className="heading">
+                                        <span className="material-symbols-outlined list-icon">{item.icon}</span>
+                                        <div className="divider"></div>
+                                        <span className="heading-text">
+                                            {item.text}
+                                            <span className="path">
+                                                {item.path.split('/').slice(1).join(' > ').split('/').map((pathPart, index, array) => (
+                                                    <div key={index}>
+                                                        {pathPart}
+                                                        {index < array.length - 1 && ' > '}
+                                                    </div>
+                                                ))}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </Link>
+                        ))
+                    ) : (
+                        <div className="no-data-found">No Data Found</div>
+                    )}
+                </ul>
             </div>
-        );
-    };
+        </div>
+    );
 
+
+    function findMatchingText(path, navigation) {
+        function search(items, path) {
+            for (const item of items) {
+                if (item.path.split('/').slice(-1)[0] === path) {
+                    return item;
+                } else if (item.items) {
+                    const subItemText = search(item.items, path);
+                    if (subItemText) {
+                        return subItemText;
+                    }
+                }
+            }
+            return null;
+        }
+
+        return search(navigation, path);
+    }
 
     return (
         <>
@@ -142,36 +152,26 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                         <Button icon="menu" stylingMode="text" onClick={toggleMenu} />
                     </Item>
 
-                    <Item
-                        location={"before"}
-                        cssClass={"header-title"}
-                    >
+                    <Item location={"before"} cssClass={"header-title"}>
                         <nav className="breadcrumb">
-                            {
-                                path.slice(0, 3).map((value, key, array) => (
-                                    (value !== "") ? (
-                                        (key !== array.length - 1) ? (
-                                            <>
-                                                <Link className={"breadcrumb-item active"}>
-                                                    {value}
-                                                </Link>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <div className={"breadcrumb-item active"}>
-                                                    {value}
-                                                </div>
-                                            </>
-                                        )
-                                    ) : (
-                                        <>
-                                            <Link to={"/home"}>
-                                                <div className="breadcrumb-item breadcrumb-home">K</div>
-                                            </Link>
-                                        </>
-                                    )
-                                ))
-                            }
+                            {path.map((pathSegment, key) => {
+                                const text = findMatchingText(pathSegment, navigation);
+                                if (key === 0) {
+                                    return (
+                                        <Link key={key} to="/home">
+                                            <div className="breadcrumb-item breadcrumb-home">K</div>
+                                        </Link>
+                                    );
+                                } else {
+                                    return (
+                                        <Link key={key} to={text.path}>
+                                            <div key={key} className="breadcrumb-item active">
+                                                {text.text}
+                                            </div>
+                                        </Link>
+                                    );
+                                }
+                            })}
                         </nav>
                     </Item>
 

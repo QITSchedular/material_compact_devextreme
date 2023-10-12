@@ -209,17 +209,20 @@
     .breadcrumb {
         margin-left: 2rem;
 
-        .breadcrumb-item {
-            color: #000;
-            font-family: Poppins;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 12.606px;
-            letter-spacing: 0.567px;
+        a {
             text-decoration: none;
+        }
+
+
+        .breadcrumb-item {
+            color: #525252;
+            font-family: Poppins;
+            font-weight: 500;
+            letter-spacing: 0.4px;
             display: inline;
             font-size: 14px;
             text-transform: capitalize;
+            cursor: pointer;
         }
 
         .breadcrumb-item.breadcrumb-home {
@@ -231,16 +234,8 @@
 
         .breadcrumb-item.active:before {
             content: url("data: image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDggMTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik01LjI0NjI0IDYuMDAwMDJMMC42NDYyNCAxLjQwMDAyTDEuNzAwMDcgMC4zNDYxOTFMNy4zNTM4OSA2LjAwMDAyTDEuNzAwMDcgMTEuNjUzOEwwLjY4MjUyNCAxMC42MzYxOTFMNS4yNDYyNCA2LjAwMDAyWiIgZmlsbD0iYmxhY2siLz4KPC9zdmc+Cg==");
-            padding: 0px 12px;
-        }
-
-        .breadcrumb-item.active {
-            color: #525252;
-            text-decoration: none;
-
-            a {
-                color: #525252 !important;
-            }
+            font-weight: 700;
+            padding: 0px .8rem;
         }
     }
 }

@@ -6,22 +6,6 @@ export const navigation = [
         path: "/home",
         icon: `home`,
     },
-    // {
-    //   text: "Examples",
-    //   icon: "folder",
-    //   items: [
-    //     {
-    //       text: "Profile",
-    //       path: "/profile",
-    //       icon: "user",
-    //     },
-    //     {
-    //       text: "Tasks",
-    //       path: "/tasks",
-    //       icon: "datafield",
-    //     },
-    //   ],
-    // },
     {
         text: "Masters List",
         path: "/masters",
@@ -86,7 +70,7 @@ export const navigation = [
             {
                 text: "Gate Inward",
                 path: "/purchases/gateinmain",
-                icon: `arrow_downward`     //system_update_alt
+                icon: `arrow_downward`
             },
             {
                 text: "Generate & Print",

@@ -40,7 +40,7 @@ export default function UnauthenticatedContent() {
                     </SingleCard>
                 }
             />
-            {/* <Route path='*' element={<Navigate to={'/login'} />}></Route> */}
+            {/* <Route path='/login' element={<Navigate to={'/login'} />}></Route> */}
         </Routes>
     );
 }
