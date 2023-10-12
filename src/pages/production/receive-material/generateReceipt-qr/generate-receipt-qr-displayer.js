@@ -27,7 +27,7 @@ const GenerateReceiptqrDisplayer = ({
   return (
     <>
       {loading && <LoadPanel />}
-      <Popup showTitle={false} visible={true} width={400} height={353}>
+      <Popup showTitle={false} visible={true} width={400} height={400}>
         <Multiviewdisplayer
           handleClose={handleClose}
           multipleQrCodes={displayQrDataSoruce}

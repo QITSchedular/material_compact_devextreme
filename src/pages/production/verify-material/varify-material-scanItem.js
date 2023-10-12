@@ -15,6 +15,7 @@ import DataGrid, {
   RequiredRule,
 } from "devextreme-react/data-grid";
 import { SwalDisplayer } from "../../../utils/showToastsNotifications";
+import { useParams } from "react-router-dom";
 
 function Varify_Material_ScanItem() {
   var [detailQRCodeID, setdetailQRCodeID] = useState("");
@@ -22,6 +23,7 @@ function Varify_Material_ScanItem() {
   var [isGridVisible, setIsGridVisible] = useState(false);
   var [txtComment, setComment] = useState("");
   const dataGridRef = useRef();
+  const { itemCode, docEntry } = useParams();
 
   const handleTextValueChange = (e) => {
     console.log(e.value);
@@ -44,7 +46,7 @@ function Varify_Material_ScanItem() {
       }
 
       if (doProuctExist == false) {
-        var response = await validatePoListsVerifyMaterial(detailQRCodeID);
+        var response = await validatePoListsVerifyMaterial(detailQRCodeID, docEntry);
         if (response["hasError"]) {
           return toastDisplayer("error", response["errorText"]);
         } else if (response && doProuctExist == false) {
@@ -123,13 +125,13 @@ function Varify_Material_ScanItem() {
         // console.log(response["hasError"]);
         setPOCList(new Set());
 
-        payload.forEach(async(row) => {
+        payload.forEach(async (row) => {
           console.log(row.detailQRCodeID)
           var response = await validatePoListsVerifyMaterial(detailQRCodeID);
           console.log(response)
           setPOCList((prevIQCList) => {
             const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
-            response.map((value)=>{
+            response.map((value) => {
               console.log(value.issQty)
               if (value.issQty == null) {
                 value.issQty = 0;
@@ -139,7 +141,7 @@ function Varify_Material_ScanItem() {
             setIsGridVisible(true);
             return updatedSet; // Return the updated Set
           });
-          
+
         })
         setComment("");
 
@@ -150,9 +152,9 @@ function Varify_Material_ScanItem() {
 
         // console.log(POCList)
         dataGridRef.current.instance.refresh();
-        if(response["hasError"]){
+        if (response["hasError"]) {
           SwalDisplayer("error", "Operation not Successful");
-        }else{
+        } else {
           SwalDisplayer("success", "Operation Successful");
         }
       } else {
@@ -173,6 +175,7 @@ function Varify_Material_ScanItem() {
               stylingMode="outlined"
               placeholder="Type the purchase QR code"
               width={230}
+              height={40}
               valueChangeEvent="keyup"
               // value={
               // selectedRowsData.length > 0 ? selectedRowsData[0].itemCode : ""
@@ -183,8 +186,8 @@ function Varify_Material_ScanItem() {
             ></TextBox>
             <div className="btnSection">
               <NormalButton
-                width={33}
-                height={33}
+                width={40}
+                height={40}
                 type="normal"
                 stylingMode="outlined"
                 icon="search"
@@ -192,8 +195,8 @@ function Varify_Material_ScanItem() {
               />
 
               <NormalButton
-                width={33}
-                height={33}
+                width={40}
+                height={40}
                 type="normal"
                 stylingMode="outlined"
                 icon={GRPOScanner}
@@ -218,7 +221,7 @@ function Varify_Material_ScanItem() {
               // onSaving={handleGridSaving}
               // onSelectionChanged={handleDataGridRowSelection}
               ref={dataGridRef}
-              // selectedRowKeys={selectedRowKeysNew}
+            // selectedRowKeys={selectedRowKeysNew}
             >
               {/* <SearchPanel visible={true} /> */}
               <Editing mode={"row"} allowUpdating={true} allowDeleting={true} />
@@ -313,7 +316,7 @@ function Varify_Material_ScanItem() {
                   hint="Print Qr"
                   icon="fa-solid fa-print"
                   visible={true}
-                  // onClick={handleShowQrCodePrint}
+                // onClick={handleShowQrCodePrint}
                 />
               </Column>
             </DataGrid>
