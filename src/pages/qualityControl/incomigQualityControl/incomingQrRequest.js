@@ -46,7 +46,7 @@ function IncomingQrRequest({
     if (appQty == 0) {
       return toastDisplayer("error", "Approve quantity can not be 0");
     } else if (totleQty > parseInt(QrRequestData["recQty"])) {
-      return toastDisplayer("error", "Invalid quty");
+      return toastDisplayer("error", "Invalid quantity");
     } else if (appQty > 0 && totleQty <= parseInt(QrRequestData["recQty"])) {
       const apiCalls = [];
       if (rejQty > 0) {
