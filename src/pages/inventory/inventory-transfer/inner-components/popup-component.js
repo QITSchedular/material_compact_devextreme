@@ -25,6 +25,7 @@ const PopupHelpComponent = ({
 
   /* The function to set the selected values of the datagrid*/
   const selectedRowSetter = (params) => {
+    console.log("params",params)
     setSelectedRowData(params);
   };
 
@@ -43,6 +44,7 @@ const PopupHelpComponent = ({
   const handleSave = async () => {
     // onSelectAndClose(selectedRowData); // Pass selected value to the callback
     try {
+      console.log("selectedRowData", selectedRowData);
       const selectedValue = await onSelectAndClose(selectedRowData);
       selectedRowSetter(selectedValue);
     } catch (error) {
@@ -58,6 +60,10 @@ const PopupHelpComponent = ({
         return setKeyExpr("whsCode");
       case "Get BP Details":
         return setKeyExpr("cardCode");
+      case "From Bin":
+        return setKeyExpr("absEntry");
+        case "To Bin":
+          return setKeyExpr("absEntry");
     }
     setLoading(false);
   }, []);

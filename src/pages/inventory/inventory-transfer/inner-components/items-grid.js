@@ -24,6 +24,8 @@ const ItemsGrid = ({
   dataGridDataSource,
   selectedFromWarehouse,
   selectedToWarehouse,
+  selectedFromBin,
+  selectedToBin
 }) => {
   console.log("Visible Data grid data source: ", dataGridDataSource);
   const [dataSource, setDataGridDataSource] = useState([]);
@@ -31,7 +33,8 @@ const ItemsGrid = ({
   const asyncValidation = (params) => {
     return new Promise((resolve, reject) => {
       const { qty, transQty } = params.data;
-      if (parseFloat(transQty) === 0) {
+      console.log("transQty:::  ",params.data)    
+      if (parseFloat(qty) === 0 || parseFloat(qty)>parseInt(transQty)) {
         return reject(
           "Transfer quantity must be between 0 and Transferable quantity"
         );
@@ -40,7 +43,7 @@ const ItemsGrid = ({
       }
     });
   };
-  const handleGridSaving = (e) => {
+  const handleGridSaving = async(e) => {
     console.log(e.changes[0]);
     // if (!e.changes[0]) {
     //   return toastDisplayer(
@@ -52,11 +55,28 @@ const ItemsGrid = ({
   };
 
   const inventorySaveHandler = async (dataGridDataSource) => {
+    console.log("selectedFromBin:",selectedFromBin,"selectedToBin:  ",selectedToBin);
+    if(selectedFromBin===""){
+      return toastDisplayer("error", "Select from warehouse bin location..");
+    }else if(selectedFromBin==="none"){
+      selectedFromBin=0;
+    }
+
+
+    if(selectedToBin===""){
+      return toastDisplayer("error", "Select to warehouse bin location..");
+    }else if(selectedToBin==="none"){
+      selectedToBin=0;
+    }else if(selectedToBin.length){
+      selectedToBin=selectedToBin[0].absEntry
+    }
     // console.log("dataGridDataSource : ", dataGridDataSource);
     const constructorData = await inventoryTransferSaver(
       dataGridDataSource,
       selectedFromWarehouse,
-      selectedToWarehouse
+      selectedToWarehouse,
+      selectedFromBin,
+      selectedToBin
     );
     console.log("Inventory transfer api response", constructorData);
     if (constructorData.statusCode == 200) {
@@ -113,6 +133,11 @@ const ItemsGrid = ({
         />
         <Column
           caption="Transferable Qty."
+          dataField={"itemWhsStock"}
+          allowEditing={false}
+        />
+        <Column
+          caption="Quantity "
           dataField={"qty"}
           allowEditing={true}
         >

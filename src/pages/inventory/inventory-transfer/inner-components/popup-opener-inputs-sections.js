@@ -12,17 +12,17 @@ const PopupInputs = ({
   gridDataSourceList,
   selectedValue,
   setSelectedValue,
-txtRef,
+  txtRef,
   countRef,
-  setCountRef
+  setCountRef,
 }) => {
   const [textBoxValue, setTextBoxValue] = useState("");
-useEffect(() => {
+  useEffect(() => {
     if (countRef) {
       setTextBoxValue("");
       setCountRef(false);
     }
-  }, [countRef])
+  }, [countRef]);
   const helpOptions = {
     icon: HelpIcons,
     onClick: async () => {
@@ -34,11 +34,16 @@ useEffect(() => {
   };
   const selectedValueDisplayHandler = async (selectedValue) => {
     const data = await selectedValue;
+    console.log("data",data)
     if (data[0].whsCode) {
       return setTextBoxValue(data[0].whsName);
     }
     if (data[0].cardCode) {
       return setTextBoxValue(data[0].cardName);
+    }
+    if(data[0].absEntry){
+      console.log("----------")
+      return setTextBoxValue(data[0].binCode);
     }
   };
   return (
@@ -48,9 +53,9 @@ useEffect(() => {
           popUpOutsideClickHandler={popUpOutsideClickHandler}
           placeholder={placeholder}
           gridDataSourceList={gridDataSourceList}
-          onSelectAndClose={(selectedValue) => {
-            setSelectedValue(selectedValue);
-            selectedValueDisplayHandler(selectedValue);
+          onSelectAndClose={async(selectedValue) => {
+            setSelectedValue(await selectedValue);
+            selectedValueDisplayHandler( selectedValue);
             popUpOutsideClickHandler();
           }}
         />
@@ -63,7 +68,7 @@ useEffect(() => {
         showClearButton={true}
         value={textBoxValue || ""}
         disabled={textBoxValue ? true : false}
-ref={txtRef}
+        ref={txtRef}
       >
         <TextBoxButton name="currency" location="after" options={helpOptions} />
       </TextBox>
