@@ -16,6 +16,28 @@
             // }
         }
     }
+    .grpo-config-section{
+        margin-top: 1rem;
+        display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border: 0.5px solid #e0e0e0;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 8px;
+  .single-config{
+    flex: 0 1 calc(50% - 10px); /* Adjust the width as needed */
+    margin-bottom: 20px; /* Add margin between divs */
+    box-sizing: border-box;
+    .config-label{
+        font-size: 12px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        
+    }
+  }
+    }
     .cta-section{
         .grpo-save{
             .dx-button-content{
@@ -134,3 +156,13 @@
         }
     }
 }
+.dx-popup-content.dx-dropdownbutton-content{
+max-height: 250px !important;
+}
+.config-drpodown .button-indicator {
+    height: 32px;
+    width: 32px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+  }

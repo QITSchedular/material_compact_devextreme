@@ -115,6 +115,7 @@ export const SwalDisplayer = (type, title, text) => {
       imageWidth: 200,
       imageHeight: 200,
       imageAlt: "operation successful",
+      timer: 4000,
     });
   }
   if (type === "error") {
@@ -124,6 +125,18 @@ export const SwalDisplayer = (type, title, text) => {
       imageUrl: `${failureLottie}`,
       imageWidth: 200,
       imageHeight: 200,
+      imageAlt: "operation failed",
+      timer: 3000,
+    });
+  }
+  if (type === "info") {
+    return Swal.fire({
+      title: title,
+      text: text ? text : "",
+      icon: "info",
+      customClass: {
+        icon: 'iconclass'
+      },
       imageAlt: "operation failed",
       timer: 3000,
     });

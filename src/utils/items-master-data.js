@@ -2,6 +2,7 @@ import axios from "axios";
 import { checkErrorMessages, errorHandler } from "./errorHandler";
 
 export const API_URL = "http://192.168.1.98:5173/api";
+// export const API_URL = "http://192.168.1.102:5173/api";
 // http://192.168.1.102:5173/api/ItemSubGroups/Get?Filter=A
 // https://localhost:8084/api/Commons/QR Managed By
 
@@ -78,13 +79,33 @@ export const getAllWarehouseData = async () => {
   }
 };
 
+export const getAllWarehouseData_new = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/Commons/ItemStock?ItemCode=`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getMasterData = async (masterType) => {
+  const errors = {
+    hasError: false,
+    errorText: "Something went wrong",
+  };
   try {
     const response = await axios.get(`${API_URL}/${masterType}/Get?Filter=A`);
     const data = response.data;
     return data;
   } catch (error) {
-    return error;
+    const statusMsg  = error.message;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
   }
 };
 

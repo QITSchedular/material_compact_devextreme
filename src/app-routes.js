@@ -20,13 +20,16 @@ import {
   VerifyMaterialScanItemsPage,
   ReceiveMaterialPage,
   ReceiveMaterialScanItemsPage,
+  ReceiveMaterialGenerateQrPage,
   IssueMaterialPage,
+  IssueMaterialScanItemsPage,
   InventoryTransferMainPage,
   PickPackMain,
   InprocessQcScanItemsPage,
   SalePage,
   PurchasePage,
   DeliveryPage,
+  DeliveryProcessPage,
   IncomingQcScanItemsPage,
   NotfoundPage,
   MachineInOutPage,
@@ -38,6 +41,8 @@ import {
   MachinemasterPage,
   EmployeemasterPage,
   ConfigurationPage,
+  DepartmentMasterPage,
+  VarifyMaterialScanItemPage
 } from "./pages";
 import { withNavigationWatcher } from "./contexts/navigation";
 
@@ -91,6 +96,10 @@ const routes = [
     element: MachinemasterPage,
   },
   {
+    path: "/masters/Department",
+    element: DepartmentMasterPage,
+  },
+  {
     path: "/masters/employee",
     element: EmployeemasterPage,
   },
@@ -116,7 +125,7 @@ const routes = [
     element: GrpoPage,
   },
   {
-    path: "/purchases/grpo/scanItems/:qrCode",
+    path: "/purchases/grpo/scanItems/:qrCode/:numAtCard",
     element: GrpoScanItemsPage,
   },
   // qualityControl
@@ -154,12 +163,20 @@ const routes = [
     element: VerifyMaterialScanItemsPage,
   },
   {
+    path: "/production/verify-material/varify-material-scanItemPage/:itemCode/:docEntry",
+    element: VarifyMaterialScanItemPage,
+  },
+  {
     path: "/production/receive-material",
     element: ReceiveMaterialPage,
   },
   {
     path: "/recieve-material/scanitems/:id",
     element: ReceiveMaterialScanItemsPage,
+  },
+  {
+    path: "/production/receive-material/generateqr",
+    element: ReceiveMaterialGenerateQrPage,
   },
   {
     path: "/production/issue-material",
@@ -169,6 +186,10 @@ const routes = [
   {
     path: "/inventory",
     element: InventoryPage,
+  },
+  {
+    path: "/issue-material/scanitems/:id",
+    element: IssueMaterialScanItemsPage,
   },
   {
     path: "/inventory/transfer",
@@ -190,6 +211,10 @@ const routes = [
   {
     path: "/sales/delivery",
     element: DeliveryPage,
+  },
+  {
+    path: "/sales/delivery/delivery-process/:qrCode",
+    element: DeliveryProcessPage,
   },
   {
     path: "/TrackMachines",

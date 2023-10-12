@@ -56,6 +56,11 @@ export const navigation = [
                 icon: `precision_manufacturing`,
             },
             {
+                text: "Department",
+                path: "/masters/Department",
+                icon: `roofing`,
+            },
+            {
                 text: "Employee ",
                 path: "/masters/employee",
                 icon: `Group`,
@@ -117,10 +122,15 @@ export const navigation = [
                 icon: `rule`,
             },
             {
-                text: "Receive Material",
+                text: "Draft Receipt PRO",
                 path: "/production/receive-material",
                 icon: `call_received`,
             },
+            {
+                text: "Generate Receipt Qr",
+                path: "/production/receive-material/generateqr",
+                icon: "login",
+             },
         ],
     },
     {

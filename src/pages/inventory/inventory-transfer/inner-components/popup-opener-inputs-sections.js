@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextBox } from "devextreme-react";
 import { Button as TextBoxButton } from "devextreme-react/text-box";
 import { HelpIcons } from "../../../purchases/grpo/icons-exporter";
@@ -12,8 +12,17 @@ const PopupInputs = ({
   gridDataSourceList,
   selectedValue,
   setSelectedValue,
+  txtRef,
+  countRef,
+  setCountRef,
 }) => {
   const [textBoxValue, setTextBoxValue] = useState("");
+  useEffect(() => {
+    if (countRef) {
+      setTextBoxValue("");
+      setCountRef(false);
+    }
+  }, [countRef]);
   const helpOptions = {
     icon: HelpIcons,
     onClick: async () => {
@@ -25,11 +34,16 @@ const PopupInputs = ({
   };
   const selectedValueDisplayHandler = async (selectedValue) => {
     const data = await selectedValue;
+    console.log("data",data)
     if (data[0].whsCode) {
       return setTextBoxValue(data[0].whsName);
     }
     if (data[0].cardCode) {
       return setTextBoxValue(data[0].cardName);
+    }
+    if(data[0].absEntry){
+      console.log("----------")
+      return setTextBoxValue(data[0].binCode);
     }
   };
   return (
@@ -39,9 +53,9 @@ const PopupInputs = ({
           popUpOutsideClickHandler={popUpOutsideClickHandler}
           placeholder={placeholder}
           gridDataSourceList={gridDataSourceList}
-          onSelectAndClose={(selectedValue) => {
-            setSelectedValue(selectedValue);
-            selectedValueDisplayHandler(selectedValue);
+          onSelectAndClose={async(selectedValue) => {
+            setSelectedValue(await selectedValue);
+            selectedValueDisplayHandler( selectedValue);
             popUpOutsideClickHandler();
           }}
         />
@@ -54,6 +68,7 @@ const PopupInputs = ({
         showClearButton={true}
         value={textBoxValue || ""}
         disabled={textBoxValue ? true : false}
+        ref={txtRef}
       >
         <TextBoxButton name="currency" location="after" options={helpOptions} />
       </TextBox>

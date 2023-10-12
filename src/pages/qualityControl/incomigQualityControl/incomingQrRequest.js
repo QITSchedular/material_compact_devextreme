@@ -12,6 +12,8 @@ function IncomingQrRequest({
   requestData,
   approveWareHouse,
   rejectWareHouse,
+  clearData,
+  allData,
 }) {
   const [approveQty, setapproveQty] = useState(0);
   const [RejectQty, setRejectQty] = useState(0);
@@ -22,21 +24,29 @@ function IncomingQrRequest({
     // console.log("QrRequestData : ", QrRequestData);
   }, []);
   const onValueChangedApprove = async (e) => {
-    // console.log("e.value", e.value);
     await setapproveQty(e.value);
   };
   const onValueChangedReject = async (e) => {
-    // console.log("e.value", e.value);
-    await setRejectQty(e.value);
+    console.log(e.value)
+    if(e.value===null)
+      setRejectQty(0);
+    else
+      setRejectQty(e.value);
   };
   const handleSave = async () => {
     const appQty = approveQty;
-    const rejQty = RejectQty;
+    var rejQty = RejectQty;
     const totleQty = parseInt(appQty) + parseInt(rejQty);
+    if(appQty==null){
+      return toastDisplayer("error", "Approve quantity can not be empty");
+    }
+    if(rejQty==null){
+      rejQty=0;
+    }
     if (appQty == 0) {
       return toastDisplayer("error", "Approve quantity can not be 0");
     } else if (totleQty > parseInt(QrRequestData["recQty"])) {
-      return toastDisplayer("error", "Invalid quty");
+      return toastDisplayer("error", "Invalid quantity");
     } else if (appQty > 0 && totleQty <= parseInt(QrRequestData["recQty"])) {
       const apiCalls = [];
       if (rejQty > 0) {
@@ -44,11 +54,12 @@ function IncomingQrRequest({
           branchID: 1,
           grpoDocEntry: QrRequestData["grpoDocEntry"],
           detailQRCodeID: QrRequestData["detailQRCodeID"],
-          fromWhs: "QC",
+          fromWhs: allData.fromWhs,
           toWhs: rejectWareHouse,
           action: "R",
           qty: rejQty,
           rejectComment: RejectComment,
+          fromBin: allData.fromBin,
         };
 
         const rejectCall = SavePoListsIQC(reqBodyRej);
@@ -60,32 +71,36 @@ function IncomingQrRequest({
           branchID: 1,
           grpoDocEntry: QrRequestData["grpoDocEntry"],
           detailQRCodeID: QrRequestData["detailQRCodeID"],
-          fromWhs: "QC",
-          toWhs: approveWareHouse,
+          fromWhs: allData.fromWhs,
+          // toWhs: approveWareHouse,
           action: "A",
           qty: appQty,
           rejectComment: RejectComment,
+          fromBin: allData.fromBin,
         };
-
+        // console.log(reqBodyApp)
         const approveCall = SavePoListsIQC(reqBodyApp);
+        // console.log("approve call : ",approveCall)
         apiCalls.push(approveCall);
       }
-
       try {
         const responses = await Promise.all(apiCalls);
         responses.forEach((response, index) => {
+          console.log("response", responses);
           if (response["statusCode"] == "200") {
+            var index = 0;
             if (index == 0) {
+              // handleCancelQrRequest();
+              clearData(QrRequestData["detailQRCodeID"]);
+
               toastDisplayer("succes", "Approve processed successfully..!!");
             } else if (index == 1) {
               toastDisplayer("succes", "Reject processed successfully..!!");
             }
-          }else{
-            toastDisplayer("error", response["errorText"]);
+          } else {
+            toastDisplayer("error", response["statusMsg"]);
           }
         });
-
-        handleCancelQrRequest();
       } catch (err) {
         toastDisplayer("error", "Something went wrong");
       }
@@ -171,36 +186,38 @@ function IncomingQrRequest({
                 labelMode="floating"
                 width={160}
                 showClearButton={true}
-                value={""}
+                value={0}
                 onValueChanged={onValueChangedApprove}
-              >
-                      
-              </NumberBox>
+              ></NumberBox>
             </div>
-            <div className="particularDetail" style={{"marginTop":"0.5rem"}}>
+            <div className="particularDetail" style={{ marginTop: "0.5rem" }}>
               <div className="particularDetail-txt">
                 <p className="particularDetail-titleTxt">Rejected Quantity</p>
-                <p className="titleTxt">{rejectWareHouse}</p>
+                <p className="titleTxt">
+                  {rejectWareHouse ? rejectWareHouse : " --- "}
+                </p>
               </div>
               <NumberBox
                 // className="dx-field-value"
-                className="form-element"
+                className="form-element rejectQty"
                 stylingMode="outlined"
                 // placeholder={placeholder}
                 label={"Qty"}
                 labelMode="floating"
                 width={160}
                 showClearButton={true}
-                value={""}
+                value={0}
                 onValueChanged={onValueChangedReject}
-              >
-                      
-              </NumberBox>
+                disabled={rejectWareHouse ? false : true}
+              ></NumberBox>
             </div>
-            <div className="particularDetail" style={{"margin":"0.5rem 0rem 0.5rem 0.5rem"}}>
+            <div
+              className="particularDetail"
+              style={{ margin: "0.5rem 0rem 0.5rem 0.5rem" }}
+            >
               <TextBox
                 // className="dx-field-value"
-                className="form-element"
+                className="form-element txt-remark"
                 stylingMode="outlined"
                 label={"Remark"}
                 labelMode="floating"
@@ -208,10 +225,7 @@ function IncomingQrRequest({
                 showClearButton={true}
                 onValueChanged={handleValueChange}
                 value={""}
-              >
-                        
-              </TextBox>
-               
+              ></TextBox>
             </div>
             <div
               className="buttons-section"

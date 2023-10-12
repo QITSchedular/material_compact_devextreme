@@ -25,6 +25,7 @@ const PopupHelpComponent = ({
 
   /* The function to set the selected values of the datagrid*/
   const selectedRowSetter = (params) => {
+    console.log("params",params)
     setSelectedRowData(params);
   };
 
@@ -43,6 +44,7 @@ const PopupHelpComponent = ({
   const handleSave = async () => {
     // onSelectAndClose(selectedRowData); // Pass selected value to the callback
     try {
+      console.log("selectedRowData", selectedRowData);
       const selectedValue = await onSelectAndClose(selectedRowData);
       selectedRowSetter(selectedValue);
     } catch (error) {
@@ -58,6 +60,10 @@ const PopupHelpComponent = ({
         return setKeyExpr("whsCode");
       case "Get BP Details":
         return setKeyExpr("cardCode");
+      case "From Bin":
+        return setKeyExpr("absEntry");
+        case "To Bin":
+          return setKeyExpr("absEntry");
     }
     setLoading(false);
   }, []);
@@ -84,16 +90,19 @@ const PopupHelpComponent = ({
           text={"Scroll through the list or type in the search box.."}
         />
       </div>
+      <div className="button-groups">
+        <Button icon="close" onClick={popUpOutsideClickHandler} />
+      </div>
       {loading && <LoadPanel visible={true} shading={true} />}
       <div
-        className="dx-card responsive-paddings transporter-content-datagrid-container"
+        className="responsive-paddings transporter-content-datagrid-container"
         style={{ margin: "8px 24px", height: "100% !important" }}
       >
         <DataGrid
           height={window.innerHeight - 250}
           dataSource={gridDataSourceList}
           keyExpr={keyExpr}
-          showBorders={false}
+          showBorders={true}
           columnAutoWidth={true}
           hoverStateEnabled={true}
           className="transporter-data-grid testGrid"
@@ -113,10 +122,9 @@ const PopupHelpComponent = ({
         </DataGrid>
       </div>
       <div
-        className="buttons-section responsive-paddings"
+        className="Btn-section responsive-paddings"
         style={{ display: "flex", justifyContent: "flex-end" }}
       >
-        {/* <Button text="Cancel" width={124} height={35} onClick={handleCancel} /> */}
         <Button
           text="Cancel"
           width={124}

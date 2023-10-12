@@ -1,0 +1,51 @@
+.receive-material-container {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+
+  .receive-materials-selected-listings {
+    /* Remove the fixed height and use flex-grow to occupy remaining space */
+    flex-grow: 1 !important;
+    display: flex;
+    flex-direction: column;
+
+    .action-button {
+      /* Push the .action-button div to the bottom */
+      width: 100%;
+      margin-top: auto;
+    }
+  }
+}
+
+.draft-receipt-po-datagrid-container {
+  .dx-toolbar-items-container {
+    .dx-toolbar-after {
+      padding-left: 0px !important;
+      width: 100%;
+
+      .dx-item.dx-toolbar-item.dx-toolbar-button {
+        .dx-item-content.dx-toolbar-item-content {
+          .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button {
+            width: 100% !important;
+            margin: 0 0 0 0 !important;
+
+            .dx-texteditor-container {
+              width: 100% !important;
+
+              .dx-texteditor-input-container {
+                width: 100% !important;
+
+              }
+            }
+          }
+
+          .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button.dx-texteditor-empty.dx-widget.dx-state-focused {
+            border: 1px solid #4371B7 !important;
+            box-shadow: 0px 1px 120px 0px rgba(0, 0, 0, 0.01);
+
+          }
+        }
+      }
+    }
+  }
+}

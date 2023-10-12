@@ -12,7 +12,7 @@ export const verifyProdcutionQrInput = async (
   };
   console.log("Entered api caller");
   console.log("Scanned item qr is: ", productionNumberInput);
-  console.log("Selected warehouse data is: ", selectedFromWarehouse);
+  console.log("Selected from warehouse data is: ", selectedFromWarehouse);
   const requestBody = {
     branchID: 1,
     fromWhs: `${selectedFromWarehouse[0].whsCode}`,
@@ -39,16 +39,20 @@ export const verifyProdcutionQrInput = async (
 export const inventoryTransferSaver = async (
   payload,
   selectedFromWarehouse,
-  selectedToWarehouse
+  selectedToWarehouse,
+  selectedFromBin,
+  selectedToBin
 ) => {
   const requestBody = await inventoryTransferPayloadConstructor(
     payload,
     selectedFromWarehouse,
-    selectedToWarehouse
+    selectedToWarehouse,
+    selectedFromBin,
+    selectedToBin
   );
   // console.log(JSON.stringify(requestBody));
-  const PayloadData = JSON.stringify(requestBody);
-  console.log("PayloadData: " + PayloadData);
+  // const PayloadData = JSON.stringify(requestBody);
+  console.log("PayloadData: " + requestBody);
   try {
     // const response = await axios.post(
     //   `${API_URL}/InventoryTransfer/InventoryTransfer`,
@@ -56,17 +60,17 @@ export const inventoryTransferSaver = async (
     // );
 
     // Set the 'Content-Type' header to 'application/json'
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // };
 
     // Send the POST request with the JSON payload and the config object
     const response = await axios.post(
       `${API_URL}/InventoryTransfer/InventoryTransfer`,
-      PayloadData,
-      config
+      requestBody,
+      // config
     );
 
     console.log(response.data);
@@ -78,7 +82,9 @@ export const inventoryTransferSaver = async (
 const inventoryTransferPayloadConstructor = (
   payload,
   selectedFromWarehouse,
-  selectedToWarehouse
+  selectedToWarehouse,
+  selectedFromBin,
+  selectedToBin
 ) => {
   console.log("The payload is: " + JSON.stringify(payload));
   const itDetailsMap = {};
@@ -123,17 +129,20 @@ const inventoryTransferPayloadConstructor = (
   });
 
   const itDetails = Object.values(itDetailsMap);
+  console.log("====>  ",itDetails);
 
-  const result = {
-    branchID: 1,
-    cardCode: payload[0].cardCode, // Use the cardCode from the first item
-    fromWhsCode: selectedFromWarehouse[0].whsCode, // Use the whs from the first item
-    toWhsCode: selectedToWarehouse[0].whsCode, // Use the whs from the first item
-    comments: "", // Set as needed
-    itDetails,
-  };
+  // const result = {
+  //   branchID: 1,
+  //   cardCode: payload[0].cardCode, // Use the cardCode from the first item
+  //   fromWhsCode: selectedFromWarehouse[0].whsCode, // Use the whs from the first item
+  //   toWhsCode: selectedToWarehouse[0].whsCode, // Use the whs from the first item
+  //   comments: "", // Set as needed
+  //   itDetails,
+  //   fromBinAbsEntry: selectedFromBin,
+  //   toBinAbsEntry: selectedToBin,
+  // };
 
-  return result;
+  // return result;
 };
 
 // const payload = [

@@ -1,14 +1,14 @@
 import { TextBox, Button as NormalButton, DateBox } from "devextreme-react";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Button as TextBoxButton } from "devextreme-react/text-box";
 import { HelpIcons } from "../../purchases/grpo/icons-exporter";
-import "./incomingQC.scss";
 import { GRPOScanner, dateStartToEnd } from "../../../assets/icon";
-import { Popup } from "devextreme-react/popup";
+import { Popup, ScrollView } from "devextreme-react";
 import PurchaseOrderList from "./purchaseOrderList";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import IncomingQCOrderList from "./incomingQC-OrderList";
 import { searchPoListsIQC } from "../../../utils/incoming-QC";
+import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
 function IncomingQCComponent() {
   const [showTransporterHelp, setShowTransporterHelp] = useState(false);
@@ -24,6 +24,11 @@ function IncomingQCComponent() {
   const [IQCList2, setIQCList2] = useState(new Set()); // State to store the selected row data
   const dataGridRef = useRef();
 
+  //for scanner open-close
+  const [showScanner, setShowScanner] = useState(false);
+  //manage multiple input of data
+  const [showPO, setShowPO] = useState();
+
   const outsideClickHandler = async () => {
     return setShowTransporterHelp(false);
   };
@@ -33,11 +38,13 @@ function IncomingQCComponent() {
   };
 
   const handleTextValueChange = (e) => {
+    setShowPO(true);
     return settxtValueOfTypePOL(e.value);
   };
 
   const handleQCPoSelection = (params) => {
     if (params.length > 0) {
+      setShowPO(false);
       return setSelectedRowsData(params);
     }
   };
@@ -92,7 +99,7 @@ function IncomingQCComponent() {
     },
   };
 
-  function convertData(dateString){
+  function convertData(dateString) {
     const originalDate = new Date(dateString);
 
     // Extract the year, month, and day components
@@ -107,24 +114,28 @@ function IncomingQCComponent() {
   }
 
   const fromDateOptions = (e) => {
-    console.log(convertData(e.value));
     setFromDate(convertData(e.value));
   };
 
   const toDateOptions = (e) => {
-    console.log(convertData(e.value));
     setToDate(convertData(e.value));
   };
 
-  const SearchHandler = async () => {
-    if (txtValueOfTypePOL) {
-      const prodResponse = await searchPoListsIQC(txtValueOfTypePOL,fromDate,toDate);
-      var doProuctExist;
+  const SearchHandler=()=>{
+    HandleSearchHandler(txtValueOfTypePOL);
+  }
 
+  const HandleSearchHandler = async (txtValueOfTypePOL_new) => {
+    console.log(txtValueOfTypePOL_new)
+    if (txtValueOfTypePOL_new) {
+      const prodResponse = await searchPoListsIQC(txtValueOfTypePOL_new, fromDate, toDate);
+      console.log("api response==>",prodResponse)
+      var doProuctExist;
+      
       if (IQCList2.size > 0) {
         doProuctExist = false;
         IQCList2.forEach((value) => {
-          if (value.headerQRCodeID == txtValueOfTypePOL) {
+          if (value.headerQRCodeID == txtValueOfTypePOL_new) {
             doProuctExist = true;
             return;
           }
@@ -136,31 +147,88 @@ function IncomingQCComponent() {
         return toastDisplayer(
           "error",
           "Invalid Incoming QC, please select a valid Incoming QC"
-        );
-      } else if (prodResponse && doProuctExist) {
-        return toastDisplayer("error", "Product alredy exist..!!");
-      } else if (prodResponse && !doProuctExist) {
+          );
+        } else if (prodResponse && doProuctExist) {
+          return toastDisplayer("error", "Product alredy exist..!!");
+        } else if (prodResponse && !doProuctExist) {
         setIQCList2((prevIQCList) => {
-          const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
+
+          const updatedSet = new Set(prevIQCList);
 
           prodResponse.forEach((response) => {
-            updatedSet.add(response); // Add each object from prodResponse to the updatedSet
+           
+            const exists = Array.from(updatedSet).some(
+              (item) => item.docNum === response.docNum
+            );
+            if (!exists) {
+              updatedSet.add(response);
+            }
           });
-
-          return updatedSet; // Return the updated Set
+          console.log("updatedSet : ",updatedSet);
+          return updatedSet;
         });
+
       }
     } else {
       return toastDisplayer("error", "Please type/scan P.O");
     }
   };
 
+  const handleDelete = (docEntry)=>{
+    const updatedgrpoList1 = new Set(IQCList2);
+    updatedgrpoList1.forEach((item) => {
+      if (item.docEntry === docEntry) {
+        updatedgrpoList1.delete(item);
+      }
+    });
+    return setIQCList2(updatedgrpoList1);
+  }
+
+  //close and open scanner
+  const HandleCloseQrScanner = () => {
+    setShowScanner(false);
+  };
+
+  const handleScan = () => {
+    setShowScanner(true);
+    console.log("Handle Scan");
+  };
+
+  const HandleDecodedData1 = (data) => {
+    settxtValueOfTypePOL(data);
+    HandleSearchHandler(data);
+    setShowPO(true);
+    setShowScanner(false);
+  };
+
+  const [popupHeight, setPopupHeight] = useState(window.innerHeight - 70);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPopupHeight(window.innerHeight - 70);
+    };
+
+    // Listen for window resize events
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+ 
+
+
   return (
     <>
       {showTransporterHelp && (
+
+
         <Popup
           visible={true}
-          height={window.innerHeight - 100}
+          //height={window.innerHeight - 70}
+          height={popupHeight}
           showCloseButton={true}
           hideOnOutsideClick={outsideClickHandler}
           className="purchaseOrderList"
@@ -171,12 +239,14 @@ function IncomingQCComponent() {
               handleDataGridRowSelection={handleDataGridRowSelection}
               dataGridRef={dataGridRef}
               selectedRowKeys={selectedRowKeys}
+              fromDate={fromDate}
+              toDate={toDate}
             />
           )}
         ></Popup>
-      )}
-
-      <div className="main-section">
+      )
+      }
+        <div className="main-section">
         {/* {console.log(IQCList2)} */}
         <div className="inputWrapper">
           <div className="date-section">
@@ -187,6 +257,7 @@ function IncomingQCComponent() {
               stylingMode="outlined"
               type="date"
               width={230}
+              height={40}
               onValueChanged={fromDateOptions}
             />
             {/* </div>
@@ -197,6 +268,7 @@ function IncomingQCComponent() {
               stylingMode="outlined"
               type="date"
               width={230}
+              height={40}
               onValueChanged={toDateOptions}
             />
             {/* </div> */}
@@ -207,40 +279,55 @@ function IncomingQCComponent() {
               stylingMode="outlined"
               placeholder="Type the purchase QR code"
               value={
-                selectedRowsData.length > 0 ? selectedRowsData[0].qrCodeID : ""
+                showPO ? txtValueOfTypePOL : selectedRowsData.length > 0
+                  ? selectedRowsData[0].qrCodeID
+                  : ""
               }
               width={210}
               onValueChanged={handleTextValueChange}
               showClearButton={true}
+              height={40}
             >
               <TextBoxButton
                 name="currency"
                 location="after"
                 options={helpOptions}
+                height={40}
               />
             </TextBox>
             <div className="btnSection">
               <NormalButton
-                width={33}
-                height={33}
+                width={40}
+                height={40}
                 type="normal"
                 stylingMode="outlined"
                 icon="search"
                 onClick={SearchHandler}
               />
               <NormalButton
-                width={33}
-                height={33}
+                width={40}
+                height={40}
                 type="normal"
                 stylingMode="outlined"
                 icon={GRPOScanner}
+                onClick={handleScan}
               />
+              {showScanner && (
+                <div>
+                  <TransparentContainer
+                    mountNodeId="container"
+                    showScan={showScanner}
+                    HandleCloseQrScanner1={HandleCloseQrScanner}
+                    HandleDecodedData={HandleDecodedData1}
+                  ></TransparentContainer>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
       <div className="orderList-section">
-        <IncomingQCOrderList IQCList2={IQCList2} />
+        <IncomingQCOrderList IQCList2={IQCList2} deleteFromList={handleDelete} />
       </div>
     </>
   );

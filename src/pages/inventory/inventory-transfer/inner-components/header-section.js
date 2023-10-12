@@ -1,11 +1,13 @@
 import React from "react";
-import "./header.styles.scss";
 import { GRPOScanner } from "../../../../assets/icon";
 import { Button, TextBox } from "devextreme-react";
 const HeaderSection = ({
   productionNumberInputHandler,
   productionNumberInput,
   productionNumberInputSearchHandler,
+  txtBoxRef,
+  handleScan,
+  scannedData,
 }) => {
   return (
     <div className="inventrory-transfer-inner-header-wrapper">
@@ -18,6 +20,8 @@ const HeaderSection = ({
           showClearButton={true}
           valueChangeEvent="keyup"
           onValueChanged={(data) => productionNumberInputHandler(data)}
+          ref={txtBoxRef}
+          value={scannedData}
         ></TextBox>
         <Button
           width={33}
@@ -35,7 +39,7 @@ const HeaderSection = ({
           type="normal"
           stylingMode="outlined"
           icon={GRPOScanner}
-          //   onClick={() => console.log("You have cliced the scanner")}
+          onClick={handleScan}
         />
       </div>
     </div>

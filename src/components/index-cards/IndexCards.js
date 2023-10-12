@@ -1,18 +1,19 @@
-import React from 'react';
-import { navigation } from '../../app-navigation';
-import Card from '../../components/card/Card';
+import React from "react";
+import { navigation } from "../../app-navigation";
+import Card from "../../components/card/Card";
 
 export default function IndexCards({ path }) {
-    let navobj = {}, arr = [];
+  let navobj = {},
+    arr = [];
 
-    navigation.forEach((value1, key) => {
-        Object.keys(value1).forEach((value2, key) => {
-            if (value2 === 'items') {
-                arr = value1[value2];
-                navobj[value1['path']] = arr;
-            }
-        })
+  navigation.forEach((value1, key) => {
+    Object.keys(value1).forEach((value2, key) => {
+      if (value2 === "items") {
+        arr = value1[value2];
+        navobj[value1["path"]] = arr;
+      }
     });
+  });
 
     return (
         <React.Fragment>
@@ -32,4 +33,5 @@ export default function IndexCards({ path }) {
             </div>
         </React.Fragment>
     );
+
 }
