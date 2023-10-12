@@ -1,0 +1,150 @@
+@mixin common-flex-styling {
+    display: flex;
+    flex-direction: column;
+  }
+.inventory-transfer-main-container{
+    // @include common-flex-styling;
+    @include common-flex-styling();
+    .header-section{
+        display: flex !important; 
+        flex-direction: row;
+        justify-content: space-between;
+
+        .refreshBtnDiv{
+            display: flex;
+            align-items: center;
+
+            .dx-button{
+                .dx-button-content{
+                    background-color: #4371b7;
+                }
+                .dx-icon.dx-icon-refresh,.dx-button-text{
+                    color: white;
+                }
+                .dx-button-text{
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .main-content-section{
+            height: 53vh;
+            .main-content-top{
+                    
+                display: flex;
+                justify-content: space-between !important;
+                .left-section{
+                    display: flex;
+                    gap: 5px;
+                    .warehouse-chooser-section{
+                        display: flex;
+                    gap: 5px;
+                    }
+                    .items-scanner-section{
+
+                    }
+                }
+
+                .right-section{}
+            }
+            
+            .main-content-datagrid-section{
+                margin-top: 2rem;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                .save-section{
+                    align-self: flex-end;
+                }
+            }
+        
+    
+       
+
+    }
+}
+
+.dx-field-value.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-widget {
+    border-radius: 8px !important;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important;
+
+}
+@media only screen and (max-width: 550px) {
+    .inventory-transfer-main-container{
+        .header-section{
+            .refreshBtnDiv{
+                .dx-button{
+                    width:50px !important;
+                    .dx-button-content{
+                        background-color: #4371b7;
+                        .dx-button-has-text .dx-icon {
+                            margin-right: 0px !important;
+                        }
+                    }
+                    .dx-button-text{
+                        display: none;
+                    }
+
+                    
+                }
+            }
+        }
+    }
+}
+
+.dx-button-has-icon.dx-button-has-text .dx-icon {
+    margin-right: 0px !important;
+}
+
+@media only screen and (max-width: 872px) {
+    .main-content-section{
+        .dx-texteditor.dx-editor-outlined{
+            width: 250px !important;
+        }
+        
+        .left-section{
+            display: flex !important;
+            flex-direction: column !important;
+        }
+    }
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .inventory-transfer-main-container{
+        .header-section{}
+    
+        .main-content-section{
+            
+                .main-content-top{
+                        
+                    display: flex;
+                    flex-direction: column !important;
+                    gap: 10px;
+                    .left-section{
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 5px;
+                        .warehouse-chooser-section{
+                        display: flex;
+                        gap: 5px;
+                        }
+                    }
+    
+                    .right-section{
+                        align-self: flex-start;
+                    }
+                }
+                
+                .main-content-datagrid-section{
+    
+                }
+            
+        
+           
+    
+        }
+    }
+}

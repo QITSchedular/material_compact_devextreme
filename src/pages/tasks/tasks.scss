@@ -1,0 +1,17 @@
+.dx-datagrid-search-panel {
+    // border: none !important;
+    // border: 1px solid #ccc;
+    // padding: 5px;
+    border:"none !important"
+  }
+  .dx-texteditor.dx-editor-filled::after {
+    // border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+    border-bottom:none !important;
+}
+.dx-datagrid-search-panel .dx-state-focused{
+    border-bottom-color: none !important;
+}
+.dx-checkbox-icon{
+  border-radius: 5px !important;
+  border: 1px solid #C6C6C6 !important;
+}
