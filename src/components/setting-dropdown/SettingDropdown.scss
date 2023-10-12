@@ -1,15 +1,23 @@
+.dropdown-background {
+    position: absolute;
+    z-index: 170;
+    height: 100vh;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.55);
+}
+
 .dropdown {
     position: absolute;
     z-index: 999;
-    right: 35px;
-    top: 60px;
+    right: 60px;
+    top: 0rem;
     width: 300px;
-    height: 90vh;
+    height: 100% !important;
     border-radius: 13.841px;
     border-bottom: 4px solid #4371B7;
     background: #FFF;
     box-shadow: 0px 3px 9px 0px rgba(0, 0, 0, 0.50);
-    animation: dropdownanimation 0.3s both ease-in-out;
+    animation: dropdownanimation 0.5s both ease-in-out;
 
     @keyframes dropdownanimation {
         0% {
@@ -19,7 +27,7 @@
 
         100% {
             opacity: 1;
-            height: 90vh;
+            height: 100vh;
         }
     }
 
@@ -51,36 +59,31 @@
     }
 
     .dropdown-body {
+        position: relative;
+        max-height: 100%;
+        /* Set your maximum height here */
+        overflow-y: scroll;
+
         ::-webkit-scrollbar {
             width: 6px;
-            /* Width of the scrollbar track */
         }
 
-        /* Customizing the scrollbar thumb */
         ::-webkit-scrollbar-thumb {
             background-color: #888;
-            /* Color of the scrollbar thumb */
             border-radius: 4px;
-            /* Rounded corners */
         }
 
-        /* Customizing the scrollbar thumb on hover */
         ::-webkit-scrollbar-thumb:hover {
             background-color: #4371B7;
-            /* Color on hover */
         }
 
-        /* Customizing the scrollbar track on hover */
         ::-webkit-scrollbar-track:hover {
             background-color: #f0f0f0;
-            /* Color of the track on hover */
         }
-
-
-        padding: 5px 5px;
 
         .batch-serial-acrdn {
             margin: 0;
+            position: relative;
 
             .dx-accordion-wrapper {
                 .dx-item {
@@ -96,6 +99,7 @@
                     line-height: normal;
 
                     .dx-item-content.dx-accordion-item-title {
+                        margin-left: 10px;
 
                         .dx-accordion-item-title-caption {
                             font-size: 14px;
@@ -128,7 +132,7 @@
                         }
 
                         .dx-selectbox {
-                            margin: 15px 10px;
+                            margin: 15px 20px;
                             border-radius: 8px;
                             box-shadow: none;
                             background-color: transparent;
@@ -152,19 +156,36 @@
                 }
 
                 .dx-accordion-item-opened {
+                    position: relative;
+
                     .dx-item-content.dx-accordion-item-title {
                         .dx-accordion-item-title-caption {
-                            color: #4371B7;
-                            font-weight: bolder;
+                            color: #525252;
+                            font-weight: 400;
                         }
                     }
                 }
             }
         }
 
+        .batch-serial-acrdn {
+            .dx-accordion-item-opened:after {
+                content: " ";
+                position: absolute;
+                left: 0;
+                top: 6px;
+                transform: rotate(90deg);
+
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 10px solid #4371B7;
+                border-top: 10px solid transparent;
+            }
+        }
+
         .quality-control-dropdown {
             cursor: pointer;
-            padding: 5px 11px;
+            padding: 5px 21px;
             margin-bottom: 20px;
             color: #525252;
             font-feature-settings: 'clig' off, 'liga' off;
@@ -179,6 +200,106 @@
         .subdropdown-open {
             color: #4371B7;
             font-weight: bold;
+            position: relative;
         }
+
+        .subdropdown-open:after {
+            content: " ";
+            position: absolute;
+            left: 0;
+            top: 4px;
+            transform: rotate(90deg);
+
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #4371B7;
+            border-top: 10px solid transparent;
+        }
+    }
+
+    .dropdown-footer {
+        border-top: 1px solid rgba(0, 0, 0, 0.2);
+        position: absolute;
+        bottom: 1rem;
+        height: 10px;
+        width: 100%;
+        text-align: right;
+        padding: 1rem 2rem;
+        margin-bottom: .5rem;
+
+        .btn-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .my-button {
+                padding: 5px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 14px;
+                width: 100px;
+                background: transparent;
+            }
+
+            .save-button {
+                background-color: #4371B7;
+
+                .dx-button-content {
+                    .dx-button-text {
+                        color: #fff;
+                    }
+                }
+            }
+
+            .cancel-button {
+                border: 1px solid #4371B7;
+                color: #4371B7;
+
+                &:hover {
+                    background-color: #f0f0f0;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .dropdown {
+        right: 10px;
+        width: 300px;
+
+        .dropdown-body {
+            max-height: calc(100vh - 200px);
+            /* Adjust the value as needed */
+            overflow-y: scroll;
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .dropdown {
+        right: 60px;
+        top: 0rem;
+        width: 300px;
+        height: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .dropdown {
+        right: 60px;
+        top: 0rem;
+        width: 300px;
+        height: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .dropdown {
+        right: 20px;
+        top: 0rem;
+        width: 300px;
+        height: 100% !important;
     }
 }

@@ -75,7 +75,7 @@ export const navigation = [
             {
                 text: "Gate Inward",
                 path: "/purchases/gateinmain",
-                icon: `arrow_downward`     //system_update_alt
+                icon: `arrow_downward`
             },
             {
                 text: "Generate & Print",
@@ -178,5 +178,10 @@ export const navigation = [
                 icon: `find_in_page`,
             },
         ],
+    },
+    {
+        text: "Settings",
+        path: "/configuration",
+        icon: `settings`,
     },
 ];

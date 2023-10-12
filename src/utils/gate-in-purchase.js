@@ -1,9 +1,9 @@
 // https://localhost:8084/api/Commons/Period Indicator
 import axios from "axios";
 import { API_URL } from "./items-master-data";
-import notify from "devextreme/ui/notify";
-import { toast as RToast } from "react-toastify";
-import { AppContext } from "../contexts/dataContext";
+// import notify from "devextreme/ui/notify";
+// import { toast as RToast } from "react-toastify";
+// import { AppContext } from "../contexts/dataContext";
 import { toastDisplayer } from "../api/qrgenerators";
 
 export const getPeriodIndicator = async () => {
@@ -29,6 +29,7 @@ export const getPeriodIndicator = async () => {
     return errors;
   }
 };
+
 export const getSeriesPo = async (series, branchid) => {
   const errors = {
     hasError: false,

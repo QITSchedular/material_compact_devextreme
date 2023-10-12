@@ -40,6 +40,7 @@ import {
   InventoryPage,
   MachinemasterPage,
   EmployeemasterPage,
+  ConfigurationPage,
   DepartmentMasterPage,
   VarifyMaterialScanItemPage
 } from "./pages";
@@ -226,6 +227,10 @@ const routes = [
   {
     path: "/TrackMachines/MachineManagement",
     element: MachineManagementPage,
+  },
+  {
+    path: "/configuration",
+    element: ConfigurationPage,
   },
 ];
 
