@@ -17,6 +17,7 @@ import { navigation } from '../../app-navigation';
 export default function Header({ menuToggleEnabled, toggleMenu }) {
     const location = useLocation();
     let path = location.pathname.split('/');
+    console.log("path", path);
     const { isSettingDropdownOpen, toggleSettingDropdown, isNotifyDropdownOpen, toggleNotifyDropdown } = UseHeaderContext();
 
     const [searchState, setsearchState] = useState(false);
@@ -155,19 +156,21 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                     <Item location={"before"} cssClass={"header-title"}>
                         <nav className="breadcrumb">
                             {path.map((pathSegment, key) => {
-                                const text = findMatchingText(pathSegment, navigation);
-                                if (key === 0) {
-                                    return (
-                                        <Link key={key} to="/home">
-                                            <div className="breadcrumb-item breadcrumb-home">K</div>
-                                        </Link>
-                                    );
-                                } else {
+                                console.log("pathSegment", pathSegment);
+                                if (pathSegment && pathSegment != null || pathSegment != '') {
+                                    const text = findMatchingText(pathSegment, navigation);
                                     return (
                                         <Link key={key} to={text.path}>
                                             <div key={key} className="breadcrumb-item active">
                                                 {text.text}
                                             </div>
+                                        </Link>
+                                    );
+                                }
+                                else {
+                                    return (
+                                        <Link key={key} to="/home">
+                                            <div className="breadcrumb-item breadcrumb-home">K</div>
                                         </Link>
                                     );
                                 }
