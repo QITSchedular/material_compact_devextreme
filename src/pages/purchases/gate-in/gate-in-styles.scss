@@ -99,6 +99,22 @@
 
     .data-grid-section {
         margin-top: 3rem !important;
+        .dx-toolbar-items-container {
+            .dx-toolbar-after {
+              padding-left: 0px !important;
+              width: 100%;
+        
+              .dx-item.dx-toolbar-item.dx-toolbar-button {
+                .dx-item-content.dx-toolbar-item-content {
+                  .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-filled.dx-searchbox.dx-show-clear-button {
+                    width: 100% !important;
+                    margin: 0 0 0 0 !important;
+        
+                  }
+                }
+              }
+            }
+          }
     }
 
 

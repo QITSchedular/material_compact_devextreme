@@ -55,6 +55,7 @@ const PrintQrMainComp = () => {
   const [selectedGateInNum, setSelectedGateInNum] = useState("");
   const [poNumber, setPoNumber] = useState("");
   const [poData, setPoData] = useState(null);
+  const [disableGateInNum, setdisableGateInNum] = useState(false);
   const [objType, setobjType] = useState(null);
   const [docEntry, setDocEntry] = useState(null);
   const gridRef = useRef("");
@@ -141,6 +142,7 @@ const PrintQrMainComp = () => {
   // handle dropdown items click
   const periodItemsClick = async (e) => {
     try {
+      setSelectedSeries("");
       await setSelectedPeriodIndicator(e.itemData.indicator || e.itemData);
       const seriesData = await getSeriesPo(e.itemData.indicator, 1);
       // console.log(seriesData);
@@ -184,6 +186,7 @@ const PrintQrMainComp = () => {
           enteredPoNum.value,
           selectedSeries.series
         );
+        setdisableGateInNum(true);
         await setGetInNumList(listOfGateInNumber);
       }
     } catch (err) {
@@ -412,6 +415,7 @@ const PrintQrMainComp = () => {
               items={gateInNumList}
               keyExpr={"gateInNo"}
               displayExpr={"gateInNo"}
+              disabled={!disableGateInNum}
               onItemClick={handleGateInNumSelectionClick}
               className="gatein-num-list"
               height={40}

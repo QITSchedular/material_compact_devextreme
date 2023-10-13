@@ -344,10 +344,17 @@ const GrpoMain = () => {
   };
 
   // scanner handlers
-  const handleScan = () => {
-    setShowScanner(true);
+  const handleScan =async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      setShowScanner(true);
+      stream.getTracks().forEach((track) => track.stop());
+    } catch (error) {
+      toastDisplayer("error", "Scanner not found.");
+    }
     console.log("Handle Scan");
   };
+  
   useEffect(() => {
     setLoading(true);
     const fetchAllPo = async () => {

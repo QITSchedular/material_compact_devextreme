@@ -1,61 +1,90 @@
 @import "../../themes/generated/variables.base.scss";
 
-.login-form {
-  .link {
-    text-align: center;
-    font-size: 16px;
-    font-style: normal;
+// .login-form {
+//     .link {
+//         text-align: center;
+//         font-size: 16px;
+//         font-style: normal;
 
-    a {
-      text-decoration: none;
+//         a {
+//             text-decoration: none;
+//         }
+//     }
+
+//     .form-text {
+//         margin: 10px 0;
+//         color: rgba($base-text-color, alpha($base-text-color) * 0.7);
+//     }
+// }
+
+.background-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: end;
+
+    .box-1 {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        height: 100vh;
+        width: 30%;
+        background-color: #4371B7;
+        padding-right: 2rem;
     }
-  }
 
-  .form-text {
-    margin: 10px 0;
-    color: rgba($base-text-color, alpha($base-text-color) * 0.7);
-  }
-}
+    .box-2 {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        height: 100vh;
+        width: 70%;
 
-.login-form {
-  .dx-form.dx-widget.dx-visibility-change-handler {
-    .dx-layout-manager.dx-widget {
-      .dx-widget.dx-collection.dx-responsivebox.dx-responsivebox-screen-sm,
-      .dx-widget.dx-collection.dx-responsivebox.dx-responsivebox-screen-md,
-      .dx-widget.dx-collection.dx-responsivebox.dx-responsivebox-screen-xs,
-      .dx-widget.dx-collection.dx-responsivebox.dx-responsivebox-screen-lg {
-        .dx-box-flex.dx-box.dx-widget.dx-collection {
-          .dx-item.dx-box-item {
-            .dx-item-content.dx-box-item-content {
-              .dx-first-col.dx-last-col.dx-field-item.dx-col-0.dx-field-button-item {
-                .dx-widget.dx-button.dx-button-mode-contained.dx-button-default.dx-widget {
-                  margin-left: -16px !important;
-                  border-radius: 25px !important;
-                  .dx-button-text-login {
-                    font-size: 16;
-                  }
+        .box-2-container {
+            padding-right: 10rem;
+            height: 100vh;
+            width: 100%;
+            background-color: #FFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .login-form {
+                width: 45%;
+
+                .heading {
+                    color: #393939;
+                    font-family: Poppins;
+                    font-size: 24px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+
                 }
-                .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-text {
-                  margin-left: -16px !important;
-                  border-radius: 25px !important;
+
+                .sub-heading {
+                    color: #8D8D8D;
+                    font-family: Poppins;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 24px;
                 }
-              }
+
+                .text-box {
+                    .dx-field-item-content {
+                        .dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined {
+                            .dx-texteditor-container {
+                                margin-top: 40px;
+                                border-radius: 4px !important;
+                                border: 1px solid #8D8D8D;
+                                background: #FFF;
+
+                            }
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
-}
-
-@import "../../themes/generated/variables.base.scss";
-
-.single-card {
-}
-
-@media only screen and (max-width: 600px) {
-  .login-main-wrapper {
-    width: 90% !important;
-    margin: 40px auto 0px auto !important;
-  }
 }

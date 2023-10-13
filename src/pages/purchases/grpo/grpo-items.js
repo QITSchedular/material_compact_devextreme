@@ -164,23 +164,13 @@ const GrpoItems = () => {
     if (!gridDataSource.length > 0) {
       return toastDisplayer("error", " ❌ Please Scan items to proceed");
     }
+    console.log("defaultChoosenQcWareHouse : ",defaultChoosenQcWareHouse)
     
-    if (
-      selectedRowsData.length > 0 &&
-      choosenWarehouseName !== selectedRowsData[0].whsCode
-    ) {
-      await setSelectedRowsData([]);
-      return toastDisplayer(
-        "error",
-        "Invalid warehouse name, select one from the dropdown"
-      );
-    } else {
-      if (selectedRowsData.length == 0) {
+      if (defaultChoosenQcWareHouse.length == 0) {
         return toastDisplayer("error", "Choose warehouse to save the grpo");
       }
       setLoading(true);
       const series = "102";
-      // const numAtCard = "8985698";
       const doGrpo = await generateGrpo(
         gridDataSource,
         comments,
@@ -199,11 +189,9 @@ const GrpoItems = () => {
         toastDisplayer("succes", `${doGrpo.statusMsg}`);
         navigate("/purchases/grpo");
       } else {
-        // console.log("error in save");
         setLoading(false);
         return toastDisplayer("error", `${doGrpo.statusMsg}`);
       }
-    }
   };
 
   const onRowRemoved = async () => {
@@ -294,13 +282,20 @@ const GrpoItems = () => {
       return setnoQcBinData(params);
     }
   };
-  const handleChoosenWareHouseChange = async (data) => {
-    await setChoosenWarehouseName(data.value);
-  };
+  // const handleChoosenWareHouseChange = async (data) => {
+  //   await setChoosenWarehouseName(data.value);
+  // };
 
   // scanner handlers
-  const handleScan = () => {
-    setShowScanner(true);
+  const handleScan = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      stream.getTracks().forEach((track) => track.stop());
+      setShowScanner(true);
+    } catch (error) {
+      toastDisplayer("error", "Scanner not found.");
+    }
+    // setShowScanner(true);
   };
 
   const HandleCloseQrScanner = () => {
@@ -431,7 +426,7 @@ const GrpoItems = () => {
   return (
     <div className="content-block dx-card responsive-paddings grpo-content-wrapper grpo-items-wrapper">
       {loading && <LoadPanel visible={true} />}
-      {showWareHousePopupHelp && (
+      {/* {showWareHousePopupHelp && (
         <Popup
           visible={true}
           showCloseButton={true}
@@ -458,7 +453,7 @@ const GrpoItems = () => {
           />
         </Popup>
       )}
-      
+       */}
       {showBinPopupHelp && (
         <Popup
         visible={true}
@@ -536,7 +531,7 @@ const GrpoItems = () => {
             onClick={handleScan}
           />
         </div>
-        <div className="warehouse-help-section">
+        {/* <div className="warehouse-help-section">
           <TextBox
             className="dx-field-value"
             stylingMode="outlined"
@@ -556,7 +551,7 @@ const GrpoItems = () => {
               height={40}
             />
           </TextBox>
-        </div>
+        </div> */}
       </div>
       {displayGrid && (
         <>

@@ -178,16 +178,16 @@ const VerifyMaterialMain = () => {
             />
           </TextBox>
           <Button
-            width={33}
-            height={33}
+            width={40}
+            height={40}
             type="normal"
             stylingMode="outlined"
             icon="search"
             onClick={SearchHandler}
           />
           <Button
-            width={33}
-            height={33}
+            width={40}
+            height={40}
             type="normal"
             stylingMode="outlined"
             icon={GRPOScanner}
