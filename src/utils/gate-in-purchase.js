@@ -90,11 +90,10 @@ export const getPurchaseOrder = async (
       return errors;
     }
   } catch (error) {
-    // Handle any errors that occurred during the A.seriesData
     const statusMsg  = error.message;
     if (statusMsg) {
       errors.hasError = true;
-      errors.errorText = statusMsg;
+      errors.errorText =error.response?.data?.statusMsg || statusMsg;
       return errors;
     }
     return errors;
@@ -136,8 +135,8 @@ export const gateInAndUpdatePo = async (
     return response.data;
   } catch (error) {
     // Handle any errors that occurred during the A.seriesData
-    console.error("Error:", error.data);
-    return "Error";
+    console.error("Error:", error.response.data.statusMsg);
+    return error;
   }
 };
 // handling the async validation for the recieved quantity
@@ -175,11 +174,21 @@ export const callUpdatePoApi = async (
     if (response.isSaved === "Y") {
       updatedResponses.push(response);
     } else {
-      const error = {
-        statusCode: "400",
-        isSaved: "N",
-        statusMsg: `Gate in failed for item code: ${updatedItemsList[i].key}`,
-      };
+      var error ="";
+      if(response.response.data.statusMsg.includes("String or binary data would be truncated"))
+      {
+        error = {
+          statusCode: "400",
+          isSaved: "N",
+          statusMsg: "Vehical number is invalid",
+        };
+      }else{
+        error = {
+          statusCode: "400",
+          isSaved: "N",
+          statusMsg: `Gate in failed for item code: ${updatedItemsList[i].key}`,
+        };
+      }
       updatedResponses.push(error);
     }
   }

@@ -40,6 +40,9 @@ const TransparentContainer = ({
       HandleDecodedData1(decodedQRData.data);
     }
   },[decodedQRData])
+
+ 
+
   return (
     <div className={`expanded-div ${showScanner ? "expanded" : ""}`}>
       {mountNodeId && (
