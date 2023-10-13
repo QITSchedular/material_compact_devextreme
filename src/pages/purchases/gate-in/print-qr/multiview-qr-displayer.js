@@ -14,7 +14,7 @@ const QrViewBox = ({ data, slideDirection }) => {
     if (data && data.detailQRCodeID) {
       qrcode.toCanvas(canvasRef.current, data.detailQRCodeID, (error) => {
         if (error) {
-          console.error("Error generating QR code:", error);
+          console.error("Error while genratting  QR code:", error);
         }
       });
     }
