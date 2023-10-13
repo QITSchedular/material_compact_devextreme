@@ -10,25 +10,19 @@ export const verifyProdcutionQrInput = async (
     hasError: false,
     errorMessage: null,
   };
-  console.log("Entered api caller");
-  console.log("Scanned item qr is: ", productionNumberInput);
-  console.log("Selected from warehouse data is: ", selectedFromWarehouse);
   const requestBody = {
     branchID: 1,
     fromWhs: `${selectedFromWarehouse[0].whsCode}`,
     detailQRCodeID: `${productionNumberInput}`,
   };
-  console.log("The request body is", requestBody);
   try {
     const response = await axios.post(
       `${API_URL}/InventoryTransfer/ItemDataInWhs`,
       requestBody
     );
     responseBody.responseData = response.data[0];
-    console.log("The api res is: ", responseBody);
     return responseBody;
   } catch (error) {
-    console.log("Error while fetching the data, from controller", error);
     responseBody.hasError = true;
     responseBody.errorMessage = responseBody.errorMessage =
       error.response?.data?.statusMsg || error.response?.data?.errors;
@@ -50,9 +44,8 @@ export const inventoryTransferSaver = async (
     selectedFromBin,
     selectedToBin
   );
-  // console.log(JSON.stringify(requestBody));
   // const PayloadData = JSON.stringify(requestBody);
-  console.log("PayloadData: " + requestBody);
+  console.log("PayloadData: " , requestBody);
   try {
     // const response = await axios.post(
     //   `${API_URL}/InventoryTransfer/InventoryTransfer`,
@@ -72,11 +65,8 @@ export const inventoryTransferSaver = async (
       requestBody,
       // config
     );
-
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
   }
 };
 const inventoryTransferPayloadConstructor = (
@@ -86,7 +76,6 @@ const inventoryTransferPayloadConstructor = (
   selectedFromBin,
   selectedToBin
 ) => {
-  console.log("The payload is: " + JSON.stringify(payload));
   const itDetailsMap = {};
 
   payload.forEach((item) => {
@@ -129,20 +118,20 @@ const inventoryTransferPayloadConstructor = (
   });
 
   const itDetails = Object.values(itDetailsMap);
-  console.log("====>  ",itDetails);
 
-  // const result = {
-  //   branchID: 1,
-  //   cardCode: payload[0].cardCode, // Use the cardCode from the first item
-  //   fromWhsCode: selectedFromWarehouse[0].whsCode, // Use the whs from the first item
-  //   toWhsCode: selectedToWarehouse[0].whsCode, // Use the whs from the first item
-  //   comments: "", // Set as needed
-  //   itDetails,
-  //   fromBinAbsEntry: selectedFromBin,
-  //   toBinAbsEntry: selectedToBin,
-  // };
+  const result = {
+    branchID: 1,
+    cardCode: payload[0].cardCode, // Use the cardCode from the first item
+    fromWhsCode: selectedFromWarehouse[0].whsCode, // Use the whs from the first item
+    toWhsCode: selectedToWarehouse[0].whsCode, // Use the whs from the first item
+    comments: "", // Set as needed,
+    fromBinAbsEntry: selectedFromBin,
+    toBinAbsEntry: selectedToBin,
+    series:1274,
+    itDetails
+  };
 
-  // return result;
+  return result;
 };
 
 // const payload = [

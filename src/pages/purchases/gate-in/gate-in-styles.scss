@@ -133,10 +133,10 @@
 
 .gateIn-header {
     display: flex;
-
+    justify-content: space-between;
     .close-btn-section {
         padding-top: 2%;
-        margin-left: 62%;
+        // margin-left: 62%;
     }
 }
 

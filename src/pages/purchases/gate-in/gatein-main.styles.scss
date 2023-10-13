@@ -72,7 +72,7 @@
     }
 }
 
-// .gate-in-data-grid {
+.gate-in-data-grid {
     .dx-texteditor.dx-editor-filled::after {
         border-bottom: 0px;
     }
@@ -81,7 +81,7 @@
     .dx-texteditor.dx-state-focused::before {
         border-bottom: 0px;
     }
-// }
+}
 
 .dx-popup-content.dx-dialog-content {
     padding-left: 30px;
