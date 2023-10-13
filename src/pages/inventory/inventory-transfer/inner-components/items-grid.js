@@ -8,6 +8,7 @@ import DataGrid, {
 import { Button } from "devextreme-react";
 import { toastDisplayer } from "../../../../api/qrgenerators";
 import { inventoryTransferSaver } from "../../../../api/inventory.transfer.api";
+import { SwalDisplayer } from "../../../../utils/showToastsNotifications";
 const columns = [
   "Item Code",
   "Item Name",
@@ -78,7 +79,8 @@ const ItemsGrid = ({
     );
     console.log("Inventory transfer api response", constructorData);
     if (constructorData.statusCode == 200) {
-      return toastDisplayer("succes", "Item transfer successful..");
+      return SwalDisplayer("success","Inventory Transfer successfull")
+      // return toastDisplayer("succes", "Item transfer successful..");
     }
   };
   return (

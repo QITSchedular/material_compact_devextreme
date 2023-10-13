@@ -81,7 +81,7 @@ export const validatePoListsIQC = async (obj) => {
     "branchID": 1,
     "headerQRCodeID": obj.headerQRCodeID,
     "detailQRCodeID": obj.detailQRCodeID,
-    "grpoDocEntry": obj.docEntry
+    "grpoDocEntry": parseInt(obj.docEntry)
   };
   const errors = {
     hasError: false,

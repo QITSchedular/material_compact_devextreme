@@ -31,7 +31,7 @@ const InventorytransferMain = () => {
   const [bpDetailList, setBpDetailList] = useState("");
 
   const [selectedToWarehouse, setSelectedToWarehouse] = useState("");
-  const [selectedFromWarehouse, setSelectedFromWarehouse] = useState("");
+  const [selectedFromWarehouse, setSelectedFromWarehouse] = useState([]);
   const [selectedFromBin, setSelectedFromBin] = useState("");
   const [selectedToBin, setSelectedToBin] = useState("");
   const [selectedBPDetail, setSelectedBPDetail] = useState("");
@@ -224,7 +224,7 @@ const InventorytransferMain = () => {
   useEffect(() => {
     const selectedFromWarehouseResolver = async () => {
       const data = await selectedFromWarehouse;
-      // console.log("Choosen From Warehouse", data);
+      console.log("Choosen From Warehouse", data);
       setSelectedFromWarehouse(data);
     };
     selectedFromWarehouseResolver();
@@ -307,7 +307,7 @@ const InventorytransferMain = () => {
                   txtRef={fromWarehouseRef}
                   countRef={countRef}
                   setCountRef={setCountRef}
-                  // isDisabled={isFromWarehouseTxtDisable}
+                  isDisable={false}
                   // txtDisableHandler={setFromWarehouseTxtDisable}
                 />
                 <PopupInputs
@@ -321,22 +321,11 @@ const InventorytransferMain = () => {
                   txtRef={toWarehouseRef}
                   countRef={countRef}
                   setCountRef={setCountRef}
+                  isDisable={selectedFromWarehouse.length?false:true}
                 />
               </div>
 
               <div className="warehouse-chooser-section">
-                <PopupInputs
-                  placeholder={"From Bin"}
-                  chooser={fromBinChooser}
-                  showHelpPopup={showFromBinPopup}
-                  setShowHelpPopup={setFromBinPopup}
-                  gridDataSourceList={qcWareHouseBinList}
-                  selectedValue={selectedFromBin}
-                  setSelectedValue={setSelectedFromBin}
-                  txtRef={fromBinRef}
-                />
-                {console.log("heelo", selectedFromWarehouse)}
-
                 <PopupInputs
                   placeholder={"To Bin"}
                   chooser={toBinChooser}
@@ -346,6 +335,7 @@ const InventorytransferMain = () => {
                   selectedValue={selectedToBin}
                   setSelectedValue={setSelectedToBin}
                   txtRef={toBinRef}
+                  isDisable={selectedToWarehouse.length?false:true}
                 />
               </div>
             </div>

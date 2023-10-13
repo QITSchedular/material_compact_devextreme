@@ -127,7 +127,7 @@ const inventoryTransferPayloadConstructor = (
     comments: "", // Set as needed,
     fromBinAbsEntry: selectedFromBin,
     toBinAbsEntry: selectedToBin,
-    series:1274,
+    series:1330,
     itDetails
   };
 
