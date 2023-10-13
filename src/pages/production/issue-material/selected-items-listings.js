@@ -19,6 +19,7 @@ const SelectedItemsListings = ({ scannedItemsData, productionIssueSaver }) => {
   const [showInfo, setShowInfo] = useState(true);
   const [showNavButtons, setShowNavButtons] = useState(true);
   const [comments, setComments] = useState("");
+  const [disableIssueBtn,setDisableIssueBtn] = useState(true);
 
   const calculateOpenQtyValue = (data) => {
     const { plannedQty, issuedQty } = data;
@@ -38,15 +39,35 @@ const SelectedItemsListings = ({ scannedItemsData, productionIssueSaver }) => {
       parseFloat(plannedQty) - parseFloat(issuedQty)
     ).toFixed(6);
 
+    const totalQrQuantity = (
+      parseFloat(qrQty) - parseFloat(issuedQty)
+    ).toFixed(6);
+
+
     return new Promise((resolve, reject) => {
-      if (parseFloat(value) > totalReceivableQuantity) {
+      // if (parseFloat(value) > totalReceivableQuantity) {
+      //   return reject(
+      //     `Total Receivable Quantity should be smaller than or Equal to: ${totalReceivableQuantity}`
+      //   );
+      // } 
+      if(parseFloat(value)>issuedQty){
         return reject(
-          `Total Receivable Quantity should be smaller than or Equal to: ${totalReceivableQuantity}`
-        );
-      } else {
-        console.log(value);
-        return resolve(value);
+          "Quantity cannot be greater than Issued Qty"
+        )
       }
+      if(parseFloat(value)>qrQty){
+        return reject(
+          `Available QR Qty is: ${qrQty}, you can received only ${qrQty}`
+        )
+      }
+      setDisableIssueBtn(false);
+      // if (parseFloat(value) > totalQrQuantity) {
+      //   console.log("totalQrQuantity is", totalQrQuantity)
+      //   return reject(
+      //     `Total Qr Quantity should be smaller than or Equal to: ${totalQrQuantity}`
+      //   );
+      // }
+        return resolve(value);
     });
   };
   const commentsHandler = (comments) => {
@@ -154,6 +175,7 @@ const SelectedItemsListings = ({ scannedItemsData, productionIssueSaver }) => {
           width={124}
           height={35}
           className="default-button"
+          disabled={disableIssueBtn}
           onClick={() => productionIssueSaver(scannedItemsData, comments)}
         />
       </div>

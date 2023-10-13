@@ -391,8 +391,8 @@ const GateInComponent = () => {
       });
     } else {
       const errorMessage = allResponses.join("\n");
-      await setUpdatedItems([]);
-      return toast.error("Something went wrong:\n${errorMessage}", {
+      // await setUpdatedItems([]);
+      return toast.error(errorMessage, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -406,12 +406,13 @@ const GateInComponent = () => {
   };
 
   const handleGridSaving = async (e) => {
-    console.log(updatedItems);
+    console.log("updated Item : ",updatedItems," e.changes[0] : ",e.changes[0]);
     if (!e.changes[0]) {
-      return toastDisplayer(
-        "error",
-        "Please, receive the quantity first to proceed"
-      );
+      return ;
+      // toastDisplayer(
+      //   "error",
+      //   "Please, receive the quantity first to proceed"
+      // );
     }
     if (e.changes[0].data.recQty === 0) {
       console.log("Zero recQty");
@@ -626,6 +627,7 @@ const GateInComponent = () => {
                 remoteOperations={true}
                 onSaving={handleGridSaving}
               >
+                <SearchPanel visible={true} />
                 <Scrolling mode={scrollingMode} />
                 <Paging defaultPageSize={10} />
                 <Selection mode="multiple" />
@@ -691,7 +693,7 @@ const GateInComponent = () => {
               </DataGrid>
               <div
                 className="content-block-save"
-                style={{ justifyContent: "flex-end", marginTop: "10rem" }}
+                style={{ justifyContent: "flex-end", marginTop: "1rem" }}
               >
                 <NormalButton
                   type="default"
