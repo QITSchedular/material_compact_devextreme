@@ -76,7 +76,7 @@ function OldEntryComponent() {
         />
         <Scrolling mode={scrollingMode} />
         <Paging defaultPageSize={10} />
-        <Selection mode="multiple" />
+        <Selection mode="multiple"  allowSelectAll={false}/>
         <ColumnFixing enabled={true} />
         <Editing
           mode="row"

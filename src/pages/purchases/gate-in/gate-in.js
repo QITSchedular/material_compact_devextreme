@@ -168,10 +168,10 @@ const TransporterHelpComponent = ({
           </div>
           <div
             className="responsive-paddings transporter-content-datagrid-container dx-saveBtn"
-            style={{ margin: "8px 24px", height: "100% !important" }}
+            // style={{ margin: "8px 24px", height: "100% !important" }}
           >
             <DataGrid
-              height={window.innerHeight - 250}
+              height={window.innerHeight - 280}
               dataSource={transporterDataSource}
               keyExpr="cardCode"
               showBorders={true}
@@ -308,6 +308,7 @@ const GateInComponent = () => {
       });
     }
     // the dropdown should be series name
+    setSelectedSeries("");
     await setSeriesList(seriesData);
     setSelectedValue({ periodIsSelected: true });
     console.log("This is series data", seriesData);

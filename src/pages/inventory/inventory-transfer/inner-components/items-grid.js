@@ -32,9 +32,8 @@ const ItemsGrid = ({
   // Handle the editing of the cell recieved qty
   const asyncValidation = (params) => {
     return new Promise((resolve, reject) => {
-      const { qty, transQty } = params.data;
-      console.log("transQty:::  ",params.data)    
-      if (parseFloat(qty) === 0 || parseFloat(qty)>parseInt(transQty)) {
+      const { qty, transQty } = params.data;  
+      if ( parseFloat(qty)>parseInt(transQty)) {
         return reject(
           "Transfer quantity must be between 0 and Transferable quantity"
         );
@@ -55,7 +54,6 @@ const ItemsGrid = ({
   };
 
   const inventorySaveHandler = async (dataGridDataSource) => {
-    console.log("selectedFromBin:",selectedFromBin,"selectedToBin:  ",selectedToBin);
     if(selectedFromBin===""){
       return toastDisplayer("error", "Select from warehouse bin location..");
     }else if(selectedFromBin==="none"){
@@ -86,6 +84,7 @@ const ItemsGrid = ({
   return (
     <>
       <DataGrid
+      height={window.innerHeight - 90}
         dataSource={dataGridDataSource}
         keyExpr="detailQRCodeID"
         showBorders={false}
