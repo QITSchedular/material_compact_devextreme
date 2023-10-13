@@ -87,3 +87,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 #### What is Upadated here
 
     Production : Receive Material will be Draft Receipt Pro & Generate Receipt QR
+
+## need to push the code of Github Branch rani-revert
+### Issue - 
+    unable to generate the pr for rani's branch
