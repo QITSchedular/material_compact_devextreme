@@ -8,12 +8,13 @@ export default function Content() {
   return (
     <SideNavBarLayout title={appInfo.title}>
       <Routes>
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="*" element={<Navigate to="/404" />} />
         {routes.map(({ path, element }) => (
           <Route key={path} path={path} element={element} />
         ))}
-        <Route path="/" element={<Navigate to="/home" />} />
-        <Route path="*" element={<Navigate to="/Notfound" />} />
       </Routes>
+
       <Footer>
         Copyright © {new Date().getFullYear()}-{new Date().getFullYear() + 1}{" "}
         Quantum It Solution

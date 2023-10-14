@@ -12,6 +12,7 @@ import QtcSearchColumn from "../../../components/qtcCommonComponent/qtcSearchCol
 import "./delivery.scss";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import TransparentContainer from "../../../components/qr-scanner/transparent-container";
+import { LoadPanel } from "devextreme-react";
 
 export default function Delivery() {
     const [grpoList, setGrpoList] = useState(new Set());
@@ -40,7 +41,7 @@ export default function Delivery() {
             if (grpoList.size > 0) {
                 doProuctExist = false
                 grpoList.forEach(value => {
-                    if (value.headerQRCodeID == param[0].qrCodeID) {
+                    if (value.headerQRCodeID === param[0].qrCodeID) {
                         doProuctExist = true
                         return
                     }
@@ -76,7 +77,7 @@ export default function Delivery() {
             if (grpoList.size > 0) {
                 doProuctExist = false
                 grpoList.forEach(value => {
-                    if (value.headerQRCodeID == param[0].qrCodeID) {
+                    if (value.headerQRCodeID === param[0].qrCodeID) {
                         doProuctExist = true
                         return
                     }
@@ -206,9 +207,11 @@ export default function Delivery() {
                 </div>
             )}
             <div className="content-block dx-card responsive-paddings delivery-container">
+                {loading && <LoadPanel visible={true} />}
+
                 <div className="header-section">
-                    <PopupHeaderText text={"Delivery"} className="headerText" />
-                    <PopupSubText text={"To pick and deliver the items"} className="subText" />
+                    <PopupHeaderText text={"Delivery"} />
+                    <PopupSubText text={"To pick and deliver the items"} />
                 </div>
 
                 {/* here we have to change headertext and sub text after making an new api for this page */}
@@ -217,7 +220,6 @@ export default function Delivery() {
                 {grpoList.size > 0 &&
                     <QtcMainColumn IQCList={grpoList} columns={columns} handleProceed1={proceedToItemsScan} displayname="headerQRCodeID" DownArrowKey="docEntry" keyExpr="docEntry" />
                 }
-
             </div>
         </>
     );

@@ -39,10 +39,12 @@
     }
 }
 
-.button-groups {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: -40px;
+.title-section {
+    .button-groups {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: -40px;
+    }
 }
 
 @media only screen and (max-width: 806px) {

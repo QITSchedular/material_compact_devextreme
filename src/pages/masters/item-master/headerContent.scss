@@ -2,50 +2,61 @@
     .content-block-1 {
         display: flex;
         justify-content: space-between;
-        padding: 16px 0;
-    }
+        align-items: center;
+        padding-bottom: 1.5rem;
 
-    .content-text {
-        display: flex !important;
-        flex-direction: column;
-        gap: 0.4rem;
+        .content-text {
+            .content-text-header {
+                font-family: "Poppins";
+                font-size: 24px;
+                font-weight: 500;
+            }
 
-        .content-text-header {
-            font-family: "Poppins";
-            font-size: 24px;
-            font-style: normal;
-            font-weight: 500;
+            .content-text-info {
+                font-family: "Poppins";
+                color: #8D8D8D;
+                font-size: 16px;
+                font-weight: 400;
+            }
         }
 
-        .content-text-info {
-            color: #8D8D8D;
-            font-family: Poppins;
-            font-size: 16px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
+        .button-groups {
+            display: flex;
+            gap: 1rem;
+
+            .dx-button {
+                border-radius: 8px !important;
+
+                .dx-button-content {
+                    gap: .5rem;
+
+                    .dx-icon {
+                        font-size: large;
+                        margin-right: .5rem;
+                    }
+                }
+
+                .dx-button-text {
+                    text-transform: none;
+                    color: #525252;
+                    font-family: Poppins;
+                    font-weight: 400;
+                    line-height: 16px;
+                }
+            }
+
+
+
+            .item-btn {
+                .dx-button-text {
+                    color: #ffffff;
+                }
+            }
         }
     }
 }
 
-.dx-button-text {
-    text-transform: none;
-    color: #525252;
-    font-family: Poppins;
-    font-weight: 400;
-    line-height: 16px;
-}
 
-.dx-button {
-    margin-left: 16px;
-    border-radius: 6px !important;
-}
-
-.item-btn {
-    .dx-button-text {
-        color: #ffffff;
-    }
-}
 
 
 @media only screen and (max-width: 770px) {

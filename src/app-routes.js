@@ -56,7 +56,7 @@ const routes = [
     element: HomePage,
   },
   {
-    path: "/Notfound",
+    path: "/404",
     element: NotfoundPage,
   },
   {
