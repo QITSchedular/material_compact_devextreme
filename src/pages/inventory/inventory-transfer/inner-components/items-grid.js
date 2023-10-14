@@ -7,11 +7,7 @@ import DataGrid, {
 } from "devextreme-react/data-grid";
 import { Button } from "devextreme-react";
 import { toastDisplayer } from "../../../../api/qrgenerators";
-import {
-  inventoryTransferSaver,
-  verifyProdcutionQrInput,
-} from "../../../../api/inventory.transfer.api";
-import { SwalDisplayer } from "../../../../utils/showToastsNotifications";
+import { inventoryTransferSaver } from "../../../../api/inventory.transfer.api";
 const columns = [
   "Item Code",
   "Item Name",
@@ -29,61 +25,24 @@ const ItemsGrid = ({
   selectedFromWarehouse,
   selectedToWarehouse,
   selectedFromBin,
-  selectedToBin,
-  productionNumberInput,
-  setDataGridDataSource,
+  selectedToBin
 }) => {
   console.log("Visible Data grid data source: ", dataGridDataSource);
-  // const [dataSource, setDataGridDataSource] = useState([]);
-  const [isSaveDisble, setSaveDisble] = useState(true);
-
-  const refreshDataGrid = async () => {
-    const apiRes = await verifyProdcutionQrInput(
-      productionNumberInput,
-      selectedFromWarehouse
-    );
-    const { hasError, errorMessage, responseData } = await apiRes;
-    if (hasError === true) {
-      const updatedDataGridDataSource = dataGridDataSource.filter(
-        (dataItem) => dataItem.detailQRCodeID !== responseData.detailQRCodeID
-      );
-  
-      // Update the dataGridDataSource with the filtered array
-      setDataGridDataSource(updatedDataGridDataSource);
-  
-      return;
-    }
-    responseData.qty_edit = 0;
-  
-    // Assuming dataGridDataSource is an array
-    const updatedDataGridDataSource = dataGridDataSource.map((dataItem) => {
-      if (dataItem.detailQRCodeID === responseData.detailQRCodeID) {
-        return { ...dataItem, ...responseData }; // Merge dataItem with responseData
-      }
-      return dataItem; // Keep the original data item if no match
-    });
-  
-    // Update the dataGridDataSource with the updated array
-    setDataGridDataSource(updatedDataGridDataSource);
-  };
+  const [dataSource, setDataGridDataSource] = useState([]);
   // Handle the editing of the cell recieved qty
   const asyncValidation = (params) => {
     return new Promise((resolve, reject) => {
-      const { qty_edit, itemWhsStock } = params.data;
-      if (
-        parseFloat(qty_edit) == 0 ||
-        parseFloat(qty_edit) > parseFloat(itemWhsStock)
-      ) {
+      const { qty, transQty } = params.data;  
+      if ( parseFloat(qty)>parseInt(transQty)) {
         return reject(
-          "Transfer quantity can not be geater than Transferable quantity"
+          "Transfer quantity must be between 0 and Transferable quantity"
         );
       } else {
-        setSaveDisble(false);
-        return resolve(itemWhsStock);
+        return resolve(transQty);
       }
     });
   };
-  const handleGridSaving = async (e) => {
+  const handleGridSaving = async(e) => {
     console.log(e.changes[0]);
     // if (!e.changes[0]) {
     //   return toastDisplayer(
@@ -95,14 +54,21 @@ const ItemsGrid = ({
   };
 
   const inventorySaveHandler = async (dataGridDataSource) => {
-    if (selectedToBin === "") {
-      return toastDisplayer("error", "Select to warehouse bin location..");
-    } else if (selectedToBin === "none") {
-      selectedToBin = 0;
-    } else if (selectedToBin.length) {
-      selectedToBin = selectedToBin[0].absEntry;
+    if(selectedFromBin===""){
+      return toastDisplayer("error", "Select from warehouse bin location..");
+    }else if(selectedFromBin==="none"){
+      selectedFromBin=0;
     }
 
+
+    if(selectedToBin===""){
+      return toastDisplayer("error", "Select to warehouse bin location..");
+    }else if(selectedToBin==="none"){
+      selectedToBin=0;
+    }else if(selectedToBin.length){
+      selectedToBin=selectedToBin[0].absEntry
+    }
+    // console.log("dataGridDataSource : ", dataGridDataSource);
     const constructorData = await inventoryTransferSaver(
       dataGridDataSource,
       selectedFromWarehouse,
@@ -112,14 +78,13 @@ const ItemsGrid = ({
     );
     console.log("Inventory transfer api response", constructorData);
     if (constructorData.statusCode == 200) {
-      refreshDataGrid();
-      return SwalDisplayer("success", "Inventory Transfer successfull");
+      return toastDisplayer("succes", "Item transfer successful..");
     }
   };
   return (
     <>
       <DataGrid
-        height={window.innerHeight - 90}
+      height={window.innerHeight - 90}
         dataSource={dataGridDataSource}
         keyExpr="detailQRCodeID"
         showBorders={false}
@@ -165,16 +130,15 @@ const ItemsGrid = ({
           dataField={"itemWhsStock"}
           allowEditing={false}
         />
-        {/* <Column
+        <Column
           caption="Transferable Qty."
           dataField={"itemWhsStock"}
           allowEditing={false}
-        /> */}
+        />
         <Column
           caption="Quantity "
-          dataField={"qty_edit"}
+          dataField={"qty"}
           allowEditing={true}
-          defaultValue={"0"}
         >
           <AsyncRule validationCallback={asyncValidation} />
         </Column>
@@ -195,7 +159,6 @@ const ItemsGrid = ({
           width={130}
           height={35}
           onClick={() => inventorySaveHandler(dataGridDataSource)}
-          disabled={isSaveDisble}
         />
       </div>
     </>

@@ -24,8 +24,8 @@ const HeaderSection = ({
           value={scannedData}
         ></TextBox>
         <Button
-          width={40}
-          height={40}
+          width={33}
+          height={33}
           type="normal"
           stylingMode="outlined"
           icon="search"
@@ -34,8 +34,8 @@ const HeaderSection = ({
           //   value={inputQrValue}
         />
         <Button
-          width={40}
-          height={40}
+          width={33}
+          height={33}
           type="normal"
           stylingMode="outlined"
           icon={GRPOScanner}
