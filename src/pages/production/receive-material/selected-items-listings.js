@@ -29,6 +29,7 @@ const SelectedItemsListings = ({
   const asyncValidation = (params) => {
     const { value } = params;
     const { quantity } = params.data;
+    const { receiptQty } = params.data;
 
     return new Promise((resolve, reject) => {
       if (value > quantity) {
@@ -36,9 +37,12 @@ const SelectedItemsListings = ({
         setIsReceiveButtonDisabled(true);
         return reject(`Receivable Quantity exceeded`);
       }
-      if (value === 0) {
+      if (value <= 0) {
         setIsReceiveButtonDisabled(true);
         return reject(`Quantity must be greater than zero`);
+      } else if (value > receiptQty) {
+        setIsReceiveButtonDisabled(true);
+        return reject(`Receivable Quantity must be less than recieptqty`);
       } else {
         console.log("Valid quantity", value);
         setIsReceiveButtonDisabled(false); // Enable the button when quantity is valid

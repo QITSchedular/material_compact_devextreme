@@ -55,8 +55,8 @@ export const ValidateItemQR = async (qrCode, detailQRCodeID) => {
     // }
     // return responseBody;
     responseBody.hasError = true;
-    responseBody.errorMessage = 
     responseBody.errorMessage =
+      responseBody.errorMessage =
       error.response?.data?.statusMsg || error.response?.data?.errors;
     return responseBody;
   }
@@ -96,9 +96,8 @@ const grpoDetailsConstructor = async (
         .filter((item) => item.itemCode === group.itemCode)
         .map((item) => ({
           gateInNo: `${item.gateInNo}`,
-          gateInDate: `${
-            new Date(item.gateInDate).toISOString().split("T")[0]
-          }`,
+          gateInDate: `${new Date(item.gateInDate).toISOString().split("T")[0]
+            }`,
           itemCode: item.itemCode,
           detailQRCodeID: item.detailQRCodeID,
           batchSerialNo: item.batchSerialNo,
@@ -124,7 +123,7 @@ const grpoDetailsConstructor = async (
   const headerItem = gridDataSource[0]; // Assuming gridDataSource has at least one element
   return {
     branchId: "1",
-    series:1283,
+    series: 1283,
     docEntry: headerItem.docEntry,
     docNum: headerItem.docNum,
     cardCode: headerItem.cardCode,
@@ -154,7 +153,7 @@ export const generateGrpo = async (
   defaultChoosenNonQcWareHouse,
   choosenNonQcWareHouseBinData
 ) => {
- 
+
 
   const structuredPayload = await grpoDetailsConstructor(
     gridDataSource,
@@ -192,7 +191,9 @@ export const wareHouseList = async () => {
     return returnError;
   }
 };
+
 export const binLocationController = async (payload) => {
+  console.log(payload);
   const { whsCode } = payload;
 
   const responseBody = {
