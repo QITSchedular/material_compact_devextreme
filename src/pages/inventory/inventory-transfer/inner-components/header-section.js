@@ -6,8 +6,8 @@ const HeaderSection = ({
   productionNumberInput,
   productionNumberInputSearchHandler,
   txtBoxRef,
-handleScan,
-scannedData
+  handleScan,
+  scannedData,
 }) => {
   return (
     <div className="inventrory-transfer-inner-header-wrapper">
@@ -31,7 +31,7 @@ scannedData
           icon="search"
           onClick={productionNumberInputSearchHandler}
           disabled={!productionNumberInput ? true : false}
-        //   value={inputQrValue}
+          //   value={inputQrValue}
         />
         <Button
           width={33}

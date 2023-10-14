@@ -1,19 +1,27 @@
 import React from 'react'
-import Notfound from '../../assets/images/error404.svg'
+import error404 from '../../assets/images/error404.svg'
 import './NotFound.scss'
-import { BackBtn } from '../../components'
+import { Button } from 'devextreme-react'
+import { Link } from 'react-router-dom'
 
 function NotFound() {
     return (
         <>
             <div className="errorcontent">
-                <img src={Notfound} height={280} width={400} />
-                <p className="line1">OOOPS ! PAGE NOT FOUND</p>
-                <p className="line2">Sorry the page you are looking for does not exists.</p>
+                <img src={error404} alt={'404'} className='image404' />
+                <div className="line">OOPS ! PAGE NOT FOUND</div>
+                <Link to={"/home"}>
+                    <Button
+                        className="back-to-home"
+                        icon="arrowleft"
+                        text="Back to Home"
+                        type={"default"}
+                        stylingMode={"outlined"}
+                    />
+                </Link>
             </div>
         </>
     )
 }
 
 export default NotFound
-

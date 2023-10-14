@@ -84,6 +84,8 @@ const IssueMaterialScanItems = () => {
 
   const productionIssueSaver = async (dataToSave, comments) => {
     /*Hit the api to save this*/
+    // console.log("Data to save : ",dataToSave,comments);
+    console.log("scannedItemsData : ",scannedItemsData);
     const apiRes = await productionIssueSaveItems(dataToSave, comments);
     if (apiRes.hasError && apiRes.errorMessage.includes("Error code:")) {
       return toastDisplayer(

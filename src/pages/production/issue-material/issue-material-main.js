@@ -83,7 +83,8 @@ const IssueMaterialMain = () => {
     /* ----------- hit api --------- */
     // console.log(inputQrValue, "from handle search");
 
-    const listData = await getProductionOrderItemList(inputPoValue[0].docEntry);
+    // const listData = await getProductionOrderItemList(inputPoValue[0].docEntry);
+    const listData = inputPoValue;
 
     if (listData.hasError) {
       setInputQrValue("");

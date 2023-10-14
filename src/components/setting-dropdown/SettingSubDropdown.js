@@ -1,20 +1,98 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './SettingSubDropdown.scss';
 import { SelectBox } from 'devextreme-react';
 import CustomCheckBox from './CustomCheckBox';
+import { UseHeaderContext } from '../../contexts/headerContext';
+import { getWarehouse } from '../../utils/settingConfigAPI';
+import { UseSettingContext } from '../../contexts/settingConfig';
 
 function SettingSubDropdown() {
+    const { settingSubDropdownRef, setisSettingDropdownOpen, settingDropdownRef, isSettingDropdownOpen, setisSettingSubDropdownOpen } = UseHeaderContext();
+    const { SettingValues, Dropdownchanged, setisValueUpdated } = UseSettingContext();
 
-    let SettingDropDownInputBox = ({ data }) => {
-        return (
-            <>
-                <SelectBox dataSource={data} defaultValue={data[0]} stylingMode='outlined' />
-            </>
-        );
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isSettingDropdownOpen) {
+                if (settingSubDropdownRef.current && !settingSubDropdownRef.current.contains(event.target) && !settingDropdownRef.current.contains(event.target)) {
+                    const isItemClicked = event.target.classList.contains('dx-list-item-content') ||
+                        event.target.classList.contains('setting-icon') ||
+                        event.target.classList.contains('dx-checkbox-text') ||
+                        event.target.classList.contains('dx-checkbox-icon') ||
+                        event.target.classList.contains('quality-control-dropdown') ||
+                        event.target.classList.contains('dx-checkbox-container') ||
+                        event.target.classList.contains('dx-texteditor-input') ||
+                        event.target.classList.contains('dropdown-body');
+                    if (!isItemClicked) {
+                        setisValueUpdated(false);
+                        setisSettingDropdownOpen((prev) => {
+                            return !prev;
+                        });
+
+                        setisSettingSubDropdownOpen((prev) => {
+                            return !prev;
+                        });
+                    }
+                }
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [settingSubDropdownRef, setisSettingDropdownOpen, settingDropdownRef, setisSettingSubDropdownOpen, isSettingDropdownOpen, setisValueUpdated]);
+
+    async function getwarehouseData() {
+        try {
+            return Promise.resolve((await getWarehouse()));
+        } catch (error) {
+            return Promise.reject(error.message);
+        }
+    }
+
+    const [dataSource, setDataSource] = useState([]);
+
+    useEffect(() => {
+        getwarehouseData()
+            .then((result) => {
+                setDataSource(result);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
+
+    const [selectedItems, setSelectedItems] = useState(Array(4).fill(null));
+
+    const handleDropdownSelect = (itemData, dropdownIndex) => {
+        setSelectedItems((prevSelectedItems) => {
+            prevSelectedItems[dropdownIndex] = itemData;
+            return [...prevSelectedItems];
+        });
+
+        Dropdownchanged("Warehouse", selectedItems);
     };
 
+    const filterDataSource = (index) => {
+        try {
+            return dataSource.filter(item => {
+                if (!item || !item.whsCode) {
+                    return true;
+                }
+                return !selectedItems.some(selectedItem => selectedItem && selectedItem.whsCode === item.whsCode);
+            });
+        } catch (error) {
+            return dataSource;
+        }
+    };
+
+    console.log("data", filterDataSource(0));
+
+    const labels = ["Incoming QC", "Inprocess QC", "Approved", "Rejeted"];
+
     return (
-        <div className={`subdropdown`}>
+        <div className={`subdropdown`} ref={settingSubDropdownRef}>
             <div className="subdropdown-header">
                 <div className="heading">Quality Control</div>
                 <div className="sub-heading">Quality control Setting</div>
@@ -22,24 +100,34 @@ function SettingSubDropdown() {
             <div className="subdropdown-body">
                 <div className={`quality-control-dropdown`}>
                     Quality Control
-                    <CustomCheckBox checkboxvalue={["Yes", "No"]} />
-                    Incoming QC Warehouse
-                    <SettingDropDownInputBox data={[
-                        "Incoming Warehouse",
-                        "SuperHD Video Player",
-                    ]} />
-                    <SettingDropDownInputBox data={[
-                        "In - process Warehouse",
-                        "SuperLED 50",
-                    ]} />
-                    <SettingDropDownInputBox data={[
-                        "Approved Warehouse",
-                        "SuperHD Video Player",
-                    ]} />
-                    <SettingDropDownInputBox data={[
-                        "Rejected Warehouse",
-                        "SuperHD Video Player",
-                    ]} />
+                    <CustomCheckBox checkboxvalue={["Yes", "No"]} checkboxgroup={'Quality Control'} />
+
+                    <fieldset>
+                        <legend>Warehouse</legend>
+                        {Array.from({ length: 4 }).map((_, index) => {
+                            return (
+                                <div className='warehouseselectionBox'>
+                                    <label>{`${labels[index]}`}</label>
+                                    <SelectBox
+                                        key={index}
+                                        // selectBoxGroup={"Default Period Indicator"}
+                                        className='warehouseDropdown'
+                                        dataSource={filterDataSource(index)}
+                                        stylingMode='outlined'
+                                        searchEnabled={true}
+                                        valueExpr={"whsCode"}
+                                        displayExpr={"whsName"}
+                                        value={SettingValues['Warehouse'][index]}
+                                        onItemClick={(e) => {
+                                            handleDropdownSelect(e.itemData, index);
+                                        }}
+                                        placeholder={selectedItems[index] ? selectedItems[index]["whsName"] : "Select Warehouse"}
+                                        useItemTextAsTitle={true}
+                                    />
+                                </div>
+                            )
+                        })}
+                    </fieldset>
                 </div>
             </div>
         </div>

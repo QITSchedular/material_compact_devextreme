@@ -72,7 +72,7 @@ export const productionValidateItemQr = async (proDocEntry, detailQRCodeID) => {
       requestBody
     );
     responseBody.responseData = response.data;
-    // console.log("The api res is: ", responseBody);
+    console.log("The api res is: ", responseBody);
     return responseBody;
   } catch (error) {
     console.log("Error while fetching the data, from controller", error);
@@ -88,6 +88,7 @@ export const productionIssueSaveItems = async (payload, comments) => {
     payload,
     comments
   );
+  console.log("constructedPayload : ",constructedPayload);
   const responseBody = {
     responseData: null,
     hasError: false,
@@ -117,6 +118,8 @@ const productionIssuePayloadConstructor = (payload, comments) => {
   const PART1 = {
     BranchID,
     proOrdDocEntry: payload[0].docEntry,
+    proOrdDocNum: payload[0].docNum,
+    "series": 1235,
     Comment: comments ? comments : "",
   };
 
@@ -125,7 +128,8 @@ const productionIssuePayloadConstructor = (payload, comments) => {
   const itemCodeMap = {}; // To group items by itemCode
 
   payload.forEach((entry) => {
-    const { itemCode, lineNum, itemMngBy, proWhsCode, issQty, batchSerialNo } =
+    console.log("entry : ",entry);
+    const { itemCode, lineNum, itemMngBy,uomCode, proWhsCode, issQty, batchSerialNo,draftIssueQty,fromBin,project } =
       entry;
 
     if (!itemCodeMap[itemCode]) {
@@ -134,6 +138,7 @@ const productionIssuePayloadConstructor = (payload, comments) => {
         itemCode,
         lineNum,
         itemMngBy,
+        uoMCode : uomCode,
         WhsCode: proWhsCode,
         qty: 0, // Initialize qty to 0
         piBatchSerial: [],
@@ -150,9 +155,12 @@ const productionIssuePayloadConstructor = (payload, comments) => {
 
     // Add data to piBatchSerial
     itemCodeMap[itemCode].piBatchSerial.push({
-      gateInNo: entry.gateInNo,
+      draftIssNo:parseInt(entry.draftIssueQty),
+      // gateInNo: entry.gateInNo,
       itemCode,
       detailQRCodeID: entry.detailQRCodeID,
+      fromBinAbsEntry:entry.fromBin,
+      project:entry.project,
       batchSerialNo,
       qty: `${issQty}`,
     });

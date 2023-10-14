@@ -22,14 +22,18 @@ const InventorytransferMain = () => {
   const [showToWarehousePopup, setShowToWarehousePopup] = useState(false);
   const [showFromWarehousePopup, setShowFromWarehousePopup] = useState(false);
   const [showFromBinPopup, setFromBinPopup] = useState(false);
+  const [showToBinPopup, setToBinPopup] = useState(false);
   const [showBPPopup, setShowBPPopup] = useState(false);
 
   const [toWarehouseList, setToWarehouseList] = useState("");
   const [fromWarehouseList, setFromWarehouseList] = useState("");
+  const [qcWareHouseBinList, setQcWareHouseBinList] = useState("");
   const [bpDetailList, setBpDetailList] = useState("");
 
   const [selectedToWarehouse, setSelectedToWarehouse] = useState("");
   const [selectedFromWarehouse, setSelectedFromWarehouse] = useState("");
+  const [selectedFromBin, setSelectedFromBin] = useState("");
+  const [selectedToBin, setSelectedToBin] = useState("");
   const [selectedBPDetail, setSelectedBPDetail] = useState("");
 
   const [productionNumberInput, setProductionNumberInput] = useState("");
@@ -41,33 +45,58 @@ const InventorytransferMain = () => {
   const [fromBinList, setFromBinList] = useState("");
   const [fromBinVisible, setFromBinVisible] = useState(true);
 
-  const [qcWareHouseBinData, setQcWareHouseBinData] = useState("");
-
   const getBinList = async (whsCode) => {
+    console.log("whsCode", whsCode);
     const binLocationDetailsResp = await binLocationController({ whsCode });
     console.log(binLocationDetailsResp);
 
     if (!binLocationDetailsResp.hasError) {
       const { responseData } = binLocationDetailsResp;
       console.log(responseData);
-      setQcWareHouseBinData(responseData);
+      setQcWareHouseBinList(responseData);
     }
   };
 
-  // close from bin popup 
-  const popUpOutsideClickHandlerFromBin=()=>{
+  // close from bin popup
+  const popUpOutsideClickHandlerFromBin = () => {
     setFromBinVisible(false);
-  }
+  };
 
   useEffect(() => {
+    console.log("in use effect");
     if (selectedFromWarehouse.length > 0) {
-      console.log("selectedFromWarehouse", selectedFromWarehouse[0].binActivat);
+      console.log("in use effect selectedFromWarehouse", selectedFromWarehouse);
+      if (selectedFromWarehouse[0].binActivat === "No") {
+        console.log("in use effect selectedFromWarehouse no ");
+        setSelectedFromBin("none");
+      }
+    }
+    if (selectedToWarehouse.length > 0) {
+      console.log("in use effect selectedToWarehouse", selectedToWarehouse);
+      if (selectedToWarehouse[0].binActivat === "No") {
+        console.log("in use effect selectedToWarehouse no ");
+        setSelectedToBin("none");
+      }
+    }
+  }, [selectedFromWarehouse, selectedToWarehouse]);
+
+  const fromBinChooser = async () => {
+    if (selectedFromWarehouse.length > 0) {
       if (selectedFromWarehouse[0].binActivat === "Yes") {
-        setFromBinVisible(false);
+        setFromBinPopup(true);
         getBinList(selectedFromWarehouse[0].whsCode);
       }
     }
-  }, [selectedFromWarehouse]);
+  };
+
+  const toBinChooser = async () => {
+    if (selectedToWarehouse.length > 0) {
+      if (selectedToWarehouse[0].binActivat === "Yes") {
+        setToBinPopup(true);
+        getBinList(selectedToWarehouse[0].whsCode);
+      }
+    }
+  };
 
   const toWarehouseChooser = async () => {
     console.log("ToWarehouseChooser");
@@ -161,6 +190,8 @@ const InventorytransferMain = () => {
 
   const fromWarehouseRef = useRef("");
   const toWarehouseRef = useRef("");
+  const fromBinRef = useRef("");
+  const toBinRef = useRef("");
   const getBPref = useRef("");
   const txtBoxRef = useRef("");
   const [countRef, setCountRef] = useState(false);
@@ -226,6 +257,9 @@ const InventorytransferMain = () => {
     setFromBinPopup(false);
   };
 
+  const [isFromWarehouseTxtDisable, setFromWarehouseTxtDisable] =
+    useState(false);
+
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner inventory-transfer-main-container ">
       {showScanner && (
@@ -258,61 +292,63 @@ const InventorytransferMain = () => {
       <div className="main-content-section">
         <div className="main-content-top">
           <div className="left-section">
-            <div className="warehouse-chooser-section">
-              <PopupInputs
-                placeholder={"From Warehouse"}
-                chooser={fromWarehouseChooser}
-                showHelpPopup={showFromWarehousePopup}
-                setShowHelpPopup={setShowFromWarehousePopup}
-                gridDataSourceList={fromWarehouseList}
-                selectedValue={selectedFromWarehouse}
-                setSelectedValue={setSelectedFromWarehouse}
-                txtRef={fromWarehouseRef}
-                countRef={countRef}
-                setCountRef={setCountRef}
-              />
-              <PopupInputs
-                placeholder={"To Warehouse"}
-                chooser={toWarehouseChooser}
-                showHelpPopup={showToWarehousePopup}
-                setShowHelpPopup={setShowToWarehousePopup}
-                gridDataSourceList={toWarehouseList}
-                selectedValue={selectedToWarehouse}
-                setSelectedValue={setSelectedToWarehouse}
-                txtRef={toWarehouseRef}
-                countRef={countRef}
-                setCountRef={setCountRef}
-              />
-            </div>
-            <TextBox
-              className="dx-field-value"
-              stylingMode="outlined"
-              placeholder={"From Bin"}
-              width={160}
-              showClearButton={true}
-              popUpOutsideClickHandler={popUpOutsideClickHandlerFromBin}
-              // value={textBoxValue || ""}
-              disabled={fromBinVisible}
-              // ref={txtRef}
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
             >
-              <TextBoxButton
-                name="currency"
-                location="after"
-                options={helpFromBinOptions}
-              />
-            </TextBox>
-            {showFromBinPopup && (
-              <PopupComponent
-                popUpOutsideClickHandler={popUpOutsideClickHandler}
-                placeholder={"From Bin List"}
-                gridDataSourceList={qcWareHouseBinData}
-                // onSelectAndClose={(selectedValue) => {
-                //   setSelectedValue(selectedValue);
-                //   selectedValueDisplayHandler(selectedValue);
-                //   popUpOutsideClickHandler();
-                // }}
-              />
-            )}
+              <div className="warehouse-chooser-section">
+                <PopupInputs
+                  placeholder={"From Warehouse"}
+                  chooser={fromWarehouseChooser}
+                  showHelpPopup={showFromWarehousePopup}
+                  setShowHelpPopup={setShowFromWarehousePopup}
+                  gridDataSourceList={fromWarehouseList}
+                  selectedValue={selectedFromWarehouse}
+                  setSelectedValue={setSelectedFromWarehouse}
+                  txtRef={fromWarehouseRef}
+                  countRef={countRef}
+                  setCountRef={setCountRef}
+                  // isDisabled={isFromWarehouseTxtDisable}
+                  // txtDisableHandler={setFromWarehouseTxtDisable}
+                />
+                <PopupInputs
+                  placeholder={"To Warehouse"}
+                  chooser={toWarehouseChooser}
+                  showHelpPopup={showToWarehousePopup}
+                  setShowHelpPopup={setShowToWarehousePopup}
+                  gridDataSourceList={toWarehouseList}
+                  selectedValue={selectedToWarehouse}
+                  setSelectedValue={setSelectedToWarehouse}
+                  txtRef={toWarehouseRef}
+                  countRef={countRef}
+                  setCountRef={setCountRef}
+                />
+              </div>
+
+              <div className="warehouse-chooser-section">
+                <PopupInputs
+                  placeholder={"From Bin"}
+                  chooser={fromBinChooser}
+                  showHelpPopup={showFromBinPopup}
+                  setShowHelpPopup={setFromBinPopup}
+                  gridDataSourceList={qcWareHouseBinList}
+                  selectedValue={selectedFromBin}
+                  setSelectedValue={setSelectedFromBin}
+                  txtRef={fromBinRef}
+                />
+                {console.log("heelo", selectedFromWarehouse)}
+
+                <PopupInputs
+                  placeholder={"To Bin"}
+                  chooser={toBinChooser}
+                  showHelpPopup={showToBinPopup}
+                  setShowHelpPopup={setToBinPopup}
+                  gridDataSourceList={qcWareHouseBinList}
+                  selectedValue={selectedToBin}
+                  setSelectedValue={setSelectedToBin}
+                  txtRef={toBinRef}
+                />
+              </div>
+            </div>
 
             <div className="items-scanner-section">
               <HeaderSection
@@ -349,6 +385,8 @@ const InventorytransferMain = () => {
               dataGridDataSource={dataGridDataSource}
               selectedToWarehouse={selectedToWarehouse}
               selectedFromWarehouse={selectedFromWarehouse}
+              selectedFromBin={selectedFromBin}
+              selectedToBin={selectedToBin}
             />
           </div>
         )}

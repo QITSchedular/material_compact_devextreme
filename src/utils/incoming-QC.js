@@ -113,19 +113,19 @@ export const validatePoListsIQC = async (obj) => {
 // save QC Item
 export const SavePoListsIQC = async (obj) => {
   const errors = {
-    hasError: false,
+    hasError: false,  
     errorText: "Something went wrong",
   };
   try {
-    // const response = await axios.post(`${API_URL}/IncomingQC/QC`, obj);
-    // const data = response.data;
-    // if (data) {
-    //   return data;
-    // } else {
-    //   return errors;
-    // }
+    const response = await axios.post(`${API_URL}/IncomingQC/QC`, obj);
+    const data = response.data;
+    if (data) {
+      return data;
+    } else {
+      return errors;
+    }
     // const data = true;
-    return {"statusCode":"200"};
+    // return {"st  atusCode":"200"};
   } catch (error) {
     const statusMsg  = error.response.data;
    
