@@ -42,7 +42,7 @@ import {
 import GrpoBinChooserComponent from "./grpo-bin-popup";
 
 const GrpoItems = () => {
-  const { qrCode,numAtCard } = useParams();
+  const { qrCode, numAtCard } = useParams();
   const [selectedItemQr, setSelectedItemQR] = useState(null);
   const [gridDataSource, setGridDataSource] = useState([]);
   const [selectedRowsData, setSelectedRowsData] = useState([]);
@@ -79,9 +79,9 @@ const GrpoItems = () => {
   const [nonQcBinDataGridDataSource, setNonQcBinDataGridDataSource] = useState("");
 
 
-  const [qcBindisable,setQcBindisable] = useState(false);
-  const [noqcBindisable,setnoQcBindisable] = useState(false);
-  const [noqcBinData,setnoQcBinData] = useState(false);
+  const [qcBindisable, setQcBindisable] = useState(false);
+  const [noqcBindisable, setnoQcBindisable] = useState(false);
+  const [noqcBinData, setnoQcBinData] = useState(false);
 
 
   const [refNo, setRefNo] = useState("");
@@ -99,7 +99,7 @@ const GrpoItems = () => {
     ) {
       const doItemExists = await ValidateItemQR(qrCode, dataScanFromScanner);
       if (doItemExists.hasError) {
-        return toastDisplayer("error",doItemExists.errorMessage);
+        return toastDisplayer("error", doItemExists.errorMessage);
       }
 
       // Filter out duplicate detailQRCodeID values
@@ -126,7 +126,7 @@ const GrpoItems = () => {
     } else if (selectedItemQr) {
       const doItemExists = await ValidateItemQR(qrCode, selectedItemQr);
       if (doItemExists.hasError) {
-        return toastDisplayer("error",doItemExists.errorMessage);
+        return toastDisplayer("error", doItemExists.errorMessage);
       }
 
       // Filter out duplicate detailQRCodeID values
@@ -160,11 +160,11 @@ const GrpoItems = () => {
     if (!noqcBinData) {
       return toastDisplayer("error", " ❌ Please Select Bin items to proceed");
     }
-    
+
     if (!gridDataSource.length > 0) {
       return toastDisplayer("error", " ❌ Please Scan items to proceed");
     }
-    
+
     if (
       selectedRowsData.length > 0 &&
       choosenWarehouseName !== selectedRowsData[0].whsCode
@@ -458,21 +458,21 @@ const GrpoItems = () => {
           />
         </Popup>
       )}
-      
+
       {showBinPopupHelp && (
         <Popup
-        visible={true}
-        showCloseButton={true}
+          visible={true}
+          showCloseButton={true}
           hideOnOutsideClick={popupCloseHandler}
-          
+
           contentRender={() => (
             <GrpoBinChooserComponent
-            handleSaveSelectedWarehouse={handleGrpoBinSelection}
-            handleCloseButton={popupCloseHandler}
-            dummyData={nonQcBinDataGridDataSource}
+              handleSaveSelectedWarehouse={handleGrpoBinSelection}
+              handleCloseButton={popupCloseHandler}
+              dummyData={nonQcBinDataGridDataSource}
             />
-            )}
-          // hideOnOutsideClick={outSideHandler}
+          )}
+        // hideOnOutsideClick={outSideHandler}
         >
           <ToolbarItem
             widget="dxButton"
@@ -609,11 +609,11 @@ const GrpoItems = () => {
                     <span className="config-label">Qc Bin: </span>
                     <DropDownButton
                       text={
-                        !qcBindisable ? "No bin" :(
-                        choosenQcWareHouseBinData
-                          ? choosenQcWareHouseBinData.binCode
-                          :
-                           "Choose Bin") 
+                        !qcBindisable ? "No bin" : (
+                          choosenQcWareHouseBinData
+                            ? choosenQcWareHouseBinData.binCode
+                            :
+                            "Choose Bin")
                       }
                       keyExpr={"absEntry"}
                       displayExpr={"binCode"}
@@ -621,7 +621,7 @@ const GrpoItems = () => {
                       width={"100%"}
                       className="config-dropdown"
                       height={40}
-                      disabled={!qcBindisable?true:false}
+                      disabled={!qcBindisable ? true : false}
                       onItemClick={qcWareHouseBinItemClick}
                     ></DropDownButton>
                   </div>
@@ -629,9 +629,9 @@ const GrpoItems = () => {
                     <span className="config-label">Non Qc Warehouse: </span>
                     <DropDownButton
                       text={
-                        defaultChoosenNonQcWareHouse.length>0
-                        ? defaultChoosenNonQcWareHouse[0].whsName
-                        : "No warehouse selected"
+                        defaultChoosenNonQcWareHouse.length > 0
+                          ? defaultChoosenNonQcWareHouse[0].whsName
+                          : "No warehouse selected"
                       }
                       items={defaultChoosenNonQcWareHouse}
                       width={"100%"}
@@ -670,13 +670,13 @@ const GrpoItems = () => {
                       width={"100%"}
                       showClearButton={true}
                       value={
-                          !noqcBindisable ? "No bin" :(
-                            noqcBinData.length > 0
+                        !noqcBindisable ? "No bin" : (
+                          noqcBinData.length > 0
                             ? noqcBinData[0].binCode
-                          :
-                           "Choose Bin")
+                            :
+                            "Choose Bin")
                       }
-                      disabled={ !noqcBindisable ?true:false}
+                      disabled={!noqcBindisable ? true : false}
                       height={40}
                     >
                       <TextBoxButton

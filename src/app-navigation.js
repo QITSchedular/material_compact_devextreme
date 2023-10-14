@@ -130,7 +130,7 @@ export const navigation = [
                 text: "Generate Receipt Qr",
                 path: "/production/receive-material/generateqr",
                 icon: "login",
-             },
+            },
         ],
     },
     {
