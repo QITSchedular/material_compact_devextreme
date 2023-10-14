@@ -10,7 +10,7 @@ const TransparentContainer = ({
   HandleCloseQrScanner1,
   HandleCloseQrScanner,
   HandleDecodedData,
-  scannerScannedData,
+  scannerScannedData, 
   HandleSaveDecodedData
 }) => {
   const { startQrCode, stopQrCode, decodedQRData , } = useQRCodeScan({
@@ -27,11 +27,9 @@ const TransparentContainer = ({
     debouncedStartQrCode();
     showqrstyle();
   }, []);
-  const scannerCloser = () => {
-    return stopQrCode();
-  };
+
   const scannerCloser1 = () => {
-    return HandleCloseQrScanner1();
+    return HandleCloseQrScanner();
   };
 
   // useEffect(()=>{
