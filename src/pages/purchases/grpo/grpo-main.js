@@ -347,6 +347,7 @@ const GrpoMain = () => {
   const handleScan =async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      console.log("This is stram",stream)
       setShowScanner(true);
       stream.getTracks().forEach((track) => track.stop());
     } catch (error) {

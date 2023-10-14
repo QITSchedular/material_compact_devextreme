@@ -50,7 +50,6 @@ const TransparentContainer = ({
           <div id={mountNodeId} className="scanner-container-fullscreen"></div>
           {qrScannerStyle?<div className="scan"></div>:""}
           <div className="button-container">
-         
             <Button
               className="popup-button"
               type="danger"

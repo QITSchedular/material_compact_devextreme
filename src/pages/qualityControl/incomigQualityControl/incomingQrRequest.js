@@ -34,6 +34,7 @@ function IncomingQrRequest({
       setRejectQty(e.value);
   };
   const handleSave = async () => {
+    console.log("first")
     const appQty = approveQty;
     var rejQty = RejectQty;
     const totleQty = parseInt(appQty) + parseInt(rejQty);
@@ -43,10 +44,10 @@ function IncomingQrRequest({
     if(rejQty==null){
       rejQty=0;
     }
-    if (appQty == 0) {
-      return toastDisplayer("error", "Approve quantity can not be 0");
+    if (appQty <= 0) {
+      return toastDisplayer("error", "Invalid Quantity");
     } else if (totleQty > parseInt(QrRequestData["recQty"])) {
-      return toastDisplayer("error", "Invalid quantity");
+      return toastDisplayer("error", "Total Quantity can not be greater than received quantity");
     } else if (appQty > 0 && totleQty <= parseInt(QrRequestData["recQty"])) {
       const apiCalls = [];
       if (rejQty > 0) {
@@ -142,16 +143,21 @@ function IncomingQrRequest({
               <p className="valueTxt">{QrRequestData["cardName"]}</p>
             </div>
             <div className="particularDetail">
-              <p className="titleTxt">PO</p>
+              <p className="titleTxt">ItemCode</p>
               <p className="valueTxt">{QrRequestData["itemCode"]}</p>
+            </div>
+            <div className="particularDetail">
+              <p className="titleTxt">PO</p>
+              <p className="valueTxt">{QrRequestData["poDocNum"]}</p>
             </div>
             <div className="particularDetail">
               <p className="titleTxt">Received Qty.</p>
               <p className="valueTxt">{QrRequestData["recQty"]}</p>
             </div>
             <div className="particularDetail">
-              <p className="titleTxt">ProjectCode</p>
-              <p className="valueTxt">{QrRequestData["poDocNum"]}</p>
+              <p className="titleTxt">Project </p>
+              <p className="valueTxt">{QrRequestData["project"]}</p>
+              {/* <p className="valueTxt">{QrRequestData["poDocNum"]}</p> */}
             </div>
             <div className="particularDetail">
               <p className="titleTxt">GRN</p>

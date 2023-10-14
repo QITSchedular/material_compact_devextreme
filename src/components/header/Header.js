@@ -155,7 +155,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
 
                     <Item location={"before"} cssClass={"header-title"}>
                         <nav className="breadcrumb">
-                            {path.map((pathSegment, key) => {
+                            {/* {path.map((pathSegment, key) => {
                                 console.log("pathSegment", pathSegment);
                                 if (pathSegment && pathSegment != null || pathSegment != '') {
                                     const text = findMatchingText(pathSegment, navigation);
@@ -174,7 +174,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                                         </Link>
                                     );
                                 }
-                            })}
+                            })} */}
                         </nav>
                     </Item>
 

@@ -38,16 +38,16 @@ const IssueMaterialMain = () => {
 
   const showPopupHandler = async () => {
     /* hit the api to populate the data grid*/
-    const apiRes = await poDataSourceFetcher();
-    if (apiRes.hasError) {
-      return toastDisplayer(
-        "error",
-        apiRes.errorMessage
-          ? apiRes.errorMessage
-          : "Something went wrong, please try again later"
-      );
-    }
-    await setPoHelpDataSource(apiRes.responseData);
+    // const apiRes = await poDataSourceFetcher();
+    // if (apiRes.hasError) {
+    //   return toastDisplayer(
+    //     "error",
+    //     apiRes.errorMessage
+    //       ? apiRes.errorMessage
+    //       : "Something went wrong, please try again later"
+    //   );
+    // }
+    // await setPoHelpDataSource(apiRes.responseData);
 
     await setShowPoHelpPopup(!showPoHelpPopup);
   };
@@ -55,16 +55,30 @@ const IssueMaterialMain = () => {
   const poDataSourceFetcher = async () => {
     try {
       const response = await getProductionOrderList();
-      return response;
+      // console.log("PODATASOURCEFETCHER : ",response.responseData)
+      if (response.hasError) {
+        return toastDisplayer(
+          "error",
+          response.errorMessage
+            ? response.errorMessage
+            : "Something went wrong, please try again later"
+        );
+      }
+      await setPoHelpDataSource(response.responseData);
+
+      // return response;
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(()=>{
+    poDataSourceFetcher();
+  },[])
   const inputQrValueChangedCallback = ({ value }) => {
     if (value) {
       setIsSearchButtonDisabled(false);
       setInputQrValue(value);
-      console.log(value);
     } else if (!value) {
       setInputQrValue("");
       setIsSearchButtonDisabled(false);
@@ -76,15 +90,17 @@ const IssueMaterialMain = () => {
     setLoading(true);
     if (!inputQrValue) {
       setLoading(false);
+      setInputPoValue([]);
       return toastDisplayer("error", "Search value cannot be empty");
     }
-    /* ----------- validator --------- */
 
-    /* ----------- hit api --------- */
-    // console.log(inputQrValue, "from handle search");
+    var filteredObjects = poHelpDataSource.filter((item) =>(item.docNum == inputQrValue));
 
-    // const listData = await getProductionOrderItemList(inputPoValue[0].docEntry);
-    const listData = inputPoValue;
+    if(filteredObjects.length==0){
+      setLoading(false);
+      return toastDisplayer("error", "Invalid Production order Entry");
+    }
+    const listData = filteredObjects[0];
 
     if (listData.hasError) {
       setInputQrValue("");
@@ -96,20 +112,17 @@ const IssueMaterialMain = () => {
     }
     // Check if the item already exists in the listingDataSource
     const isDuplicate = listingDataSource.some(
-      (item) => item[0].docEntry === inputPoValue[0].docEntry
+      (item) => item[0].docEntry === filteredObjects[0].docEntry
     );
 
     if (isDuplicate) {
       // Item already exists, show a message or handle as needed
       setLoading(false);
       return toastDisplayer("error", "Duplicate Production order Entry");
-    } else {
-      // Item doesn't exist, add it to the listingDataSource
-      setLoading(false);
-      setListingDataSource([...listingDataSource, inputPoValue]);
-    }
-
-    await setInfogridDataSource(listData.responseData);
+    } 
+    setLoading(false);
+    setListingDataSource([...listingDataSource, filteredObjects]);
+    
     setLoading(false);
   };
 
@@ -151,7 +164,7 @@ const IssueMaterialMain = () => {
             showClearButton={true}
             valueChangeEvent="keyup"
             onValueChanged={inputQrValueChangedCallback}
-            value={inputPoValue.length > 0 ? inputPoValue[0].itemCode : ""}
+            value={inputPoValue.length > 0 ? inputPoValue[0].docNum : ""}
           >
             <TextBoxButton
               name="currency"

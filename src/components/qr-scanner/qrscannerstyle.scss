@@ -11,8 +11,7 @@
     /* Set a lower initial z-index value */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
+    justify-content: center;
 
     .scanner-container-fullscreen {
         flex: 1 !important;

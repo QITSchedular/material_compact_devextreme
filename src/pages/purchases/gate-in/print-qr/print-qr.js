@@ -15,6 +15,7 @@ import DataGrid, {
   AsyncRule,
   Button,
   ColumnFixing,
+  SearchPanel,
 } from "devextreme-react/data-grid";
 import "./printqr-styles.scss";
 //sample data Things
@@ -460,6 +461,7 @@ const PrintQrMainComp = () => {
               onSaving={handleGridSaving}
               ref={gridRef}
             >
+                <SearchPanel visible={true} />
               <Scrolling mode={scrollingMode} />
               <Paging defaultPageSize={10} />
               <Selection mode="multiple" />
