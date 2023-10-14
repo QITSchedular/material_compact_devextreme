@@ -41,15 +41,13 @@ const PopupInputs = ({
   };
   const selectedValueDisplayHandler = async (selectedValue) => {
     const data = await selectedValue;
-    console.log("data", data);
     if (data[0].whsCode) {
       return setTextBoxValue(data[0].whsName);
     }
     if (data[0].cardCode) {
       return setTextBoxValue(data[0].cardName);
     }
-    if (data[0].absEntry) {
-      console.log("----------");
+    if (data[0].absEntry) {   
       return setTextBoxValue(data[0].binCode);
     }
   };

@@ -43,6 +43,7 @@
 
             .left-section {
                 display: flex;
+                flex-direction: column;
                 gap: 5px;
 
                 .warehouse-chooser-section {

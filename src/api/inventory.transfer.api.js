@@ -37,6 +37,7 @@ export const inventoryTransferSaver = async (
   selectedFromBin,
   selectedToBin
 ) => {
+  console.log("first payload",payload)
   const requestBody = await inventoryTransferPayloadConstructor(
     payload,
     selectedFromWarehouse,
@@ -77,7 +78,7 @@ const inventoryTransferPayloadConstructor = (
   selectedToBin
 ) => {
   const itDetailsMap = {};
-
+  console.log(payload);
   payload.forEach((item) => {
     const {
       itemCode,
@@ -86,7 +87,7 @@ const inventoryTransferPayloadConstructor = (
       itemStock,
       itemWhsStock,
       project,
-      qty,
+      qty_edit,
       transQty,
       uoMCode,
       whs,
@@ -98,14 +99,14 @@ const inventoryTransferPayloadConstructor = (
     if (!itDetailsMap[itemCode]) {
       itDetailsMap[itemCode] = {
         itemCode,
-        totalItemQty: qty,
+        totalItemQty: parseFloat(qty_edit),
         project,
         itemMngBy,
         itQRDetails: [],
       };
     } else {
       itDetailsMap[itemCode].totalItemQty = (
-        +itDetailsMap[itemCode].totalItemQty + +qty
+        +itDetailsMap[itemCode].totalItemQty + +parseFloat(qty_edit)
       ).toFixed(3);
     }
 
@@ -113,7 +114,7 @@ const inventoryTransferPayloadConstructor = (
       gateInNo,
       detailQRCodeID,
       batchSerialNo,
-      qty,
+      qty:parseFloat(qty_edit),
     });
   });
 
@@ -125,7 +126,7 @@ const inventoryTransferPayloadConstructor = (
     fromWhsCode: selectedFromWarehouse[0].whsCode, // Use the whs from the first item
     toWhsCode: selectedToWarehouse[0].whsCode, // Use the whs from the first item
     comments: "", // Set as needed,
-    fromBinAbsEntry: selectedFromBin,
+    fromBinAbsEntry: payload[0].fromBin,
     toBinAbsEntry: selectedToBin,
     series:1330,
     itDetails
