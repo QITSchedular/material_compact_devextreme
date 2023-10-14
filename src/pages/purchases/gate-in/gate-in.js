@@ -40,6 +40,8 @@ import {
 } from "../../../components/typographyTexts/TypographyComponents";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import "./gate-in-styles.scss";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const buttonDropDownOptions = { width: 230 };
 
@@ -265,7 +267,7 @@ const GateInComponent = () => {
       // return toast.error(poResponse.errorText, {
       //   position: "top-right",
       //   autoClose: 5000,
-      //   hideProgressBar: false, 
+      //   hideProgressBar: false,
       //   closeOnClick: true,
       //   pauseOnHover: true,
       //   draggable: true,
@@ -326,15 +328,161 @@ const GateInComponent = () => {
 
   // Handle the editing of the cell recieved qty
   const asyncValidation = (params) => {
-    console.log(params);
     return new Promise((resolve, reject) => {
       const { qty, recQty, openQty } = params.data;
       if (recQty > openQty) {
-        reject("Received Quantity should Not be greater than open quantity");
+        resolve({
+          isValid: false,
+          message: "Received Quantity should not be greater than open quantity",
+        });
       } else {
-        resolve(recQty);
+        resolve({ isValid: true });
       }
     });
+  };
+
+  const openPrintWindow = (
+    poData,
+    updatedItems,
+    docNum,
+    vehicleName,
+    transporterName
+  ) => {
+    const doc = new jsPDF();
+
+    // Define your content for the PDF
+    let content = `
+      Purchase Order Number: ${docNum}
+      Vehicle Number: ${vehicleName}
+      Transporter: ${transporterName}
+      Item Details:
+    `;
+
+    // Add item details to the content
+    updatedItems.forEach((item) => {
+      const poItem = poData.find((poItem) => poItem.itemCode === item.key);
+      if (poItem) {
+        content += `
+          Item Code: ${item.key}
+          Item Name: ${poItem.itemName}
+          Ordered Quantity: ${poItem.qty}
+          Open Quantity: ${poItem.openQty}
+          Received Quantity: ${item.recQty}
+        `;
+      }
+    });
+
+    // Set font size and add content to the PDF
+    doc.setFontSize(12);
+    doc.text(content, 10, 10);
+
+    // Open a new window with the PDF content for printing
+    const printWindow = window.open("", "_blank");
+    printWindow.document.open();
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print</title>
+        </head>
+        <body>
+          <pre>${content}</pre>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
+    printWindow.onafterprint = () => {
+      printWindow.close();
+    };
+  };
+  // this for sample pdf
+  const generateSamplePDF = () => {
+    const doc = new jsPDF();
+
+    // Set font styles
+    doc.setFont("helvetica");
+    doc.setFontSize(12);
+
+    // Company information (Left side)
+    const companyName = "Your Company Name";
+    const companyAddress = "123 Company St, Cityville";
+    const companyPincode = "12345";
+
+    // Header section
+
+    doc.text("Purchase Order Receipt", 20, 20);
+
+    // Left side details
+    doc.text(companyName, 20, 30);
+    doc.text(companyAddress, 20, 40);
+    doc.text(`Pincode: ${companyPincode}`, 20, 50);
+
+    // Right side details
+    doc.text("Purchase Order Number: PO123456", 130, 30);
+    doc.text("Vehicle Number: ABC123", 130, 40);
+    doc.text("Transporter: XYZ Transport Inc.", 130, 50);
+
+    doc.line(20, 60, 190, 60); // Horizontal line separator
+
+    // Table header
+    const tableHeader = [
+      "Item Code",
+      "Item Name",
+      "Ordered Qty",
+      "Open Qty",
+      "Received Qty",
+    ];
+
+    // Sample table data
+    const tableData = [
+      ["Item001", "Sample Item 1", "10", "10", "5"],
+      ["Item002", "Sample Item 2", "10", "10", "5"],
+      ["Item003", "Sample Item 3", "10", "10", "5"],
+      ["Item004", "Sample Item 4", "10", "10", "5"],
+      ["Item005", "Sample Item 5", "10", "10", "5"],
+      ["Item006", "Sample Item 6", "10", "10", "5"],
+      ["Item007", "Sample Item 7", "10", "10", "5"],
+      ["Item008", "Sample Item 8", "10", "10", "5"],
+      ["Item009", "Sample Item 9", "10", "10", "5"],
+      ["Item0010", "Sample Item 10", "10", "10", "5"],
+      ["Item0011", "Sample Item 11", "10", "10", "5"],
+      ["Item0012", "Sample Item 12", "10", "10", "5"],
+
+      // Add more rows as needed
+    ];
+
+    // Generate table with custom header styles
+    doc.autoTable({
+      head: [tableHeader],
+      body: tableData,
+      startY: 70,
+      margin: { top: 10 },
+      bodyStyles: { textColor: [67, 113, 183], fontStyle: "bold" },
+      columnStyles: {
+        0: { cellWidth: 30 },
+        1: { cellWidth: 50 },
+        2: { cellWidth: 40 },
+        3: { cellWidth: 30 },
+        4: { cellWidth: 30 },
+      },
+      styles: { overflow: "linebreak" },
+      columnWidth: "auto",
+      theme: "grid",
+      headStyles: {
+        fillColor: [67, 113, 183], // RGB color for the header background
+        textColor: 255, // Text color for the header
+        fontStyle: "bold", // Font style for the header text
+      },
+    });
+
+    // Footer section
+    const companyFooter =
+      "Your Company Name | Phone: 123-456-7890 | Email: info@example.com";
+    doc.setFontSize(10);
+    doc.text(companyFooter, 50, doc.internal.pageSize.height - 10);
+
+    // Save the PDF as a file with a specific name (e.g., 'gate_in_report.pdf')
+    doc.save("gate_in_report_sample.pdf");
   };
 
   const handleGateIn = async () => {
@@ -358,10 +506,9 @@ const GateInComponent = () => {
       selectedTransporterData
     );
     console.log(callLoop);
-    const allResponses = await Promise.all(
+    let allResponses = await Promise.all(
       callLoop.map(async (item) => {
         if (item.statusCode === "200") {
-         
           return "success";
         } else {
           const errorResponse = await item.statusMsg;
@@ -369,8 +516,18 @@ const GateInComponent = () => {
         }
       })
     );
+
     const isSuccess = allResponses.every((response) => response === "success");
     if (isSuccess) {
+      openPrintWindow(
+        poData,
+        updatedItems,
+        docNum,
+        vehicleName,
+        transporterName
+      );
+      setUpdatedItems([]);
+
       await setUpdatedItems([]);
       await handleSearchPurchasedOrder();
       setPoData(null);
@@ -391,6 +548,7 @@ const GateInComponent = () => {
       });
     } else {
       const errorMessage = allResponses.join("\n");
+      setUpdatedItems([]);
       await setUpdatedItems([]);
       return toast.error("Something went wrong:\n${errorMessage}", {
         position: "top-right",
@@ -463,6 +621,7 @@ const GateInComponent = () => {
   //fetch the searches data
   const getSeriesData = async () => {
     const data = await getPeriodIndicator();
+
     // console.log(data);
     if (data.hasError) {
       return toast.error(data.errorText, {
@@ -586,7 +745,7 @@ const GateInComponent = () => {
                 placeholder="Enter vehicle number"
                 width={176}
                 showClearButton={true}
-                value={vehicleName?vehicleName:""}
+                value={vehicleName ? vehicleName : ""}
                 onValueChanged={handleVehicleEntry}
                 height={40}
               />
@@ -669,6 +828,14 @@ const GateInComponent = () => {
                   //   poData && parseInt(poData.openQty) > 0 ? true : false
                   // }
                   allowEditing={true}
+                  validationRules={[
+                    {
+                      type: "async",
+                      validationCallback: asyncValidation,
+                      message:
+                        "Received Quantity should not be greater than open quantity",
+                    },
+                  ]}
                 >
                   <AsyncRule
                     message="Email address is not unique"
@@ -699,6 +866,13 @@ const GateInComponent = () => {
                   icon="fa-solid fa-right-to-bracket"
                   className="gate-in-button"
                   onClick={handleGateIn}
+                />
+                <NormalButton
+                  type="default"
+                  text="Sample PDF"
+                  icon="fa-solid fa-right-to-bracket"
+                  className="gate-in-button"
+                  onClick={generateSamplePDF}
                 />
               </div>
             </>
