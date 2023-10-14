@@ -142,11 +142,11 @@ const routes = [
     element: InprocessQCPage,
   },
   {
-    path: "/qualityControl/incomingQC/InprocessQcScanItemsPage/:headerQRCodeID/:docEntry",
+    path: "/qualityControl/inprocessQualityControl/InprocessQcScanItemsPage/:headerQRCodeID/:docEntry",
     element: InprocessQcScanItemsPage,
   },
   {
-    path: "/qualityControl/incomingQC/IncomingQcScanItemsPage/:headerQRCodeID/:docEntry",
+    path: "/qualityControl/incomigQualityControl/IncomingQcScanItemsPage/:headerQRCodeID/:docEntry",
     element: IncomingQcScanItemsPage,
   },
   //Production Page
@@ -188,7 +188,7 @@ const routes = [
     element: InventoryPage,
   },
   {
-    path: "/production/issue-material/scanitems/:id",
+    path: "/issue-material/scanitems/:id",
     element: IssueMaterialScanItemsPage,
   },
   {

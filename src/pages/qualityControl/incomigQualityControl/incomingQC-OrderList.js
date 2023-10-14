@@ -54,7 +54,7 @@ function IncomingQCOrderList({ IQCList2, deleteFromList }) {
   const navigate = useNavigate();
   const handleProceed = (headerQRCodeID, docEntry) => {
     return navigate(
-      `/qualityControl/incomingQC/IncomingQcScanItemsPage/${headerQRCodeID}/${docEntry}`
+      `/qualityControl/incomigQualityControl/IncomingQcScanItemsPage/${headerQRCodeID}/${docEntry}`
     );
   };
 
