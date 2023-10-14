@@ -60,7 +60,7 @@ export function useQRCodeScan({
   
         html5QrCodeScannerRef.current = html5qrCodeScanner;
   
-        let qrbox = 250;
+        let qrbox = 350;
         if (getQrBoxDimension) {
           qrbox = getQrBoxDimension();
         }

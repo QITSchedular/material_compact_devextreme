@@ -57,25 +57,42 @@ export default function SideNavigationMenu(props) {
     const [expandedPath, setExpandedPath] = useState("");
     const [selectedPath, setSelectedPath] = useState("");
 
+    // const handleTreeViewItemClick = (e) => {
+    //     const clickedPath = e.itemData.path;
+
+    //     if (expandedPath === clickedPath) {
+    //         setExpandedPath(expandedPath);
+    //     } else {
+    //         setExpandedPath(clickedPath);
+    //     }
+    //     setSelectedPath(clickedPath); // Update selectedPath
+    //     selectedItemChanged(e);
+    // };
+
     const handleTreeViewItemClick = (e) => {
         const clickedPath = e.itemData.path;
 
+        // Collapse all nodes
+        const treeView = treeViewRef.current.instance;
+        // treeView.collapseAll();
+
         if (expandedPath === clickedPath) {
-            setExpandedPath(expandedPath);
+            setExpandedPath("");
         } else {
             setExpandedPath(clickedPath);
+            treeView.expandItem(clickedPath);
         }
-        setSelectedPath(clickedPath); // Update selectedPath
+        setSelectedPath(clickedPath);
         selectedItemChanged(e);
     };
 
     useEffect(() => {
         const treeView = treeViewRef.current.instance;
 
-        if (!treeView) {
-            treeView.collapseAll();
-            return;
-        }
+        // if (!treeView) {
+        //     treeView.collapseAll();
+        //     return;
+        // }
 
         if (isExpanded && expandedPath !== currentPath) {
             treeView.collapseAll();

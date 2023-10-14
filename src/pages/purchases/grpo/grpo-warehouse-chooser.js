@@ -45,7 +45,7 @@ const WarehouseChooserDataGrid = ({ handleSaveSelectedWarehouse }) => {
     return handleSaveSelectedWarehouse(params);
   };
   useEffect(() => {
-    const getAllWarehouses = async () => {
+    const getAllWarehouses = async () => { 
       const response = await wareHouseList();
       setWareHouseDataSource(response);
     };
@@ -82,7 +82,7 @@ const WarehouseChooserDataGrid = ({ handleSaveSelectedWarehouse }) => {
 
 const GrpoWarehouseChooserComponent = ({
   handleSaveSelectedWarehouse,
-  handleCloseButton
+  handleCloseButton,
 }) => {
   return (
     <div className="responsive-paddings grpo-warehouse-chooser-wrapper">

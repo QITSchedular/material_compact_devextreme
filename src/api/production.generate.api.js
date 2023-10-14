@@ -76,10 +76,13 @@ export const getProductionOrderItemDetails = async (userSelectedGridRow) => {
 
 /*------------------------------------------QR GENERATION AND PRINITING LOGIC------------------------------------------------------*/
 export const qrGenerationController = async (selectedRowData, addedBatches) => {
-  console.log(
-    "Selected Row Data from the qrGenerationController",
-    selectedRowData
-  );
+  console.log("The selected row data from the Production Qr Generation Controller is:", selectedRowData);
+  const returnObject = {
+    hasError: false,
+    data: []
+  }
+
+
   const branchID = "1";
   const objType = "202";
   const {
@@ -91,13 +94,20 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
     recNo,
     qrMngBy,
     receiptQty,
+    itemMngBy,
+    whsCode,
+    project,
+    recComment
   } = selectedRowData;
+
   const doHeaderExists = await checkHeaderProductionQrExistence(
     selectedRowData
   );
-  console.log("====", doHeaderExists);
+
   /*-------------The Header Qr Does Not Exists ------------------*/
   if (doHeaderExists.hasError) {
+    console.log("Header Qr Does not exists !!")
+    console.log("Header Qr Needs to be generated !!")
     const reqBody = {
       "branchID": branchID,
       "docEntry": proOrdDocEntry,
@@ -106,7 +116,9 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
       "objType": objType
     }
     const getHeaderQr = await getHeaderQR(reqBody);
+    console.log("Got the header qrCode response as:=>", getHeaderQr);
     if (!getHeaderQr.hasError) {
+      console.log("Save the header qr please..")
       const headerSaverPayload = {
         "branchID": branchID,
         "qrCodeID": getHeaderQr.responseData.qrCode,
@@ -118,7 +130,7 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
         "incNo": getHeaderQr.responseData.incNo
       }
       const saveGeneratedHeaderQr = await SaveHeaderQR(headerSaverPayload);
-      console.log(saveGeneratedHeaderQr);
+
       if (!saveGeneratedHeaderQr.hasError) {
         /***Check for details qr existence**/
         console.log(
@@ -132,27 +144,45 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
           itemCode,
           recNo
         );
-        console.log(doDetailsQrExists)
+
         if (doDetailsQrExists.hasError) {
-          console.log("Header Exists but the details does not exist");
-          console.log(
-            "Will find the items' inc number and then generate the Items QR Code"
-          );
-          console.log("Extract header from the Header Existence", doHeaderExists);
-          const { qrCode } = doHeaderExists.responseData;
+          console.log(`Detail Qr Code do not exist, but header qr Code has been generated and saved`)
+
+          const { qrCode } = getHeaderQr.responseData;
+          console.log("The header qr code is: ", qrCode);
+
           const itemQrGenerationResult = await productionItemsQrGeneratorAndSaver(
+            branchID,
             qrCode,
             itemCode,
             qrMngBy,
             recNo,
             receiptQty,
-            addedBatches
-          );
-          console.log("The Final Generation result is: ", itemQrGenerationResult);
+            addedBatches);
+          console.log("Result of saving the detail qr Codes..", itemQrGenerationResult);
+          // console.log("The Final Generation result is: ", itemQrGenerationResult);
+          if (itemQrGenerationResult.includes(0)) {
+            // returnObject.hasError = false;
+            // returnObject.data.push("Qr, generation successfull...")
+
+            // return returnObject;
+            /* Get all the detal qr Data */
+            const detailDataProductionQRPayload = {
+              proOrdDocEntry, proOrdDocNum, series, itemCode, recNo, whsCode, project, receiptQty, recComment
+            }
+            const allDetailDataProductionRes = await getAllProductionDetailsQr(detailDataProductionQRPayload);
+            console.log("allDetailDataProductionRes", allDetailDataProductionRes);
+            const { responseData: detailOfAllQr, hasError: detailOfAllQrHasError } = allDetailDataProductionRes;
+            if (!detailOfAllQrHasError) {
+              const payloadFinalSap = await productionReceiptSapSaverPayloadConstructor(branchID, detailDataProductionQRPayload, detailOfAllQr)
+            }
+          }
         }
       }
     }
-  } else {
+  }
+  /*-------------The Header Qr Does Exists ------------------*/
+  else {
     const doDetailsQrExists = await checkProductionDetailsQrExistence(
       proOrdDocEntry,
       proOrdDocNum,
@@ -160,15 +190,16 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
       itemCode,
       recNo
     );
-    console.log(doDetailsQrExists)
+
     if (doDetailsQrExists.hasError) {
-      console.log("Header Exists but the details does not exist");
+      console.log("Header Exists but the details qr does not exist");
       console.log(
         "Will find the items' inc number and then generate the Items QR Code"
       );
       console.log("Extract header from the Header Existence", doHeaderExists);
       const { qrCode } = doHeaderExists.responseData;
       const itemQrGenerationResult = await productionItemsQrGeneratorAndSaver(
+        branchID,
         qrCode,
         itemCode,
         qrMngBy,
@@ -177,8 +208,31 @@ export const qrGenerationController = async (selectedRowData, addedBatches) => {
         addedBatches
       );
       console.log("The Final Generation result is: ", itemQrGenerationResult);
+      // now save the thing in the code 
+      if (itemQrGenerationResult.includes(0)) {
+        //  get the data for the production's detail qr
+        const productionDetailQrData = await getDetailDataProductionQRHandler(branchID, proOrdDocEntry, proOrdDocNum, series, objType, itemCode, recNo);
+        console.log("All productionDetailQrData")
+        console.log(productionDetailQrData);
+        /* No all the details has been take move the flow*/
+        const detailDataProductionQRPayload = {
+          proOrdDocEntry, proOrdDocNum, series, itemCode, recNo, whsCode, project, receiptQty, recComment
+        }
+        const allDetailDataProductionRes = await getAllProductionDetailsQr(detailDataProductionQRPayload);
+        console.log("allDetailDataProductionRes", allDetailDataProductionRes);
+        const { responseData: detailOfAllQr, hasError: detailOfAllQrHasError } = allDetailDataProductionRes;
+        if (!detailOfAllQrHasError) {
+          const payloadFinalSap = await productionReceiptSapSaverPayloadConstructor(branchID, detailDataProductionQRPayload, detailOfAllQr)
+          console.log("Is the data been saved to SAP ???")
+          console.log(payloadFinalSap);
+        }
+      }
+      return itemQrGenerationResult;
     } else {
-      console.log("header and detail qr both exists");
+      returnObject.hasError = false;
+      returnObject.data.push("Qr has alreadey been generated");
+
+      return returnObject;
     }
   }
 };
@@ -336,7 +390,8 @@ export const getProductionItemsMaxIncNumber = async (qrCode) => {
   }
 };
 export const productionItemsQrGeneratorAndSaver = async (
-  headerQRCodeID,
+  branchID,
+  qrCode,
   itemCode,
   qrMngBy,
   recNo,
@@ -344,101 +399,177 @@ export const productionItemsQrGeneratorAndSaver = async (
   addedBatches
 ) => {
   console.log("This is productionItemsQrGeneratorAndSaver");
-  // function for generate item detail Qr and save 
-  const counterArray = [];
-  const item_detail_qr_common = async (qty) => {
-    const itemIncNumApiRes = await getProductionItemsMaxIncNumber(
-      headerQRCodeID
-    );
-    const itemIncNumber = itemIncNumApiRes.responseData;
-    const generateItemQr = headerQRCodeID + " " + itemIncNumber;
-    const itemsGeneratedQr = generateItemQr;
-    const isSavedItemQr = await saveProductionDetailsQr(
-      headerQRCodeID,
-      itemsGeneratedQr,
-      itemIncNumber,
+
+  if (qrMngBy === "B") {
+    console.log('Qr is managed by batches')
+    const isSavedQr = await batchWiseLooper(
+      branchID,
+      qrCode,
       itemCode,
       qrMngBy,
-      qty,
-      recNo
+      recNo,
+      receiptQty,
+      addedBatches,);
+
+    // return the counter array
+    return isSavedQr;
+  } else if (qrMngBy === "S") {
+    console.log('Qr is managed by serialwise')
+    const isSavedQr = await serialWiseLooper(
+      branchID,
+      qrCode,
+      itemCode,
+      qrMngBy,
+      recNo,
+      receiptQty,
+      //addedBatches,
     );
 
-    if (!isSavedItemQr.hasError) {
-      console.log("Qr Generated and saved", c + 1, itemsGeneratedQr);
-      counterArray.push(1);
-    } else {
-      console.log("Qr Generation for Serial" + ++c + "failed");
-      console.log(
-        "Failed details",
-        headerQRCodeID,
-        itemsGeneratedQr,
-        itemIncNumber,
-        itemCode,
-        qrMngBy,
-        receiptQty,
-        recNo
-      );
-      counterArray.push(0);
-    }
+    return isSavedQr;
   }
+  else if (qrMngBy === "N") {
+    console.log('Qr is managed by Numwise')
+    const isSavedQr = await NumWise(branchID,
+      qrCode,
+      itemCode,
+      qrMngBy,
+      recNo,
+      //receiptQty,
+      //addedBatches,
+    );
 
-  // check for serial
-  if (qrMngBy === "S") {
-    var c = 0;
-    console.log(`Since the qr is managed by Serial Numbers: 
-    The quantity for each Qr will be one  `);
-    const loopLength = receiptQty;
-    counterArray = [];
-    const qty = "1";
-    for (let i = 0; i < loopLength; i++) {
-      item_detail_qr_common(qty);
-    }
-    if (!counterArray.includes(0)) {
-      return "Qr Generated";
-    } else {
-      return "Error: Failed to generate";
-    }
+    return isSavedQr;
   }
-  // check for batch
-  else if (qrMngBy === "B") {
-    // To generate you need receipt qty
-    // You need how may batches should be made
-    // const loopLength = addedBatchNum;
-    console.log("The Qr is Managed By Batches");
-    console.log("No of Batches provided by user is: " + addedBatches);
-    console.log("Total Receipt quantity is: ", receiptQty);
-
-    const loopLength = addedBatches;
-
-    const eachBatchQty = receiptQty / addedBatches;
-    console.log("No of Qty In Each Batch is: " + eachBatchQty);
-    counterArray = [];
-
-    for (let i = 0; i < loopLength; i++) {
-      item_detail_qr_common(eachBatchQty);
-    }
-    if (!counterArray.includes(0)) {
-      return "Qr Generated";
-    } else {
-      return "Error: Failed to generate";
-    }
-  }
-  //------------------------ Qr Is Managed By None----------------------------------------//
-  else {
-    item_detail_qr_common(receiptQty);
-    counterArray = [];
-    if (!counterArray.includes(0)) {
-      return "Qr Generated";
-    } else {
-      return "Error: Failed to generate";
-    }
-  }
-
-
 };
 
+const batchWiseLooper = async (branchID,
+  qrCode,
+  itemCode,
+  qrMngBy,
+  recNo,
+  receiptQty,
+  addedBatches) => {
+  // first need to get the increment number for each item and save it
+  console.log("THIS IS BATCH WISE LOOPER");
+  const loopLength = addedBatches;
+  const eachBatchQty = receiptQty / addedBatches;
+  console.log("No of Qty In Each Batch is: " + eachBatchQty);
+  const counterArray = [];
+  for (let i = 0; i < loopLength; i++) {
+    // generate the qr code and then get other things for it  
+    const getProductionDetailQR = await getProductionItemsMaxIncNumber(qrCode);
+    const { responseData: getAllProductionDetailsQrResponse, hasError: getProductionDetailQRHasError } = getProductionDetailQR;
+    if (!getProductionDetailQRHasError) {
+      const { qrCode: detailQRCodeID, incNo } = getAllProductionDetailsQrResponse;
+      const isSavedDetailQrCode = await saveProductionDetailsQr(
+        branchID,
+        qrCode,
+        detailQRCodeID,
+        incNo,
+        itemCode,
+        qrMngBy,
+        `${eachBatchQty}`,
+        recNo,
+      );
+      if (isSavedDetailQrCode.hasError) {
+        counterArray.push(1);
+        console.log("Error while saving the Detail QR: ", detailQRCodeID);
+      } else {
+        counterArray.push(0);
+        console.log("Detail qr Code has been saved", detailQRCodeID);
+      }
+
+    }
+  }
+  return counterArray;
+};
+
+const serialWiseLooper = async (branchID,
+  qrCode,
+  itemCode,
+  qrMngBy,
+  recNo,
+  receiptQty,
+  addedBatches,
+) => {
+  // first need to get the increment number for each item and save it
+  console.log("THIS IS SERIAL WISE LOOPER");
+  //const loopLength = addedBatches;
+  //const eachBatchQty = receiptQty;
+  //console.log("No of Qty In Each Batch is: " + eachBatchQty);
+  const counterArray = [];
+  for (let i = 0; i < receiptQty; i++) {
+    // generate the qr code and then get other things for it  
+    const getProductionDetailQR = await getProductionItemsMaxIncNumber(qrCode);
+    const { responseData: getAllProductionDetailsQrResponse, hasError: getProductionDetailQRHasError } = getProductionDetailQR;
+    if (!getProductionDetailQRHasError) {
+      const { qrCode: detailQRCodeID, incNo } = getAllProductionDetailsQrResponse;
+      const isSavedDetailQrCode = await saveProductionDetailsQr(
+        branchID,
+        qrCode,
+        detailQRCodeID,
+        incNo,
+        itemCode,
+        qrMngBy,
+        //`${eachBatchQty}`,
+        recNo,
+      );
+      if (isSavedDetailQrCode.hasError) {
+        counterArray.push(1);
+        console.log("Error while saving the Detail QR: ", detailQRCodeID);
+      } else {
+        counterArray.push(0);
+        console.log("Detail qr Code has been saved", detailQRCodeID);
+      }
+
+    }
+  }
+  return counterArray;
+};
+
+const NumWise = async (branchID,
+  qrCode,
+  itemCode,
+  qrMngBy,
+  recNo,
+  receiptQty,
+  addedBatches
+) => {
+  // first need to get the increment number for each item and save it
+  console.log("THIS IS NUM WISE");
+  //const loopLength = addedBatches;
+  const eachBatchQty = qrCode;
+  //console.log("No of Qty In Each Batch is: " + eachBatchQty);
+  const counterArray = [];
+  // generate the qr code and then get other things for it  
+  const getProductionDetailQR = await getProductionItemsMaxIncNumber(qrCode);
+  const { responseData: getAllProductionDetailsQrResponse, hasError: getProductionDetailQRHasError } = getProductionDetailQR;
+  if (!getProductionDetailQRHasError) {
+    const { qrCode: detailQRCodeID, incNo } = getAllProductionDetailsQrResponse;
+    const isSavedDetailQrCode = await saveProductionDetailsQr(
+      branchID,
+      qrCode,
+      detailQRCodeID,
+      incNo,
+      itemCode,
+      qrMngBy,
+      `${eachBatchQty}`,
+      recNo,
+    );
+    if (isSavedDetailQrCode.hasError) {
+      counterArray.push(1);
+      console.log("Error while saving the Detail QR: ", detailQRCodeID);
+    } else {
+      counterArray.push(0);
+      console.log("Detail qr Code has been saved", detailQRCodeID);
+    }
+
+  }
+  return counterArray;
+};
 
 export const saveProductionDetailsQr = async (
+  branchID,
   headerQRCodeID,
   detailQRCodeID,
   incNo,
@@ -447,7 +578,6 @@ export const saveProductionDetailsQr = async (
   qty,
   recNo
 ) => {
-  const branchID = "1";
   const remark = "Test";
   const batchSerialNo = "";
 
@@ -475,16 +605,51 @@ export const saveProductionDetailsQr = async (
       requestBody
     );
     responseBody.responseData = response.data;
-    console.log("The api res is: ", responseBody);
+    console.log("The api res of SaveDetailProductionQR is: ", responseBody);
     return responseBody;
   } catch (error) {
-    console.log("Error while fetching the data, from controller", error);
+    console.log("Error while fetching the data, from SaveDetailProductionQR controller", error);
     responseBody.hasError = true;
     responseBody.errorMessage = responseBody.errorMessage =
       error.response?.data?.statusMsg || error.response?.data?.errors;
     return responseBody;
   }
 };
+
+const getDetailDataProductionQRHandler = async (branchID, proOrdDocEntry, proOrdDocNum, series, objType, itemCode, recNo) => {
+  const responseBody = {
+    responseData: null,
+    hasError: false,
+    errorMessage: null,
+  };
+  const requestBody = {
+    branchID,
+    docEntry: proOrdDocEntry,
+    docNum: proOrdDocNum,
+    series: series,
+    objType,
+    itemCode: itemCode,
+    recNo,
+  };
+  try {
+    const response = await axios.post(
+      `${API_URL}/Commons/GetDetailDataProductionQR`,
+      requestBody
+    );
+    responseBody.responseData = response.data;
+    console.log("The api From getDetailDataPROQR: ", responseBody);
+    return responseBody;
+  } catch (error) {
+    console.log(
+      "Error while fetching the data, from controller",
+      error.response
+    );
+    responseBody.hasError = true;
+    responseBody.errorMessage =
+      error.response?.data?.statusMsg || error.response?.data?.errors;
+    return responseBody;
+  }
+}
 /*------------------------------------------QR GENERATION AND PRINITING LOGIC------------------------------------------------------*/
 /*------------------------------------------All Qr Displayer------------------------------------------------------*/
 
@@ -560,6 +725,62 @@ export const getAllProductionDetailsQr = async (payload) => {
     return responseBody;
   } catch (error) {
     console.log("Error while fetching the data, from controller", error);
+    responseBody.hasError = true;
+    responseBody.errorMessage = responseBody.errorMessage =
+      error.response?.data?.statusMsg || error.response?.data?.errors;
+    return responseBody;
+  }
+};
+
+//--------------------------- To save the things in the SAP -------------------------------------//
+
+const productionReceiptSapSaverPayloadConstructor = async (branchID, detailDataProductionQRPayload, detailOfAllQr) => {
+  console.log("From productionReceiptSapSaverPayloadConstructor")
+  console.log(detailDataProductionQRPayload, detailOfAllQr);
+  const { proOrdDocEntry, proOrdDocNum, series, itemCode, recNo, whsCode, project, itemMngBy, receiptQty, recComment } = detailDataProductionQRPayload;
+
+  const recDetails = detailOfAllQr.map(item => ({
+    detailQRCodeID: item.detailQRCodeID || '',
+    batchSerialNo: item.batchSerialNo || '',
+    qty: item.qty || ''
+  }));
+  const sapSaverPayload = {
+    branchID: parseInt(branchID),
+    proOrdDocEntry,
+    series,
+    recNo,
+    itemCode,
+    itemMngBy,
+    whsCode,
+    binAbsEntry: 0,
+    receiptQty,
+    project: "null",
+    comment: recComment,
+    recDetails
+  };
+
+  const isProductionReceiptSaved = await productionReceiptSapSaver(sapSaverPayload);
+  console.log("isProductionReceiptSaved", isProductionReceiptSaved);
+  return isProductionReceiptSaved;
+};
+
+const productionReceiptSapSaver = async (payload) => {
+  const responseBody = {
+    responseData: null,
+    hasError: false,
+    errorMessage: null,
+  };
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/Production/ProductionReceipt`,
+      payload
+    );
+    responseBody.responseData = response.data;
+    console.log("The api res is from productionReceiptSapSaver: ", responseBody);
+    return responseBody;
+  } catch (error) {
+    console.log("Error while fetching the data, from controller productionReceiptSapSaver", error);
     responseBody.hasError = true;
     responseBody.errorMessage = responseBody.errorMessage =
       error.response?.data?.statusMsg || error.response?.data?.errors;

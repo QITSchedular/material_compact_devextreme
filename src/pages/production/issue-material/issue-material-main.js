@@ -83,7 +83,8 @@ const IssueMaterialMain = () => {
     /* ----------- hit api --------- */
     // console.log(inputQrValue, "from handle search");
 
-    const listData = await getProductionOrderItemList(inputPoValue[0].docEntry);
+    // const listData = await getProductionOrderItemList(inputPoValue[0].docEntry);
+    const listData = inputPoValue;
 
     if (listData.hasError) {
       setInputQrValue("");
@@ -159,8 +160,8 @@ const IssueMaterialMain = () => {
             />
           </TextBox>
           <Button
-            width={33}
-            height={33}
+            width={40}
+            height={40}
             type="normal"
             stylingMode="outlined"
             icon="search"

@@ -18,7 +18,10 @@ export const qrGenerationController2 = async (
 ) => {
   /*Need to check if the header Exists or not*/
   let headerQr;
+  console.log('Full Po Details', poDetailsfull);
+  console.log('This is the doc date',poDetailsfull[0].docDate);
   const docDate = dateFormatter(poDetailsfull[0].docDate);
+  
 
   const doHeaderQrExists = await headerExistenceChecker(
     branchID,
@@ -32,7 +35,9 @@ export const qrGenerationController2 = async (
   console.log("Head Qr existence status", doHeaderQrExists);
   // header Exists
   if (!hasError) {
+    console.log("The header QR exists");
     headerQr = headerResponseData.qrCode;
+    console.log('The header qr is: ', headerQr);
     const doDetailQrExists = await detailsQrExistenceChecker(
       branchID,
       docEntry,
@@ -47,6 +52,7 @@ export const qrGenerationController2 = async (
       hasError: detailsQrExistenceRespDataHasError,
     } = doDetailQrExists;
     if (detailsQrExistenceRespDataHasError) {
+      console.log("The header qr exists but the details qr do not");
       const getAndSave = await detailsQrGetter(
         docEntry,
         docNum,
@@ -62,15 +68,13 @@ export const qrGenerationController2 = async (
         addedBatchNum,
         headerQr
       );
-      const counterArray = getAndSave;
+      const gotCounterArray = await getAndSave;
       console.log("getAndSave : ", getAndSave);
-      console.log(counterArray);
-      if (!counterArray.includes(1)) {
+      console.log(gotCounterArray);
+      if (!gotCounterArray.includes(1)) {
         return "Qr Generated";
-      } else if (!counterArray.includes(0)) {
-        return "Error: Failed to generate";
       } else {
-        return counterArray;
+        return "Error: Failed to generate";
       }
       // if (!counterArray.includes(0)) {
       //   return "Qr Generated";
@@ -80,11 +84,6 @@ export const qrGenerationController2 = async (
     }
     if (!detailsQrExistenceRespDataHasError) {
       console.log("Qr Has already been generated for this entry");
-
-      // return toastDisplayer(
-      //   "success",
-      //   "Qr Has already been generated for this entry"
-      // );
       const responseBody = {
         qrGenerated: "Detail Qr already-generated",
         hasErrorOnGeneration: false,
@@ -96,6 +95,7 @@ export const qrGenerationController2 = async (
   // header does not exists
   if (hasError) {
     // Get the header QR
+    console.log("the header qr doesnot exists, so this flow will be executed")
     const newHeaderQr = await headerQrGetter(
       branchID,
       docEntry,
@@ -109,10 +109,12 @@ export const qrGenerationController2 = async (
       errorMessage: headerQrGetterResponseErrorMessage,
     } = newHeaderQr;
     console.log("headerQrGetterResponse", headerQrGetterResponse);
+    headerQr = headerQrGetterResponse.qrCode;
+
     if (!headerQrGetterResponsehasError) {
       const { incNo: headerQrIncNo, qrCode } = headerQrGetterResponse;
       console.log("The header inc No is", headerQrIncNo);
-      console.log("The header qrCode is", qrCode);
+      console.log("The header qrCode is", qrCode);  
 
       const isSavedHeaderQR = await headerQrSaver(
         branchID,
@@ -152,6 +154,8 @@ export const qrGenerationController2 = async (
           errorMessag: doDetailQrExistsResponseErrorMessag,
         } = doDetailQrExists;
         if (doDetailQrExistsResponseHasError) {
+          console.log("The header qr has been generated and saved");
+          console.log("The item Qr does not exists, so this flow will be executed")
           const getAndSave = detailsQrGetter(
             docEntry,
             docNum,
@@ -351,7 +355,7 @@ const detailsQrGetter = async (
   headerQr
 ) => {
   if (qrMngBy === "B") {
-    const isSavedQR = batchWiseLooper(
+    const isSavedQR = await batchWiseLooper(
       docEntry,
       docNum,
       objType,
@@ -419,22 +423,26 @@ const batchWiseLooper = async (
   addedBatchNum,
   headerQr
 ) => {
+  console.log("From the batchwise looper header qr received is: ", headerQr);
   console.log("The Qr is Managed By Batches");
   console.log("No of Batches is: " + addedBatchNum);
   console.log("Total Received Quantity is: " + openQty);
   const loopLength = addedBatchNum;
   const eachBatchQty = openQty / addedBatchNum;
   console.log("No of Qty In Each Batch is: " + eachBatchQty);
+  
   const counterArray = [];
+
   for (let i = 0; i < loopLength; i++) {
     const theDetailQrData = await getGenerateDetailQrCode(headerQr);
-    console.log("theDetailQrData : ", theDetailQrData);
+    console.log("theDetailQrData api respons is: ", theDetailQrData);
     const {
       responseData: detailQrGeneratedResponse,
       hasError: detailQrGeneratedResponsehasError,
       errorMessage,
     } = theDetailQrData;
     if (detailQrGeneratedResponsehasError) {
+      console.log("Error while generating the detail qrCode data")
       counterArray.push(1);
     }
     console.log(
@@ -446,6 +454,7 @@ const batchWiseLooper = async (
     /* Saver the given detail QRCode data*/
 
     if (!detailQrGeneratedResponsehasError) {
+      console.log("no, Error while generating the detail qrCode data")
       const { qrCode: detailQRCodeID, incNo } = detailQrGeneratedResponse;
       const isSavedDetailQrCode = await detailQrSaver(
         branchID,
@@ -459,12 +468,15 @@ const batchWiseLooper = async (
         addedRemarks
       );
       if (isSavedDetailQrCode.hasError) {
+        console.log("Error while saving the detail qr code data")
         counterArray.push(1);
       } else {
+        console.log("detail qr code saved successfully", i)
         counterArray.push(0);
       }
     }
   }
+
   return counterArray;
 };
 
@@ -599,7 +611,7 @@ const noneWiseLooper = async (
 };
 
 export const getGenerateDetailQrCode = async (headerQr) => {
-  console.log(headerQr);
+  console.log("from the getGenerateDetailQrCode",headerQr);
   const responseBody = {
     responseData: null,
     hasError: false,
@@ -665,15 +677,15 @@ export const detailQrSaver = async (
 
 const dateFormatter = (inputString) => {
   const formattedDate =
-    inputString.split("/")[2].split(" ")[0] +
+    inputString.split("-")[2].split(" ")[0] +
     "-" +
-    (inputString.split("/")[0].length === 1
-      ? "0" + inputString.split("/")[0]
-      : inputString.split("/")[0]) +
+    (inputString.split("-")[0].length === 1
+      ? "0" + inputString.split("-")[0]
+      : inputString.split("-")[0]) +
     "-" +
-    (inputString.split("/")[1].length === 1
-      ? "0" + inputString.split("/")[1]
-      : inputString.split("/")[1]);
+    (inputString.split("-")[1].length === 1
+      ? "0" + inputString.split("-")[1]
+      : inputString.split("-")[1]);
 
   return formattedDate;
 };

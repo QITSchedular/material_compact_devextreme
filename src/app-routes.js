@@ -40,6 +40,7 @@ import {
   InventoryPage,
   MachinemasterPage,
   EmployeemasterPage,
+  ConfigurationPage,
   DepartmentMasterPage,
   VarifyMaterialScanItemPage
 } from "./pages";
@@ -124,7 +125,7 @@ const routes = [
     element: GrpoPage,
   },
   {
-    path: "/purchases/grpo/scanItems/:qrCode",
+    path: "/purchases/grpo/scanItems/:qrCode/:numAtCard",
     element: GrpoScanItemsPage,
   },
   // qualityControl
@@ -226,6 +227,10 @@ const routes = [
   {
     path: "/TrackMachines/MachineManagement",
     element: MachineManagementPage,
+  },
+  {
+    path: "/configuration",
+    element: ConfigurationPage,
   },
 ];
 

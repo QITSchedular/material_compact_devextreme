@@ -15,6 +15,7 @@
     word-wrap: normal;
     direction: ltr;
     -webkit-font-smoothing: antialiased;
+    user-select: none;
 }
 
 .grid-container {
@@ -64,7 +65,7 @@
             text-align: right;
             top: 15px;
             right: 15px;
-            z-index: 100;
+            z-index: 50;
             transform: rotate(50deg);
             cursor: pointer;
 
@@ -101,6 +102,7 @@
                 gap: .4rem;
 
                 .rfcbtn {
+                    user-select: none;
                     transition: transform .9s ease;
                     cursor: pointer;
                 }
@@ -132,6 +134,7 @@
                 font-weight: 400;
                 line-height: normal;
                 border-radius: 8px;
+                user-select: none;
             }
         }
 

@@ -310,9 +310,9 @@ const GrpoMain = () => {
   };
 
   const navigate = useNavigate();
-  const handleProceed = (qrCode) => {
-    console.log(qrCode);
-    return navigate(`/purchases/grpo/scanItems/${qrCode}`);
+  const handleProceed = (qrCode,numAtCard) => {
+    // console.log(qrCode,"  ",numAtCard);
+    return navigate(`/purchases/grpo/scanItems/${qrCode}/${numAtCard}`);
   };
 
   const handleGrpoPoSelection = (params) => {
@@ -344,10 +344,17 @@ const GrpoMain = () => {
   };
 
   // scanner handlers
-  const handleScan = () => {
-    setShowScanner(true);
+  const handleScan =async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      setShowScanner(true);
+      stream.getTracks().forEach((track) => track.stop());
+    } catch (error) {
+      toastDisplayer("error", "Scanner not found.");
+    }
     console.log("Handle Scan");
   };
+  
   useEffect(() => {
     setLoading(true);
     const fetchAllPo = async () => {
@@ -493,7 +500,7 @@ const GrpoMain = () => {
                   <div className="single-po-proceed">
                     <Button
                       text="Proceed"
-                      onClick={() => handleProceed(qrCode["qrCodeID"])}
+                      onClick={() => handleProceed(qrCode["qrCodeID"],qrCode["numAtCard"])}
                     ></Button>
                   </div>
                 </div>

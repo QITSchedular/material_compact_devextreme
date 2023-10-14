@@ -1,6 +1,6 @@
-import { Button } from 'devextreme-react';
+import { UseHeaderContext } from '../../contexts/headerContext';
 import './NotificationDropdown.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function NotificationDropdown() {
     const notificationWords = [
@@ -21,49 +21,69 @@ function NotificationDropdown() {
             title: `${notificationWords[Math.floor(Math.random() * notificationWords.length)]}`,
             time: `${Math.floor(Math.random() * 59) + 1} min ago`,
             unread: `${Boolean(Math.round(Math.random()))}`
-            // unread: false
         },
         {
             title: `${notificationWords[Math.floor(Math.random() * notificationWords.length)]}`,
             time: `${Math.floor(Math.random() * 59) + 1} min ago`,
             unread: `${Boolean(Math.round(Math.random()))}`
-            // unread: true
         },
         {
             title: `${notificationWords[Math.floor(Math.random() * notificationWords.length)]}`,
             time: `${Math.floor(Math.random() * 59) + 1} min ago`,
             unread: `${Boolean(Math.round(Math.random()))}`
-            // unread: false
         },
         {
             title: `${notificationWords[Math.floor(Math.random() * notificationWords.length)]}`,
             time: `${Math.floor(Math.random() * 59) + 1} min ago`,
             unread: `${Boolean(Math.round(Math.random()))}`
-            // unread: true
         },
     ];
 
     const [rotation, setRotation] = useState(0);
 
     const rotateButton = () => {
-        setRotation(rotation + 180);
+        setRotation(rotation + 360);
     };
+
+    const { notifyDropdownRef, setisNotifyDropdownOpen } = UseHeaderContext();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (notifyDropdownRef.current && !notifyDropdownRef.current.contains(event.target)) {
+                const isIconClicked = event.target.classList.contains('bell-icon');
+                if (!isIconClicked || notifyDropdownRef.current.contains(event.target)) {
+                    setisNotifyDropdownOpen((prev) => {
+                        return !prev;
+                    });
+                }
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [notifyDropdownRef, setisNotifyDropdownOpen]);
 
     return (
         <div className='dropdown-background'>
-            <div className="notifydropdown">
+            <div className="notifydropdown" ref={notifyDropdownRef}>
                 <div className="notifydropdown-header">
                     <div>
                         <div className="heading">Notifcations</div>
                         <div className="sub-heading">All the notifications at one place!</div>
                     </div>
-                    <Button icon={"refresh"} onClick={rotateButton} style={{ transform: `rotate(-${rotation}deg)` }} className='rfcbtn' />
+                    <span className="rfcbtn material-symbols-outlined" onClick={rotateButton}
+                        style={{ transform: `rotate(${rotation}deg)` }} title='Refresh'>
+                        cached
+                    </span>
                 </div>
                 <div className="notifydropdown-body">
                     {
-                        notificationData.map((values, index) => (
+                        notificationData.map((values, key) => (
                             <>
-                                <div className={`notification ${values.unread ? 'unread' : ''}`}>
+                                <div className={`notification ${values.unread ? 'unread' : ''}`} key={key}>
                                     <div>
                                         <div className='notify-title'>{values.title}</div>
                                         <div className='notify-time'>{values.time}</div>

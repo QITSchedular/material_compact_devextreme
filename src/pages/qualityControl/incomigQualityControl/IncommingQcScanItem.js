@@ -108,14 +108,14 @@ function IncommingQcScanItem() {
   const [IQCList, setIQCList] = useState(new Set()); // State to store the selected row data
   const [QrRequestData, setQrRequestData] = useState(new Set()); // State to store the selected row data
   const [selectedRowData, setSelectedRowData] = useState("");
-  const dataGridRef = useRef();
+  const dataGridRefApprove = useRef();
+  const dataGridRefReject = useRef();
   const dataGridRefList = useRef();
 
   //scanner open and close
   const [showScanner, setShowScanner] = useState(false);
   //for Data
   const [scannedData, setScannedData] = useState([]);
-
 
   //pop up cancel handler QR request
   const handleCancelQrRequest = async () => {
@@ -182,7 +182,7 @@ function IncommingQcScanItem() {
     },
   };
 
-  const commonFunctionforSearchHandler= async (data)=>{
+  const commonFunctionforSearchHandler = async (data) => {
     var reqBody = {
       headerQRCodeID: headerQRCodeID,
       docEntry: docEntry,
@@ -191,11 +191,8 @@ function IncommingQcScanItem() {
     var response = await validatePoListsIQC(reqBody);
     var doProuctExist;
     if (response.hasError) {
-      return toastDisplayer(
-      "error",
-      response.errorText
-      );
-      }
+      return toastDisplayer("error", response.errorText);
+    }
     if (IQCList.size > 0) {
       doProuctExist = false;
       IQCList.forEach((value) => {
@@ -260,22 +257,22 @@ function IncommingQcScanItem() {
     } else {
       return toastDisplayer("error", response["errorText"]);
     }
-  }
+  };
 
   const SearchHandler = async (scannedDetailQRCodeID) => {
-    console.log("scannedDetailQRCodeID  : ",detailQRCodeID);
+    console.log("scannedDetailQRCodeID  : ", detailQRCodeID);
     // alert(scannedDetailQRCodeID);
-    if (typeof scannedDetailQRCodeID !== 'object' && scannedDetailQRCodeID !== null){
+    if (
+      typeof scannedDetailQRCodeID !== "object" &&
+      scannedDetailQRCodeID !== null
+    ) {
       commonFunctionforSearchHandler(scannedDetailQRCodeID);
-    }else if (detailQRCodeID) {
+    } else if (detailQRCodeID) {
       commonFunctionforSearchHandler(detailQRCodeID);
     } else {
       return toastDisplayer("error", "Please type/scan Item");
     }
   };
-
-
-
 
   const handleTextValueChange = (e) => {
     return setdetailQRCodeID(e.value);
@@ -372,12 +369,12 @@ function IncommingQcScanItem() {
     setSelectedRowKeysOnChangeApprove(selectedRowKeys);
     const length = await selectedRowKeys.length;
     if (selectedRowKeys.length > 1) {
-      const value = await dataGridRef.current.instance.selectRows(
+      const value = await dataGridRefApprove.current.instance.selectRows(
         selectedRowKeys[length - 1]
       );
       return selectedRowSetterApprove(value);
     } else {
-      const value = await dataGridRef.current.instance.selectRows(
+      const value = await dataGridRefApprove.current.instance.selectRows(
         selectedRowKeys[0]
       );
       return selectedRowSetterApprove(value);
@@ -388,14 +385,15 @@ function IncommingQcScanItem() {
   const handleDataGridRowSelectionReject = async ({ selectedRowKeys }) => {
     setSelectedRowKeysOnChangeReject(selectedRowKeys);
     const length = await selectedRowKeys.length;
+    console.log(length);
     if (selectedRowKeys.length > 1) {
-      const value = await dataGridRef.current.instance.selectRows(
+      const value = await dataGridRefReject.current.instance.selectRows(
         selectedRowKeys[length - 1]
       );
-      const value1 = await dataGridRefList.current.instance.selectRows(0);
+      // const value1 = await dataGridRefList.current.instance.selectRows(0);
       return selectedRowSetterReject(value);
     } else {
-      const value = await dataGridRef.current.instance.selectRows(
+      const value = await dataGridRefReject.current.instance.selectRows(
         selectedRowKeys[0]
       );
       return selectedRowSetterReject(value);
@@ -432,7 +430,6 @@ function IncommingQcScanItem() {
     }
   };
 
-
   const removeFromIQCList = async (itemToRemove) => {
     const updatedIQCList = new Set(IQCList);
     updatedIQCList.forEach((item) => {
@@ -440,7 +437,7 @@ function IncommingQcScanItem() {
         updatedIQCList.delete(item);
       }
     });
-    if(updatedIQCList.size<=0){
+    if (updatedIQCList.size <= 0) {
       setIsGridVisible(false);
     }
     return setIQCList(updatedIQCList);
@@ -448,13 +445,17 @@ function IncommingQcScanItem() {
 
   // Function to clear data
   const clearData = async (detailQr) => {
-    setdetailQRCodeID('');
-    setselectedRowsDataApprove([]);
-    setselectedRowsDataReject([]);
-    await removeFromIQCList(detailQr); // Remove the item from IQCList
-    if(IQCList.size<=0){
-      setIsGridVisible(false);
+    if (IQCList.size <= 1) {
+      await removeFromIQCList(detailQr);
+      outsideClickHandlerQrRequest();
+      setdetailQRCodeID("");
+      setSelectedRowKeys([]);
+      setSelectedRowKeysReject([]);
+      setselectedRowsDataApprove([]);
+      setselectedRowsDataReject([]);
     }
+    outsideClickHandlerQrRequest();
+    await removeFromIQCList(detailQr);
   };
   // delete data
   const DeleteData = async (e) => {
@@ -473,7 +474,7 @@ function IncommingQcScanItem() {
       setScannedData([...scannedData, data1]);
     }
     // setShowScanner(false);
-  }
+  };
 
   // const HandleSaveDecodedScannedData = async () => {
   //   console.log("From HandleSaveDecodedScannedData", scannedData)
@@ -495,13 +496,16 @@ function IncommingQcScanItem() {
     } catch (error) {
       console.error("Circular reference detected. Unable to log scannedData.");
     }
-  }
+  };
 
-
-
-  const handleScan = () => {
-    setShowScanner(true);
-    console.log("Handle Scan");
+  const handleScan = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      stream.getTracks().forEach((track) => track.stop());
+      setShowScanner(true);
+    } catch (error) {
+      toastDisplayer("error", "Scanner not found.");
+    }
   };
 
   return (
@@ -523,7 +527,7 @@ function IncommingQcScanItem() {
               keyExpr={"whsCode"}
               columns={column}
               handleDataGridRowSelection={handleDataGridRowSelectionApprove}
-              dataGridRef={dataGridRef}
+              dataGridRef={dataGridRefApprove}
               selectedRowKeys={selectedRowKeys}
               selectedWarehouse={selectedRowKeysReject}
             />
@@ -547,7 +551,7 @@ function IncommingQcScanItem() {
               keyExpr={"whsCode"}
               columns={column}
               handleDataGridRowSelection={handleDataGridRowSelectionReject}
-              dataGridRef={dataGridRef}
+              dataGridRef={dataGridRefReject}
               selectedRowKeys={selectedRowKeysReject}
               selectedWarehouse={selectedRowKeys}
             />
@@ -653,7 +657,6 @@ function IncommingQcScanItem() {
             ref={dataGridRefList}
             onRowRemoving={DeleteData}
             // selectedRowKeys={selectedRowKeysNew}
-
           >
             {/* <SearchPanel visible={true} /> */}
             <Selection mode="multiple" />
@@ -666,10 +669,7 @@ function IncommingQcScanItem() {
                   caption={value["caption"]}
                 ></Column>
               ))}
-            <Editing
-              mode={"row"}
-              allowDeleting={true}
-            />
+            <Editing mode={"row"} allowDeleting={true} />
           </DataGrid>
         </div>
       )}
@@ -686,9 +686,16 @@ function IncommingQcScanItem() {
               handleCancelQrRequest={handleCancelQrRequest}
               requestData={QrRequestData}
               allData={QrRequestData}
-              approveWareHouse={selectedRowsDataApprove.length ? selectedRowsDataApprove[0].whsCode : null}
-              rejectWareHouse={selectedRowsDataReject.length ? selectedRowsDataReject[0].whsCode : null}
-
+              approveWareHouse={
+                selectedRowsDataApprove.length
+                  ? selectedRowsDataApprove[0].whsCode
+                  : null
+              }
+              rejectWareHouse={
+                selectedRowsDataReject.length
+                  ? selectedRowsDataReject[0].whsCode
+                  : null
+              }
               clearData={clearData}
             />
           )}

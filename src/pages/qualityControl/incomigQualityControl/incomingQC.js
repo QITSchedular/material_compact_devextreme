@@ -189,9 +189,14 @@ function IncomingQCComponent() {
     setShowScanner(false);
   };
 
-  const handleScan = () => {
-    setShowScanner(true);
-    console.log("Handle Scan");
+  const handleScan = async() => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      stream.getTracks().forEach((track) => track.stop());
+      setShowScanner(true);
+    } catch (error) {
+      toastDisplayer("error", "Scanner not found.");
+    }
   };
 
   const HandleDecodedData1 = (data) => {

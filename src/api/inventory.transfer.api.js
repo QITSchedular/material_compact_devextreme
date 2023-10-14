@@ -10,25 +10,19 @@ export const verifyProdcutionQrInput = async (
     hasError: false,
     errorMessage: null,
   };
-  console.log("Entered api caller");
-  console.log("Scanned item qr is: ", productionNumberInput);
-  console.log("Selected from warehouse data is: ", selectedFromWarehouse);
   const requestBody = {
     branchID: 1,
     fromWhs: `${selectedFromWarehouse[0].whsCode}`,
     detailQRCodeID: `${productionNumberInput}`,
   };
-  console.log("The request body is", requestBody);
   try {
     const response = await axios.post(
       `${API_URL}/InventoryTransfer/ItemDataInWhs`,
       requestBody
     );
     responseBody.responseData = response.data[0];
-    console.log("The api res is: ", responseBody);
     return responseBody;
   } catch (error) {
-    console.log("Error while fetching the data, from controller", error);
     responseBody.hasError = true;
     responseBody.errorMessage = responseBody.errorMessage =
       error.response?.data?.statusMsg || error.response?.data?.errors;
@@ -39,16 +33,19 @@ export const verifyProdcutionQrInput = async (
 export const inventoryTransferSaver = async (
   payload,
   selectedFromWarehouse,
-  selectedToWarehouse
+  selectedToWarehouse,
+  selectedFromBin,
+  selectedToBin
 ) => {
   const requestBody = await inventoryTransferPayloadConstructor(
     payload,
     selectedFromWarehouse,
-    selectedToWarehouse
+    selectedToWarehouse,
+    selectedFromBin,
+    selectedToBin
   );
-  // console.log(JSON.stringify(requestBody));
-  const PayloadData = JSON.stringify(requestBody);
-  console.log("PayloadData: " + PayloadData);
+  // const PayloadData = JSON.stringify(requestBody);
+  console.log("PayloadData: " , requestBody);
   try {
     // const response = await axios.post(
     //   `${API_URL}/InventoryTransfer/InventoryTransfer`,
@@ -56,31 +53,29 @@ export const inventoryTransferSaver = async (
     // );
 
     // Set the 'Content-Type' header to 'application/json'
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // };
 
     // Send the POST request with the JSON payload and the config object
     const response = await axios.post(
       `${API_URL}/InventoryTransfer/InventoryTransfer`,
-      PayloadData,
-      config
+      requestBody,
+      // config
     );
-
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
   }
 };
 const inventoryTransferPayloadConstructor = (
   payload,
   selectedFromWarehouse,
-  selectedToWarehouse
+  selectedToWarehouse,
+  selectedFromBin,
+  selectedToBin
 ) => {
-  console.log("The payload is: " + JSON.stringify(payload));
   const itDetailsMap = {};
 
   payload.forEach((item) => {
@@ -129,8 +124,11 @@ const inventoryTransferPayloadConstructor = (
     cardCode: payload[0].cardCode, // Use the cardCode from the first item
     fromWhsCode: selectedFromWarehouse[0].whsCode, // Use the whs from the first item
     toWhsCode: selectedToWarehouse[0].whsCode, // Use the whs from the first item
-    comments: "", // Set as needed
-    itDetails,
+    comments: "", // Set as needed,
+    fromBinAbsEntry: selectedFromBin,
+    toBinAbsEntry: selectedToBin,
+    series:1274,
+    itDetails
   };
 
   return result;

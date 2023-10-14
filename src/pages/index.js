@@ -42,4 +42,5 @@ export { default as DeliveryPage } from "./sales/delivery/delivery";
 export { default as DeliveryProcessPage } from "./sales/delivery/delivery-process";
 export { default as MachineInOutPage } from "./Track Machines/MachineInOut";
 export { default as MachineManagementPage } from "./Track Machines/MachineManagement";
+export { default as ConfigurationPage } from "./configuration/Configuration";
 export { default as VarifyMaterialScanItemPage } from "./production/verify-material/varify-material-scanItemPage";
