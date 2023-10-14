@@ -1,112 +1,166 @@
-import React, { useEffect, useState } from "react";
-import MultiView from "devextreme-react/multi-view";
-import QRCode from "react-qr-code";
+import React, { useEffect, useState, useRef } from "react";
+// import QRCode from 'qrcode.react';
 import { Button } from "devextreme-react/button";
 import "./qr-displayer-styles.scss";
-const QrViewBox = ({ data, handleClose }) => {
-  console.log("From QR VIEW bOX", handleClose);
-  const company = data;
+import qrcode from "qrcode";
+import Slider from "react-slick"; 
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css"; 
 
-  const [qrData, setQrData] = useState([]);
+const QrViewBox = ({ data, slideDirection }) => {
+  const canvasRef = useRef(null);
+
   useEffect(() => {
-    async function setDisplayer() {
-      setQrData(data);
+    if (data && data.detailQRCodeID) {
+      qrcode.toCanvas(canvasRef.current, data.detailQRCodeID, (error) => {
+        if (error) {
+          console.error("Error while genratting  QR code:", error);
+        }
+      });
     }
-    setDisplayer();
-  }, []);
-  const handlePopupClose = () => {
-    return handleClose();
-  };
-  return (
-    <div className="content-wrapper responsive-paddings-sm">
-      <div className="content__header">
-        <div className="header---description">
-          <span className="header__title">Scan The Qr Code</span>
-          <span className="header__supporting--text">
-            Place the scanner on qr code to detect{" "}
-          </span>
-        </div>
-      </div>
+  }, [data]);
 
-      <div className="qr__displayer">
-        <QRCode
-          size={67}
-          value={data.data.detailQRCodeID}
-          viewBox={`0 0 150 150`}
-        />
+  return (
+    <div className="qr-view-box">
+      <div className={`content-wrapper responsive-paddings-sm ${slideDirection}`}>
+        <div className="content__header">
+
+          <div className="header---description">
+            <span className="header__title">Scan The QR Code</span>
+            <span className="header__supporting--text">
+              Place the scanner on the QR code to detect
+            </span>
+          </div>
+        </div>
+
+        <div className="vertical-layout">
+          <div className={`qr__displayer ${slideDirection}`}>
+            <canvas ref={canvasRef} width={60} height={60}></canvas>
+          </div>
+
+        </div>
+        <div className="qr__string--displayer">{data && data.detailQRCodeID}</div>
+
       </div>
-      <div className="qr__string--displayer">{data.data.detailQRCodeID}</div>
     </div>
   );
 };
 
+
 const Multiviewdisplayer = ({ handleClose, multipleQrCodes }) => {
-  const [animationEnabled, setAnimationEnabled] = useState(true);
-  const [loop, setLoop] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [qrCodeImages, setQrCodeImages] = useState([]);
+  const [slideDirection, setSlideDirection] = useState(null);
+  const [slider, setSlider] = useState(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const onSelectionChanged = (args) => {
-    if (args.name === "selectedIndex") {
-      setSelectedIndex(args.value);
+  const generateQrImages = () => {
+    const images = [];
+    const qrImagePromises = [];
+
+    multipleQrCodes.forEach((data) => {
+      if (data && data.detailQRCodeID) {
+        qrImagePromises.push(
+          new Promise((resolve) => {
+            const canvas = document.createElement("canvas");
+            qrcode.toCanvas(canvas, data.detailQRCodeID, (error) => {
+              if (error) {
+                console.error("Error generating QR code:", error);
+                resolve(null);
+              } else {
+                images.push(canvas.toDataURL("image/png"));
+                resolve();
+              }
+            });
+          })
+        );
+      }
+    });
+
+    Promise.all(qrImagePromises).then(() => {
+      const printImages = images
+        .filter((image) => image !== null)
+        .map(
+          (imageData) =>
+            '<div style="page-break-after: always;"><img src="' +
+            imageData +
+            '" width="150" height="150"></div>'
+        )
+        .join("");
+
+      const printWindow = window.open("", "", "width=600,height=600");
+      printWindow.document.open();
+      printWindow.document.write('<html><body>' + printImages + "</body></html");
+      printWindow.document.close();
+
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 1000);
+    });
+  };
+
+  const settings = {
+    className: "center",
+    centerMode: true,
+    infinite: false,
+    centerPadding: "0",
+    slidesToShow: 1,
+    speed: 500,
+    beforeChange: (current, next) => {
+      setCurrentSlide(next);
+    },
+  };
+
+  const goToPrev = () => {
+    if (currentSlide > 0) {
+      slider && slider.slickPrev();
     }
   };
 
-  const onLoopChanged = (args) => {
-    setLoop(args.value);
-  };
-
-  const onAnimationEnabledChanged = (args) => {
-    setAnimationEnabled(args.value);
-  };
-
-  const handlePrevView = () => {
-    console.log("Click");
-    const prevIndex = selectedIndex - 1;
-    if (prevIndex >= 0) {
-      setSelectedIndex(prevIndex);
+  const goToNext = () => {
+    if (currentSlide < multipleQrCodes.length - 1) {
+      slider && slider.slickNext();
     }
   };
 
-  const handleNextView = () => {
-    const nextIndex = selectedIndex + 1;
-    if (nextIndex < multipleQrCodes.length) {
-      setSelectedIndex(nextIndex);
-    }
-  };
-  useEffect(() => {
-    console.log("You are at multividimensional");
-  }, []);
   return (
     <>
-      <div className="header---closer">
-        <Button icon="close" width={35} height={35} onClick={handleClose} />
-      </div>
-      <div className="my-multiviewer" style={{ display: "flex" }}>
-        <Button
-          type="default"
-          stylingMode="outlined"
-          icon="chevronprev"
-          style={{ marginTop: "25%" }}
-          onClick={handlePrevView}
-          disabled={selectedIndex === 0}
-        />
+      <div className="multiview-displayer-horizontal">
+        <div className="header---closer">
+          <Button icon="close" width={35} height={35} onClick={handleClose} />
+        </div>
+        <div className="middle-button-container">
+          <Button
+            type="default"
+            stylingMode="outlined"
+            icon="chevronprev"
+            onClick={goToPrev}
+            disabled={currentSlide === 0}
+            
+          />
+          <Button
+            icon="chevronnext"
+            type="default"
+            stylingMode="outlined"
+            onClick={goToNext}
+            disabled={currentSlide === multipleQrCodes.length - 1}
+            className="right-button"
+          />
+        </div>
 
-        <MultiView
-          dataSource={multipleQrCodes}
-          selectedIndex={selectedIndex}
-          onOptionChanged={onSelectionChanged}
-          loop={true}
-          itemComponent={(data) => (
-            <QrViewBox data={data} handleClose={handleClose} /> // Pass the function as a prop to QrViewBox
-          )}
-          animationEnabled={true}
-        />
+          <Slider {...settings} ref={(slider) => setSlider(slider)}>
+            {multipleQrCodes.map((data, index) => (
+              <QrViewBox key={index} data={data} slideDirection={slideDirection} />
+            ))}
+          </Slider>
+         
+
         <Button
-          icon="chevronnext"
+          text="Print QR"
           type="default"
-          stylingMode="outlined"
-          onClick={handleNextView}
-          disabled={selectedIndex === multipleQrCodes.length - 1}
+          height={32}
+          className="item-btn print-qr"
+          onClick={generateQrImages}
         />
       </div>
     </>
@@ -114,3 +168,4 @@ const Multiviewdisplayer = ({ handleClose, multipleQrCodes }) => {
 };
 
 export default Multiviewdisplayer;
+

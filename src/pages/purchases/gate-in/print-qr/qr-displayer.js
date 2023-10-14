@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 // import { Button } from "devextreme-react/button";
 import "./qr-displayer-styles.scss";
 import SingleQrDisplayer from "./single-qr-displayer";
-
+import ScrollView from 'devextreme-react/scroll-view';
 import Multiviewdisplayer from "./multiview-qr-displayer";
 
 const ItemsQrDisplayer = ({
@@ -45,7 +45,7 @@ const ItemsQrDisplayer = ({
       {!displayMultiViewer ? (
         <>
           {loading && <LoadPanel />}
-          <Popup showTitle={false} visible={true} width={400} height={353}>
+          <Popup showTitle={false} visible={true} width={400} height={440}>
             <SingleQrDisplayer
               handleClose={handleClose}
               itemQrCode={itemQrCode}
@@ -53,11 +53,13 @@ const ItemsQrDisplayer = ({
           </Popup>
         </>
       ) : (
-        <Popup showTitle={false} visible={true} width={400} height={353}>
-          <Multiviewdisplayer
-            handleClose={handleClose}
-            multipleQrCodes={multipleQrCodes}
-          />
+        <Popup showTitle={false} visible={true} width={400} height={550}>
+           <ScrollView height={600}> {/* Wrap the content in ScrollView */}
+            <Multiviewdisplayer
+              handleClose={handleClose}
+              multipleQrCodes={multipleQrCodes}
+            />
+          </ScrollView>
         </Popup>
       )}
     </>

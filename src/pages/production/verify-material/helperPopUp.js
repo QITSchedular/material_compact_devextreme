@@ -136,7 +136,7 @@ function HelperPopUp({
             width={124}
             height={35}
             onClick={handleSave}
-            className="OkQcBtn"
+            className=".dx-button-text"
           />
         </div>
       </div>
