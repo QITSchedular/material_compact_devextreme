@@ -54,6 +54,10 @@ export const inventoryTransferSaver = async (
 
   // Display the updated object
   console.log(requestBody);
+  const errors = {
+    hasError: false,
+    errorText: "Something went wrong",
+  };
   try {
     // const response = await axios.post(
     //   `${API_URL}/InventoryTransfer/InventoryTransfer`,
@@ -74,7 +78,15 @@ export const inventoryTransferSaver = async (
       // config
     );
     return response.data;
-  } catch (error) { }
+  } catch (error) { 
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
+  }
 };
 const inventoryTransferPayloadConstructor = (
   payload,
