@@ -54,27 +54,39 @@ export const inventoryTransferSaver = async (
 
   // Display the updated object
   console.log(requestBody);
-  // try {
-  //   // const response = await axios.post(
-  //   //   `${API_URL}/InventoryTransfer/InventoryTransfer`,
-  //   //   PayloadData
-  //   // );
+  const errors = {
+    hasError: false,
+    errorText: "Something went wrong",
+  };
+  try {
+    // const response = await axios.post(
+    //   `${API_URL}/InventoryTransfer/InventoryTransfer`,
+    //   PayloadData
+    // );
 
-  //   // Set the 'Content-Type' header to 'application/json'
-  //   // const config = {
-  //   //   headers: {
-  //   //     "Content-Type": "application/json",
-  //   //   },
-  //   // };
+    // Set the 'Content-Type' header to 'application/json'
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // };
 
-  //   // Send the POST request with the JSON payload and the config object
-  //   const response = await axios.post(
-  //     `${API_URL}/InventoryTransfer/InventoryTransfer`,
-  //     requestBody
-  //     // config
-  //   );
-  //   return response.data;
-  // } catch (error) { }
+    // Send the POST request with the JSON payload and the config object
+    const response = await axios.post(
+      `${API_URL}/InventoryTransfer/InventoryTransfer`,
+      requestBody
+      // config
+    );
+    return response.data;
+  } catch (error) { 
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
+  }
 };
 const inventoryTransferPayloadConstructor = (
   payload,

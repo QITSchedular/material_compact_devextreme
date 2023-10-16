@@ -37,7 +37,7 @@ function IncomingQrRequest({
     console.log("first")
     const appQty = approveQty;
     var rejQty = RejectQty;
-    const totleQty = parseInt(appQty) + parseInt(rejQty);
+    const totleQty = parseFloat(appQty) + parseFloat(rejQty);
     if(appQty==null){
       return toastDisplayer("error", "Approve quantity can not be empty");
     }
@@ -46,9 +46,9 @@ function IncomingQrRequest({
     }
     if (appQty <= 0) {
       return toastDisplayer("error", "Invalid Quantity");
-    } else if (totleQty > parseInt(QrRequestData["recQty"])) {
-      return toastDisplayer("error", "Total Quantity can not be greater than received quantity");
-    } else if (appQty > 0 && totleQty <= parseInt(QrRequestData["recQty"])) {
+    } else if (totleQty > (parseFloat(QrRequestData["qrQty"])-parseFloat(QrRequestData["qcQty"]))) {
+      return toastDisplayer("error", "Total Quantity can not be greater than transferable quantity");
+    } else if (appQty > 0 && totleQty <= (parseFloat(QrRequestData["qrQty"])-parseFloat(QrRequestData["qcQty"]))) {
       const apiCalls = [];
       if (rejQty > 0) {
         const reqBodyRej = {
@@ -146,13 +146,17 @@ function IncomingQrRequest({
               <p className="titleTxt">ItemCode</p>
               <p className="valueTxt">{QrRequestData["itemCode"]}</p>
             </div>
-            <div className="particularDetail">
+            {/* <div className="particularDetail">
               <p className="titleTxt">PO</p>
               <p className="valueTxt">{QrRequestData["poDocNum"]}</p>
-            </div>
+            </div> */}
             <div className="particularDetail">
               <p className="titleTxt">Received Qty.</p>
-              <p className="valueTxt">{QrRequestData["recQty"]}</p>
+              <p className="valueTxt">{QrRequestData["qrQty"]}</p>
+            </div>
+            <div className="particularDetail">
+              <p className="titleTxt">Transferable QC Qty.</p>
+              <p className="valueTxt">{parseFloat(QrRequestData["qrQty"])-parseFloat(QrRequestData["qcQty"])}</p>
             </div>
             <div className="particularDetail">
               <p className="titleTxt">Project </p>

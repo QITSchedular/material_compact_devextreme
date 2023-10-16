@@ -64,14 +64,14 @@ export const searchPoListsIQC = async (QRCode,fromDate,toDate) => {
       return errors;
     }
   } catch (error) {
-    // const { statusMsg } = error.response.data;
-    // if (statusMsg) {
-    //   errors.hasError = true;
-    //   errors.errorText = statusMsg;
-    //   return errors;
-    // }
-    // return errors;
-    return toastDisplayer("error", error.message);
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
+    // return toastDisplayer("error", error.message);
   }
 };
 
