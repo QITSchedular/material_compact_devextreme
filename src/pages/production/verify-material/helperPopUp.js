@@ -88,10 +88,16 @@ function HelperPopUp({
             <Scrolling columnRenderingMode="infinite" />
             <Paging enabled={false} />
             <Column
+              dataField="docNum"
+              alignment="left"
+              caption={"Doc Num"}
+              // dataType={"date"}
+            />
+            <Column
               dataField="itemCode"
               alignment="left"
               caption={"Item Code"}
-            // dataType={"date"}
+              // dataType={"date"}
             />
             <Column
               dataField="seriesName"
@@ -136,7 +142,7 @@ function HelperPopUp({
             width={124}
             height={35}
             onClick={handleSave}
-            className=".dx-button-text"
+            className="default-button"
           />
         </div>
       </div>

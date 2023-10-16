@@ -1,8 +1,11 @@
 import { TextBox, Button as NormalButton, Button } from "devextreme-react";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { GRPOScanner } from "../../../assets/icon";
 import { toastDisplayer } from "../../../api/qrgenerators";
-import { productionVarifyIssueSaveItems, validatePoListsVerifyMaterial } from "../../../utils/production-verify-material";
+import {
+  productionVarifyIssueSaveItems,
+  validatePoListsVerifyMaterial,
+} from "../../../utils/production-verify-material";
 import DataGrid, {
   Column,
   Paging,
@@ -13,6 +16,7 @@ import DataGrid, {
   AsyncRule,
   ValidationRule,
   RequiredRule,
+  SearchPanel,
 } from "devextreme-react/data-grid";
 import { SwalDisplayer } from "../../../utils/showToastsNotifications";
 import { useParams } from "react-router-dom";
@@ -24,56 +28,64 @@ function Varify_Material_ScanItem() {
   var [txtComment, setComment] = useState("");
   const dataGridRef = useRef();
   const { itemCode, docEntry } = useParams();
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleTextValueChange = (e) => {
     console.log(e.value);
     setdetailQRCodeID(e.value);
   };
-  const SearchHandler = async () => {
-    if (detailQRCodeID.length > 0) {
-      // console.log(detailQRCodeID);
-      var doProuctExist;
-      if (POCList.size > 0) {
-        doProuctExist = false;
-        POCList.forEach((value) => {
-          if (value.detailQRCodeID == detailQRCodeID) {
-            doProuctExist = true;
-            return;
-          }
-        });
-      } else {
-        doProuctExist = false;
-      }
 
-      if (doProuctExist == false) {
-        var response = await validatePoListsVerifyMaterial(detailQRCodeID, docEntry);
+  const SearchHandler = async () => {
+    console.log(SearchHandler);
+    if (detailQRCodeID.length > 0) {
+      const existingItem = Array.from(POCList).find(
+        (item) => item.qrCodeID === detailQRCodeID
+      );
+
+      if (existingItem) {
+        // If the item already exists in POCList, you can show a message or choose to update it.
+        // For example, you can update the quantity or any other relevant information.
+        existingItem.issQty = (existingItem.issQty || 0) + 1; // Update quantity as needed
+        setPOCList(new Set(POCList)); // Update the state
+      } else {
+        // If the item doesn't exist in POCList, make the API call
+        const response = await validatePoListsVerifyMaterial(
+          detailQRCodeID,
+          docEntry
+        );
+        console.log("API Response:", response);
+
         if (response["hasError"]) {
           return toastDisplayer("error", response["errorText"]);
-        } else if (response && doProuctExist == false) {
+        }
+
+        if (response) {
           response.forEach((resp) => {
             if (resp.issQty == null) {
               resp.issQty = 0;
             }
           });
-          setPOCList((prevIQCList) => {
-            const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
 
+          // Add the response data to POCList
+          setPOCList((prevIQCList) => {
+            const updatedSet = new Set(prevIQCList);
             response.forEach((resp) => {
-              updatedSet.add(resp); // Add each object from prodResponse to the updatedSet
+              updatedSet.add(resp);
             });
             setIsGridVisible(true);
-            return updatedSet; // Return the updated Set
+            return updatedSet;
           });
         } else {
           return toastDisplayer("error", "Something went wrong");
         }
-      } else {
-        return toastDisplayer("error", "Item already added");
       }
     } else {
-      return toastDisplayer("error", "Please scan item");
+      return toastDisplayer("error", "Please scan the item");
     }
   };
+  useEffect(() => {
+    console.log("POCList:", POCList);
+  }, [POCList]);
 
   const asyncValidation = (params) => {
     const { value } = params;
@@ -113,56 +125,71 @@ function Varify_Material_ScanItem() {
   };
 
   const handleSaveItem = async () => {
-    if (dataGridRef.current) {
-      const dataGridInstance = dataGridRef.current.instance;
-
-      if (dataGridInstance) {
-        const payload = await getAllRowData();
-        const response = await productionVarifyIssueSaveItems(
-          payload,
-          txtComment
-        );
-        // console.log(response["hasError"]);
-        setPOCList(new Set());
-
-        payload.forEach(async (row) => {
-          console.log(row.detailQRCodeID)
-          var response = await validatePoListsVerifyMaterial(detailQRCodeID);
-          console.log(response)
-          setPOCList((prevIQCList) => {
-            const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
-            response.map((value) => {
-              console.log(value.issQty)
-              if (value.issQty == null) {
-                value.issQty = 0;
-              }
-              updatedSet.add(value);
-            })
-            setIsGridVisible(true);
-            return updatedSet; // Return the updated Set
-          });
-
-        })
-        setComment("");
-
-        // POCList.forEach((value) => {
-        //   value.issuedQty=(parseFloat(value.issuedQty)+parseFloat(value.issQty)).toFixed(6);
-        //   value.issQty=0;
-        // });
-
-        // console.log(POCList)
-        dataGridRef.current.instance.refresh();
-        if (response["hasError"]) {
-          SwalDisplayer("error", "Operation not Successful");
-        } else {
-          SwalDisplayer("success", "Operation Successful");
-        }
-      } else {
-        return toastDisplayer("error", "Something went wrong");
-      }
+    // var response = await validatePoListsVerifyMaterial(detailQRCodeID);
+    const payload = await getAllRowData();
+    const response = await productionVarifyIssueSaveItems(payload, txtComment);
+    console.log("reshdfhfhjfhjhjhgfhgfkh", response);
+    const dataGridInstance = dataGridRef.current.instance;
+    if (response.errorMessage) {
+      // dataGridRef.current.instance.refresh();
+      return toastDisplayer("error", response.errorMessage);
+    } else if (!response.hasError && response.responseData) {
+      return SwalDisplayer("success", "Verfication Isssue Successful");
     } else {
-      return toastDisplayer("error", "Something went wrong");
+      return toastDisplayer(
+        "error",
+        "Something went wrog please try again later"
+      );
     }
+    // if (dataGridRef.current) {
+    // const dataGridInstance = dataGridRef.current.instance;
+
+    // if (dataGridInstance) {
+    // const payload = await getAllRowData();
+    // const response = await productionVarifyIssueSaveItems(
+    // payload,
+    // txtComment
+    // );
+    // // console.log(response["hasError"]);
+    // setPOCList(new Set());
+    // payload.forEach(async (row) => {
+    // console.log(row.detailQRCodeID)
+    // var response = await validatePoListsVerifyMaterial(detailQRCodeID);
+    // console.log(response)
+    // setPOCList((prevIQCList) => {
+    // const updatedSet = new Set(prevIQCList); // Create a new Set based on the previous Set
+    // response.map((value) => {
+    // console.log(value.issQty)
+    // if (value.issQty == null) {
+    // value.issQty = 0;
+    // }
+    // updatedSet.add(value);
+    // })
+    // setIsGridVisible(true);
+    // return updatedSet; // Return the updated Set
+    // });
+
+    // })
+    // setComment("");
+
+    // // POCList.forEach((value) => {
+    // // value.issuedQty=(parseFloat(value.issuedQty)+parseFloat(value.issQty)).toFixed(6);
+    // // value.issQty=0;
+    // // });
+
+    // // console.log(POCList)
+    // dataGridRef.current.instance.refresh();
+    // if (response["hasError"]) {
+    // SwalDisplayer("error", "Operation not Successful");
+    // } else {
+    // SwalDisplayer("success", "Operation Successful");
+    // }
+    // } else {
+    // return toastDisplayer("error", "Something went wrong");
+    // }
+    // } else {
+    // return toastDisplayer("error", "Something went wrong");
+    // }
   };
 
   return (
@@ -181,7 +208,7 @@ function Varify_Material_ScanItem() {
               // selectedRowsData.length > 0 ? selectedRowsData[0].itemCode : ""
               // }
               onValueChanged={handleTextValueChange}
-              //   onValueChanged={handleTextValueChange}
+              // onValueChanged={handleTextValueChange}
               showClearButton={true}
             ></TextBox>
             <div className="btnSection">
@@ -221,18 +248,20 @@ function Varify_Material_ScanItem() {
               // onSaving={handleGridSaving}
               // onSelectionChanged={handleDataGridRowSelection}
               ref={dataGridRef}
-            // selectedRowKeys={selectedRowKeysNew}
+              // selectedRowKeys={selectedRowKeysNew}
             >
-              {/* <SearchPanel visible={true} /> */}
-              <Editing mode={"row"} allowUpdating={true} allowDeleting={true} />
+              {/* <Selection mode="single" /> */}
+              <SearchPanel visible={true} />
+              <Editing mode={"row"} allowDeleting={true} />
               <Selection mode="multiple" />
               <Scrolling columnRenderingMode="virtual" />
               <Paging enabled={false} />
               <ColumnFixing enabled={true} />
               <Column
-                dataField="docEntry"
+                dataField="proOrdDocEntry"
                 caption="docEntry"
                 allowEditing={false}
+                visible={true}
               ></Column>
               <Column
                 dataField="docNum"
@@ -245,7 +274,7 @@ function Varify_Material_ScanItem() {
                 allowEditing={false}
               ></Column>
               <Column
-                dataField="detailQRCodeID"
+                dataField="qrCodeID"
                 caption="detailQRCodeID"
                 allowEditing={false}
               ></Column>
@@ -270,7 +299,7 @@ function Varify_Material_ScanItem() {
                 allowEditing={false}
               ></Column>
               <Column
-                //   dataField="docEntry"
+                // dataField="docEntry"
                 caption="Opened Qty"
                 calculateCellValue={(rowData) =>
                   rowData.plannedQty - rowData.issuedQty
@@ -287,7 +316,7 @@ function Varify_Material_ScanItem() {
                 allowEditing={false}
               ></Column>
               <Column
-                dataField="proWhsCode"
+                dataField="whsCode"
                 caption="proWhsCode"
                 allowEditing={false}
               ></Column>
@@ -295,7 +324,7 @@ function Varify_Material_ScanItem() {
               <Column
                 dataField="issQty"
                 caption="Issue Qty"
-                allowEditing={true}
+                // allowEditing={true}
               >
                 {/* <RequiredRule /> */}
                 <AsyncRule
@@ -310,13 +339,13 @@ function Varify_Material_ScanItem() {
                 caption={"Actions"}
                 fixedPosition={"right"}
               >
-                <Button name="edit" />
+                {/* <Button name="edit" /> */}
                 <Button name="delete" />
                 <Button
                   hint="Print Qr"
                   icon="fa-solid fa-print"
                   visible={true}
-                // onClick={handleShowQrCodePrint}
+                  // onClick={handleShowQrCodePrint}
                 />
               </Column>
             </DataGrid>
