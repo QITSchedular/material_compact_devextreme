@@ -1,3 +1,10 @@
+.content-block-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+
 .card {
     margin: 1rem;
     padding: 2rem;
@@ -6,11 +13,13 @@
     border-radius: 12px;
     background: #FFF;
     box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.10);
+    
+ 
 
     .Btndiv {
         text-align: center;
         justify-content: center;
-        margin-top: 120px;
+        
     }
 
     .my-btn {
@@ -27,17 +36,45 @@
         }
     }
 }
+.login-text{
+    font-size: 22px;
+    font-weight: 500;
+    text-wrap: wrap;
+}
+.qr_img{
+    margin-left: 35%;
+    margin-bottom: 8%;
+}
+.log-machine-btn{
+    margin-left:33% ;
+    margin-top: 20px;
+
+}
+
+.h4-logtime{
+    margin-top: -20px;
+    margin-left: 135px;
+}
+.content-block-1{
+    width: 100%;
+
+}
+
+
+
+
+
+
+
 
 .MachineInOutMainDiv {
     padding: 0rem 1rem 0rem 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 3rem;
 
-    .content-block-wrapper {
-        // padding-right: 1rem;
-    }
+   
 
     .qrCodeSection {
         display: flex;
@@ -83,6 +120,11 @@
         }
     }
 
+    .buttonSection{
+        margin-bottom: -100;
+
+    }
+
     .qrCodeSection {
         display: flex;
         flex-direction: column;
@@ -108,7 +150,7 @@
                 flex-direction: column;
                 // width: 50%;
                 border-radius: 12px;
-                border: 0.5px solid #EAECF0;
+               
                 justify-content: center;
                 align-items: center;
                 padding: 9px;
@@ -118,9 +160,9 @@
                     color: #525252;
                     text-align: center;
                     font-family: Roboto;
-                    font-size: 14px;
+                    font-size: 16px;
                     font-style: normal;
-                    font-weight: 400;
+                    font-weight: 500;
                     line-height: 83.187%;
                     /* 11.646px */
                 }
@@ -128,9 +170,9 @@
                 .timeTxt {
                     color: #525252;
                     font-family: Roboto;
-                    font-size: 14px;
+                    font-size: 16px;
                     font-style: normal;
-                    font-weight: 700;
+                    font-weight: 400;
                     line-height: 83.187%;
                 }
             }
@@ -234,16 +276,7 @@
     // margin-left: 20px;
 }
 
-.Machine-text-info {
-    color: #525252;
-    font-family: Roboto;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 126.688%;
-    // margin-left: 20px;
-    /* 17.736px */
-}
+
 
 .Machine-btn {
     display: flex;
@@ -265,6 +298,35 @@
     .Machine-header {
         font-size: 16px;
     }
+
+
+    .content-block-wrapper{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content{
+        .card{
+            .content-block-wrapper{
+                .Btndiv{
+                    .dx-widget.dx-button.dx-button-mode-contained.dx-button-default.dx-button-has-text.my-btn{
+                        margin-left: 0 !important;
+
+                    }
+            }
+        }
+    }}
+    .inner-text{
+        display: none;
+       
+    }
+    .h4-logtime{
+     width: 100%;
+    display: flex;
+    margin-left: 0;
+    justify-content: center;
+    }
+
 }
 
 .container-qr {
@@ -324,3 +386,29 @@
       width:100%;
       gap:1rem;
   }
+  .Machine-text-info {
+    color: #525252;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 126.688%;
+    margin-top: 20%;
+
+}
+.login-details{
+
+    display: flex;
+    align-items: center;
+     flex-direction: column;
+     justify-content: flex-start;
+}
+.h4{
+    font-size: 18px;
+    font-weight: 400 !important;
+    color: #6F6F6F;
+    span{
+        font-weight: 400;
+    }
+}
+
