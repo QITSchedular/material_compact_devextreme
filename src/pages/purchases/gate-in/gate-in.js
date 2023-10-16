@@ -168,7 +168,7 @@ const TransporterHelpComponent = ({
           </div>
           <div
             className="responsive-paddings transporter-content-datagrid-container dx-saveBtn"
-            // style={{ margin: "8px 24px", height: "100% !important" }}
+          // style={{ margin: "8px 24px", height: "100% !important" }}
           >
             <DataGrid
               height={window.innerHeight - 280}
@@ -362,7 +362,7 @@ const GateInComponent = () => {
     const allResponses = await Promise.all(
       callLoop.map(async (item) => {
         if (item.statusCode === "200") {
-         
+
           return "success";
         } else {
           const errorResponse = await item.statusMsg;
@@ -407,9 +407,9 @@ const GateInComponent = () => {
   };
 
   const handleGridSaving = async (e) => {
-    console.log("updated Item : ",updatedItems," e.changes[0] : ",e.changes[0]);
+    console.log("updated Item : ", updatedItems, " e.changes[0] : ", e.changes[0]);
     if (!e.changes[0]) {
-      return ;
+      return;
       // toastDisplayer(
       //   "error",
       //   "Please, receive the quantity first to proceed"
@@ -588,7 +588,7 @@ const GateInComponent = () => {
                 placeholder="Enter vehicle number"
                 width={176}
                 showClearButton={true}
-                value={vehicleName?vehicleName:""}
+                value={vehicleName ? vehicleName : ""}
                 onValueChanged={handleVehicleEntry}
                 height={40}
               />

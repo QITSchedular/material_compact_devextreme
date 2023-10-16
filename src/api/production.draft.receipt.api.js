@@ -25,7 +25,7 @@ export const getDraftReceiptProList = async () => {
   }
 };
 export const saveProductionDraftReceipt = async (gridData, comments) => {
-  const { docEntry, warehouse, quantity } = gridData[0];
+  const { docEntry, warehouse, quantity, project } = gridData[0];
   const responseBody = {
     responseData: null,
     hasError: false,
@@ -33,10 +33,10 @@ export const saveProductionDraftReceipt = async (gridData, comments) => {
   };
   const requestBody = {
     ProOrdDocEntry: docEntry,
-    series: 0,
+    series: 1197, // series is working statically but we have to take it from masters ~Poojan
     WhsCode: warehouse,
     binAbsEntry: 0,
-    project: "ABC",
+    project: project,
     ReceiptQty: `${quantity}`,
     Comment: comments ? comments : "",
     proReworkDet: [
