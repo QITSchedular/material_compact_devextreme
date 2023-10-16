@@ -37,7 +37,7 @@ export const inventoryTransferSaver = async (
   selectedFromBin,
   selectedToBin
 ) => {
-  console.log("first payload",payload)
+  console.log("first payload", payload);
   const requestBody = await inventoryTransferPayloadConstructor(
     payload,
     selectedFromWarehouse,
@@ -46,29 +46,35 @@ export const inventoryTransferSaver = async (
     selectedToBin
   );
   // const PayloadData = JSON.stringify(requestBody);
-  console.log("PayloadData: " , requestBody);
-  try {
-    // const response = await axios.post(
-    //   `${API_URL}/InventoryTransfer/InventoryTransfer`,
-    //   PayloadData
-    // );
+  console.log("PayloadData: ", requestBody);
+  // Convert the "totalItemQty" in a loop for each "itemDetail"
+  requestBody.itDetails.forEach((itemDetail) => {
+    itemDetail.totalItemQty = parseFloat(itemDetail.totalItemQty);
+  });
 
-    // Set the 'Content-Type' header to 'application/json'
-    // const config = {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // };
+  // Display the updated object
+  console.log(requestBody);
+  // try {
+  //   // const response = await axios.post(
+  //   //   `${API_URL}/InventoryTransfer/InventoryTransfer`,
+  //   //   PayloadData
+  //   // );
 
-    // Send the POST request with the JSON payload and the config object
-    const response = await axios.post(
-      `${API_URL}/InventoryTransfer/InventoryTransfer`,
-      requestBody,
-      // config
-    );
-    return response.data;
-  } catch (error) {
-  }
+  //   // Set the 'Content-Type' header to 'application/json'
+  //   // const config = {
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //   },
+  //   // };
+
+  //   // Send the POST request with the JSON payload and the config object
+  //   const response = await axios.post(
+  //     `${API_URL}/InventoryTransfer/InventoryTransfer`,
+  //     requestBody
+  //     // config
+  //   );
+  //   return response.data;
+  // } catch (error) { }
 };
 const inventoryTransferPayloadConstructor = (
   payload,
@@ -106,7 +112,7 @@ const inventoryTransferPayloadConstructor = (
       };
     } else {
       itDetailsMap[itemCode].totalItemQty = (
-        +itDetailsMap[itemCode].totalItemQty + +parseFloat(qty_edit)
+        +parseFloat(itDetailsMap[itemCode].totalItemQty) + +parseFloat(qty_edit)
       ).toFixed(3);
     }
 
@@ -114,7 +120,7 @@ const inventoryTransferPayloadConstructor = (
       gateInNo,
       detailQRCodeID,
       batchSerialNo,
-      qty:parseFloat(qty_edit),
+      qty: parseFloat(qty_edit),
     });
   });
 
@@ -128,8 +134,8 @@ const inventoryTransferPayloadConstructor = (
     comments: "", // Set as needed,
     fromBinAbsEntry: payload[0].fromBin,
     toBinAbsEntry: selectedToBin,
-    series:1330,
-    itDetails
+    series: 1330,
+    itDetails,
   };
 
   return result;
