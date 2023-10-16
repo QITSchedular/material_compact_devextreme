@@ -14,7 +14,7 @@ import {
   productionValidateItemQr,
 } from "../../../api/production.api";
 import { BackBtn } from "../../../components";
-import './issue-material-main.styles.scss';
+import "./issue-material-main.styles.scss";
 import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
 const IssueMaterialScanItems = () => {
@@ -25,7 +25,7 @@ const IssueMaterialScanItems = () => {
   const [showListDataGrid, setShowListDataGrid] = useState(false);
   const [scannedQrString, setScannedQrString] = useState("");
   const [scannedItemsData, setScannedItemsData] = useState([]);
-  const [showScanner, setShowScanner] = useState(false); 
+  const [showScanner, setShowScanner] = useState(false);
   const [scannedData, setScannedData] = useState([]);
   const inputQrValueChangedCallback = (data) => {
     // console.log(data.value);
@@ -34,31 +34,50 @@ const IssueMaterialScanItems = () => {
     }
   };
 
-  const searchItemsClickHandler = async () => {
-    if (!scannedQrString) {
-      return toastDisplayer(
-        "error",
-        "Operation not allowed for empty search value !!!"
+  const searchItemsClickHandler = async (scannedItem) => {
+    if (typeof scannedItem !== "object" && scannedItem !== null) {
+      const fetchValidatedItemsQrData = await productionValidateItemQr(
+        id,
+        scannedItem
       );
-    }
-
-    const fetchValidatedItemsQrData = await productionValidateItemQr(
-      id,
-      scannedQrString
-    );
-    console.log(fetchValidatedItemsQrData);
-    // if error display toast
-    if (fetchValidatedItemsQrData.hasError) {
-      return toastDisplayer(
-        "error",
-        fetchValidatedItemsQrData.errorMessage
-          ? fetchValidatedItemsQrData.errorMessage
-          : "Something went wrong, please try again later."
+      console.log("fetchValidatedItemsQrData : ", fetchValidatedItemsQrData);
+      // if error display toast
+      if (fetchValidatedItemsQrData.hasError) {
+        return toastDisplayer(
+          "error",
+          fetchValidatedItemsQrData.errorMessage
+            ? fetchValidatedItemsQrData.errorMessage
+            : "Something went wrong, please try again later."
+        );
+      }
+      // if no error check for duplicate entry in scannedItemsData
+      await duplicatedScannedItemsChecker(fetchValidatedItemsQrData);
+      console.log("Current scanned items data", scannedItemsData);
+    } else {
+      if (!scannedQrString) {
+        return toastDisplayer(
+          "error",
+          "Operation not allowed for empty search value !!!"
+        );
+      }
+      const fetchValidatedItemsQrData = await productionValidateItemQr(
+        id,
+        scannedQrString
       );
+      console.log(fetchValidatedItemsQrData);
+      // if error display toast
+      if (fetchValidatedItemsQrData.hasError) {
+        return toastDisplayer(
+          "error",
+          fetchValidatedItemsQrData.errorMessage
+            ? fetchValidatedItemsQrData.errorMessage
+            : "Something went wrong, please try again later."
+        );
+      }
+      // if no error check for duplicate entry in scannedItemsData
+      await duplicatedScannedItemsChecker(fetchValidatedItemsQrData);
+      console.log("Current scanned items data", scannedItemsData);
     }
-    // if no error check for duplicate entry in scannedItemsData
-    await duplicatedScannedItemsChecker(fetchValidatedItemsQrData);
-    console.log("Current scanned items data", scannedItemsData);
     await setShowListDataGrid(true);
   };
 
@@ -85,7 +104,7 @@ const IssueMaterialScanItems = () => {
   const productionIssueSaver = async (dataToSave, comments) => {
     /*Hit the api to save this*/
     // console.log("Data to save : ",dataToSave,comments);
-    console.log("scannedItemsData : ",scannedItemsData);
+    console.log("scannedItemsData : ", scannedItemsData);
     const apiRes = await productionIssueSaveItems(dataToSave, comments);
     if (apiRes.hasError && apiRes.errorMessage.includes("Error code:")) {
       return toastDisplayer(
@@ -113,7 +132,7 @@ const IssueMaterialScanItems = () => {
   const HandleCloseQrScanner = () => {
     setShowScanner(false);
   };
-  const HandleDecodedData1 = (data1)=>{
+  const HandleDecodedData1 = (data1) => {
     // console.log("Scanned Data : ",data1);
     if (scannedData.includes(data1)) {
       console.log(`${data1} is already available.`);
@@ -121,18 +140,17 @@ const IssueMaterialScanItems = () => {
       setScannedData([...scannedData, data1]);
     }
     // setShowScanner(false);
-  }
-  const HandleSaveDecodedScannedData = async()=>{
-    console.log("From HandleSaveDecodedScannedData",scannedData)
+  };
+  const HandleSaveDecodedScannedData = async () => {
+    console.log("From HandleSaveDecodedScannedData", scannedData);
     setShowScanner(false);
-    // scannedData.forEach(async(scannedItem)=>{
-    //   await handleItemQrVerification(scannedItem);
-    // })
-  }
+    scannedData.forEach(async (scannedItem) => {
+      await searchItemsClickHandler(scannedItem);
+    });
+  };
   return (
-
     <div className="content-block dx-card responsive-paddings default-main-conatiner issue-material-scanItems-container ">
-     {showScanner && (
+      {showScanner && (
         <div>
           <TransparentContainer
             mountNodeId="container"
@@ -166,8 +184,8 @@ const IssueMaterialScanItems = () => {
           stylingMode="outlined"
           icon="search"
           onClick={searchItemsClickHandler}
-        // disabled={isSearchButtonDisabled}
-        // value={inputQrValue}
+          // disabled={isSearchButtonDisabled}
+          // value={inputQrValue}
         />
         <Button
           width={33}
