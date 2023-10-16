@@ -13,13 +13,13 @@
     border-radius: 12px;
     background: #FFF;
     box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.10);
-    
- 
+
+
 
     .Btndiv {
         text-align: center;
         justify-content: center;
-        
+
     }
 
     .my-btn {
@@ -36,26 +36,30 @@
         }
     }
 }
-.login-text{
+
+.login-text {
     font-size: 22px;
     font-weight: 500;
     text-wrap: wrap;
 }
-.qr_img{
+
+.qr_img {
     margin-left: 35%;
     margin-bottom: 8%;
 }
-.log-machine-btn{
-    margin-left:33% ;
+
+.log-machine-btn {
+    margin-left: 33%;
     margin-top: 20px;
 
 }
 
-.h4-logtime{
+.h4-logtime {
     margin-top: -20px;
     margin-left: 135px;
 }
-.content-block-1{
+
+.content-block-1 {
     width: 100%;
 
 }
@@ -74,7 +78,7 @@
     justify-content: space-between;
     gap: 3rem;
 
-   
+
 
     .qrCodeSection {
         display: flex;
@@ -91,36 +95,38 @@
         }
     }
 
-    .close-btn-section{
-        .dx-button{
-            .dx-button-content{
+    .close-btn-section {
+        .dx-button {
+            .dx-button-content {
                 display: flex;
                 justify-content: end;
             }
         }
     }
 
-    .qrCodeSection-main{
+    .qrCodeSection-main {
         display: flex;
         justify-content: center;
         align-items: center;
+
         .dx-button {
             margin-left: 0px;
         }
 
-        .qrCodeMultiview{
+        .qrCodeMultiview {
             .dx-item-content.dx-multiview-item-content {
                 // padding: 10px 15px;
                 background-color: white;
             }
         }
 
-        .qrPreBtn, .qrNextBtn{
+        .qrPreBtn,
+        .qrNextBtn {
             margin-bottom: 20%;
         }
     }
 
-    .buttonSection{
+    .buttonSection {
         margin-bottom: -100;
 
     }
@@ -138,7 +144,7 @@
             gap: 2rem;
             align-items: center;
 
-            
+
         }
 
         .qrCodeSectionSub2 {
@@ -150,7 +156,7 @@
                 flex-direction: column;
                 // width: 50%;
                 border-radius: 12px;
-               
+
                 justify-content: center;
                 align-items: center;
                 padding: 9px;
@@ -300,31 +306,34 @@
     }
 
 
-    .content-block-wrapper{
+    .content-block-wrapper {
         display: flex;
         flex-direction: column;
     }
 
-    .content{
-        .card{
-            .content-block-wrapper{
-                .Btndiv{
-                    .dx-widget.dx-button.dx-button-mode-contained.dx-button-default.dx-button-has-text.my-btn{
+    .content {
+        .card {
+            .content-block-wrapper {
+                .Btndiv {
+                    .dx-widget.dx-button.dx-button-mode-contained.dx-button-default.dx-button-has-text.my-btn {
                         margin-left: 0 !important;
 
                     }
+                }
             }
         }
-    }}
-    .inner-text{
-        display: none;
-       
     }
-    .h4-logtime{
-     width: 100%;
-    display: flex;
-    margin-left: 0;
-    justify-content: center;
+
+    .inner-text {
+        display: none;
+
+    }
+
+    .h4-logtime {
+        width: 100%;
+        display: flex;
+        margin-left: 0;
+        justify-content: center;
     }
 
 }
@@ -335,42 +344,45 @@
     height: 130px;
     display: flex;
     flex-wrap: wrap;
-    gap:1rem;
+    gap: 1rem;
 
-  }
-  
-  .qr-background1,.qr-background2,.qr-background3,.qr-background4 {
+}
+
+.qr-background1,
+.qr-background2,
+.qr-background3,
+.qr-background4 {
     width: 100%;
     height: 100%;
     // border: 2px solid;
-  }
-  
-  .qr-background1{
+}
+
+.qr-background1 {
     border-left: 4px solid #4371b7;
-    border-top: 4px solid #4371b7 ;
+    border-top: 4px solid #4371b7;
     border-radius: 4px;
-  }
+}
 
 
-  .qr-background2{
+.qr-background2 {
     border-right: 4px solid #4371b7;
-    border-top: 4px solid #4371b7 ;
+    border-top: 4px solid #4371b7;
     border-radius: 4px;
-  }
+}
 
-  .qr-background3{
+.qr-background3 {
     border-left: 4px solid #4371b7;
-    border-bottom: 4px solid #4371b7 ;
+    border-bottom: 4px solid #4371b7;
     border-radius: 4px;
-  }
+}
 
-  .qr-background4{
+.qr-background4 {
     border-right: 4px solid #4371b7;
-    border-bottom: 4px solid #4371b7 ;
+    border-bottom: 4px solid #4371b7;
     border-radius: 4px;
-  }
+}
 
-  .overlay {
+.overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -380,13 +392,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .background-container{
-      display:flex;
-      width:100%;
-      gap:1rem;
-  }
-  .Machine-text-info {
+}
+
+.background-container {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.Machine-text-info {
     color: #525252;
     font-family: Roboto;
     font-size: 14px;
@@ -396,19 +410,63 @@
     margin-top: 20%;
 
 }
-.login-details{
+
+.login-details {
 
     display: flex;
     align-items: center;
-     flex-direction: column;
-     justify-content: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
 }
-.h4{
+
+.h4 {
     font-size: 18px;
     font-weight: 400 !important;
     color: #6F6F6F;
-    span{
+
+    span {
         font-weight: 400;
     }
 }
 
+// My css - Harsh Gajjar
+.content-text-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    .info-card {
+        border-radius: 13.841px;
+        padding: 15px;
+        border-bottom: 4px solid #4371B7;
+        background: #FFF;
+        box-shadow: 0px 1px 9px 0px rgba(0, 0, 0, 0.10);
+        width: 45%;
+
+        .heading {
+            color: #4371B7;
+            font-family: "poppins";
+            font-size: 20px;
+            font-weight: 500;
+            text-align: center;
+            border-bottom: 1px solid #b8b8b8;
+            margin-bottom: 1rem;
+        }
+
+        .info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            dl {
+                color: #525252;
+                font-weight: 500;
+            }
+
+            dt {
+                color: #b8b8b8;
+                font-weight: 400;
+            }
+        }
+    }
+}
