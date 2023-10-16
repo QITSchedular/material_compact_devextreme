@@ -330,7 +330,9 @@ const GateInComponent = () => {
     console.log(params);
     return new Promise((resolve, reject) => {
       const { qty, recQty, openQty } = params.data;
-      if (recQty > openQty) {
+      if (recQty < 0) {
+        reject("Received Quantity should not be less than 0");
+      }else if (recQty > openQty) {
         reject("Received Quantity should Not be greater than open quantity");
       } else {
         resolve(recQty);
@@ -678,19 +680,7 @@ const GateInComponent = () => {
                     validationCallback={asyncValidation}
                   />
                 </Column>
-                {/* <Column type="buttons" caption={"Actions"}>
-                <Button
-                  name="qrcode"
-                  icon={"fa-solid fa-qrcode"}
-                  visible={true}
-                />
-                <Button
-                  name="printqr"
-                  icon={"print"}
-                  visible={true}
-                  onClick={handlePrintClick}
-                />
-              </Column> */}
+                
               </DataGrid>
               <div
                 className="content-block-save"

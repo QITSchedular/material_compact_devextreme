@@ -6,7 +6,7 @@ import {
   Popup,
   TextBox,
 } from "devextreme-react";
-import React, { useEffect, useState } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   ValidateItemQR,
@@ -291,6 +291,7 @@ const GrpoItems = () => {
   const handleScan = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      
       stream.getTracks().forEach((track) => track.stop());
       setShowScanner(true);
     } catch (error) {

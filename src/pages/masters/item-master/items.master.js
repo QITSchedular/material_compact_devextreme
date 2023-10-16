@@ -40,19 +40,19 @@ export default function ItemsMaster() {
     return setShowPrintPop(false);
   };
   // show the qrcode prrint popup
-  const handleShowQrCodePrint = async (e) => {
-    await setLoading(true);
-    const { qrCodeId } = e.row.data;
-    if (qrCodeId.length > 0) {
-      await setItemQrCode(qrCodeId);
-      await setShowPrintPop(true);
-      await setSelectedRowDetails(e.row.data);
-      await setLoading(false);
-    } else {
-      toastDisplayer("error", "Something went wrong, please try again later");
-      return setLoading(false);
-    }
-  };
+  // const handleShowQrCodePrint = async (e) => {
+  //   await setLoading(true);
+  //   const { qrCodeId } = e.row.data;
+  //   if (qrCodeId.length > 0) {
+  //     await setItemQrCode(qrCodeId);
+  //     await setShowPrintPop(true);
+  //     await setSelectedRowDetails(e.row.data);
+  //     await setLoading(false);
+  //   } else {
+  //     toastDisplayer("error", "Something went wrong, please try again later");
+  //     return setLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
     const getData = async () => {
@@ -219,12 +219,12 @@ export default function ItemsMaster() {
             >
               <Button name="edit" />
               <Button name="delete" />
-              <Button
+              {/* <Button
                 hint="Print Qr"
                 icon="fa-solid fa-print"
                 visible={true}
                 onClick={handleShowQrCodePrint}
-              />
+              /> */}
             </Column>
             <Export enabled={true} allowExportSelectedData={true} />
           </DataGrid>

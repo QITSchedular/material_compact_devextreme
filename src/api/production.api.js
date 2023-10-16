@@ -95,12 +95,13 @@ export const productionIssueSaveItems = async (payload, comments) => {
     errorMessage: null,
   };
   try {
+    console.log("The payload is: ", JSON.stringify(constructedPayload));
     const response = await axios.post(
-      `${API_URL}/Production/ProductionIssue`,
+      `${API_URL}/Production/ProductionDraftIssue`,
       constructedPayload
     );
     responseBody.responseData = response.data;
-    // console.log("The api res is: ", responseBody);
+    console.log("The api res is: ", responseBody);
 
     return responseBody;
   } catch (error) {

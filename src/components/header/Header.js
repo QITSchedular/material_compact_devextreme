@@ -154,11 +154,13 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
 
                     <Item location={"before"} cssClass={"header-title"}>
                         <nav className="breadcrumb">
-                            {path.slice(0, 3).map((pathSegment, key) => {
-                                if (pathSegment && (pathSegment !== null || pathSegment !== '')) {
-                                    console.log("pathSegment", pathSegment);
-                                    if (pathSegment === '404' || pathSegment === 'profile') {
-                                        return (
+
+                            {/* {path.map((pathSegment, key) => {
+                                console.log("pathSegment", pathSegment);
+                                if (pathSegment && pathSegment != null || pathSegment != '') {
+                                    const text = findMatchingText(pathSegment, navigation);
+                                    return (
+                                        <Link key={key} to={text.path}>
                                             <div key={key} className="breadcrumb-item active">
                                                 {pathSegment}
                                             </div>
@@ -183,7 +185,7 @@ export default function Header({ menuToggleEnabled, toggleMenu }) {
                                         </Link>
                                     );
                                 }
-                            })}
+                            })} */}
                         </nav>
                     </Item>
 
