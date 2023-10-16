@@ -24,8 +24,20 @@ export const getDraftReceiptProList = async () => {
     return responseBody;
   }
 };
-export const saveProductionDraftReceipt = async (gridData, comments) => {
-  const { docEntry, warehouse, quantity } = gridData[0];
+export const saveProductionDraftReceipt = async (
+  gridData,
+  selectedProWorkRowData,
+  comments
+) => {
+  const { docEntry, warehouse, quantity, project } = gridData[0];
+  console.log("selectedProWorkRowData : ", selectedProWorkRowData);
+  const proReworkDet = selectedProWorkRowData.map((item) => {
+    return {
+      deptId: item.deptId,
+      hours: parseFloat(item.hours),
+      delay: item.days,
+    };
+  });
   const responseBody = {
     responseData: null,
     hasError: false,
@@ -33,24 +45,25 @@ export const saveProductionDraftReceipt = async (gridData, comments) => {
   };
   const requestBody = {
     ProOrdDocEntry: docEntry,
-    series: 0,
+    series: 1197, // series is working statically but we have to take it from masters ~Poojan
     WhsCode: warehouse,
     binAbsEntry: 0,
-    project: "ABC",
+    project: project,
     ReceiptQty: `${quantity}`,
     Comment: comments ? comments : "",
-    proReworkDet: [
-      {
-        deptId: 1,
-        hours: 8.5,
-        delay: "2 days",
-      },
-      {
-        deptId: 8,
-        hours: 2,
-        delay: "1 days",
-      }
-    ]
+    proReworkDet: proReworkDet,
+    // proReworkDet: [
+    //   {
+    //     deptId: 1,
+    //     hours: 8.5,
+    //     delay: "2 days",
+    //   },
+    //   {
+    //     deptId: 8,
+    //     hours: 2,
+    //     delay: "1 days",
+    //   },
+    // ],
   };
   try {
     const response = await axios.post(

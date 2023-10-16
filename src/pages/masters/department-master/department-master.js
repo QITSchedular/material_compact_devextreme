@@ -19,12 +19,12 @@ export default function DepartmentMasterPage() {
     };
     const columns = [
         {
-            "caption": "Locations",
-            "field": "location"
+            "caption": "Department",
+            "field": "deptName"
         },
         {
-            "caption": "GSTIN",
-            "field": "gstin"
+            "caption": "Locked",
+            "field": "locked"
         },
         {
             "caption": "Actions",
@@ -32,20 +32,19 @@ export default function DepartmentMasterPage() {
         },
     ]
     const keyArray = [
-        { input: "itmsGrpCod" },
-        { input: "itmsSubGrpNam" },
-        { checkbox: "Locked" }
+        { input: "deptName" },
+        { checkbox: "locked" }
     ];
 
     const dataArray = [
-        { feildType: "dxTextBox", label: "Department ", isValidate: true },
+        { feildType: "dxTextBox", label: "Department Name", isValidate: true },
         { feildType: "dxCheckBox", label: "Active", isValidate: false },
     ];
 
 
     const data = [{
-        Location: "Alphanumeric",
-        GSTIN: "Alphanumeric",
+        Department: "Alphanumeric",
+        Locked: "Y/N",
     }]
 
     return (
@@ -57,11 +56,11 @@ export default function DepartmentMasterPage() {
                         subtitle={"You are viewing the total number of employees"}
                         columns={columns}
                         handleAddClick={showDepartmentMasterPopup}
-                        masterType={"Locations"}
-                        keyExpr={"code"}
+                        masterType={"Department"}
+                        keyExpr={"deptId"}
                         data={data}
-                        key={"code"}
-                        heading={"File input for Location"}
+                        key={"deptId"}
+                        heading={"File input for Department"}
 
                     />
                 </div>
@@ -76,7 +75,7 @@ export default function DepartmentMasterPage() {
                 //     { fieldType: "dxcheckBox", label: "Active", isValidate: true }
                 // ]}
                 field={dataArray}
-                clientMasterType={"Locations"} // Locations is dynamic api param for add data
+                clientMasterType={"Department"} // Locations is dynamic api param for add data
                 showDeleteButton={false}
                 keyArray={keyArray}
                 customId={"masters-department-master"}

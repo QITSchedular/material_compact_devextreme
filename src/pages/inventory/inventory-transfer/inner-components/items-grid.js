@@ -32,21 +32,26 @@ const ItemsGrid = ({
   selectedToBin,
   productionNumberInput,
   setDataGridDataSource,
+  handleRefresh
 }) => {
   console.log("Visible Data grid data source: ", dataGridDataSource);
   // const [dataSource, setDataGridDataSource] = useState([]);
   const [isSaveDisble, setSaveDisble] = useState(true);
 
   const refreshDataGrid = async () => {
+    
     const apiRes = await verifyProdcutionQrInput(
       productionNumberInput,
       selectedFromWarehouse
     );
     const { hasError, errorMessage, responseData } = await apiRes;
+    console.log("responseData",responseData)
     if (hasError === true) {
       const updatedDataGridDataSource = dataGridDataSource.filter(
-        (dataItem) => dataItem.detailQRCodeID !== responseData.detailQRCodeID
+        (dataItem) => dataItem.detailQRCodeID !== productionNumberInput
       );
+      if(!updatedDataGridDataSource.length)
+        handleRefresh();
   
       // Update the dataGridDataSource with the filtered array
       setDataGridDataSource(updatedDataGridDataSource);
@@ -114,6 +119,8 @@ const ItemsGrid = ({
     if (constructorData.statusCode == 200) {
       refreshDataGrid();
       return SwalDisplayer("success", "Inventory Transfer successfull");
+    }else if(constructorData["hasError"]===true){
+      return toastDisplayer("error", constructorData.errorText);
     }
   };
   return (

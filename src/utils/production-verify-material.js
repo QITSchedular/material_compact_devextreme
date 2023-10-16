@@ -32,7 +32,10 @@ export const getProductionOrder = async () => {
 
 // ------------------ Validate Item ------------------ //
 
-export const validatePoListsVerifyMaterial = async (detailQRCodeID, docEntry) => {
+export const validatePoListsVerifyMaterial = async (
+  detailQRCodeID,
+  docEntry
+) => {
   const requestBody = {
     // "proDocEntry": 1,
     proDocEntry: docEntry,
@@ -66,87 +69,84 @@ export const validatePoListsVerifyMaterial = async (detailQRCodeID, docEntry) =>
   }
 };
 
-export const productionVarifyIssueSaveItems = async (payload, comments) => {
-  const constructedPayload = await productionIssuePayloadConstructor(
-    payload,
+export const productionVarifyIssueSaveItems = async (
+  samplePayload,
+  comments
+) => {
+  const constructedPayload = productionIssuePayloadConstructor(
+    samplePayload,
     comments
   );
-  console.log(constructedPayload)
+
   const responseBody = {
     responseData: null,
     hasError: false,
     errorMessage: null,
   };
+
   try {
-    // const response = await axios.post(
-    //   `${API_URL}/Production/ProductionIssue`,
-    //   constructedPayload
-    // );
-    // responseBody.responseData = response.data;
-    // console.log("The api res is: ", responseBody);
+    const response = await axios.post(
+      `${API_URL}/Production/ProductionIssue`,
+      constructedPayload
+    );
+    responseBody.responseData = response.data;
 
     return responseBody;
   } catch (error) {
-    console.log("Error while fetching the data, from controller", error);
+    console.log("Error while fetching the data from the controller", error);
     responseBody.hasError = true;
-    responseBody.errorMessage = responseBody.errorMessage =
+    responseBody.errorMessage =
       error.response?.data?.statusMsg || error.response?.data?.errors;
     return responseBody;
   }
 };
 
-export const productionIssuePayloadConstructor = (payload, comments) => {
-  // PART1: Static values
-  const BranchID = 1;
-  const PART1 = {
-    BranchID,
-    proOrdDocEntry: payload[0].docEntry,
-    Comment: comments ? comments : "",
+export const productionIssuePayloadConstructor = (samplePayload, comments) => {
+  let sampleResponse = {
+    BranchID: 1,
+    proOrdDocEntry: samplePayload[0].proOrdDocEntry,
+    proOrdDocNum: samplePayload[0].docNum,
+    series: samplePayload[0].series,
+    Comment: samplePayload[0].comment,
+    piItems: [],
   };
 
-  // PART2: Process piItems and piBatchSerial
-  const piItems = [];
-  const itemCodeMap = {}; // To group items by itemCode
+  let cumulativeQty = 0;
 
-  payload.forEach((entry) => {
-    const { itemCode, lineNum, itemMngBy, proWhsCode, issQty, batchSerialNo } =
-      entry;
+  samplePayload.forEach((payloadItem) => {
+    cumulativeQty += payloadItem.issQty;
 
-    if (!itemCodeMap[itemCode]) {
-      // Create a new item object if it doesn't exist
-      const newItem = {
-        itemCode,
-        lineNum,
-        itemMngBy,
-        WhsCode: proWhsCode,
-        qty: 0, // Initialize qty to 0
-        piBatchSerial: [],
-      };
+    let piBatchSerialItem = {
+      draftIssNo: payloadItem.issNo,
+      itemCode: payloadItem.itemCode,
+      detailQRCodeID: payloadItem.qrCodeID,
+      fromBinAbsEntry: payloadItem.fromBinAbsEntry,
+      project: payloadItem.project,
+      batchSerialNo: payloadItem.batchSerialNo,
+      qty: payloadItem.issQty.toFixed(2),
+    };
 
-      itemCodeMap[itemCode] = newItem;
-      piItems.push(newItem);
+    let piItemsIndex = sampleResponse.piItems.findIndex(
+      (item) => item.itemCode === payloadItem.itemCode
+    );
+
+    if (piItemsIndex === -1) {
+      sampleResponse.piItems.push({
+        itemCode: payloadItem.itemCode,
+        lineNum: payloadItem.lineNum,
+        itemMngBy: payloadItem.itemMngBy,
+        uoMCode: payloadItem.uomCode,
+        whsCode: payloadItem.whsCode,
+        qty: cumulativeQty.toFixed(2),
+        piBatchSerial: [piBatchSerialItem],
+      });
+    } else {
+      sampleResponse.piItems[piItemsIndex].qty = cumulativeQty.toFixed(2);
+      sampleResponse.piItems[piItemsIndex].piBatchSerial.push(
+        piBatchSerialItem
+      );
     }
-
-    // Update the qty by adding issQty
-    // itemCodeMap[itemCode].qty += parseFloat(issQty);
-    const cummulativeQty = itemCodeMap[itemCode].qty + parseFloat(issQty);
-    itemCodeMap[itemCode].qty = `${cummulativeQty}`;
-
-    // Add data to piBatchSerial
-    itemCodeMap[itemCode].piBatchSerial.push({
-      gateInNo: entry.gateInNo,
-      itemCode,
-      detailQRCodeID: entry.detailQRCodeID,
-      batchSerialNo,
-      qty: `${issQty}`,
-    });
   });
 
-  // Construct the final API response
-  const apiResponse = {
-    ...PART1,
-    piItems,
-  };
-
-  return apiResponse;
+  return sampleResponse;
 };

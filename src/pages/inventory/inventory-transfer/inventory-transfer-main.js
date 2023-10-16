@@ -383,6 +383,7 @@ const InventorytransferMain = () => {
                 selectedFromWarehouse={selectedFromWarehouse}
                 selectedToBin={selectedToBin}
                 productionNumberInput={productionNumberInput}
+                handleRefresh={handleRefresh}
               />
             </div>
           )}

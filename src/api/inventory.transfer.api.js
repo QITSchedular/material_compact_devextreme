@@ -37,7 +37,7 @@ export const inventoryTransferSaver = async (
   selectedFromBin,
   selectedToBin
 ) => {
-  console.log("first payload",payload)
+  console.log("first payload", payload);
   const requestBody = await inventoryTransferPayloadConstructor(
     payload,
     selectedFromWarehouse,
@@ -46,7 +46,18 @@ export const inventoryTransferSaver = async (
     selectedToBin
   );
   // const PayloadData = JSON.stringify(requestBody);
-  console.log("PayloadData: " , requestBody);
+  console.log("PayloadData: ", requestBody);
+  // Convert the "totalItemQty" in a loop for each "itemDetail"
+  requestBody.itDetails.forEach((itemDetail) => {
+    itemDetail.totalItemQty = parseFloat(itemDetail.totalItemQty);
+  });
+
+  // Display the updated object
+  console.log(requestBody);
+  const errors = {
+    hasError: false,
+    errorText: "Something went wrong",
+  };
   try {
     // const response = await axios.post(
     //   `${API_URL}/InventoryTransfer/InventoryTransfer`,
@@ -63,11 +74,18 @@ export const inventoryTransferSaver = async (
     // Send the POST request with the JSON payload and the config object
     const response = await axios.post(
       `${API_URL}/InventoryTransfer/InventoryTransfer`,
-      requestBody,
+      requestBody
       // config
     );
     return response.data;
-  } catch (error) {
+  } catch (error) { 
+    const { statusMsg } = error.response.data;
+    if (statusMsg) {
+      errors.hasError = true;
+      errors.errorText = statusMsg;
+      return errors;
+    }
+    return errors;
   }
 };
 const inventoryTransferPayloadConstructor = (
@@ -106,7 +124,7 @@ const inventoryTransferPayloadConstructor = (
       };
     } else {
       itDetailsMap[itemCode].totalItemQty = (
-        +itDetailsMap[itemCode].totalItemQty + +parseFloat(qty_edit)
+        +parseFloat(itDetailsMap[itemCode].totalItemQty) + +parseFloat(qty_edit)
       ).toFixed(3);
     }
 
@@ -114,7 +132,7 @@ const inventoryTransferPayloadConstructor = (
       gateInNo,
       detailQRCodeID,
       batchSerialNo,
-      qty:parseFloat(qty_edit),
+      qty: parseFloat(qty_edit),
     });
   });
 
@@ -128,8 +146,8 @@ const inventoryTransferPayloadConstructor = (
     comments: "", // Set as needed,
     fromBinAbsEntry: payload[0].fromBin,
     toBinAbsEntry: selectedToBin,
-    series:1330,
-    itDetails
+    series: 1330,
+    itDetails,
   };
 
   return result;
