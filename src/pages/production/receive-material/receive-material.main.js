@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   PopupHeaderText,
   PopupSubText,
 } from "../../../components/typographyTexts/TypographyComponents";
-import { LoadPanel, TextBox, Popup } from "devextreme-react";
+import { LoadPanel, TextBox, Popup, Button, ScrollView } from "devextreme-react";
 import { ToolbarItem } from "devextreme-react/popup";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import { testGetDetailsByProductionNumber } from "../../../api/test-apis";
@@ -23,6 +23,16 @@ import {
   binLocationController
 } from "../../../utils/grpo-saver";
 import DraftBinChooserComponent from "./draft-bin-popup";
+import DataGrid, {
+  Column,
+  Paging,
+  Scrolling,
+  SearchPanel,
+  Selection,
+  Button as DataGridButton,
+  Editing
+} from "devextreme-react/data-grid";
+import { getActiveMasterData } from "../../../utils/items-master-data";
 
 const ReceiveMaterialMain = () => {
   const [showDraftReceiptPoHelpPopup, setShowDraftReceiptPoHelpPopup] =
@@ -221,6 +231,7 @@ const ReceiveMaterialMain = () => {
 
   const draftReceiptSaver = async (gridData, comments) => {
     const apiRes = await saveProductionDraftReceipt(gridData, comments);
+    console.log("saveProductionDraftReceipt:", gridData);
     if (apiRes.hasError) {
       return toastDisplayer(
         "error",
@@ -234,6 +245,67 @@ const ReceiveMaterialMain = () => {
 
   console.log("chosenBinValue:", chosenBinValue);
 
+  const [isPopupVisible, setPopupVisibility] = useState(false);
+  const [departmentData, setdepartmentData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Call getMasterData with the desired masterType
+        const response = await getActiveMasterData('Department');
+
+        const updatedResponse = response.map(item => ({
+          ...item,
+          hours: '',
+          delay: ''
+        }));
+
+        console.log("Updated data:", updatedResponse);
+
+        // Set the updated response with hours and delay keys
+        setdepartmentData(updatedResponse);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const showProWorkPopup = () => {
+    setPopupVisibility(true);
+  };
+
+  const popUpOutsideClickHandler = () => {
+    setPopupVisibility(false);
+  };
+  const dataGridRef = useRef();
+  const [isOKButtonDisabled, setOKButtonDisabled] = useState(true);
+  const [selectedRowData, setSelectedRowData] = useState("");
+
+  const selectedRowSetter = async (params) => {
+    await setSelectedRowData(params);
+  };
+
+  const handleGridItemSelection = (data) => {
+    const { selectedRowKeys, selectedRowsData } = data
+    console.log("This is somethings", selectedRowsData);
+    if (selectedRowKeys.length > 1) {
+      const value = dataGridRef.current.instance.selectRows(
+        selectedRowKeys[selectedRowKeys.length - 1]
+      );
+
+      selectedRowSetter(value);
+    } else {
+      const value = dataGridRef.current.instance.selectRows(selectedRowKeys[0]);
+      selectedRowSetter(value);
+    }
+    setOKButtonDisabled(selectedRowKeys.length === 0);
+  };
+
+  const handleSaveSelection = () => {
+    return popUpOutsideClickHandler();
+  };
   return (
     <div className="content-block dx-card responsive-paddings default-main-conatiner receive-material-container ">
       {loading && <LoadPanel visible={true} />}
@@ -259,6 +331,12 @@ const ReceiveMaterialMain = () => {
             options={helpOptions}
           />
         </TextBox>
+        <Button
+          text="Pro Work"
+          icon="chevrondown"
+          height={40}
+          onClick={showProWorkPopup}
+        />
         {binChooser &&
           <div className="search-section choose-bin">
             <TextBox
@@ -341,6 +419,90 @@ const ReceiveMaterialMain = () => {
           />
         )
       }
+      <Popup
+        visible={isPopupVisible}
+        hideOnOutsideClick={true}
+        showTitle={false}
+        height={"90vh"}
+        width={"90vw"}
+      >
+        <ScrollView height={"100%"}>
+          <div
+            className="title-section responsive-paddings"
+          >
+            <PopupHeaderText text={"PRO - Rework Reason"} />
+            <PopupSubText
+              text={"Please provide the valid Reason"}
+            />
+          </div>
+          <div className="close-btn">
+            <Button icon="close" onClick={popUpOutsideClickHandler} />
+          </div>
+          <div
+            className="responsive-paddings production-content-datagrid-container"
+            style={{ margin: "8px 24px", height: "100% !important" }}
+          >
+            <DataGrid
+              height={window.innerHeight - 250}
+              dataSource={departmentData}
+              keyExpr={"deptId"}
+              showBorders={true}
+              columnAutoWidth={true}
+              hoverStateEnabled={true}
+              className="transporter-data-grid issuefrompro__prohelp--data-grid"
+              onSelectionChanged={handleGridItemSelection}
+
+              // selectedRowKeys={selectedRowKeys}
+              ref={dataGridRef}
+            >
+              <Editing
+                mode="row"
+                allowDeleting={true}
+                allowUpdating={true}
+                useIcons={true}
+              />
+              <SearchPanel
+                visible={true}
+                width={190}
+                highlightCaseSensitive={true}
+                className={"search-panel"}
+              />
+              <Selection mode="multiple" />
+              <Scrolling columnRenderingMode="virtual" />
+              <Paging defaultPageSize={20} />
+              <Column dataField={"deptName"} caption="Department" allowEditing={false} />
+              <Column dataField={"hours"} caption="Rework Hours Consume" />
+              <Column dataField={"days"} caption="Delay in Project" />
+
+              <Column type="buttons" caption="Actions">
+                <DataGridButton name="edit" icon={"edit"} />
+                <DataGridButton name="delete" icon={"delete"} />
+              </Column>
+            </DataGrid>
+          </div>
+          <div
+            className="btn-section responsive-paddings"
+            style={{ display: "flex", justifyContent: "flex-end" }}
+          >
+            <Button
+              text="Cancel"
+              width={124}
+              height={35}
+              onClick={popUpOutsideClickHandler}
+            />
+            <Button
+              text="OK"
+              type="default"
+              width={124}
+              height={35}
+              className="default-button"
+              onClick={handleSaveSelection}
+              // disabled={selectedRowKeys.length > 1 ? false : true}
+              disabled={isOKButtonDisabled}
+            />
+          </div>
+        </ScrollView>
+      </Popup>
     </div >
   );
 };
