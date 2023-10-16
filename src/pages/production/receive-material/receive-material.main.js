@@ -4,7 +4,13 @@ import {
   PopupHeaderText,
   PopupSubText,
 } from "../../../components/typographyTexts/TypographyComponents";
-import { LoadPanel, TextBox, Popup, Button, ScrollView } from "devextreme-react";
+import {
+  LoadPanel,
+  TextBox,
+  Popup,
+  Button,
+  ScrollView,
+} from "devextreme-react";
 import { ToolbarItem } from "devextreme-react/popup";
 import { toastDisplayer } from "../../../api/qrgenerators";
 import { testGetDetailsByProductionNumber } from "../../../api/test-apis";
@@ -19,9 +25,7 @@ import {
 import SelectedItemsListings from "./selected-items-listings";
 import { SwalDisplayer } from "../../../utils/showToastsNotifications";
 import "./receive-material.styles.scss";
-import {
-  binLocationController
-} from "../../../utils/grpo-saver";
+import { binLocationController } from "../../../utils/grpo-saver";
 import DraftBinChooserComponent from "./draft-bin-popup";
 import DataGrid, {
   Column,
@@ -30,7 +34,7 @@ import DataGrid, {
   SearchPanel,
   Selection,
   Button as DataGridButton,
-  Editing
+  Editing,
 } from "devextreme-react/data-grid";
 import { getActiveMasterData } from "../../../utils/items-master-data";
 
@@ -54,7 +58,7 @@ const ReceiveMaterialMain = () => {
 
   const [binChooser, setBinChooser] = useState(false);
   const [showBinPopupHelp, setShowBinPopupHelp] = useState(false);
-  const [chosenBinValue, setChosenBinValue] = useState("");  // State for the chosen bin value
+  const [chosenBinValue, setChosenBinValue] = useState(""); // State for the chosen bin value
 
   const [noqcBinData, setnoQcBinData] = useState(false);
 
@@ -116,7 +120,7 @@ const ReceiveMaterialMain = () => {
 
   const handlebinSaveSelectedBin = () => {
     if (noqcBinData.length > 0) {
-      setChosenBinValue(noqcBinData[0].binCode);  // Update the chosen bin value
+      setChosenBinValue(noqcBinData[0].binCode); // Update the chosen bin value
       return setShowBinPopupHelp(false);
     } else {
       return toastDisplayer("error", "Please select a Bin to save and proceed");
@@ -146,41 +150,40 @@ const ReceiveMaterialMain = () => {
 
   const inputQrValueChangedCallback = ({ value }) => {
     if (value) {
-      checkAndGetBinActivationDetails(selectedPoToReceive)
+      checkAndGetBinActivationDetails(selectedPoToReceive);
       setIsSearchButtonDisabled(false);
       setInputQrValue(value);
     } else if (!value) {
       setInputQrValue("");
       setIsSearchButtonDisabled(false);
     }
-
   };
 
   // Get the bin details if bin is activated
   const checkAndGetBinActivationDetails = async (selectedPoToReceive) => {
     const isBinActivated = selectedPoToReceive[0].binActivat;
     if (isBinActivated === "Y") {
-      const binsList = await getWarehousesListOfAllBins(selectedPoToReceive[0].warehouse);
-      setQcWareHouseBinData(binsList.responseData)
+      const binsList = await getWarehousesListOfAllBins(
+        selectedPoToReceive[0].warehouse
+      );
+      setQcWareHouseBinData(binsList.responseData);
       return setBinChooser(true);
     } else {
       return setBinChooser(false);
     }
-  }
+  };
 
   const getWarehousesListOfAllBins = async (whsCode) => {
     const payload = {
-      whsCode
-    }
+      whsCode,
+    };
     try {
       const response = await binLocationController(payload);
       if (response) {
-        return response
+        return response;
       } else {
         return toastDisplayer("error", "No Bins data!!!");
       }
-
-
     } catch (error) {
       return toastDisplayer("error", "warehouse not found!!!");
     }
@@ -230,7 +233,11 @@ const ReceiveMaterialMain = () => {
   }, [selectedPoToReceive]);
 
   const draftReceiptSaver = async (gridData, comments) => {
-    const apiRes = await saveProductionDraftReceipt(gridData, comments);
+    const apiRes = await saveProductionDraftReceipt(
+      gridData,
+      selectedProWorkRowData,
+      comments
+    );
     console.log("saveProductionDraftReceipt:", gridData);
     if (apiRes.hasError) {
       return toastDisplayer(
@@ -240,6 +247,10 @@ const ReceiveMaterialMain = () => {
           : "Something went wrong, please try again later"
       );
     }
+    setSelectedProWorkRowData([]);
+    setSearchTextInputValue("");
+    setOKButtonDisabled(true);
+    setShowReceiverDataGrid(false);
     return SwalDisplayer("success", apiRes.responseData.statusMsg);
   };
 
@@ -252,12 +263,12 @@ const ReceiveMaterialMain = () => {
     const fetchData = async () => {
       try {
         // Call getMasterData with the desired masterType
-        const response = await getActiveMasterData('Department');
+        const response = await getActiveMasterData("Department");
 
-        const updatedResponse = response.map(item => ({
+        const updatedResponse = response.map((item) => ({
           ...item,
-          hours: '',
-          delay: ''
+          hours: "",
+          delay: "",
         }));
 
         console.log("Updated data:", updatedResponse);
@@ -265,7 +276,7 @@ const ReceiveMaterialMain = () => {
         // Set the updated response with hours and delay keys
         setdepartmentData(updatedResponse);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -282,24 +293,27 @@ const ReceiveMaterialMain = () => {
   const dataGridRef = useRef();
   const [isOKButtonDisabled, setOKButtonDisabled] = useState(true);
   const [selectedRowData, setSelectedRowData] = useState("");
+  const [selectedProWorkRowData, setSelectedProWorkRowData] = useState([]);
 
   const selectedRowSetter = async (params) => {
     await setSelectedRowData(params);
   };
 
   const handleGridItemSelection = (data) => {
-    const { selectedRowKeys, selectedRowsData } = data
+    const { selectedRowKeys, selectedRowsData } = data;
     console.log("This is somethings", selectedRowsData);
-    if (selectedRowKeys.length > 1) {
-      const value = dataGridRef.current.instance.selectRows(
-        selectedRowKeys[selectedRowKeys.length - 1]
-      );
+    setSelectedProWorkRowData(selectedRowsData);
+    // if (selectedRowKeys.length > 1) {
+    //   const value = dataGridRef.current.instance.selectRows(
+    //     selectedRowKeys[selectedRowKeys.length - 1]
+    //   );
 
-      selectedRowSetter(value);
-    } else {
-      const value = dataGridRef.current.instance.selectRows(selectedRowKeys[0]);
-      selectedRowSetter(value);
-    }
+    //   selectedRowSetter(value);
+    // } else {
+    const value = dataGridRef.current.instance.selectRows(selectedRowKeys);
+    selectedRowSetter(value);
+    // console.log(first)
+    // }
     setOKButtonDisabled(selectedRowKeys.length === 0);
   };
 
@@ -337,7 +351,7 @@ const ReceiveMaterialMain = () => {
           height={40}
           onClick={showProWorkPopup}
         />
-        {binChooser &&
+        {binChooser && (
           <div className="search-section choose-bin">
             <TextBox
               className="dx-field-value"
@@ -347,7 +361,7 @@ const ReceiveMaterialMain = () => {
               showClearButton={true}
               valueChangeEvent="keyup"
               onValueChanged={inputQrValueChangedCallback}
-              value={chosenBinValue}  // Set the selected bin value here
+              value={chosenBinValue} // Set the selected bin value here
             >
               <TextBoxButton
                 name="currency"
@@ -356,18 +370,19 @@ const ReceiveMaterialMain = () => {
               />
             </TextBox>
           </div>
-        }
+        )}
         {showBinPopupHelp && (
           <Popup
             visible={true}
             showCloseButton={true}
             hideOnOutsideClick={popupCloseHandler}
-
             contentRender={() => (
               <DraftBinChooserComponent
                 handleSaveSelectedWarehouse={handleDraftBinSelection}
                 handleCloseButton={popupCloseHandler}
-                QcWareHouseBinData={QcWareHouseBinData.length > 0 ? QcWareHouseBinData : null}
+                QcWareHouseBinData={
+                  QcWareHouseBinData.length > 0 ? QcWareHouseBinData : null
+                }
               />
             )}
           >
@@ -386,39 +401,32 @@ const ReceiveMaterialMain = () => {
             />
           </Popup>
         )}
-
       </div>
 
-      {
-        listingDataSource.length > 0 ? (
-          <RecievematerialListing
-            listingDataSource={listingDataSource}
-            onDeleteItem={handleDeleteItem}
-            onProceed={handleProceed}
-          />
-        ) : (
-          ""
-        )
-      }
+      {listingDataSource.length > 0 ? (
+        <RecievematerialListing
+          listingDataSource={listingDataSource}
+          onDeleteItem={handleDeleteItem}
+          onProceed={handleProceed}
+        />
+      ) : (
+        ""
+      )}
 
-      {
-        showDraftReceiptPoHelpPopup && (
-          <DraftReceiptHelpPopup
-            poHelpDataSource={poHelpDataSource}
-            setShowDraftReceiptPoHelpPopup={setShowDraftReceiptPoHelpPopup}
-            setSelectedPoToReceive={setSelectedPoToReceive}
-          />
-        )
-      }
+      {showDraftReceiptPoHelpPopup && (
+        <DraftReceiptHelpPopup
+          poHelpDataSource={poHelpDataSource}
+          setShowDraftReceiptPoHelpPopup={setShowDraftReceiptPoHelpPopup}
+          setSelectedPoToReceive={setSelectedPoToReceive}
+        />
+      )}
 
-      {
-        showReceiverDataGrid && (
-          <SelectedItemsListings
-            receiverDataGridDataSource={receiverDataGridDataSource}
-            draftReceiptSaver={draftReceiptSaver}
-          />
-        )
-      }
+      {showReceiverDataGrid && (
+        <SelectedItemsListings
+          receiverDataGridDataSource={receiverDataGridDataSource}
+          draftReceiptSaver={draftReceiptSaver}
+        />
+      )}
       <Popup
         visible={isPopupVisible}
         hideOnOutsideClick={true}
@@ -427,13 +435,9 @@ const ReceiveMaterialMain = () => {
         width={"90vw"}
       >
         <ScrollView height={"100%"}>
-          <div
-            className="title-section responsive-paddings"
-          >
+          <div className="title-section responsive-paddings">
             <PopupHeaderText text={"PRO - Rework Reason"} />
-            <PopupSubText
-              text={"Please provide the valid Reason"}
-            />
+            <PopupSubText text={"Please provide the valid Reason"} />
           </div>
           <div className="close-btn">
             <Button icon="close" onClick={popUpOutsideClickHandler} />
@@ -451,7 +455,6 @@ const ReceiveMaterialMain = () => {
               hoverStateEnabled={true}
               className="transporter-data-grid issuefrompro__prohelp--data-grid"
               onSelectionChanged={handleGridItemSelection}
-
               // selectedRowKeys={selectedRowKeys}
               ref={dataGridRef}
             >
@@ -467,10 +470,14 @@ const ReceiveMaterialMain = () => {
                 highlightCaseSensitive={true}
                 className={"search-panel"}
               />
-              <Selection mode="multiple" />
+              <Selection mode="multiple" allowSelectAll={false} />
               <Scrolling columnRenderingMode="virtual" />
               <Paging defaultPageSize={20} />
-              <Column dataField={"deptName"} caption="Department" allowEditing={false} />
+              <Column
+                dataField={"deptName"}
+                caption="Department"
+                allowEditing={false}
+              />
               <Column dataField={"hours"} caption="Rework Hours Consume" />
               <Column dataField={"days"} caption="Delay in Project" />
 
@@ -503,7 +510,7 @@ const ReceiveMaterialMain = () => {
           </div>
         </ScrollView>
       </Popup>
-    </div >
+    </div>
   );
 };
 
