@@ -33,8 +33,8 @@ const SelectedItemsListings = ({ scannedItemsData, productionIssueSaver }) => {
   };
   const asyncValidation = (params) => {
     const { value } = params;
-    const { plannedQty, issuedQty, qrQty } = params.data;
-    console.log(params.data);
+    const { plannedQty, issuedQty, qrQty,batchAvailQty } = params.data;
+    console.log("tHE BATCH AVAILABLE QUANTITY IS", batchAvailQty);
     const totalReceivableQuantity = (
       parseFloat(plannedQty) - parseFloat(issuedQty)
     ).toFixed(6);
@@ -45,17 +45,22 @@ const SelectedItemsListings = ({ scannedItemsData, productionIssueSaver }) => {
 
 
     return new Promise((resolve, reject) => {
-      // if (parseFloat(value) > totalReceivableQuantity) {
-      //   return reject(
-      //     `Total Receivable Quantity should be smaller than or Equal to: ${totalReceivableQuantity}`
-      //   );
-      // } 
-      if(parseFloat(value)>issuedQty){
+      if(parseFloat(value)== 0.00){ 
         return reject(
-          "Quantity cannot be greater than Issued Qty"
+          `Quantity cannot be ${value} Qty`
+        )
+       } 
+       if(parseFloat(value) > 0.00 && parseFloat(value)>plannedQty){
+        return reject(
+          "Quantity cannot be greater than planned Qty"
         )
       }
-      if(parseFloat(value)>qrQty){
+      if(parseFloat(value) > 0.00 && parseFloat(value)>batchAvailQty){
+        return reject(
+          "Quantity cannot be greater than Total Receviable Qty"
+        )
+      }
+      if(parseFloat(value) > parseFloat(qrQty)){
         return reject(
           `Available QR Qty is: ${qrQty}, you can received only ${qrQty}`
         )
@@ -135,6 +140,7 @@ const SelectedItemsListings = ({ scannedItemsData, productionIssueSaver }) => {
         <Column caption="Qr Qty." dataField={"qrQty"} allowEditing={false} />
         <Column caption="UOM" dataField={"uomCode"} allowEditing={false} />
         <Column caption="Project" dataField={"project"} allowEditing={false} />
+        <Column caption="Receiveable Qty" dataField={"batchAvailQty"} allowEditing={false} />
         <Column
           caption="Issue Qty"
           dataField={"issQty"}

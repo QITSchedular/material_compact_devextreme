@@ -13,7 +13,6 @@ import {
   productionIssueSaveItems,
   productionValidateItemQr,
 } from "../../../api/production.api";
-import { BackBtn } from "../../../components";
 import './issue-material-main.styles.scss';
 import TransparentContainer from "../../../components/qr-scanner/transparent-container";
 
@@ -21,14 +20,15 @@ const IssueMaterialScanItems = () => {
   let { id } = useParams();
   const navigate = useNavigate();
 
-  // const [showListDataGrid, setShowListDataGrid] = useState(false);
+  
+  
   const [showListDataGrid, setShowListDataGrid] = useState(false);
   const [scannedQrString, setScannedQrString] = useState("");
   const [scannedItemsData, setScannedItemsData] = useState([]);
   const [showScanner, setShowScanner] = useState(false); 
   const [scannedData, setScannedData] = useState([]);
   const inputQrValueChangedCallback = (data) => {
-    // console.log(data.value);
+    
     if (data.value) {
       setScannedQrString(data.value);
     }

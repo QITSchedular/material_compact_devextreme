@@ -88,15 +88,18 @@ export const productionIssueSaveItems = async (payload, comments) => {
     payload,
     comments
   );
-  console.log("constructedPayload : ",constructedPayload);
+  console.log("The payload is: ", JSON.stringify(constructedPayload));
+  // return null;
+  
   const responseBody = {
     responseData: null,
     hasError: false,
     errorMessage: null,
   };
   try {
+    console.log("The payload is: ", JSON.stringify(constructedPayload));
     const response = await axios.post(
-      `${API_URL}/Production/ProductionIssue`,
+      `${API_URL}/Production/ProductionDraftIssue`,
       constructedPayload
     );
     responseBody.responseData = response.data;
@@ -137,9 +140,9 @@ const productionIssuePayloadConstructor = (payload, comments) => {
       const newItem = {
         itemCode,
         lineNum,
-        itemMngBy,
-        uoMCode : uomCode,
-        WhsCode: proWhsCode,
+        itemMngBy,  
+        uoMCode : uomCode,  
+        whsCode: proWhsCode,
         qty: 0, // Initialize qty to 0
         piBatchSerial: [],
       };

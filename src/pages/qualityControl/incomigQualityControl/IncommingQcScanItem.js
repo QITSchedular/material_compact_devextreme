@@ -704,6 +704,12 @@ function IncommingQcScanItem() {
         </Popup>
       )}
       {/* {QrRequestPopUp && <incomingQrRequest isCommonPopupVisible={QrRequestPopUp} />} */}
+      <div className="incommingqc-howto" style={{display:"flex", flexDirection:"column", marginTop:"1rem", padding:"15px", border:"0.5px solid #e0e0e0", borderRadius:"8px", fontSize:"16px", fontFamily:"Poppins"}}>
+        <span><strong>How to Do QC:</strong></span>
+        <span className="incommingqc-howto-listitems" style={{fontSize:"14px", fontFamily:"Poppins"}}>Scan the QR First</span>
+        <span className="incommingqc-howto-listitems" style={{fontSize:"14px", fontFamily:"Poppins"}}>After the scan is complete, please click the checkbox</span>
+        <span className="incommingqc-howto-listitems" style={{fontSize:"14px", fontFamily:"Poppins"}}>You will be presented with a popup, fill the details and you are done</span>
+      </div>
     </>
   );
 }
