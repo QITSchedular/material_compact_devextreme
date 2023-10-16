@@ -78,12 +78,12 @@ export const productionVarifyIssueSaveItems = async (payload, comments) => {
     errorMessage: null,
   };
   try {
-    // const response = await axios.post(
-    //   `${API_URL}/Production/ProductionIssue`,
-    //   constructedPayload
-    // );
-    // responseBody.responseData = response.data;
-    // console.log("The api res is: ", responseBody);
+    const response = await axios.post(
+      `${API_URL}/Production/ProductionIssue`,
+      constructedPayload
+    );
+    responseBody.responseData = response.data;
+    console.log("The api res is: ", responseBody);
 
     return responseBody;
   } catch (error) {
@@ -109,7 +109,7 @@ export const productionIssuePayloadConstructor = (payload, comments) => {
   const itemCodeMap = {}; // To group items by itemCode
 
   payload.forEach((entry) => {
-    const { itemCode, lineNum, itemMngBy, proWhsCode, issQty, batchSerialNo } =
+    const { itemCode, lineNum, itemMngBy, proWhsCode, issQty, batchSerialNo,uoMCode } =
       entry;
 
     if (!itemCodeMap[itemCode]) {
@@ -118,6 +118,7 @@ export const productionIssuePayloadConstructor = (payload, comments) => {
         itemCode,
         lineNum,
         itemMngBy,
+        uoMCode,
         WhsCode: proWhsCode,
         qty: 0, // Initialize qty to 0
         piBatchSerial: [],
